@@ -40,11 +40,14 @@ const Warehouse = () => {
 							Warehouse Address
 						</Typography>
 
-						<Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' , marginBottom: 5}}>
+
 							<Typography variant="h5" component="h1" paragraph>
-								Rae
+								Address: 1234 Main Street, Anytown, CA 12345
 							</Typography>
-						</Box>
+							<Typography paragraph>
+							Please paste the above information into the "Shipping Address" field of your online shopping order.
+						</Typography>
+
 					</Container>
 				</Main>
 				{/*------------------------------------*/}
