@@ -10,7 +10,7 @@ import {
   Card,
   TableContainer,
   Tooltip,
-  IconButton, TableBody, TableRow, TableCell, Avatar, TableHead, Table, Stack
+  IconButton, TableBody, TableRow, TableCell, Avatar, TableHead, Table, Stack, Chip
 } from '@mui/material';
 import Iconify from "../../third-party/components/iconify";
 import Scrollbar from "../../third-party/components/scrollbar";
@@ -18,6 +18,8 @@ import {Icon} from "@iconify/react";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {Pagination} from "@mui/lab";
 import TuneIcon from '@mui/icons-material/Tune';
+import ChipGroup from "../../components/ChipGroup";
+
 
 const GroupMainPage = () => {
   const [open, setOpen] = useState(false);
@@ -30,6 +32,10 @@ const GroupMainPage = () => {
     setOpen(false);
   };
 
+  // Filter
+  const [filter, setFilter] = useState('All');
+  const [focusChip, setFocusChip] = useState('All');
+  const chipLabelsArray = ["All", "Air Standard", "Air Sensitive", "Sea Standard", "Sea Sensitive"];
 
   return (
     <>
@@ -57,40 +63,23 @@ const GroupMainPage = () => {
               sx={{justifyContent: 'space-between', width: '100%'}}
             >
               <Stack direction="row" spacing={2}>
-                <Button
-                  variant='contained'
-                  size="large"
-                  color='warning'
-                >All</Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                >Air Standard</Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                >Air Sensitive</Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                >Sea Standard</Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                >Sea Sensitive</Button>
-
+                <ChipGroup
+                    chipLabelsArray={chipLabelsArray}
+                    setFilter={setFilter}
+                    focusChip={focusChip}
+                    setFocusChip={setFocusChip}
+                />
               </Stack>
 
               <Stack direction="row"
                      spacing={2}
                     >
                 <Button
-                  // component={RouterLink}
-                  // to={PATH_DASHBOARD.eCommerce.new}
                   variant="contained"
                   size="large"
                   color='primary'
                   startIcon={<Iconify icon="eva:plus-fill"/>}
+                  href="/groups/form-new-group"
                 >
                   Form New
                 </Button>

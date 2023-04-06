@@ -10,6 +10,8 @@
         "@iconify/react": "^4.1.0",
         "@mui/icons-material": "^5.11.16",
         "@mui/lab": "^5.0.0-alpha.120",
+        "@mui/x-data-grid": "^6.0.4",
+        "@types/react": "^18.0.33",
         "@mui/material": "^5.11.16",
         "@mui/styled-engine-sc": "^5.11.11",
         "@mui/x-date-pickers": "^6.0.4",
