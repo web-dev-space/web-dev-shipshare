@@ -469,7 +469,7 @@ export default function EnhancedTable() {
             m: 0,
           }}
         >
-          {/* <ShippingDetailScreen ship={rows[0]} /> */}
+          <ShippingDetailScreen />
         </Box>
       </Modal>
     </Box>

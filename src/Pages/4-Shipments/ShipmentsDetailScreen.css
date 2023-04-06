@@ -1,0 +1,199 @@
+.container {
+    display: flex;
+    flex: 1;
+    background-color: /* detailBackgroundGray */;
+    align-items: center;
+  }
+  
+.greenHeadPart {
+background-color: /* buttonDarkGreen */;
+height: 170px;
+width: 100%;
+align-items: center;
+}
+
+.title {
+color: /* white */;
+font-size: /* pageTitle */;
+margin-top: 60px;
+font-family: /* regular */;
+}
+
+.topContainer {
+width: 90%;
+background-color: /* white */;
+align-items: center;
+top: -50px;
+border-radius: 10px;
+}
+
+.trackingNumberContainer {
+width: 90%;
+margin-top: 20px;
+border-radius: 10px;
+height: 100px;
+border-width: 2px;
+border-style: dashed;
+border-color: /* lineGray */;
+}
+
+.trackingNumberText {
+color: /* textGray */;
+margin-top: 20px;
+align-self: center;
+font-size: /* trackingLabel */;
+font-family: /* regular */;
+}
+
+.trackingNumber {
+color: /* blackText */;
+margin-top: 8px;
+align-self: center;
+font-size: /* pageTitle */;
+font-weight: bold;
+font-family: /* bold */;
+}
+
+.flexRow {
+margin-top: 20px;
+display: flex;
+flex-direction: row;
+align-items: center;
+}
+
+.animationStatusContainer {
+height: 56px;
+margin-top: 8px;
+align-items: center;
+}
+
+.ball {
+width: 50px;
+border-radius: 50px;
+height: 50px;
+background-color: /* detailBackgroundGray */;
+}
+
+.breakLine {
+width: 88%;
+border-width: 0.5px;
+border-color: /* lineGray */;
+border-style: dashed;
+}
+
+.addressContainer {
+width: 90%;
+margin-top: 20px;
+}
+
+.addressTitlePart {
+display: flex;
+flex-direction: row;
+}
+
+.addressTitle {
+color: /* textGray */;
+margin-left: 10px;
+font-size: /* bodyText */;
+font-weight: bold;
+font-family: /* bold */;
+}
+
+.nameText {
+color: /* blackText */;
+margin-top: 8px;
+font-size: /* groupCardText */;
+font-weight: bold;
+margin-left: 22px;
+font-family: /* bold */;
+}
+
+.contactText {
+color: /* textGray */;
+font-size: /* groupCardText */;
+margin-top: 8px;
+margin-left: 22px;
+font-family: /* regular */;
+}
+
+.status1 {
+align-items: flex-start;
+width: 40%;
+}
+
+.status2 {
+align-items: flex-end;
+width: 40%;
+}
+
+.statusText {
+color: /* textGray */;
+font-size: /* groupCardText */;
+font-family: /* regular */;
+}
+
+.statusLocation {
+color: /* buttonDarkGreen */;
+font-size: /* dimensionText */;
+font-weight: bold;
+font-family: /* bold */;
+}
+
+.shippingText {
+color: /* blackText */;
+font-size: /* bodyText */;
+margin-bottom: 11px;
+align-self: center;
+font-family: /* regular */;
+}
+
+.breakDeliveryLine {
+width: 290px;
+border-width: 0.5px;
+border-color: /* lineGray */;
+border-style: dashed;
+margin-top: 20px;
+margin-bottom: 20px;
+}
+
+.deliveryBar {
+display: flex;
+flex-direction: row;
+margin-top: 30px;
+margin-left: 20px;
+margin-bottom: 30px;
+}
+
+.deliveryBarText {
+margin-left: 10px;
+color: /* darkGrayBlack */;
+font-size: /* bodyText */;
+}
+
+.deliveryTextCurrent {
+color: /* buttonDarkGreen */;
+font-size: /* bodyText */;
+margin-bottom: 5px;
+}
+
+.deliveryDateText {
+color: /* textGray */;
+font-size: /* bodyText */;
+}
+
+.deliveryText {
+color: /* darkGrayBlack */;
+font-size: /* bodyText */;
+margin-bottom: 5px;
+}
+
+.tinyLogo {
+width: 72px;
+height: 72px;
+}
+
+.bottomContainer {
+width: 90%;
+background-color: /* white */;
+border-radius: 10px;
+}
