@@ -9,7 +9,7 @@ import Header from "../../third-party/layouts/dashboard/header";
 import {useState} from "react";
 import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical";
 import Main from "../../third-party/layouts/dashboard/Main"
-import {Card, CardContent, Grid} from "@mui/material";
+import {Card, CardContent, Grid, Stack} from "@mui/material";
 import TextField from '@mui/material/TextField';
 import {DemoContainer} from '@mui/x-date-pickers/internals/demo';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
@@ -344,31 +344,31 @@ export default function FormGroupPageOne() {
                       noValidate
                       autoComplete="off"
                     >
-                      <div>
+                      <Stack>
                         <TextField
                           required
-                          fullWidth
+                          fullWidth={true}
                           id="outlined-required"
                           label="Group Name"
                           placeholder={'e.g. My Group'}
 
-                        /></div>
-                      <div>
+                        /></Stack>
+                      <Stack>
                         <TextField
-                          fullWidth
+                          fullWidth={true}
                           required
                           id="outlined-required"
                           label="Receiver's Name"
                           placeholder={'e.g. Mary Smith'}
-                        /></div>
-                      <div>
+                        /></Stack>
+                      <Stack>
                         <TextField
                           required
-                          fullWidth
+                          fullWidth={true}
                           id="outlined-required"
                           label="Pickup Location"
                           placeholder={'e.g. 123 Main Street, New York, NY 10001'}
-                        /></div>
+                        /></Stack>
                       {/*<div>*/}
                       <TextField
                         required
@@ -377,7 +377,7 @@ export default function FormGroupPageOne() {
                         placeholder={'e.g. 123-456-7890'}
                       />
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker label="End Date"/>
+                        <DatePicker label="End Date" required/>
                       </LocalizationProvider>
                       {/*</div>*/}
 

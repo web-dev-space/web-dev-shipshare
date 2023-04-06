@@ -20,7 +20,6 @@ import {Pagination} from "@mui/lab";
 import TuneIcon from '@mui/icons-material/Tune';
 import ChipGroup from "../../components/ChipGroup";
 
-
 const GroupMainPage = () => {
   const [open, setOpen] = useState(false);
 
@@ -64,16 +63,16 @@ const GroupMainPage = () => {
             >
               <Stack direction="row" spacing={2}>
                 <ChipGroup
-                    chipLabelsArray={chipLabelsArray}
-                    setFilter={setFilter}
-                    focusChip={focusChip}
-                    setFocusChip={setFocusChip}
+                  chipLabelsArray={chipLabelsArray}
+                  setFilter={setFilter}
+                  focusChip={focusChip}
+                  setFocusChip={setFocusChip}
                 />
               </Stack>
 
               <Stack direction="row"
                      spacing={2}
-                    >
+              >
                 <Button
                   variant="contained"
                   size="large"
@@ -246,13 +245,18 @@ const GroupMainPage = () => {
                                   color: 'white',
                                   borderRadius: 5,
                                   backgroundColor: '80B213',
+                                  height: 45,
 
                                 }}>
                           Join
                         </Button>
                       </TableCell>
                       <TableCell>
-                        <MoreHorizIcon/>
+                        <Button
+                        href={"/groups/group-details"}
+                        sx={{ borderRadius: 5, backgroundColor: 'white', height: 45,}}
+                        >
+                        <MoreHorizIcon/></Button>
                       </TableCell>
                     </TableRow>
 
