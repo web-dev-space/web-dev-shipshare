@@ -1,6 +1,6 @@
 .custom-datagrid .MuiDataGrid-columnHeader:focus,
 .custom-datagrid .MuiDataGrid-cell:focus {
-    outline: none;
+    outline: none !important;
 }
 
 .custom-footer .css-1t8emkf-MuiTablePagination-root {
