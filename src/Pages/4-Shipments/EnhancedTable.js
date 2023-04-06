@@ -429,7 +429,7 @@ export default function EnhancedTable() {
             </TableBody>
           </Table>
         </TableContainer>
-        <Box sx={{ mt: 2 }}>
+        <Box sx={{ mt: 2 }} display='flex' justifyContent='center'>
           <PageNavigation />
         </Box>
       </Paper>
