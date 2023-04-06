@@ -11,7 +11,7 @@ import {
     DialogContent,
     TextField,
     MenuItem,
-    DialogActions, Button
+    DialogActions, Button, DialogContentText, FormControl, InputLabel, Select
 } from '@mui/material';
 
 import SearchBar from "../../components/searchBar";
@@ -67,6 +67,18 @@ const ParcelMainPage = () => {
         setOpenAddParcel(false);
     }
 
+    // Filter dialog
+    const [openFilter, setOpenFilter] = useState(false);
+    const handleOpenFilter = () => {
+        setOpenFilter(true);
+    }
+    const handleCloseFilter = () => {
+        setOpenFilter(false);
+    }
+    const [filterAddedIn, setFilterAddedIn] = useState("");
+    const [filterStatus, setFilterStatus] = useState("");
+    const [filterCourier, setFilterCourier] = useState("");
+
     // table data
     const originalData = parcelData;
     const [tableData, setTableData] = useState(originalData);
@@ -110,10 +122,15 @@ const ParcelMainPage = () => {
                                 leftText="Add New"
                                 rightText="Filter"
                                 onLeftClick={handleOpenAddParcel}
-                                onRightClick={() => {}}
+                                onRightClick={handleOpenFilter}
                             />
                         </Box>
                         <AddParcelDialog open={openAddParcel} onClose={handleCloseAddParcel} />
+                        <FilterDialog open={openFilter} onClose={handleCloseFilter}
+                                        filterAddedIn={filterAddedIn} setFilterAddedIn={setFilterAddedIn}
+                                        filterStatus={filterStatus} setFilterStatus={setFilterStatus}
+                                        filterCourier={filterCourier} setFilterCourier={setFilterCourier}
+                        />
                     </Container>
 
                     {/*---Table---*/}
@@ -206,5 +223,83 @@ const AddParcelDialog = ({ open, onClose }) => {
         </Dialog>
     );
 };
+
+
+const FilterDialog = ({ open, onClose,
+                          filterAddedIn, setFilterAddedIn,
+                          filterStatus, setFilterStatus,
+                          filterCourier, setFilterCourier}) => {
+    const handleAddedInChange = (event) => {
+        setFilterAddedIn(event.target.value);
+    };
+
+    const handleStatusChange = (event) => {
+        setFilterStatus(event.target.value);
+    };
+
+    const handleCourierChange = (event) => {
+        setFilterCourier(event.target.value);
+    };
+
+    return (
+        <Dialog open={open} onClose={onClose}>
+            <DialogTitle>Filter</DialogTitle>
+            <DialogContent>
+                <DialogContentText style={{marginBottom:16}}>
+                    Please select the filter options below.
+                </DialogContentText>
+                <FormControl fullWidth margin="dense">
+                    <InputLabel id="added-in-label">Added In</InputLabel>
+                    <Select
+                        labelId="added-in-label"
+                        id="added-in"
+                        value={filterAddedIn}
+                        onChange={handleAddedInChange}
+                        label="Added In"
+                    >
+                        <MenuItem value="all" selected>All</MenuItem>
+                        <MenuItem value={7}>7 days</MenuItem>
+                        <MenuItem value={15}>15 days</MenuItem>
+                        <MenuItem value={30}>30 days</MenuItem>
+                    </Select>
+                </FormControl>
+                <FormControl fullWidth margin="dense">
+                    <InputLabel id="status-label">Status</InputLabel>
+                    <Select
+                        labelId="status-label"
+                        id="status"
+                        value={filterStatus}
+                        onChange={handleStatusChange}
+                        label="Status"
+                    >
+                        <MenuItem value="all" selected>All</MenuItem>
+                        <MenuItem value="in-transit">In transit</MenuItem>
+                        <MenuItem value="ready-to-ship">Ready to ship</MenuItem>
+                        <MenuItem value="shipped">Shipped</MenuItem>
+                    </Select>
+                </FormControl>
+                <FormControl fullWidth margin="dense">
+                    <InputLabel id="courier-label">Courier</InputLabel>
+                    <Select
+                        labelId="courier-label"
+                        id="courier"
+                        value={filterCourier}
+                        onChange={handleCourierChange}
+                        label="Courier"
+                    >
+                        <MenuItem value="all" selected>All</MenuItem>
+                        <MenuItem value="yto">YTO</MenuItem>
+                        <MenuItem value="yunda">Yunda Express</MenuItem>
+                    </Select>
+                </FormControl>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={onClose}>Cancel</Button>
+                <Button onClick={onClose} variant="contained" color="primary">Filter</Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
+
 
 export default ParcelMainPage;
