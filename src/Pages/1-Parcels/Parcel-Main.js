@@ -2,23 +2,35 @@ import { useState } from "react";
 import Header from "../../third-party/layouts/dashboard/header"
 import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../third-party/layouts/dashboard/Main"
-import { Container, Typography, Box } from '@mui/material';
+import {
+    Container,
+    Typography,
+    Box,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    TextField,
+    MenuItem,
+    DialogActions, Button
+} from '@mui/material';
 
 import SearchBar from "../../components/searchBar";
 import TwoSmallButtonGroup from "../../components/TwoSmallButtonGroup";
 import ParcelTable from "../../components/ParcelTable";
 
 
-const ParcelMainPage = () => {
-    const [open, setOpen] = useState(false);
 
+const ParcelMainPage = () => {
+
+    // nav bar
+    const [open, setOpen] = useState(false);
     const handleOpen = () => {
         setOpen(true);
     };
-
     const handleClose = () => {
         setOpen(false);
     };
+
 
     // search bar
     const [searchTerm, setSearchTerm] = useState('');
@@ -36,6 +48,15 @@ const ParcelMainPage = () => {
             handleSearch();
         }
     };
+
+    // Add parcel dialog
+    const [openAddParcel, setOpenAddParcel] = useState(false);
+    const handleOpenAddParcel = () => {
+        setOpenAddParcel(true);
+    }
+    const handleCloseAddParcel = () => {
+        setOpenAddParcel(false);
+    }
 
     // table
     const data = [
@@ -478,10 +499,11 @@ const ParcelMainPage = () => {
                             <TwoSmallButtonGroup
                                 leftText="Add New"
                                 rightText="Filter"
-                                onLeftClick={() => {}}
+                                onLeftClick={handleOpenAddParcel}
                                 onRightClick={() => {}}
                             />
                         </Box>
+                        <AddParcelDialog open={openAddParcel} onClose={handleCloseAddParcel} />
                     </Container>
 
                     {/*---Table---*/}
@@ -495,4 +517,84 @@ const ParcelMainPage = () => {
         </>
     );
 };
+
+const couriers = [
+    { value: 'yto', label: 'YTO' },
+    { value: 'yunda', label: 'Yunda Express' },
+];
+
+const AddParcelDialog = ({ open, onClose }) => {
+
+    const [name, setName] = useState('');
+    const [trackingNumber, setTrackingNumber] = useState('');
+    const [courier, setCourier] = useState('');
+
+    const handleSubmit = () => {
+        // ...
+        console.log({ name, trackingNumber, courier });
+        onClose();
+    };
+
+    return (
+        <Dialog open={open} onClose={onClose}>
+            <DialogTitle>Add A New Parcel</DialogTitle>
+            <DialogContent>
+                {/* <---UploadImage---> */}
+                <div style={{ marginBottom: 16 }}>
+
+                </div>
+                {/* <---Name---> */}
+                <TextField
+                    label="Name"
+                    fullWidth
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    variant="outlined"
+                    style={{ marginBottom: 16 }}
+                />
+
+                {/* <---Tracking Number---> */}
+                <TextField
+                    label="Tracking Number"
+                    fullWidth
+                    value={trackingNumber}
+                    onChange={(e) => setTrackingNumber(e.target.value)}
+                    variant="outlined"
+                    style={{ marginBottom: 16 }}
+                />
+
+                {/* <---Courier---> */}
+                <TextField
+                    select
+                    label="Courier"
+                    fullWidth
+                    value={courier}
+                    onChange={(e) => setCourier(e.target.value)}
+                    variant="outlined"
+                >
+                    {couriers.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+            </DialogContent>
+            <DialogActions>
+                <Button
+                    onClick={() => {
+                        onClose();
+                        setName("");
+                        setTrackingNumber("");
+                        setCourier("");
+                    }}
+                >
+                    Cancel</Button>
+                <Button onClick={handleSubmit} variant="contained" color="primary">
+                    Save
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
+
 export default ParcelMainPage;
