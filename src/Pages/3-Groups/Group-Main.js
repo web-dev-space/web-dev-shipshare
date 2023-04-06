@@ -10,7 +10,7 @@ import {
   Card,
   TableContainer,
   Tooltip,
-  IconButton, TableBody, TableRow, TableCell, Avatar, TableHead, Table, Stack
+  IconButton, TableBody, TableRow, TableCell, Avatar, TableHead, Table, Stack, Chip
 } from '@mui/material';
 import Iconify from "../../third-party/components/iconify";
 import Scrollbar from "../../third-party/components/scrollbar";
@@ -30,6 +30,9 @@ const GroupMainPage = () => {
     setOpen(false);
   };
 
+  const handleClick = () => {
+    console.info('You clicked the Chip.');
+  };
 
   return (
     <>
@@ -57,28 +60,21 @@ const GroupMainPage = () => {
               sx={{justifyContent: 'space-between', width: '100%'}}
             >
               <Stack direction="row" spacing={2}>
-                <Button
-                  variant='contained'
-                  size="large"
-                  color='warning'
-                >All</Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                >Air Standard</Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                >Air Sensitive</Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                >Sea Standard</Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                >Sea Sensitive</Button>
-
+                <Chip label="All" color="warning"
+                      sx={{fontSize: 14, height: 40}}
+                      onClick={handleClick} />
+                <Chip label="Air Standard" variant="outlined"
+                      sx={{color:'grey', fontSize: 14, height: 40}}
+                      onClick={handleClick} />
+                <Chip label="Air Sensitive" variant="outlined"
+                      sx={{color:'grey', fontSize: 14, height: 40}}
+                      onClick={handleClick} />
+                <Chip label="Sea Standard" variant="outlined"
+                      sx={{color:'grey', fontSize: 14, height: 40}}
+                      onClick={handleClick} />
+                <Chip label="Sea Sensitive" variant="outlined"
+                      sx={{color:'grey', fontSize: 14, height: 40}}
+                      onClick={handleClick} />
               </Stack>
 
               <Stack direction="row"
