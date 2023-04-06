@@ -50,10 +50,10 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'trackingNo', numeric: false, disablePadding: true, label: 'Tracking No.' },
-  { id: 'route', numeric: false, disablePadding: false, label: 'Route' },
+  { id: 'trackingNumber', numeric: false, disablePadding: true, label: 'Tracking No.' },
+  { id: 'shipRoute', numeric: false, disablePadding: false, label: 'shipRoute' },
   { id: 'joinDate', numeric: false, disablePadding: false, label: 'Join Date' },
-  { id: 'pickupAt', numeric: false, disablePadding: false, label: 'Pickup At' },
+  { id: 'pickupLocation', numeric: false, disablePadding: false, label: 'Pickup At' },
   { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
   { id: 'actions', numeric: false, disablePadding: false, label: 'Actions' },
 ];
@@ -179,26 +179,26 @@ export default function EnhancedTable() {
       let initialRows = [
         {
           key: uuidv4(),
-          trackingNo: 'YT6950106245135',
-          route: 'Air Sensitive',
+          trackingNumber: 'YT6950106245135',
+          shipRoute: 'Air Sensitive',
           joinDate: 'Mar 12, 2023',
-          pickupAt: 'San Jose',
+          pickupLocation: 'San Jose',
           status: 'Arrived',
         },
         {
           key: uuidv4(),
-          trackingNo: 'YT7136320603122',
-          route: 'Air Sensitive',
+          trackingNumber: 'YT7136320603122',
+          shipRoute: 'Air Sensitive',
           joinDate: 'Mar 12, 2023',
-          pickupAt: 'San Francisco',
+          pickupLocation: 'San Francisco',
           status: 'In Shipping',
         },
         {
           key: uuidv4(),
-          trackingNo: 'YT7136320603122',
-          route: 'Air Sensitive',
+          trackingNumber: 'YT7136320603122',
+          shipRoute: 'Air Sensitive',
           joinDate: 'Mar 12, 2023',
-          pickupAt: 'Sunnyvale',
+          pickupLocation: 'Sunnyvale',
           status: 'Packed',
         },
       ];
@@ -209,7 +209,7 @@ export default function EnhancedTable() {
           initialRows = initialRows.concat(JSON.parse(JSON.stringify(initialRows)));
           // set every row's tracking number as 0, 1, 2, 3, ...
           initialRows.forEach((row, index) => {
-            row.trackingNo = index;
+            row.trackingNumber = index;
           });
         }
       }
@@ -396,17 +396,17 @@ export default function EnhancedTable() {
                   return (
                     <TableRow hover
                       tabIndex={-1}
-                      key={row.trackingNo}
+                      key={row.trackingNumber}
                       style={{
                         borderTop: '1px solid #EDF2F7',
                         borderBottom: '1px solid #EDF2F7',
                       }}>
                       <TableCell component="th" scope="row" padding="none">
-                        {row.trackingNo}
+                        {row.trackingNumber}
                       </TableCell>
-                      <TableCell align="left">{row.route}</TableCell>
+                      <TableCell align="left">{row.shipRoute}</TableCell>
                       <TableCell align="left">{row.joinDate}</TableCell>
-                      <TableCell align="left">{row.pickupAt}</TableCell>
+                      <TableCell align="left">{row.pickupLocation}</TableCell>
                       <TableCell align="left"
                         style={{ color: getStatusColor(row) }}>
                         {row.status}
