@@ -59,9 +59,10 @@ const GroupMainPage = () => {
             >
               <Stack direction="row" spacing={2}>
                 <Button
-                  variant='outlined'
+                  variant='contained'
                   size="large"
-                  sx={{color: 'white',  bgcolor: 'rgb(238, 189, 94)',border:'0'}}
+                  color='warning'
+                  // sx={{color: 'white',  bgcolor: 'rgb(238, 189, 94)',border:'0'}}
                 >All</Button>
                 <Button
                   variant="outlined"
@@ -90,6 +91,7 @@ const GroupMainPage = () => {
                   // to={PATH_DASHBOARD.eCommerce.new}
                   variant="contained"
                   size="large"
+                  color='primary'
                   startIcon={<Iconify icon="eva:plus-fill"/>}
                 >
                   Form New
