@@ -464,7 +464,7 @@ export default function EnhancedTable() {
             boxShadow: 24,
             p: 4,
             width: '400px',
-            height: '100%',
+            minHeight: '100%',
             outline: 'none',
             m: 0,
           }}

@@ -5,6 +5,9 @@ import shipGroups from '../../sampleData/shipGroups';
 // import FontFamily from '../../styles/FontFamily';
 import Colors from '../../styles/Colors';
 import FontSizes from '../../styles/FontSizes';
+import ShippingStatusBar from '../../components/ShippingStatusBar';
+import ItemCard from '../../components/ItemCard.js';
+import { parcelData } from '../../sampleData/parcels';
 
 const FontFamily = {
 }
@@ -21,6 +24,7 @@ const ShipmentDetails = ({ ship }) => {
     ship = shipGroups[0];
   }
 
+  const width = window.innerWidth;
 
   const shipEndDate = '2021-08-01';
   const startDate = '2021-07-01';
@@ -102,7 +106,10 @@ const ShipmentDetails = ({ ship }) => {
           {/*animation status*/}
           <div style={styles.shippingText}>{hintText[ship.phaseNumber]}</div>
           <div style={styles.animationStatusContainer}>
-            {/* <ShippingStatusBar phaseNumber={ship.phaseNumber} animationWidth={width - 32 * 2 - 10}/> */}
+            {/* <ShippingStatusBar
+              phaseNumber={ship.phaseNumber}
+              animationWidth={width - 32 * 2 - 10} /> */}
+              <></>
           </div>
         </div>
 
@@ -116,7 +123,7 @@ const ShipmentDetails = ({ ship }) => {
         {/*Detail items list*/}
         <div style={{ marginTop: ship.phaseNumber >= 2 ? 30 : -10, width: '90%' }}>
           {/* <ItemCard leftCornerIconColor={"#F9C662"}
-            items={parcels}
+            items={parcelData}
             title={"Items Included"}/> */}
         </div>
 
@@ -154,7 +161,6 @@ const styles = {
     width: '100%',
     backgroundColor: Colors.white,
     alignItems: 'center',
-    top: -50,
     borderRadius: 10,
     border: '1px solid #E2E8F0',
     display: 'flex',
