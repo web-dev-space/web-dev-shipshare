@@ -62,7 +62,6 @@ const GroupMainPage = () => {
                   variant='contained'
                   size="large"
                   color='warning'
-                  // sx={{color: 'white',  bgcolor: 'rgb(238, 189, 94)',border:'0'}}
                 >All</Button>
                 <Button
                   variant="outlined"
