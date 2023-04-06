@@ -20,22 +20,10 @@ import Switch from '@mui/material/Switch';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import {visuallyHidden} from '@mui/utils';
 import Button from '@mui/material/Button';
+import {ToggleButton, ToggleButtonGroup} from "@mui/lab";
+import {useEffect, useState} from "react";
+import {v4 as uuidv4} from 'uuid';
 
-function createData(trackingNo, route, joinDate, pickupAt, status) {
-  return {
-    trackingNo,
-    route,
-    joinDate,
-    pickupAt,
-    status,
-  };
-}
-
-const rows = [
-  createData('YT7136320603122', 'Air Sensitive', 'Mar 12, 2023', 'San Jose', 'Arrived',),
-  createData('YT7136320603122', 'Air Sensitive', 'Mar 12, 2023', 'San Francisco', 'In Shipping',),
-  createData('YT7136320603122', 'Air Sensitive', 'Mar 12, 2023', 'Sunnyvale', 'Packed'),
-];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -78,7 +66,7 @@ const DEFAULT_ORDER = 'asc';
 const DEFAULT_ORDER_BY = 'trackingNo';
 const DEFAULT_ROWS_PER_PAGE = 5;
 
-function EnhancedTableHead(props) {
+function MyTableHead(props) {
   const {order, orderBy, onRequestSort} = props;
   const createSortHandler = (newOrderBy) => (event) => {
     onRequestSort(event, newOrderBy);
@@ -114,28 +102,42 @@ function EnhancedTableHead(props) {
   );
 }
 
-EnhancedTableHead.propTypes = {
+MyTableHead.propTypes = {
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
 };
 
-function EnhancedTableToolbar() {
+const filterStrings = ['All', 'Arrived', 'Shipping', 'Packed', 'Order Placed'];
+
+
+const FilterButtons = ({selected, setSelected}) => {
+
+  const handleFilterChange = (event, selectedFilter) => {
+    setSelected(selectedFilter);
+  };
+
   return (
-    <Toolbar
-      sx={{
-        pl: {sm: 2},
-        pr: {xs: 1, sm: 1},
-      }}
-    >
-      <Tooltip title="Filter list">
-        <IconButton>
-          <FilterListIcon/>
-        </IconButton>
-      </Tooltip>
-    </Toolbar>
+    <Box
+      display="flex"
+      justifyContent="space-between"
+      flexWrap="wrap">
+      <ToggleButtonGroup
+        value={selected}
+        exclusive
+        onChange={handleFilterChange}
+        aria-label="filter"
+      >
+        {filterStrings.map((filter, index) => (
+          <ToggleButton key={index} value={filter} aria-label={filter}>
+            {filter}
+          </ToggleButton>
+        ))}
+      </ToggleButtonGroup>
+    </Box>
   );
-}
+};
+
 
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
@@ -145,8 +147,48 @@ export default function EnhancedTable() {
   const [visibleRows, setVisibleRows] = React.useState(null);
   const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
   const [paddingHeight, setPaddingHeight] = React.useState(0);
+  const [selected, setSelected] = useState('All');
 
-  React.useEffect(() => {
+  const [originalRows, setOriginalRows] = React.useState([]);
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    const initialRowsData = () => {
+      const initialRows = [
+        {
+          key: uuidv4(),
+          trackingNo: 'YT7136320603122',
+          route: 'Air Sensitive',
+          joinDate: 'Mar 12, 2023',
+          pickupAt: 'San Jose',
+          status: 'Arrived',
+        },
+        {
+          key: uuidv4(),
+          trackingNo: 'YT7136320603121',
+          route: 'Air Sensitive',
+          joinDate: 'Mar 12, 2023',
+          pickupAt: 'San Francisco',
+          status: 'In Shipping',
+        },
+        {
+          key: uuidv4(),
+          trackingNo: 'YT7136320603120',
+          route: 'Air Sensitive',
+          joinDate: 'Mar 12, 2023',
+          pickupAt: 'Sunnyvale',
+          status: 'Packed',
+        },
+      ];
+
+      setOriginalRows(initialRows);
+    };
+
+    initialRowsData();
+  }, []);
+
+
+  useEffect(() => {
     let rowsOnMount = stableSort(
       rows,
       getComparator(DEFAULT_ORDER, DEFAULT_ORDER_BY),
@@ -158,7 +200,7 @@ export default function EnhancedTable() {
     );
 
     setVisibleRows(rowsOnMount);
-  }, []);
+  }, [rows]);
 
   const handleRequestSort = React.useCallback(
     (event, newOrderBy) => {
@@ -175,7 +217,7 @@ export default function EnhancedTable() {
 
       setVisibleRows(updatedRows);
     },
-    [order, orderBy, page, rowsPerPage],
+    [rows, order, orderBy, page, rowsPerPage],
   );
 
   const handleChangePage = React.useCallback(
@@ -223,6 +265,16 @@ export default function EnhancedTable() {
     setDense(event.target.checked);
   };
 
+  useEffect(() => {
+    const filterTableData = () => {
+      setRows(originalRows.filter(row =>
+          row.status === selected || selected === 'All'
+        )
+      );
+    };
+    filterTableData();
+  }, [originalRows, selected]);
+
   function getStatusColor(row) {
     switch (row.status.toLowerCase()) {
       case 'arrived':
@@ -241,14 +293,18 @@ export default function EnhancedTable() {
   return (
     <Box sx={{width: '100%'}}>
       <Paper sx={{width: '100%', mb: 2}}>
-        <EnhancedTableToolbar/>
+        <Tooltip title="Filter list">
+          <FilterButtons
+            selected={selected}
+            setSelected={setSelected}/>
+        </Tooltip>
         <TableContainer>
           <Table
             sx={{minWidth: 750}}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
           >
-            <EnhancedTableHead
+            <MyTableHead
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
