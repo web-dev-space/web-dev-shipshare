@@ -9,7 +9,12 @@ import Header from "../../third-party/layouts/dashboard/header";
 import {useState} from "react";
 import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical";
 import Main from "../../third-party/layouts/dashboard/Main"
-import {Card, CardContent} from "@mui/material";
+import {Card, CardContent, Grid} from "@mui/material";
+import TextField from '@mui/material/TextField';
+import {DemoContainer} from '@mui/x-date-pickers/internals/demo';
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 
 // const steps = ['Choose a Route', 'Enter Group Details', 'Done'];
 const steps = ['', '', ''];
@@ -327,6 +332,58 @@ export default function FormGroupPageOne() {
                           to ensure the best possible experience for all members.</Typography>
                       </Box>
                     </Box>
+
+                    <Box
+                      component="form"
+                      sx={{
+                        '& .MuiTextField-root': {m: 1, width: '25ch'},
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                      }}
+                      noValidate
+                      autoComplete="off"
+                    >
+                      <div >
+                        <TextField
+                          required
+                          fullWidth
+                          id="outlined-required"
+                          label="Group Name"
+                          placeholder={'e.g. My Group'}
+
+                        /></div>
+                      <div>
+                        <TextField
+                          fullWidth
+                          required
+                          id="outlined-required"
+                          label="Receiver's Name"
+                          placeholder={'e.g. Mary Smith'}
+                        /></div>
+                      <div>
+                        <TextField
+                          required
+                          fullWidth
+                          id="outlined-required"
+                          label="Pickup Location"
+                          placeholder={'e.g. 123 Main Street, New York, NY 10001'}
+                        /></div>
+                      {/*<div>*/}
+                        <TextField
+                          required
+                          id="outlined-required"
+                          label="Phone Number"
+                          placeholder={'e.g. 123-456-7890'}
+                        />
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DatePicker label="End Date"/>
+                        </LocalizationProvider>
+                      {/*</div>*/}
+
+                    </Box>
+
+
                   </>
                 ) : (
                   <React.Fragment>
@@ -334,7 +391,7 @@ export default function FormGroupPageOne() {
                   </React.Fragment>
                 )}
 
-                <Box sx={{display: 'flex', flexDirection: 'row', pt: 2,ml:10,mr:10}}>
+                <Box sx={{display: 'flex', flexDirection: 'row', pt: 2, ml: 10, mr: 10}}>
                   <Button
                     color="inherit"
                     disabled={activeStep === 0}
