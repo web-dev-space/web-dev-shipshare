@@ -75,12 +75,11 @@ const GroupMainPage = () => {
                      spacing={2}
                     >
                 <Button
-                  // component={RouterLink}
-                  // to={PATH_DASHBOARD.eCommerce.new}
                   variant="contained"
                   size="large"
                   color='primary'
                   startIcon={<Iconify icon="eva:plus-fill"/>}
+                  href="/groups/form-new-group"
                 >
                   Form New
                 </Button>
