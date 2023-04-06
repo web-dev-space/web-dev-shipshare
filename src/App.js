@@ -10,6 +10,7 @@ import ScrollToTop from './third-party/components/scroll-to-top';
 import ParcelMainPage from "./Pages/1-Parcels/Parcel-Main";
 import ChangePassword from "./Pages/5-Account/Change-Password";
 import Profile from "./Pages/5-Account/Profile";
+import CalculateFee from "./Pages/5-Account/CalculateFee";
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +24,7 @@ export default function App() {
             <ThemeSettings>
               <SnackbarProvider>
                 {/*---------------Main Page----------------*/}
-                <ChangePassword />
+                <CalculateFee/>
                 {/*------------------------------------*/}
               </SnackbarProvider>
             </ThemeSettings>

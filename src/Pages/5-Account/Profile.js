@@ -55,11 +55,11 @@ const Profile = () => {
 									direction="row"
 									spacing={3}
 								>
-									<TextField id="filled-basic" label="Name" variant="filled" fullWidth={true}/>
-									<TextField id="filled-basic" label="Phone Number" variant="filled" fullWidth={true}/>
+									<TextField id="name" label="Name" variant="filled" fullWidth={true}/>
+									<TextField id="phone" label="Phone Number" variant="filled" fullWidth={true}/>
 								</Stack>
-								<TextField id="filled-basic" label="Email Address" variant="filled" />
-								<TextField id="filled-basic" label="Address" variant="filled" />
+								<TextField id="email" label="Email Address" variant="filled" />
+								<TextField id="address" label="Address" variant="filled" />
 							</Stack>
 							<Stack direction="row" spacing={8} sx={{marginTop: 5}}>
 								<Button variant="outlined" size="large" fullWidth={true}>Cancel</Button>

@@ -50,8 +50,8 @@ const ChangePassword = () => {
                           </Box>
                       </Box>
                       <Stack spacing={3} marginBottom={15}>
-                          <TextField id="filled-basic" label="New Password" variant="filled" />
-                          <TextField id="filled-basic" label="Confirm the New Password" variant="filled" />
+                          <TextField id="newPassword" label="New Password" variant="filled" />
+                          <TextField id="confirmPassword" label="Confirm the New Password" variant="filled" />
                       </Stack>
                       <Stack direction="row" spacing={8} sx={{marginTop: 5}}>
                           <Button variant="outlined" size="large" fullWidth={true}>Cancel</Button>
