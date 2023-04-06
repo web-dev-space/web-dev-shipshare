@@ -17,12 +17,14 @@ const GREY = {
   900: '#161C24',
 };
 
+
+// Primary Color -- Green
 const PRIMARY = {
-  lighter: '#C8FACD',
-  light: '#5BE584',
+  lighter: '#E9F5C5',
+  light: '#AED12D',
   main: '#80B213',
-  dark: '#007B55',
-  darker: '#005249',
+  dark: '#568309',
+  darker: '#2C4205',
   contrastText: '#FFFFFF',
 };
 
@@ -53,13 +55,14 @@ const SUCCESS = {
   contrastText: '#FFFFFF',
 };
 
+// Contrast Color -- Orange
 const WARNING = {
-  lighter: '#FFF5CC',
-  light: '#FFD666',
+  lighter: '#FEEBC3',
+  light: '#F9C955',
   main: '#EEBD5E',
-  dark: '#B76E00',
-  darker: '#7A4100',
-  contrastText: GREY[800],
+  dark: '#AD6D2E',
+  darker: '#5E3919',
+  contrastText: '#FFFFFF',
 };
 
 const ERROR = {

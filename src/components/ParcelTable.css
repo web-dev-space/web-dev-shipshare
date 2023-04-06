@@ -1,0 +1,22 @@
+.custom-datagrid .MuiDataGrid-columnHeader:focus,
+.custom-datagrid .MuiDataGrid-cell:focus {
+    outline: none !important;
+}
+
+.custom-footer .css-1t8emkf-MuiTablePagination-root {
+    color: transparent;
+    font-size: 0.875rem;
+}
+
+.custom-footer .css-de9k3v-MuiDataGrid-selectedRowCount{
+    visibility: hidden;
+}
+
+.custom-footer .MuiTablePagination-displayedRows {
+    visibility: hidden;
+    /*width: 0;*/
+}
+
+.custom-footer .MuiTablePagination-root {
+    margin-right: 40%;
+}

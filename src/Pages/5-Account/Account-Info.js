@@ -9,7 +9,7 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 
 
-const Profile = () => {
+const AccountInfo = () => {
 	const [open, setOpen] = useState(false);
 
 	const handleOpen = () => {
@@ -72,4 +72,4 @@ const Profile = () => {
 		</>
 	);
 };
-export default Profile;
+export default AccountInfo;

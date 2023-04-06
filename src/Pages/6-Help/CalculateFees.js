@@ -13,7 +13,7 @@ import RouteTableItem from "./RouteTableItem";
 
 
 
-const CalculateFee = () => {
+const CalculateFees = () => {
 	const [open, setOpen] = useState(false);
 
 	const handleOpen = () => {
@@ -148,4 +148,4 @@ const CalculateFee = () => {
 		</>
 	);
 };
-export default CalculateFee;
+export default CalculateFees;
