@@ -8,6 +8,9 @@ import FontSizes from '../../styles/FontSizes';
 import ShippingStatusBar from '../../components/ShippingStatusBar';
 import ItemCard from '../../components/ItemCard.js';
 import { parcelData } from '../../sampleData/parcels';
+import DeliveryStatusCard from '../../components/DeliveryStatusCard';
+import deliveryStatus from '../../sampleData/deliveryStatus';
+import { borderRadius } from '@mui/system';
 
 const FontFamily = {
 }
@@ -109,15 +112,22 @@ const ShipmentDetails = ({ ship }) => {
             {/* <ShippingStatusBar
               phaseNumber={ship.phaseNumber}
               animationWidth={width - 32 * 2 - 10} /> */}
-              <></>
+            <></>
           </div>
         </div>
 
 
         {/*Bottom Container*/}
         {ship.phaseNumber >= 2 &&
-          // <DeliveryStatusCard deliveryStatus={deliveryStatus}/>
-          <></>
+          <Box style={{
+            border: '1px solid rgb(226, 232, 240)',
+            borderRadius: 10,
+            marginTop: 40,
+            padding: 20,
+          }}>
+            <DeliveryStatusCard deliveryStatus={deliveryStatus.slice(0, 5)} />
+            <></>
+          </Box>
         }
 
         {/*Detail items list*/}
@@ -126,8 +136,6 @@ const ShipmentDetails = ({ ship }) => {
             items={parcelData}
             title={"Items Included"}/> */}
         </div>
-
-        <div style={{ height: 180 }} />
       </div>
 
 

@@ -453,18 +453,20 @@ export default function EnhancedTable() {
         aria-describedby="modal-description"
         sx={{
           display: 'flex',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          overflow: 'auto',
+          alignItems: 'flex-end',
+          overflowY: 'auto',
+          flexDirection: 'column',
+          height: 'auto',
+          minHeight: '100%',
         }}
       >
         <Box
           sx={{
             bgcolor: 'background.paper',
             boxShadow: 24,
-            p: 4,
+            // p: 4,
+            padding: '53px 22px',
             width: '400px',
-            minHeight: '100%',
             outline: 'none',
             m: 0,
           }}
