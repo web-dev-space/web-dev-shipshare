@@ -40,7 +40,7 @@ const CalculateFee = () => {
 				<Main>
 					<Container maxWidth={false}>
 						<Typography variant="h3" component="h1" paragraph>
-							Account Information
+							Calculate Fee
 						</Typography>
 
 						<Typography variant="h6" component="h1" paragraph marginTop={5}>
