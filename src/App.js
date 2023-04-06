@@ -8,6 +8,7 @@ import { MotionLazyContainer } from './third-party/components/animate';
 import ScrollToTop from './third-party/components/scroll-to-top';
 
 import ParcelMainPage from "./Pages/1-Parcels/Parcel-Main";
+import GroupMainPage from "./Pages/3-Groups/Group-Main";
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +22,8 @@ export default function App() {
             <ThemeSettings>
               <SnackbarProvider>
                 {/*---------------Main Page----------------*/}
-                <ParcelMainPage />
+                {/*<ParcelMainPage />*/}
+                <GroupMainPage />
                 {/*------------------------------------*/}
               </SnackbarProvider>
             </ThemeSettings>
