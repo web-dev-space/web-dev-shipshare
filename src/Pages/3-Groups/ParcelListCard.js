@@ -10,6 +10,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import Grid from "@mui/material/Grid";
+import * as React from "react";
 
 // Sample parcel data
 const parcels = [
@@ -66,11 +68,12 @@ export default function ParcelListCard({index}) {
 			</CardContent>
 
 			{!firstPage &&
-			<CardActions >
-				<Button variant="outlined" style={{borderRadius:15, marginLeft: 20, marginBottom:30, marginRight:20, maxWidth: 400}} fullWidth="true">
-					Edit Cart
-				</Button>
-			</CardActions>}
+				<Grid  sx={{ display: 'flex', justifyContent: 'center' }}>
+					<Button Button variant="outlined" style={{borderRadius:25, marginLeft: 20, marginBottom:30, marginRight:20, maxWidth: 400, height:50}} fullWidth="true">
+						Edit Cart
+					</Button>
+				</Grid>
+			}
 		</Card>
 	);
 }

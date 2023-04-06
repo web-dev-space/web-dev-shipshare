@@ -49,9 +49,11 @@ export default function CheckoutStepOne() {
 						</CardContent>
 					</Card>
 
-					<Button variant="contained" style={{borderRadius:25, height: 45, marginTop: 30, marginLeft: 20, marginBottom:30, marginRight:20}} fullWidth="true">
-						Checkout
-					</Button>
+					<Grid  sx={{ display: 'flex', justifyContent: 'center' }}>
+						<Button variant="contained" style={{ borderRadius: 25, marginTop: 30, marginBottom: 30, maxWidth: 400, height:50 }} fullWidth="true">
+							Checkout
+						</Button>
+					</Grid>
 				</Grid>
 			</Grid>
 		</Box>

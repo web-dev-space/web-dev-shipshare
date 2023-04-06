@@ -62,9 +62,14 @@ export default function CheckoutStepTwo() {
 						</CardContent>
 					</Card>
 
-					<Button variant="contained" style={{borderRadius:15, marginTop: 30, marginLeft: 20, marginBottom:30, marginRight:20, maxWidth:400}} fullWidth="true" >
-						Place Order
-					</Button>
+					{/*<Button variant="contained" style={{borderRadius:15, marginTop: 30, marginBottom:30, marginRight:20, maxWidth:400}} fullWidth="true" >*/}
+					{/*	Place Order*/}
+					{/*</Button>*/}
+					<Grid  sx={{ display: 'flex', justifyContent: 'center' }}>
+						<Button variant="contained" style={{ borderRadius: 25, marginTop: 30, marginBottom: 30, maxWidth: 400, height:50}} fullWidth="true">
+							Place Order
+						</Button>
+					</Grid>
 				</Grid>
 			</Grid>
 		</Box>
