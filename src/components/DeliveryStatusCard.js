@@ -52,7 +52,7 @@ const DeliveryStatusCard = ({ deliveryStatus }) => {
             <div
               style={{
                 width: 2,
-                height: index === deliveryStatus.length - 1 ? 0 : '100%',
+                height: index === deliveryStatus.length - 1 ? 0 : 'calc(100% - 18px)',
                 marginTop: 3,
                 background: '#EAEAEA',
               }}
@@ -75,7 +75,7 @@ export default DeliveryStatusCard;
 
 const styles = {
   bottomContainer: {
-    width: '90%',
+    width: '100%',
     backgroundColor: Colors.white,
     borderRadius: 10,
   },

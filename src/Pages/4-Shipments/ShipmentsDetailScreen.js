@@ -125,7 +125,7 @@ const ShipmentDetails = ({ ship }) => {
             marginTop: 40,
             padding: 20,
           }}>
-            <DeliveryStatusCard deliveryStatus={deliveryStatus.slice(0, 5)} />
+            <DeliveryStatusCard deliveryStatus={deliveryStatus} />
             <></>
           </Box>
         }
