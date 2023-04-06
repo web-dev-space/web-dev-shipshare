@@ -12,6 +12,11 @@
     visibility: hidden;
 }
 
+.custom-footer .MuiTablePagination-displayedRows {
+    visibility: hidden;
+    /*width: 0;*/
+}
+
 .custom-footer .MuiTablePagination-root {
     margin-right: 40%;
 }

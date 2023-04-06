@@ -75,9 +75,31 @@ const ParcelMainPage = () => {
     const handleCloseFilter = () => {
         setOpenFilter(false);
     }
-    const [filterAddedIn, setFilterAddedIn] = useState("");
-    const [filterStatus, setFilterStatus] = useState("");
-    const [filterCourier, setFilterCourier] = useState("");
+    const [filterAddedIn, setFilterAddedIn] = useState("all");
+    const [filterStatus, setFilterStatus] = useState("all");
+    const [filterCourier, setFilterCourier] = useState("all");
+
+    const handleFilter  = () => {
+        console.log({filterAddedIn, filterStatus, filterCourier});
+        setTableData(
+            originalData.filter((val) => {
+                return filterCourier === "all" || val.courier === filterCourier;
+            })
+                .filter((val) => {
+                    if (filterStatus === "all")
+                        return val;
+                    else if (filterStatus === "in transit") {
+                        return val.isWeighted === false;
+                    } else if (filterStatus === "shipped") {
+                        return val.isShipped === true;
+                    }
+                    else {
+                        return val.isWeighted === true && val.isShipped === false
+                    }
+                })
+        )
+        handleCloseFilter();
+    }
 
     // table data
     const originalData = parcelData;
@@ -130,6 +152,7 @@ const ParcelMainPage = () => {
                                         filterAddedIn={filterAddedIn} setFilterAddedIn={setFilterAddedIn}
                                         filterStatus={filterStatus} setFilterStatus={setFilterStatus}
                                         filterCourier={filterCourier} setFilterCourier={setFilterCourier}
+                                        onSubmitFilter={handleFilter}
                         />
                     </Container>
 
@@ -225,10 +248,11 @@ const AddParcelDialog = ({ open, onClose }) => {
 };
 
 
-const FilterDialog = ({ open, onClose,
+const FilterDialog = ({ open, onClose,onSubmitFilter,
                           filterAddedIn, setFilterAddedIn,
                           filterStatus, setFilterStatus,
-                          filterCourier, setFilterCourier}) => {
+                          filterCourier, setFilterCourier}) =>
+{
     const handleAddedInChange = (event) => {
         setFilterAddedIn(event.target.value);
     };
@@ -273,8 +297,8 @@ const FilterDialog = ({ open, onClose,
                         label="Status"
                     >
                         <MenuItem value="all" selected>All</MenuItem>
-                        <MenuItem value="in-transit">In transit</MenuItem>
-                        <MenuItem value="ready-to-ship">Ready to ship</MenuItem>
+                        <MenuItem value="in transit">In transit</MenuItem>
+                        <MenuItem value="ship now">Ready to ship</MenuItem>
                         <MenuItem value="shipped">Shipped</MenuItem>
                     </Select>
                 </FormControl>
@@ -294,8 +318,13 @@ const FilterDialog = ({ open, onClose,
                 </FormControl>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose}>Cancel</Button>
-                <Button onClick={onClose} variant="contained" color="primary">Filter</Button>
+                <Button onClick={() => {
+                    setFilterStatus("all");
+                    setFilterAddedIn("all");
+                    setFilterCourier("all");
+                    onSubmitFilter();
+                }}>Reset</Button>
+                <Button onClick={onSubmitFilter} variant="contained" color="primary">Filter</Button>
             </DialogActions>
         </Dialog>
     );

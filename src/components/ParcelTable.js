@@ -36,7 +36,7 @@ const columns: GridColDef[] = [
     {
         field: "created.$date",
         headerName: "Date",
-        sortable: true,
+        sortable: false,
         width: 180,
         renderCell: (params) =>
             new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(params.row.created.$date)),
@@ -55,7 +55,7 @@ const columns: GridColDef[] = [
     {
         field: "isShipped",
         headerName: "Status",
-        sortable: true,
+        sortable: false,
         width: 160,
         renderCell: (params) =>
             params.row.isShipped ? (
@@ -70,6 +70,7 @@ const columns: GridColDef[] = [
         field: "actions",
         headerName: "Actions",
         sortable: false,
+        filterable: false,
         width: 120,
         renderCell: (params) =>
             <OutlinedGreenButton
@@ -121,7 +122,7 @@ const ParcelTable = ({ data }) => {
     }
 
     function CustomPagination(props: any) {
-        return <GridPagination ActionsComponent={Pagination} {...props} />;
+        return <GridPagination rowsPerPage={<div></div>} ActionsComponent={Pagination} {...props} />;
     }
 
     // Custom No Rows Overlay
