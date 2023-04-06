@@ -2,19 +2,108 @@ import { useState } from "react";
 import Header from "../../third-party/layouts/dashboard/header"
 import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../third-party/layouts/dashboard/Main"
-import { Container, Typography, Box } from '@mui/material';
+import {
+    Container,
+    Typography,
+    Box,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    TextField,
+    MenuItem,
+    DialogActions, Button, DialogContentText, FormControl, InputLabel, Select
+} from '@mui/material';
+
+import SearchBar from "../../components/searchBar";
+import TwoSmallButtonGroup from "../../components/TwoSmallButtonGroup";
+import ParcelTable from "../../components/ParcelTable";
+import {parcelData} from "../../sampleData/parcels";
+
 
 
 const ParcelMainPage = () => {
-    const [open, setOpen] = useState(false);
 
+    // nav bar
+    const [open, setOpen] = useState(false);
     const handleOpen = () => {
         setOpen(true);
     };
-
     const handleClose = () => {
         setOpen(false);
     };
+
+
+    // search bar
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const handleSearch = () => {
+        console.log(tableData);
+        setTableData(
+            originalData.filter((val) => {
+            if (searchTerm === "") {
+                return val;
+            } else if (val.trackingNumber.startsWith(searchTerm)) {
+                return val;
+            }
+        }))
+    };
+
+    const handleInputChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
+    };
+
+    // Add parcel dialog
+    const [openAddParcel, setOpenAddParcel] = useState(false);
+    const handleOpenAddParcel = () => {
+        setOpenAddParcel(true);
+    }
+    const handleCloseAddParcel = () => {
+        setOpenAddParcel(false);
+    }
+
+    // Filter dialog
+    const [openFilter, setOpenFilter] = useState(false);
+    const handleOpenFilter = () => {
+        setOpenFilter(true);
+    }
+    const handleCloseFilter = () => {
+        setOpenFilter(false);
+    }
+    const [filterAddedIn, setFilterAddedIn] = useState("all");
+    const [filterStatus, setFilterStatus] = useState("all");
+    const [filterCourier, setFilterCourier] = useState("all");
+
+    const handleFilter  = () => {
+        console.log({filterAddedIn, filterStatus, filterCourier});
+        setTableData(
+            originalData.filter((val) => {
+                return filterCourier === "all" || val.courier === filterCourier;
+            })
+                .filter((val) => {
+                    if (filterStatus === "all")
+                        return val;
+                    else if (filterStatus === "in transit") {
+                        return val.isWeighted === false;
+                    } else if (filterStatus === "shipped") {
+                        return val.isShipped === true;
+                    }
+                    else {
+                        return val.isWeighted === true && val.isShipped === false
+                    }
+                })
+        )
+        handleCloseFilter();
+    }
+
+    // table data
+    const originalData = parcelData;
+    const [tableData, setTableData] = useState(originalData);
 
     return (
         <>
@@ -32,19 +121,44 @@ const ParcelMainPage = () => {
                 {/*--------------Main Content----------------------*/}
                 <Main>
                     <Container maxWidth={false}>
-                        <Typography variant="h3" component="h1" paragraph>
+                        <Typography variant="h4" component="h1" paragraph>
                             My Parcels
                         </Typography>
+                    </Container>
 
-                        <Typography gutterBottom>
-                            Curabitur turpis. Vestibulum facilisis, purus nec pulvinar iaculis, ligula mi congue nunc,
-                            vitae euismod ligula urna in dolor. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit
-                            id, lorem. Phasellus blandit leo ut odio. Vestibulum ante ipsum primis in faucibus orci
-                            luctus et ultrices posuere cubilia Curae; Fusce id purus. Aliquam lorem ante, dapibus in,
-                            viverra quis, feugiat a, tellus. In consectetuer turpis ut velit. Aenean posuere, tortor
-                            sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus.
-                            Vestibulum suscipit nulla quis orci. Nam commodo suscipit quam. Sed a libero.
-                        </Typography>
+                    <Container maxWidth={false} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        {/*---Search Bar---*/}
+                        <SearchBar
+                            width={360}
+                            height={53}
+                            searchTerm={searchTerm}
+                            setSearchTerm={setSearchTerm}
+                            handleSearch={handleSearch}
+                            handleInputChange={handleInputChange}
+                            handleKeyPress={handleKeyPress}
+                        />
+
+                        {/*---button group---*/}
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <TwoSmallButtonGroup
+                                leftText="Add New"
+                                rightText="Filter"
+                                onLeftClick={handleOpenAddParcel}
+                                onRightClick={handleOpenFilter}
+                            />
+                        </Box>
+                        <AddParcelDialog open={openAddParcel} onClose={handleCloseAddParcel} />
+                        <FilterDialog open={openFilter} onClose={handleCloseFilter}
+                                        filterAddedIn={filterAddedIn} setFilterAddedIn={setFilterAddedIn}
+                                        filterStatus={filterStatus} setFilterStatus={setFilterStatus}
+                                        filterCourier={filterCourier} setFilterCourier={setFilterCourier}
+                                        onSubmitFilter={handleFilter}
+                        />
+                    </Container>
+
+                    {/*---Table---*/}
+                    <Container maxWidth={false}>
+                    <ParcelTable data={tableData} />
 
                     </Container>
                 </Main>
@@ -53,4 +167,168 @@ const ParcelMainPage = () => {
         </>
     );
 };
+
+const couriers = [
+    { value: 'yto', label: 'YTO' },
+    { value: 'yunda', label: 'Yunda Express' },
+];
+
+const AddParcelDialog = ({ open, onClose }) => {
+
+    const [name, setName] = useState('');
+    const [trackingNumber, setTrackingNumber] = useState('');
+    const [courier, setCourier] = useState('');
+
+    const handleSubmit = () => {
+        // ...
+        console.log({ name, trackingNumber, courier });
+        onClose();
+    };
+
+    return (
+        <Dialog open={open} onClose={onClose}>
+            <DialogTitle>Add A New Parcel</DialogTitle>
+            <DialogContent>
+                {/* <---UploadImage---> */}
+                <div style={{ marginBottom: 16 }}>
+
+                </div>
+                {/* <---Name---> */}
+                <TextField
+                    label="Name"
+                    fullWidth
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    variant="outlined"
+                    style={{ marginBottom: 16 }}
+                />
+
+                {/* <---Tracking Number---> */}
+                <TextField
+                    label="Tracking Number"
+                    fullWidth
+                    value={trackingNumber}
+                    onChange={(e) => setTrackingNumber(e.target.value)}
+                    variant="outlined"
+                    style={{ marginBottom: 16 }}
+                />
+
+                {/* <---Courier---> */}
+                <TextField
+                    select
+                    label="Courier"
+                    fullWidth
+                    value={courier}
+                    onChange={(e) => setCourier(e.target.value)}
+                    variant="outlined"
+                >
+                    {couriers.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+            </DialogContent>
+            <DialogActions>
+                <Button
+                    onClick={() => {
+                        onClose();
+                        setName("");
+                        setTrackingNumber("");
+                        setCourier("");
+                    }}
+                >
+                    Cancel</Button>
+                <Button onClick={handleSubmit} variant="contained" color="primary">
+                    Save
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
+
+
+const FilterDialog = ({ open, onClose,onSubmitFilter,
+                          filterAddedIn, setFilterAddedIn,
+                          filterStatus, setFilterStatus,
+                          filterCourier, setFilterCourier}) =>
+{
+    const handleAddedInChange = (event) => {
+        setFilterAddedIn(event.target.value);
+    };
+
+    const handleStatusChange = (event) => {
+        setFilterStatus(event.target.value);
+    };
+
+    const handleCourierChange = (event) => {
+        setFilterCourier(event.target.value);
+    };
+
+    return (
+        <Dialog open={open} onClose={onClose}>
+            <DialogTitle>Filter</DialogTitle>
+            <DialogContent>
+                <DialogContentText style={{marginBottom:16}}>
+                    Please select the filter options below.
+                </DialogContentText>
+                <FormControl fullWidth margin="dense">
+                    <InputLabel id="added-in-label">Added In</InputLabel>
+                    <Select
+                        labelId="added-in-label"
+                        id="added-in"
+                        value={filterAddedIn}
+                        onChange={handleAddedInChange}
+                        label="Added In"
+                    >
+                        <MenuItem value="all" selected>All</MenuItem>
+                        <MenuItem value={7}>7 days</MenuItem>
+                        <MenuItem value={15}>15 days</MenuItem>
+                        <MenuItem value={30}>30 days</MenuItem>
+                    </Select>
+                </FormControl>
+                <FormControl fullWidth margin="dense">
+                    <InputLabel id="status-label">Status</InputLabel>
+                    <Select
+                        labelId="status-label"
+                        id="status"
+                        value={filterStatus}
+                        onChange={handleStatusChange}
+                        label="Status"
+                    >
+                        <MenuItem value="all" selected>All</MenuItem>
+                        <MenuItem value="in transit">In transit</MenuItem>
+                        <MenuItem value="ship now">Ready to ship</MenuItem>
+                        <MenuItem value="shipped">Shipped</MenuItem>
+                    </Select>
+                </FormControl>
+                <FormControl fullWidth margin="dense">
+                    <InputLabel id="courier-label">Courier</InputLabel>
+                    <Select
+                        labelId="courier-label"
+                        id="courier"
+                        value={filterCourier}
+                        onChange={handleCourierChange}
+                        label="Courier"
+                    >
+                        <MenuItem value="all" selected>All</MenuItem>
+                        <MenuItem value="yto">YTO</MenuItem>
+                        <MenuItem value="yunda">Yunda Express</MenuItem>
+                    </Select>
+                </FormControl>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => {
+                    setFilterStatus("all");
+                    setFilterAddedIn("all");
+                    setFilterCourier("all");
+                    onSubmitFilter();
+                }}>Reset</Button>
+                <Button onClick={onSubmitFilter} variant="contained" color="primary">Filter</Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
+
+
 export default ParcelMainPage;

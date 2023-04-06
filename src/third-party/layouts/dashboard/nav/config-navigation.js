@@ -1,5 +1,3 @@
-// routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
 import SvgColor from '../../../components/svg-color';
 
@@ -23,45 +21,45 @@ const navConfig = [
   {
     subheader: 'Main Menu',
     items: [
-      { title: 'Parcels', path: PATH_DASHBOARD.parcels, icon: ICONS.dashboard },
-      { title: 'Shipments', path: PATH_DASHBOARD.shipments, icon: ICONS.ecommerce },
-      { title: 'Groups', path: PATH_DASHBOARD.groups, icon: ICONS.analytics },
+      { title: 'Parcels', path: '/parcels', icon: ICONS.dashboard },
+      { title: 'Shipments', path: '/shipments', icon: ICONS.ecommerce },
+      { title: 'Groups', path: '/groups', icon: ICONS.analytics },
     ],
   },
 
   // COMMUNITY
   {
     subheader: 'Community',
+    path: '/community/',
     items: [
-      { title: 'Discover', path: PATH_DASHBOARD.discover, icon: ICONS.user },
-      { title: 'Follow', path: PATH_DASHBOARD.follow, icon: ICONS.user },
-      { title: 'My Profile', path: PATH_DASHBOARD.profile, icon: ICONS.user },
+      { title: 'Discover', path: '/community/discover', icon: ICONS.user },
+      { title: 'Follow', path: '/community/follow', icon: ICONS.user },
+      { title: 'My Profile', path: '/community/profile', icon: ICONS.user },
     ],
   },
 
-  // MMore
+  // More
   {
     subheader: 'More',
     items: [
       {
         title: 'Account',
-        path: PATH_DASHBOARD.user.root,
+        path: '/account/',
         icon: ICONS.user,
         children: [
-          { title: 'Change Password', path: PATH_DASHBOARD.user.one },
-          { title: 'Two', path: PATH_DASHBOARD.user.two },
-          { title: 'Three', path: PATH_DASHBOARD.user.three },
+          { title: 'Account Info', path: '/account/account-info' },
+          { title: 'Change Password', path: '/account/change-password'},
         ],
       },
       {
         title: 'Help',
-        path: PATH_DASHBOARD.help.root,
+        path: '/help/',
         icon: ICONS.user,
         children: [
-          {title: 'Tutorials', path: PATH_DASHBOARD.help.one},
-          {title: 'Warehouse Address', path: PATH_DASHBOARD.help.two},
-          {title: 'Time & Costs', path: PATH_DASHBOARD.help.three},
-          {title: 'Calculate Fees', path: PATH_DASHBOARD.help.four},
+          {title: 'Tutorials', path: '/help/tutorials'},
+          {title: 'Warehouse Address', path: '/help/warehouse-address'},
+          {title: 'Time & Costs', path: '/help/time-costs'},
+          {title: 'Calculate Fees', path: '/help/calculate-fees'},
         ],
       }
     ],
