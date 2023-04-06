@@ -104,11 +104,29 @@ const CalculateFee = () => {
 						</Typography>
 						<Stack direction="row" spacing={6} sx={{marginBottom: 10}}>
 							<TextField fullWidth={true} variant="filled" label="Length" id="length"
-												 InputProps={{endAdornment:<InputAdornment position="end">cm</InputAdornment>}} />
+												 InputProps={{
+													 inputProps: {
+														 pattern: "[0-9]*",
+														 inputMode: "numeric",
+														 style: { textAlign: "right" },
+													 },
+												 endAdornment:<InputAdornment position="end">cm</InputAdornment>}} />
 							<TextField fullWidth={true} variant="filled" label="Width" id="width"
-												 InputProps={{endAdornment:<InputAdornment position="end">cm</InputAdornment>}} />
+												 InputProps={{
+													 inputProps: {
+														 pattern: "[0-9]*",
+														 inputMode: "numeric",
+														 style: { textAlign: "right" },
+													 },
+													 endAdornment:<InputAdornment position="end">cm</InputAdornment>}} />
 							<TextField fullWidth={true} variant="filled" label="Height" id="height"
-												 InputProps={{endAdornment:<InputAdornment position="end">cm</InputAdornment>}} />
+												 InputProps={{
+													 inputProps: {
+														 pattern: "[0-9]*",
+														 inputMode: "numeric",
+														 style: { textAlign: "right" },
+													 },
+													 endAdornment:<InputAdornment position="end">cm</InputAdornment>}} />
 						</Stack>
 						<Button variant="contained" size="large" fullWidth={true}>Calculate</Button>
 
