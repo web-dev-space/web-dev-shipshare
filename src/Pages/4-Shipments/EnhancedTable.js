@@ -1,7 +1,8 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import {alpha} from '@mui/material/styles';
+import { ToggleButton } from "@mui/lab";
+import Pagination from '@mui/lab/Pagination';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,19 +11,14 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import {visuallyHidden} from '@mui/utils';
-import Button from '@mui/material/Button';
-import {ToggleButton, ToggleButtonGroup} from "@mui/lab";
-import {useEffect, useState} from "react";
-import {v4 as uuidv4} from 'uuid';
+import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
+import { visuallyHidden } from '@mui/utils';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+
+
 
 
 function descendingComparator(a, b, orderBy) {
@@ -54,12 +50,12 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  {id: 'trackingNo', numeric: false, disablePadding: true, label: 'Tracking No.'},
-  {id: 'route', numeric: false, disablePadding: false, label: 'Route'},
-  {id: 'joinDate', numeric: false, disablePadding: false, label: 'Join Date'},
-  {id: 'pickupAt', numeric: false, disablePadding: false, label: 'Pickup At'},
-  {id: 'status', numeric: false, disablePadding: false, label: 'Status'},
-  {id: 'actions', numeric: false, disablePadding: false, label: 'Actions'},
+  { id: 'trackingNo', numeric: false, disablePadding: true, label: 'Tracking No.' },
+  { id: 'route', numeric: false, disablePadding: false, label: 'Route' },
+  { id: 'joinDate', numeric: false, disablePadding: false, label: 'Join Date' },
+  { id: 'pickupAt', numeric: false, disablePadding: false, label: 'Pickup At' },
+  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
+  { id: 'actions', numeric: false, disablePadding: false, label: 'Actions' },
 ];
 
 const DEFAULT_ORDER = 'asc';
@@ -67,21 +63,21 @@ const DEFAULT_ORDER_BY = 'trackingNo';
 const DEFAULT_ROWS_PER_PAGE = 5;
 
 function MyTableHead(props) {
-  const {order, orderBy, onRequestSort} = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (newOrderBy) => (event) => {
     onRequestSort(event, newOrderBy);
   };
 
   return (
     <TableHead>
-      <TableRow style={{borderTop: '1px solid #EDF2F7'}}>
+      <TableRow style={{ borderTop: '1px solid #EDF2F7' }}>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
-            style={{backgroundColor: 'white'}}
+            style={{ backgroundColor: 'white' }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -111,29 +107,46 @@ MyTableHead.propTypes = {
 const filterStrings = ['All', 'Arrived', 'Shipping', 'Packed', 'Order Placed'];
 
 
-const FilterButtons = ({selected, setSelected}) => {
+const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
+  '&.MuiToggleButton-root': {
+    borderRadius: '25px',
+    marginRight: '19px',
+    padding: "8px 22px",
+    color: '#CFDBD5',
+  },
+  '&.Mui-selected': {
+    backgroundColor: '#f0bc68',
+    borderColor: '#e4e8eb',
+    color: '#ffffff',
+    '&:hover': {
+      backgroundColor: '#f0bc68',
+    },
+    '&.Mui-disabled': {
+      backgroundColor: 'gray',
+    },
+  },
+}))
+
+const FilterButtons = ({ selected, setSelected }) => {
 
   const handleFilterChange = (event, selectedFilter) => {
-    setSelected(selectedFilter);
+    if (selectedFilter !== null && selectedFilter !== selected) {
+      setSelected(selectedFilter);
+    }
   };
 
   return (
-    <Box
-      display="flex"
-      justifyContent="space-between"
-      flexWrap="wrap">
-      <ToggleButtonGroup
-        value={selected}
-        exclusive
-        onChange={handleFilterChange}
-        aria-label="filter"
-      >
-        {filterStrings.map((filter, index) => (
-          <ToggleButton key={index} value={filter} aria-label={filter}>
-            {filter}
-          </ToggleButton>
-        ))}
-      </ToggleButtonGroup>
+    <Box display="flex" justifyContent="flex-start" flexWrap="wrap">
+      {filterStrings.map((filter, index) => (
+        <StyledToggleButton
+          selected={selected === filter}
+          onChange={(event) => handleFilterChange(event, filter)}
+          value={filter}
+          aria-label={filter}
+        >
+          {filter}
+        </StyledToggleButton>
+      ))}
     </Box>
   );
 };
@@ -263,8 +276,8 @@ export default function EnhancedTable() {
   useEffect(() => {
     const filterTableData = () => {
       setRows(originalRows.filter(row =>
-          row.status === selected || selected === 'All'
-        )
+        row.status === selected || selected === 'All'
+      )
       );
     };
     filterTableData();
@@ -286,16 +299,18 @@ export default function EnhancedTable() {
   }
 
   return (
-    <Box sx={{width: '100%'}}>
-      <Paper sx={{width: '100%', mb: 2}}>
-        <Tooltip title="Filter list">
-          <FilterButtons
-            selected={selected}
-            setSelected={setSelected}/>
-        </Tooltip>
+    <Box sx={{ width: '100%' }}>
+      <Paper sx={{ width: '100%', mb: 2 }}>
+        <Box sx={{ mb: 2 }}>
+          <Tooltip title="Filter list">
+            <FilterButtons
+              selected={selected}
+              setSelected={setSelected} />
+          </Tooltip>
+        </Box>
         <TableContainer>
           <Table
-            sx={{minWidth: 750}}
+            sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size={'medium'}
           >
@@ -309,12 +324,12 @@ export default function EnhancedTable() {
                 ? visibleRows.map((row, index) => {
                   return (
                     <TableRow hover
-                              tabIndex={-1}
-                              key={row.trackingNo}
-                              style={{
-                                borderTop: '1px solid #EDF2F7',
-                                borderBottom: '1px solid #EDF2F7',
-                              }}>
+                      tabIndex={-1}
+                      key={row.trackingNo}
+                      style={{
+                        borderTop: '1px solid #EDF2F7',
+                        borderBottom: '1px solid #EDF2F7',
+                      }}>
                       <TableCell component="th" scope="row" padding="none">
                         {row.trackingNo}
                       </TableCell>
@@ -322,21 +337,21 @@ export default function EnhancedTable() {
                       <TableCell align="left">{row.joinDate}</TableCell>
                       <TableCell align="left">{row.pickupAt}</TableCell>
                       <TableCell align="left"
-                                 style={{color: getStatusColor(row)}}>
+                        style={{ color: getStatusColor(row) }}>
                         {row.status}
                       </TableCell>
                       <TableCell align="left">
                         <Button variant="contained"
-                                sx={{
-                                  backgroundColor: 'white',
-                                  '&:hover': {
-                                    backgroundColor: 'white',
-                                  },
-                                  color: '#1A202C',
-                                  border: '1px solid rgba(0, 90, 100, 0.35)',
-                                }}
+                          sx={{
+                            backgroundColor: 'white',
+                            '&:hover': {
+                              backgroundColor: 'white',
+                            },
+                            color: '#1A202C',
+                            border: '1px solid rgba(0, 90, 100, 0.35)',
+                          }}
                         >
-                          Detail</Button>
+                          Details</Button>
                       </TableCell>
                     </TableRow>
                   );
@@ -348,7 +363,7 @@ export default function EnhancedTable() {
                     height: paddingHeight,
                   }}
                 >
-                  <TableCell colSpan={6}/>
+                  <TableCell colSpan={6} />
                 </TableRow>
               )}
             </TableBody>
