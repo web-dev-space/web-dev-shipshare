@@ -3,11 +3,11 @@ import {Search as SearchIcon} from "@mui/icons-material";
 
 
 
-export default function SearchBar(width, height,
+export default function SearchBar({width, height,
                                   searchText,
                                   searchTerm, setSearchTerm,
                                   handleSearch, handleInputChange,
-                                  handleKeyPress) {
+                                  handleKeyPress}) {
     return (
         <Paper sx={{ p: '2px 4px', display: 'flex',
             alignItems: 'center',

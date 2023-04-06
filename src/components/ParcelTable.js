@@ -81,7 +81,7 @@ const columns: GridColDef[] = [
 // Table component
 const ParcelTable = ({ data }) => {
     const [rows, setRows] = React.useState(data);
-
+    React.useEffect(() => {setRows(data)}, [data]);
     // Sort rows
     const handleSortModelChange = (model) => {
         const sortedRows = [...rows].sort((a, b) => {
