@@ -11,6 +11,7 @@ import ParcelMainPage from "./Pages/1-Parcels/Parcel-Main";
 import ChangePassword from "./Pages/5-Account/Change-Password";
 import Profile from "./Pages/5-Account/Profile";
 import CalculateFee from "./Pages/5-Account/CalculateFee";
+import TimeCost from "./Pages/5-Account/TimeCost";
 
 // ----------------------------------------------------------------------
 
