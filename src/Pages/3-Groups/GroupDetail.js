@@ -50,6 +50,67 @@ const GroupDetailPage = () => {
         <NavVertical openNav={open} onCloseNav={handleClose}/>
 
         {/*--------------Main Content----------------------*/}
+        <Main>
+
+          <Container maxWidth="xl">
+            <Box sx={{mt: 3, mb: 5}}>
+              <Typography variant="h4">Group Detail</Typography>
+            </Box>
+
+            <Box sx={{mb: 5}}>
+              <Card>
+
+                <Box sx={{p: 3}}>
+                  <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <Box sx={{display: 'flex', alignItems: 'center'}}>
+                      <Avatar sx={{width: 56, height: 56, mr: 2}} src="/static/images/avatars/1.jpg"/>
+                      <Box>
+                        <Typography variant="h5">Group Name</Typography>
+                        <Typography variant="subtitle2" color="text.secondary">Group Description</Typography>
+                      </Box>
+                    </Box>
+                    <Box>
+                      <Button variant="contained" color="primary">Edit</Button>
+                    </Box>
+                  </Box>
+                </Box>
+
+                <Box sx={{p: 3}}>
+                  <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+
+                    <Box sx={{display: 'flex', alignItems: 'center'}}>
+                      <Box sx={{display: 'flex', alignItems: 'center', mr: 3}}>
+                        <Iconify icon="bx:bxs-user-detail" color="primary.main" fontSize="large"/>
+                        <Box sx={{ml: 1}}>
+                          <Typography variant="h5">10</Typography>
+                          <Typography variant="subtitle2" color="text.secondary">Members</Typography>
+                        </Box>
+                      </Box>
+                      <Box sx={{display: 'flex', alignItems: 'center'}}>
+                        <Iconify icon="bx:bxs-user-detail" color="primary.main" fontSize="large"/>
+                        <Box sx={{ml: 1}}>
+                          <Typography variant="h5">10</Typography>
+                          <Typography variant="subtitle2" color="text.secondary">Members</Typography>
+                        </Box>
+                      </Box>
+                    </Box>
+
+                    <Box>
+                      <Button variant="contained" color="primary">Edit</Button>
+                    </Box>
+                  </Box>
+                </Box>
+
+              </Card>
+            </Box>
+          </Container>
+
+
+
+
+
+
+        </Main>
         {/*------------------------------------*/}
       </Box>
     </>

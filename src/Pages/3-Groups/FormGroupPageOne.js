@@ -9,7 +9,7 @@ import Header from "../../third-party/layouts/dashboard/header";
 import {useState} from "react";
 import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical";
 import Main from "../../third-party/layouts/dashboard/Main"
-import {Card, CardContent, Grid, Stack} from "@mui/material";
+import {Card, CardContent, Container, Grid, Stack} from "@mui/material";
 import TextField from '@mui/material/TextField';
 import {DemoContainer} from '@mui/x-date-pickers/internals/demo';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
@@ -87,7 +87,17 @@ export default function FormGroupPageOne() {
         {/*--------------Navigation bar------------------*/}
         <NavVertical openNav={open} onCloseNav={handleClose}/>
         <Main>
-          <Box sx={{width: '100%', alignItems: 'center'}}>
+          <Container
+            maxWidth="xl"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}>
+          <Box sx={{
+            width: '100%',
+            alignItems: 'center',
+          }}>
             <Stepper
               activeStep={activeStep}
 
@@ -568,6 +578,7 @@ export default function FormGroupPageOne() {
               </React.Fragment>
             )}
           </Box>
+          </Container>
         </Main>
       </Box>
     </>
