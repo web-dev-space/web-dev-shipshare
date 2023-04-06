@@ -463,7 +463,7 @@ export default function EnhancedTable() {
             bgcolor: 'background.paper',
             boxShadow: 24,
             p: 4,
-            width: '40%',
+            width: '400px',
             height: '100%',
             outline: 'none',
             m: 0,

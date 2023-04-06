@@ -1,14 +1,14 @@
 const FontSizes = {
   buttonText: 20,
   logTitle: 44,
-  bodyText: '16px',
+  bodyText: 12,
   iconSize: 20,
-  groupCardText: 14,
-  pageTitle: 20,
+  groupCardText: 12,
+  pageTitle: 16,
   calculateText: 24,
-  dimensionText: 18,
-  trackingLabel:12,
-  smallTrackingNumber:12,
+  dimensionText: 14,
+  trackingLabel: 12,
+  smallTrackingNumber: 12,
 }
 
 export default FontSizes;

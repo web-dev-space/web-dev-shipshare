@@ -2,9 +2,12 @@ import React from 'react';
 import { Box, Typography, IconButton, TextField, Divider } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import shipGroups from '../../sampleData/shipGroups';
-import FontFamily from '../../styles/FontFamily';
+// import FontFamily from '../../styles/FontFamily';
 import Colors from '../../styles/Colors';
 import FontSizes from '../../styles/FontSizes';
+
+const FontFamily = {
+}
 
 const hintText = [
   'Order placed',
@@ -130,8 +133,10 @@ export default ShipmentDetails;
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: Colors.detailBackgroundGray,
+    // backgroundColor: Colors.detailBackgroundGray,
     alignItems: 'center',
+    width: '100%',
+    marginTop: 40,
   },
   greenHeadPart: {
     backgroundColor: Colors.buttonDarkGreen,
@@ -158,10 +163,10 @@ const styles = {
   },
   trackingNumberContainer: {
     width: '90%',
-    marginTop: 20,
+    marginTop: 24,
     borderRadius: 10,
     borderStyle: 'dashed',
-    height: 100,
+    height: 90,
     borderWidth: 2,
     borderColor: Colors.lineGray,
     textAlign: 'center',
@@ -175,7 +180,7 @@ const styles = {
   },
   trackingNumber: {
     color: Colors.blackText,
-    marginTop: 8,
+    marginTop: 4,
     alignSelf: 'center',
     fontSize: FontSizes.pageTitle,
     fontWeight: 'bold',
@@ -233,7 +238,7 @@ const styles = {
   contactText: {
     color: Colors.textGray,
     fontSize: FontSizes.groupCardText,
-    marginTop: 8,
+    marginTop: 2,
     marginLeft: 22,
     fontFamily: FontFamily.regular,
   },

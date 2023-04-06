@@ -13,7 +13,7 @@ export default [
         },
         "user": "test@test.com",
         "phaseNumber": 3,
-        "trackingNumber": "2007364310",
+        "trackingNumber": "5570 8000 0135 9688",
         "courier": "dhl",
         "members": [
             "test@test.com"
