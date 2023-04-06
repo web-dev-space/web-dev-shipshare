@@ -17,8 +17,9 @@ import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-
-
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+import ShippingDetailScreen from './ShipmentsDetailScreen.js';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -162,6 +163,16 @@ export default function EnhancedTable() {
 
   const [originalRows, setOriginalRows] = React.useState([]);
   const [rows, setRows] = useState([]);
+
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     const initialRowsData = () => {
@@ -433,6 +444,34 @@ export default function EnhancedTable() {
           <PageNavigation />
         </Box>
       </Paper>
+
+      <Button variant="outlined" onClick={handleOpen}>Details</Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          overflow: 'auto',
+        }}
+      >
+        <Box
+          sx={{
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4,
+            width: '40%',
+            height: '100%',
+            outline: 'none',
+            m: 0,
+          }}
+        >
+          <ShippingDetailScreen ship={rows[0]} />
+        </Box>
+      </Modal>
     </Box>
   );
 }
