@@ -17,6 +17,8 @@ const GREY = {
   900: '#161C24',
 };
 
+
+// Primary Color -- Green
 const PRIMARY = {
   lighter: '#E9F5C5',
   light: '#AED12D',
@@ -53,6 +55,7 @@ const SUCCESS = {
   contrastText: '#FFFFFF',
 };
 
+// Contrast Color -- Orange
 const WARNING = {
   lighter: '#FEEBC3',
   light: '#F9C955',
