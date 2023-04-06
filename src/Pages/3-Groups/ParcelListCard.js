@@ -8,6 +8,8 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 // Sample parcel data
 const parcels = [
@@ -28,7 +30,8 @@ const parcels = [
 	// Add more parcels here
 ];
 
-export default function ParcelListCard() {
+export default function ParcelListCard({index}) {
+	const firstPage = index;
 	const [selectedParcels, setSelectedParcels] = useState([]);
 
 	const handleEditCartClick = () => {
@@ -37,13 +40,15 @@ export default function ParcelListCard() {
 
 	return (
 		<Card sx={{ borderRadius: 3, minWidth: 275, minHeight: 550}}>
-			<CardHeader title="Parcels" />
+			{firstPage? <CardHeader title="Parcels Arrived"/>:<CardHeader title="Parcels" />}
 			<CardContent>
+				{firstPage? <FormControlLabel control={<Checkbox defaultChecked />} style={{marginLeft:1}} label="Select All" />:null}
 				{parcels.map((parcel) => (
 					<Box
 						key={parcel.id}
 						sx={{ display: 'flex', alignItems: 'center', py: 2 }}
 					>
+						{firstPage? <Checkbox/>:null}
 						<Box sx={{ flexShrink: 0 }}>
 							<img src={parcel.imageUrl} alt={parcel.name} width={80} height={80} style={{borderRadius:15}}/>
 						</Box>
@@ -59,11 +64,13 @@ export default function ParcelListCard() {
 					</Box>
 				))}
 			</CardContent>
-			<CardActions>
-				<Button variant="outlined" style={{borderRadius:15, marginLeft: 20, marginBottom:30, marginRight:20}} fullWidth="true">
+
+			{!firstPage &&
+			<CardActions >
+				<Button variant="outlined" style={{borderRadius:15, marginLeft: 20, marginBottom:30, marginRight:20, maxWidth: 400}} fullWidth="true">
 					Edit Cart
 				</Button>
-			</CardActions>
+			</CardActions>}
 		</Card>
 	);
 }

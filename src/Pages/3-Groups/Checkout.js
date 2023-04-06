@@ -17,6 +17,7 @@ import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {CardActions} from "@mui/material";
 import CheckoutStepTwo from "./Checkout-StepTwo";
+import CheckoutStepOne from "./Checkout-StepOne";
 
 // const steps = ['Choose a Route', 'Enter Group Details', 'Done'];
 const steps = ['', '', '', ''];
@@ -136,171 +137,7 @@ export default function Checkout() {
 
 								{/*page 1*/}
 								{activeStep === 0 ? (
-									<>
-										<Box
-											sx={{
-												display: 'flex',
-												flexDirection: 'column',
-												alignItems: 'center',
-												mb: 5,
-											}}
-										>
-											<Typography
-												variant="h4"
-											>Choose a Route</Typography>
-											<Box
-												sx={{
-													width: '35%',
-													alignItems: 'center',
-												}}
-											>
-												<Typography
-													variant="caption"
-												>Each transportation route has its own unique advantages,
-													so please choose the one that best fits your shipping needs.</Typography>
-											</Box>
-										</Box>
-
-										<Box
-											sx={{
-												display: 'flex',
-												flexDirection: 'row',
-												justifyContent: 'space-between',
-												mb: 5,
-												ml: 20,
-												mr: 20,
-												flexWrap: 'wrap', // add this property to allow flex items to wrap
-												'& > *': {
-													flexBasis: '22%', // set a smaller width for each card
-													mb: 3,
-												},
-												'@media (max-width: 1500px)': { // add a media query to change the layout
-													// flexDirection: 'column',
-													'& > *': {
-														flexBasis: '45%',
-													},
-												},
-												'@media (max-width: 800px)': { // add a media query to change the layout
-													flexDirection: 'column',
-													'& > *': {
-														flexBasis: '100%',
-													},
-												},
-											}}
-
-										>
-											<Card>
-												<CardContent
-													sx={{
-														display: 'flex',
-														flexDirection: 'column',
-														alignItems: 'center',
-													}}
-												>
-													<Typography variant="subtitle2" component="div" sx={{mb: 3}}>
-														Air Standard
-													</Typography>
-													<Typography variant="caption" component="div" sx={{mb: 3}}>
-														Fastest delivery time.
-														Suitable for normal items.
-													</Typography>
-													<Typography variant="body2" component="div" style={{color: 'rgb(238, 189, 94)'}}>
-														$ 15 / kg
-													</Typography>
-													<Typography variant="body2" component="div" style={{color: 'rgb(238, 189, 94)'}}>
-														1 week
-													</Typography>
-													<Typography variant="caption" component="div">
-														<Button variant="contained" sx={{mt: 3}}>Select</Button>
-													</Typography>
-												</CardContent>
-											</Card>
-											<Card>
-												<CardContent
-													sx={{
-														display: 'flex',
-														flexDirection: 'column',
-														alignItems: 'center',
-													}}
-												>
-													<Typography variant="subtitle2" component="div" sx={{mb: 3}}>
-														Air Sensitive
-													</Typography>
-													<Typography variant="caption" component="div" sx={{mb: 3}}>
-														Faster delivery time.
-														Suitable for sensitive items.
-													</Typography>
-													<Typography variant="body2" component="div" style={{color: 'rgb(238, 189, 94)'}}>
-														$ 15 / kg
-													</Typography>
-													<Typography variant="body2" component="div" style={{color: 'rgb(238, 189, 94)'}}>
-														1 week
-													</Typography>
-													<Typography variant="caption" component="div">
-														<Button variant="contained" sx={{mt: 3}}>Select</Button>
-													</Typography>
-
-												</CardContent>
-											</Card>
-											<Card>
-												<CardContent
-													sx={{
-														display: 'flex',
-														flexDirection: 'column',
-														alignItems: 'center',
-													}}
-												>
-													<Typography variant="subtitle2" component="div" sx={{mb: 3}}>
-														Sea Standard
-													</Typography>
-													<Typography variant="caption" component="div" sx={{mb: 3}}>
-														Lowest cost.
-														Suitable for normal items.
-													</Typography>
-													<Typography variant="body2" component="div" style={{color: 'rgb(238, 189, 94)'}}>
-														$ 15 / kg
-													</Typography>
-													<Typography variant="body2" component="div" style={{color: 'rgb(238, 189, 94)'}}>
-														1 week
-													</Typography>
-													<Typography variant="caption" component="div">
-														<Button variant="contained" sx={{mt: 3}}>Select</Button>
-													</Typography>
-
-												</CardContent>
-											</Card>
-											<Card>
-												<CardContent
-													sx={{
-														display: 'flex',
-														flexDirection: 'column',
-														alignItems: 'center',
-													}}
-												>
-
-													<Typography variant="subtitle2" component="div" sx={{mb: 3}}>
-														Sea Sensitive
-													</Typography>
-													<Typography variant="caption" component="div" sx={{mb: 3}}>
-														Lower cost.
-														Suitable for sensitive items.
-													</Typography>
-
-													<Typography variant="body2" component="div" style={{color: 'rgb(238, 189, 94)'}}>
-														$ 15 / kg
-													</Typography>
-													<Typography variant="body2" component="div" style={{color: 'rgb(238, 189, 94)'}}>
-														1 week
-													</Typography>
-
-													<Typography variant="caption" component="div">
-														<Button variant="contained" sx={{mt: 3}}>Select</Button>
-													</Typography>
-
-												</CardContent>
-											</Card>
-										</Box>
-									</>
+									<CheckoutStepOne />
 								) : (
 									<React.Fragment>
 
@@ -309,7 +146,7 @@ export default function Checkout() {
 
 								{/*page 2*/}
 								{activeStep === 1 ? (
-									<CheckoutStepTwo/>
+									<CheckoutStepTwo />
 								) : (
 									<React.Fragment>
 									</React.Fragment>

@@ -8,14 +8,6 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import ParcelListCard from "./ParcelListCard";
 
-const bull = (
-	<Box
-		component="span"
-		sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-	>
-		•
-	</Box>
-);
 
 const parcels = [  {    name: 'Parcel 1',    image: 'https://picsum.photos/200/300',    logisticsNumber: 'LOG001',    weight: '10 kg',  },  {    name: 'Parcel 2',    image: 'https://picsum.photos/200/300',    logisticsNumber: 'LOG002',    weight: '5 kg',  },];
 
@@ -36,7 +28,7 @@ export default function CheckoutStepTwo() {
 		<Box sx={{ flexGrow: 1 }}>
 			<Grid container spacing={5}>
 				<Grid item xs={6}>
-					<ParcelListCard />
+					<ParcelListCard index={false}/>
 				</Grid>
 
 				<Grid item xs={6}>
@@ -46,9 +38,9 @@ export default function CheckoutStepTwo() {
 								Shipment Information
 							</Typography>
 							<Typography variant="body1" component="div">
-								<div>Route: Air Standard</div>
-								<div>Date: March 10, 2023</div>
-								<div>Address: Apt 505, 425 El Camino Real, Santa Clara, CA 95056</div>
+								<div>Air Standard</div>
+								<div>March 10, 2023</div>
+								<div>Apt 505, 425 El Camino Real, Santa Clara, CA 95056</div>
 							</Typography>
 						</CardContent>
 					</Card>
@@ -70,7 +62,7 @@ export default function CheckoutStepTwo() {
 						</CardContent>
 					</Card>
 
-					<Button variant="contained" style={{borderRadius:15, marginTop: 30, marginLeft: 20, marginBottom:30, marginRight:20}} fullWidth="true">
+					<Button variant="contained" style={{borderRadius:15, marginTop: 30, marginLeft: 20, marginBottom:30, marginRight:20, maxWidth:400}} fullWidth="true" >
 						Place Order
 					</Button>
 				</Grid>
