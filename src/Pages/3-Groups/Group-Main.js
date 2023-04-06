@@ -18,6 +18,8 @@ import {Icon} from "@iconify/react";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {Pagination} from "@mui/lab";
 import TuneIcon from '@mui/icons-material/Tune';
+import ChipGroup from "../../components/ChipGroup";
+
 
 const GroupMainPage = () => {
   const [open, setOpen] = useState(false);
@@ -30,9 +32,10 @@ const GroupMainPage = () => {
     setOpen(false);
   };
 
-  const handleClick = () => {
-    console.info('You clicked the Chip.');
-  };
+  // Filter
+  const [filter, setFilter] = useState('All');
+  const [focusChip, setFocusChip] = useState('All');
+  const chipLabelsArray = ["All", "Air Standard", "Air Sensitive", "Sea Standard", "Sea Sensitive"];
 
   return (
     <>
@@ -60,21 +63,12 @@ const GroupMainPage = () => {
               sx={{justifyContent: 'space-between', width: '100%'}}
             >
               <Stack direction="row" spacing={2}>
-                <Chip label="All" color="warning"
-                      sx={{fontSize: 14, height: 40}}
-                      onClick={handleClick} />
-                <Chip label="Air Standard" variant="outlined"
-                      sx={{color:'grey', fontSize: 14, height: 40}}
-                      onClick={handleClick} />
-                <Chip label="Air Sensitive" variant="outlined"
-                      sx={{color:'grey', fontSize: 14, height: 40}}
-                      onClick={handleClick} />
-                <Chip label="Sea Standard" variant="outlined"
-                      sx={{color:'grey', fontSize: 14, height: 40}}
-                      onClick={handleClick} />
-                <Chip label="Sea Sensitive" variant="outlined"
-                      sx={{color:'grey', fontSize: 14, height: 40}}
-                      onClick={handleClick} />
+                <ChipGroup
+                    chipLabelsArray={chipLabelsArray}
+                    setFilter={setFilter}
+                    focusChip={focusChip}
+                    setFocusChip={setFocusChip}
+                />
               </Stack>
 
               <Stack direction="row"
