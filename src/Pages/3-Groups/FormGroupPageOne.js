@@ -178,18 +178,18 @@ export default function FormGroupPageOne() {
                         mb: 5,
                         ml: 20,
                         mr: 20,
-                        flexWrap: 'wrap', // add this property to allow flex items to wrap
+                        flexWrap: 'wrap',
                         '& > *': {
-                          flexBasis: '22%', // set a smaller width for each card
+                          flexBasis: '22%',
                           mb: 3,
                         },
-                        '@media (max-width: 1500px)': { // add a media query to change the layout
+                        '@media (max-width: 1500px)': {
                           // flexDirection: 'column',
                           '& > *': {
                             flexBasis: '45%',
                           },
                         },
-                        '@media (max-width: 800px)': { // add a media query to change the layout
+                        '@media (max-width: 800px)': {
                           flexDirection: 'column',
                           '& > *': {
                             flexBasis: '100%',

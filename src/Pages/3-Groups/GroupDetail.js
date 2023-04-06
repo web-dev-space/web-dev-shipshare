@@ -19,6 +19,8 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {Pagination} from "@mui/lab";
 import TuneIcon from '@mui/icons-material/Tune';
 import ChipGroup from "../../components/ChipGroup";
+import Image from 'mui-image'
+import backgroundImg from './background.jpg';
 
 const GroupDetailPage = () => {
   const [open, setOpen] = useState(false);
@@ -53,61 +55,113 @@ const GroupDetailPage = () => {
         <Main>
 
           <Container maxWidth="xl">
-            <Box sx={{mt: 3, mb: 5}}>
-              <Typography variant="h4">Group Detail</Typography>
+
+            {/*backgroundImg & join button*/}
+            <Box
+              sx={{height: 300, position: 'relative'}}
+            >
+              <Image
+                src={backgroundImg}
+                sx={{
+                  width: '100%',
+                  zIndex: 1,
+                  left: 0,
+                  right: 0,
+                  // mr: 5,
+                  position: 'absolute',
+                }}
+              />
+              <Box
+                sx={{
+                  display: 'float',
+                  float: 'right',
+                  my: 3,
+                  mr: 1,
+                }}
+              >
+                <Button variant="contained" color="primary">
+                  Join
+                </Button>
+              </Box>
             </Box>
 
-            <Box sx={{mb: 5}}>
-              <Card>
-
-                <Box sx={{p: 3}}>
-                  <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                    <Box sx={{display: 'flex', alignItems: 'center'}}>
-                      <Avatar sx={{width: 56, height: 56, mr: 2}} src="/static/images/avatars/1.jpg"/>
-                      <Box>
-                        <Typography variant="h5">Group Name</Typography>
-                        <Typography variant="subtitle2" color="text.secondary">Group Description</Typography>
-                      </Box>
-                    </Box>
-                    <Box>
-                      <Button variant="contained" color="primary">Edit</Button>
-                    </Box>
-                  </Box>
+            {/*avatar & group name*/}
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexDirection: 'column',
+                position: 'relative',
+              }}
+            >
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'column'
+              }}>
+                <Avatar
+                  alt="Remy Sharp"
+                  src="https://material-ui.com/static/images/avatar/1.jpg"
+                  sx={{
+                    mx: 'auto',
+                    borderWidth: 2,
+                    borderStyle: 'solid',
+                    borderColor: 'common.white',
+                    top: -64,
+                    zIndex: 2,
+                    ml: 4,
+                    width: {xs: 80, md: 128},
+                    height: {xs: 80, md: 128},
+                  }}
+                />
+                <Box
+                  sx={{
+                    mt: -5,
+                    ml: 4,
+                  }}>
+                  <Typography variant="h5">
+                    My Group
+                  </Typography>
                 </Box>
+              </Box>
+            </Box>
 
-                <Box sx={{p: 3}}>
-                  <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
 
-                    <Box sx={{display: 'flex', alignItems: 'center'}}>
-                      <Box sx={{display: 'flex', alignItems: 'center', mr: 3}}>
-                        <Iconify icon="bx:bxs-user-detail" color="primary.main" fontSize="large"/>
-                        <Box sx={{ml: 1}}>
-                          <Typography variant="h5">10</Typography>
-                          <Typography variant="subtitle2" color="text.secondary">Members</Typography>
-                        </Box>
-                      </Box>
-                      <Box sx={{display: 'flex', alignItems: 'center'}}>
-                        <Iconify icon="bx:bxs-user-detail" color="primary.main" fontSize="large"/>
-                        <Box sx={{ml: 1}}>
-                          <Typography variant="h5">10</Typography>
-                          <Typography variant="subtitle2" color="text.secondary">Members</Typography>
-                        </Box>
-                      </Box>
-                    </Box>
+            {/*group description*/}
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                my: 5,
+                ml: 10,
+                mr: 10,
+                flexWrap: 'wrap',
+                '& > *': {
+                  flexBasis: '47%',
+                  mb: 3,
+                },
+                '@media (max-width: 1200px)': {
+                  '& > *': {
+                    flexBasis: '100%',
+                  },
+                },
+              }}
 
-                    <Box>
-                      <Button variant="contained" color="primary">Edit</Button>
-                    </Box>
-                  </Box>
-                </Box>
-
-              </Card>
+            >
+              <Card
+                sx={{
+                  mb: 2,
+                  width: '48%',
+              }}>1</Card>
+              <Card
+                sx={{
+                  mb: 2,
+                  width: '48%',
+                }}>2</Card>
             </Box>
           </Container>
-
-
-
-
 
 
         </Main>
