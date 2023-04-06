@@ -143,7 +143,6 @@ export default function EnhancedTable() {
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [visibleRows, setVisibleRows] = React.useState(null);
   const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
   const [paddingHeight, setPaddingHeight] = React.useState(0);
@@ -235,10 +234,10 @@ export default function EnhancedTable() {
       const numEmptyRows =
         newPage > 0 ? Math.max(0, (1 + newPage) * rowsPerPage - rows.length) : 0;
 
-      const newPaddingHeight = (dense ? 33 : 53) * numEmptyRows;
+      const newPaddingHeight = 53 * numEmptyRows;
       setPaddingHeight(newPaddingHeight);
     },
-    [order, orderBy, dense, rowsPerPage],
+    [order, orderBy, rowsPerPage],
   );
 
   const handleChangeRowsPerPage = React.useCallback(
@@ -260,10 +259,6 @@ export default function EnhancedTable() {
     },
     [order, orderBy],
   );
-
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
 
   useEffect(() => {
     const filterTableData = () => {
@@ -302,7 +297,7 @@ export default function EnhancedTable() {
           <Table
             sx={{minWidth: 750}}
             aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
+            size={'medium'}
           >
             <MyTableHead
               order={order}
@@ -332,7 +327,14 @@ export default function EnhancedTable() {
                       </TableCell>
                       <TableCell align="left">
                         <Button variant="contained"
-                                color='info'
+                                sx={{
+                                  backgroundColor: 'white',
+                                  '&:hover': {
+                                    backgroundColor: 'white',
+                                  },
+                                  color: '#1A202C',
+                                  border: '1px solid rgba(0, 90, 100, 0.35)',
+                                }}
                         >
                           Detail</Button>
                       </TableCell>
@@ -362,10 +364,6 @@ export default function EnhancedTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense}/>}
-        label="Dense padding"
-      />
     </Box>
   );
 }
