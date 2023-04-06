@@ -20,7 +20,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 
-
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -59,7 +58,7 @@ const headCells = [
 ];
 
 const DEFAULT_ORDER = 'asc';
-const DEFAULT_ORDER_BY = 'trackingNo';
+const DEFAULT_ORDER_BY = 'joinDate';
 const DEFAULT_ROWS_PER_PAGE = 5;
 
 function MyTableHead(props) {
@@ -155,7 +154,7 @@ const FilterButtons = ({ selected, setSelected }) => {
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(1);
   const [visibleRows, setVisibleRows] = React.useState(null);
   const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
   const [paddingHeight, setPaddingHeight] = React.useState(0);
@@ -166,10 +165,10 @@ export default function EnhancedTable() {
 
   useEffect(() => {
     const initialRowsData = () => {
-      const initialRows = [
+      let initialRows = [
         {
           key: uuidv4(),
-          trackingNo: 'YT7136320603122',
+          trackingNo: 'YT6950106245135',
           route: 'Air Sensitive',
           joinDate: 'Mar 12, 2023',
           pickupAt: 'San Jose',
@@ -177,7 +176,7 @@ export default function EnhancedTable() {
         },
         {
           key: uuidv4(),
-          trackingNo: 'YT7136320603121',
+          trackingNo: 'YT7136320603122',
           route: 'Air Sensitive',
           joinDate: 'Mar 12, 2023',
           pickupAt: 'San Francisco',
@@ -185,13 +184,26 @@ export default function EnhancedTable() {
         },
         {
           key: uuidv4(),
-          trackingNo: 'YT7136320603120',
+          trackingNo: 'YT7136320603122',
           route: 'Air Sensitive',
           joinDate: 'Mar 12, 2023',
           pickupAt: 'Sunnyvale',
           status: 'Packed',
         },
       ];
+
+      const onlyForTest = () => {
+        // duplicate the rows to make the table longer
+        for (let i = 0; i < 10; i++) {
+          initialRows = initialRows.concat(JSON.parse(JSON.stringify(initialRows)));
+          // set every row's tracking number as 0, 1, 2, 3, ...
+          initialRows.forEach((row, index) => {
+            row.trackingNo = index;
+          });
+        }
+      }
+
+      // onlyForTest();
 
       setOriginalRows(initialRows);
     };
@@ -232,15 +244,25 @@ export default function EnhancedTable() {
     [rows, order, orderBy, page, rowsPerPage],
   );
 
-  const handleChangePage = React.useCallback(
-    (event, newPage) => {
-      setPage(newPage);
+  useEffect(() => {
+    const changePage = () => {
+      const newPage = page - 1;
+
+      console.debug('newPage', newPage);
+
+      console.debug('rows', rows);
 
       const sortedRows = stableSort(rows, getComparator(order, orderBy));
       const updatedRows = sortedRows.slice(
         newPage * rowsPerPage,
         newPage * rowsPerPage + rowsPerPage,
       );
+
+      console.debug('sortedRows', sortedRows);
+      console.debug('rowsPerPage', rowsPerPage);
+      console.debug('page', page);
+
+      console.debug('updatedRows', updatedRows);
 
       setVisibleRows(updatedRows);
 
@@ -249,8 +271,10 @@ export default function EnhancedTable() {
 
       const newPaddingHeight = 53 * numEmptyRows;
       setPaddingHeight(newPaddingHeight);
-    },
-    [order, orderBy, rowsPerPage],
+    }
+    changePage();
+  },
+    [page, order, orderBy, rowsPerPage],
   );
 
   const handleChangeRowsPerPage = React.useCallback(
@@ -297,6 +321,42 @@ export default function EnhancedTable() {
         return '';
     }
   }
+
+  const theme = createTheme({
+    components: {
+      MuiPaginationItem: {
+        styleOverrides: {
+          root: {
+            '&.Mui-selected': {
+              backgroundColor: '#80B213',
+              color: 'white',
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const PageNavigation = (props) => {
+
+    // get the total number of pages
+    const count = Math.ceil(rows.length / rowsPerPage);
+
+    return (
+      <ThemeProvider theme={theme}>
+        <Pagination
+          count={count}
+          page={page}
+          siblingCount={2}
+          boundaryCount={1}
+          onChange={(event, value) => { setPage(value) }}
+          showFirstButton
+          showLastButton
+        />
+      </ThemeProvider>
+    );
+  };
+
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -369,15 +429,9 @@ export default function EnhancedTable() {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        <Box sx={{ mt: 2 }}>
+          <PageNavigation />
+        </Box>
       </Paper>
     </Box>
   );
