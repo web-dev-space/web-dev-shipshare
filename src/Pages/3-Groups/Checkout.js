@@ -15,6 +15,8 @@ import {DemoContainer} from '@mui/x-date-pickers/internals/demo';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
+import {CardActions} from "@mui/material";
+import CheckoutStepTwo from "./Checkout-StepTwo";
 
 // const steps = ['Choose a Route', 'Enter Group Details', 'Done'];
 const steps = ['', '', '', ''];
@@ -307,86 +309,9 @@ export default function Checkout() {
 
 								{/*page 2*/}
 								{activeStep === 1 ? (
-									<>
-										<Box
-											sx={{
-												display: 'flex',
-												flexDirection: 'column',
-												alignItems: 'center',
-												mb: 5,
-											}}
-										>
-											<Typography
-												variant="h4"
-											>Enter Group Details</Typography>
-											<Box
-												sx={{
-													width: '35%',
-													alignItems: 'center',
-												}}
-											>
-												<Typography
-													variant="caption"
-												>Please provide accurate and comprehensive information about your group
-													to ensure the best possible experience for all members.</Typography>
-											</Box>
-										</Box>
-
-										<Box
-											component="form"
-											sx={{
-												'& .MuiTextField-root': {m: 1, width: '25ch'},
-												display: 'flex',
-												flexDirection: 'column',
-												alignItems: 'center',
-											}}
-											noValidate
-											autoComplete="off"
-										>
-											<div>
-												<TextField
-													required
-													fullWidth
-													id="outlined-required"
-													label="Group Name"
-													placeholder={'e.g. My Group'}
-
-												/></div>
-											<div>
-												<TextField
-													fullWidth
-													required
-													id="outlined-required"
-													label="Receiver's Name"
-													placeholder={'e.g. Mary Smith'}
-												/></div>
-											<div>
-												<TextField
-													required
-													fullWidth
-													id="outlined-required"
-													label="Pickup Location"
-													placeholder={'e.g. 123 Main Street, New York, NY 10001'}
-												/></div>
-											{/*<div>*/}
-											<TextField
-												required
-												id="outlined-required"
-												label="Phone Number"
-												placeholder={'e.g. 123-456-7890'}
-											/>
-											<LocalizationProvider dateAdapter={AdapterDayjs}>
-												<DatePicker label="End Date"/>
-											</LocalizationProvider>
-											{/*</div>*/}
-
-										</Box>
-
-
-									</>
+									<CheckoutStepTwo/>
 								) : (
 									<React.Fragment>
-
 									</React.Fragment>
 								)}
 
@@ -449,7 +374,7 @@ export default function Checkout() {
 									</React.Fragment>
 								)}
 
-
+								{/*page 4*/}
 								{activeStep === 3 ? (
 									<>
 										<Box
