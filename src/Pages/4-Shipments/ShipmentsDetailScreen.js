@@ -41,7 +41,11 @@ const ShipmentDetails = ({ ship }) => {
             <div style={styles.breakLine} />
             <div style={styles.ball} />
           </div> */}
-          <Divider flexItem sx={{ mt: 2 }} />
+          {/* <Divider flexItem sx={{ mt: 2, width: '80%' }} alignItems='center'/> */}
+          {/* <Divider variant="inset" ></Divider> */}
+
+          <div style={{ height: 28 }} />
+          <div style={styles.breakLine} />
 
           {/*Middle part -- contact part*/}
           <div style={styles.addressContainer}>
@@ -73,7 +77,7 @@ const ShipmentDetails = ({ ship }) => {
           <div style={styles.breakLine} />
 
           {/*Status part -- shipping status*/}
-          <div style={styles.flexRow}>
+          <Box style={styles.flexRow} display='flex'>
             <div style={styles.status1}>
               <div style={styles.statusText}>{startDate}</div>
               <div style={styles.statusLocation}>Guangzhou</div>
@@ -85,11 +89,11 @@ const ShipmentDetails = ({ ship }) => {
                 fill="#80B213"
               />
             </svg>
-            <div style={styles.status2}>
+            <Box style={styles.status2} display='flex' flexDirection='column'>
               <div style={styles.statusText}>{shipEndDate}</div>
               <div style={styles.statusLocation}>{ship?.pickupLocation?.shortAddress?.split(",")[0]}</div>
-            </div>
-          </div>
+            </Box>
+          </Box>
           <div style={{ height: 30 }} />
 
           {/*animation status*/}
@@ -147,6 +151,10 @@ const styles = {
     alignItems: 'center',
     top: -50,
     borderRadius: 10,
+    border: '1px solid #E2E8F0',
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
   },
   trackingNumberContainer: {
     width: '90%',
@@ -174,9 +182,11 @@ const styles = {
     fontFamily: FontFamily.bold,
   },
   flexRow: {
+    disply: 'flex',
     marginTop: 20,
     flexDirection: 'row',
     alignItems: 'center',
+    width: '90%',
   },
   animationStatusContainer: {
     height: 56,
