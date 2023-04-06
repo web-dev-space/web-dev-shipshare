@@ -26,7 +26,7 @@ export default function App() {
           <ThemeProvider>
             <ThemeSettings>
               <SnackbarProvider>
-                {/*---------------Main Page----------------*/}
+                {/*---------------Main Routers----------------*/}
                 <Routes>
                   <Route path="/" element={<ParcelMainPage/>} />
                   <Route path="/parcels" element={<ParcelMainPage/>} />
