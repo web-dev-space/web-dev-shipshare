@@ -37,7 +37,7 @@ const ChangePassword = () => {
               <Main>
                   <Container maxWidth={false}>
                       <Typography variant="h3" component="h1" paragraph>
-                          Account Information
+                          Calculate Fee
                       </Typography>
 
                       <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' , marginBottom: 5}}>
