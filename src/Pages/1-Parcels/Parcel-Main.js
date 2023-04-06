@@ -4,6 +4,11 @@ import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../third-party/layouts/dashboard/Main"
 import { Container, Typography, Box } from '@mui/material';
 
+import { InputBase, IconButton, Paper } from '@mui/material';
+import { Search as SearchIcon } from '@mui/icons-material';
+import SearchBar from "../../components/searchBar";
+import TwoSmallButtonGroup from "../../components/TwoSmallButtonGroup";
+
 
 const ParcelMainPage = () => {
     const [open, setOpen] = useState(false);
@@ -15,6 +20,25 @@ const ParcelMainPage = () => {
     const handleClose = () => {
         setOpen(false);
     };
+
+    // search bar
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const handleSearch = () => {
+        // search logic
+    };
+
+    const handleInputChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
+    };
+
+    // table
 
     return (
         <>
@@ -35,16 +59,34 @@ const ParcelMainPage = () => {
                         <Typography variant="h3" component="h1" paragraph>
                             My Parcels
                         </Typography>
+                    </Container>
 
-                        <Typography gutterBottom>
-                            Curabitur turpis. Vestibulum facilisis, purus nec pulvinar iaculis, ligula mi congue nunc,
-                            vitae euismod ligula urna in dolor. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit
-                            id, lorem. Phasellus blandit leo ut odio. Vestibulum ante ipsum primis in faucibus orci
-                            luctus et ultrices posuere cubilia Curae; Fusce id purus. Aliquam lorem ante, dapibus in,
-                            viverra quis, feugiat a, tellus. In consectetuer turpis ut velit. Aenean posuere, tortor
-                            sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus.
-                            Vestibulum suscipit nulla quis orci. Nam commodo suscipit quam. Sed a libero.
-                        </Typography>
+                    <Container maxWidth={false} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        {/*---Search Bar---*/}
+                        <SearchBar
+                            width={360}
+                            height={53}
+                            searchTerm={searchTerm}
+                            setSearchTerm={setSearchTerm}
+                            handleSearch={handleSearch}
+                            handleInputChange={handleInputChange}
+                            handleKeyPress={handleKeyPress}
+                        />
+
+                        {/*---button group---*/}
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <TwoSmallButtonGroup
+                                leftText="Add New"
+                                rightText="Filter"
+                                onLeftClick={() => {}}
+                                onRightClick={() => {}}
+                            />
+                        </Box>
+                    </Container>
+
+                    {/*---Table---*/}
+                    <Container maxWidth={false}>
+
 
                     </Container>
                 </Main>
