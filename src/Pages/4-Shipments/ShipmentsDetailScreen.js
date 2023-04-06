@@ -151,13 +151,12 @@ const styles = {
     fontFamily: FontFamily.regular,
   },
   topContainer: {
-    width: '90%',
+    width: '100%',
     backgroundColor: Colors.white,
     alignItems: 'center',
     top: -50,
     borderRadius: 10,
     border: '1px solid #E2E8F0',
-    alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
   },
@@ -170,6 +169,7 @@ const styles = {
     borderWidth: 2,
     borderColor: Colors.lineGray,
     textAlign: 'center',
+    alignItems: 'center',
   },
   trackingNumberText: {
     color: Colors.textGray,
