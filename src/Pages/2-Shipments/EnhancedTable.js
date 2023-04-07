@@ -1,8 +1,8 @@
 import { ToggleButton } from "@mui/lab";
 import Pagination from "@mui/lab/Pagination";
+import { Drawer, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Modal from "@mui/material/Modal";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -11,16 +11,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import Tooltip from "@mui/material/Tooltip";
 import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import OrangeChipGroup from "../../components/OrangeChipGroup";
 import ShippingDetailScreen from "./ShipmentsDetailScreen.js";
-import { Drawer } from "@mui/material";
-import ChipGroup from "../../components/ChipGroup";
-import { Stack } from "@mui/material";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -172,7 +169,7 @@ const FilterButtons = ({ selected, setSelected }) => {
   );
 };
 
-export default function EnhancedTable() {
+const EnhancedTable = () => {
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
   const [page, setPage] = React.useState(1);
@@ -419,7 +416,7 @@ export default function EnhancedTable() {
             <FilterButtons selected={selected} setSelected={setSelected} />
           </Tooltip> */}
           <Stack direction="row" spacing={2}>
-            <ChipGroup
+            <OrangeChipGroup
               chipLabelsArray={chipLabelsArray}
               setFilter={setFilter}
               focusChip={focusChip}
@@ -534,4 +531,6 @@ export default function EnhancedTable() {
       </Drawer>
     </Box>
   );
-}
+};
+
+export default EnhancedTable;
