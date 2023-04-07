@@ -18,7 +18,7 @@ import {Icon} from "@iconify/react";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {Pagination} from "@mui/lab";
 import TuneIcon from '@mui/icons-material/Tune';
-import ChipGroup from "../../components/ChipGroup";
+import OrangeChipGroup from "../../components/OrangeChipGroup";
 import Image from 'mui-image'
 import backgroundImg from './background.jpg';
 import {styled} from "@mui/material/styles";
@@ -72,6 +72,7 @@ const GroupDetailPage = () => {
             >
               <Image
                 src={backgroundImg}
+                style={{borderRadius: 20}}
                 sx={{
                   width: '100%',
                   zIndex: 1,

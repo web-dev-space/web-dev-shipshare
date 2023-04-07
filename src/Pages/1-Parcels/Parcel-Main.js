@@ -131,6 +131,7 @@ const ParcelMainPage = () => {
                         <SearchBar
                             width={360}
                             height={53}
+                            searchText="Search by Tracking Number"
                             searchTerm={searchTerm}
                             setSearchTerm={setSearchTerm}
                             handleSearch={handleSearch}

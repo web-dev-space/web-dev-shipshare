@@ -22,7 +22,7 @@ export default function SearchBar({width, height,
             {/*input text*/}
             <InputBase
                 sx={{ ml: 1, flex: 1 }}
-                placeholder="Search by Tracking Number"
+                placeholder={searchText}
                 value={searchTerm}
                 onChange={handleInputChange}
                 onKeyPress={handleKeyPress}
