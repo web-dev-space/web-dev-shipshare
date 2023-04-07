@@ -1,17 +1,13 @@
-import React from 'react';
-import { Box, Typography, IconButton, TextField, Divider } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { Box, IconButton, Typography } from '@mui/material';
+import CustomizedSteppers from "../../components/CustomizedSteppers";
+import DeliveryStatusCard from '../../components/DeliveryStatusCard';
+import ItemCard from '../../components/ItemCard.js';
+import deliveryStatus from '../../sampleData/deliveryStatus';
+import { parcelData } from '../../sampleData/parcels';
 import shipGroups from '../../sampleData/shipGroups';
-// import FontFamily from '../../styles/FontFamily';
 import Colors from '../../styles/Colors';
 import FontSizes from '../../styles/FontSizes';
-import ShippingStatusBar from '../../components/ShippingStatusBar';
-import ItemCard from '../../components/ItemCard.js';
-import { parcelData } from '../../sampleData/parcels';
-import DeliveryStatusCard from '../../components/DeliveryStatusCard';
-import deliveryStatus from '../../sampleData/deliveryStatus';
-import { borderRadius } from '@mui/system';
-import CustomizedSteppers from "../../components/CustomizedSteppers";
 
 const FontFamily = {
 }
@@ -23,7 +19,9 @@ const hintText = [
   'Time to pick up the package!',
 ]
 
-const ShipmentDetails = ({ ship }) => {
+
+
+const ShipmentDetails = ({ ship, handleClose }) => {
   if (ship === undefined) {
     ship = shipGroups[0];
   }
@@ -37,9 +35,28 @@ const ShipmentDetails = ({ ship }) => {
 
   return (
     <div>
-      <Typography variant="h6">
-        Shipment Details
-      </Typography>
+      <Box position='relative'>
+        <Typography variant="h6">
+          Shipment Details
+        </Typography>
+
+        <IconButton
+          aria-label="delete"
+          onClick={() => { handleClose() }}
+          sx={{
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            borderRadius: '50%',
+            height: 32,
+            width: 32,
+            border: '1px solid #EDF2F7',
+            padding: '8px',
+          }}>
+          <CloseIcon color='#708095' />
+        </IconButton>
+
+      </Box>
       <div style={styles.container}>
 
         {/*Top container -- tracking number part*/}
@@ -75,7 +92,6 @@ const ShipmentDetails = ({ ship }) => {
               <div style={styles.nameText}>{ship.pickupLocation.name}</div>
               <div style={styles.contactText}>{ship.phoneNumber}</div>
               <div style={styles.contactText}>{ship.pickupLocation.address}</div>
-              <div style={{ height: 50 }} />
             </div>
           </div>
 
@@ -225,8 +241,9 @@ const styles = {
   },
   addressContainer: {
     width: '90%',
-    marginTop: 20,
     position: 'relative',
+    paddingTop: 41.5,
+    paddingBottom: 49.5,
   },
   addressTitlePart: {
     flexDirection: 'row',

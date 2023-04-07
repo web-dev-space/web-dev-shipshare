@@ -2,13 +2,13 @@ import { ToggleButton } from "@mui/lab";
 import Pagination from '@mui/lab/Pagination';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Tooltip from '@mui/material/Tooltip';
@@ -17,8 +17,6 @@ import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
 import ShippingDetailScreen from './ShipmentsDetailScreen.js';
 
 function descendingComparator(a, b, orderBy) {
@@ -421,6 +419,7 @@ export default function EnhancedTable() {
                             color: '#1A202C',
                             border: '1px solid rgba(0, 90, 100, 0.35)',
                           }}
+                          onClick={() => { handleOpen() }}
                         >
                           Details</Button>
                       </TableCell>
@@ -445,7 +444,6 @@ export default function EnhancedTable() {
         </Box>
       </Paper>
 
-      <Button variant="outlined" onClick={handleOpen}>Details</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -471,7 +469,7 @@ export default function EnhancedTable() {
             m: 0,
           }}
         >
-          <ShippingDetailScreen />
+          <ShippingDetailScreen handleClose={handleClose} />
         </Box>
       </Modal>
     </Box>
