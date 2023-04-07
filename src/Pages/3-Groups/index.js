@@ -1,6 +1,6 @@
 import {Route, Router, Routes} from "react-router";
 import GroupMain from "./Group-Main";
-import FormGroup from "./FormGroupPageOne";
+import FormGroup from "./FormGroupPage";
 import GroupDetail from "./GroupDetail";
 
 
