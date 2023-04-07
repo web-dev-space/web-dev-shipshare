@@ -6,7 +6,7 @@ import DashboardLayout from '../layouts/dashboard';
 import { PATH_AFTER_LOGIN } from '../config-global';
 // screen - routes
 import ParcelMainPage from "../../Pages/1-Parcels/Parcel-Main";
-import ShipmentMainPage from "../../Pages/2-Shipments/Shipment-Main";
+import ShipmentMainPage from "../../Pages/4-Shipments/Shipment-Main";
 import GroupMainPage from "../../Pages/3-Groups/Group-Main";
 import ChangePasswordPage from "../../Pages/5-Account/Change-Password";
 
