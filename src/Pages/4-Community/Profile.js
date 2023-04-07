@@ -12,13 +12,6 @@ import {
     Tooltip,
     IconButton, TableBody, TableRow, TableCell, Avatar, TableHead, Table, Stack, Chip, Paper, CardContent
 } from '@mui/material';
-import Iconify from "../../third-party/components/iconify";
-import Scrollbar from "../../third-party/components/scrollbar";
-import {Icon} from "@iconify/react";
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import {Pagination} from "@mui/lab";
-import TuneIcon from '@mui/icons-material/Tune';
-import ChipGroup from "../../components/ChipGroup";
 import Image from 'mui-image'
 import backgroundImg from '../3-Groups/background.jpg';
 import {styled} from "@mui/material/styles";
@@ -45,11 +38,6 @@ const Profile = () => {
     const handleClose = () => {
         setOpen(false);
     };
-
-    // Filter
-    const [filter, setFilter] = useState('All');
-    const [focusChip, setFocusChip] = useState('All');
-    const chipLabelsArray = ["All", "Air Standard", "Air Sensitive", "Sea Standard", "Sea Sensitive"];
 
     // chip controller
     const [selected, setSelected] = useState(null);
@@ -100,6 +88,7 @@ const Profile = () => {
                             alignItems: 'center',
                             flexDirection: 'column',
                             position: 'relative',
+
                         }}
                       >
                           <Box sx={{
@@ -109,7 +98,7 @@ const Profile = () => {
                           }}>
                               <Avatar
                                 alt="Remy Sharp"
-                                src="https://material-ui.com/static/images/avatar/1.jpg"
+                                src="https://source.unsplash.com/random"
                                 sx={{
                                     mx: 'auto',
                                     borderWidth: 2,
@@ -127,12 +116,13 @@ const Profile = () => {
                                     flexDirection: 'column',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    mt: -2,
+                                    position: 'relative',
+                                    top: -50,
                                 }}>
                                   <Typography variant="h3" align="center">
                                       Rae
                                   </Typography>
-                                  <Typography align="center">
+                                  <Typography align="center" style={{marginTop:8, marginBottom:4}}>
                                       <strong>976</strong>{' '}
                                       <span style={{ color: 'grey', marginRight:10}}>followers</span>{' '}
                                       <strong>4587</strong>{' '}
