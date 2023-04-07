@@ -75,25 +75,6 @@ export default function UserCard({ user }) {
 				{name}
 			</Typography>
 
-			<Typography variant="body2" sx={{ color: 'text.secondary' }}>
-				{role}
-			</Typography>
-
-			{/*<Stack direction="row" alignItems="center" justifyContent="center" sx={{ mt: 1, mb: 3 }}>*/}
-			{/*	{_socials.map((social) => (*/}
-			{/*		<IconButton*/}
-			{/*			key={social.name}*/}
-			{/*			sx={{*/}
-			{/*				color: social.color,*/}
-			{/*				'&:hover': {*/}
-			{/*					bgcolor: alpha(social.color, 0.08),*/}
-			{/*				},*/}
-			{/*			}}*/}
-			{/*		>*/}
-			{/*			<Iconify icon={social.icon} />*/}
-			{/*		</IconButton>*/}
-			{/*	))}*/}
-			{/*</Stack>*/}
 			<Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, width: 120 , marginBottom:30, marginTop:10}}>
 				Follow
 			</Button>
