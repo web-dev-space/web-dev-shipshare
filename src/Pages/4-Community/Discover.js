@@ -3,6 +3,7 @@ import Header from "../../third-party/layouts/dashboard/header"
 import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../third-party/layouts/dashboard/Main"
 import { Container, Typography, Box } from '@mui/material';
+import InputCard from "../../components/InputCard"
 
 
 const Discover = () => {
@@ -53,6 +54,9 @@ const Discover = () => {
                             libero metus, condimentum nec, tempor a, commodo mollis, magna. In enim justo, rhoncus ut,
                             imperdiet a, venenatis vitae, justo. Cras dapibus.
                         </Typography>
+
+<InputCard />
+
                     </Container>
                 </Main>
                 {/*------------------------------------*/}
