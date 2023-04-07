@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import ParcelListCard from "./ParcelListCard";
+import ParcelListCard from '../1-Parcels/parcel-components/ParcelListCard';
 
 
 const parcels = [  {    name: 'Parcel 1',    image: 'https://picsum.photos/200/300',    logisticsNumber: 'LOG001',    weight: '10 kg',  },  {    name: 'Parcel 2',    image: 'https://picsum.photos/200/300',    logisticsNumber: 'LOG002',    weight: '5 kg',  },];

@@ -32,6 +32,8 @@ import {Pagination} from "@mui/lab";
 import TuneIcon from '@mui/icons-material/Tune';
 import OrangeChipGroup from "../../components/OrangeChipGroup";
 import {shipments} from "../../sampleData/shipments";
+import Checkout from "../3-Groups/Checkout";
+import {Link} from "react-router-dom";
 
 const GroupMainPage = () => {
   const [open, setOpen] = useState(false);
@@ -67,7 +69,7 @@ const GroupMainPage = () => {
     setTableData(newFilteredRows);
   }, [focusChip]);
 
-  // Filter dialog
+  // Filter dialog'../1-Parcels/parcel-components/ParcelListCard';
   const [openFilter, setOpenFilter] = useState(false);
   const handleOpenFilter = () => {
     setOpenFilter(true);
@@ -336,8 +338,10 @@ const GroupMainPage = () => {
                                     backgroundColor: '80B213',
                                     height: 45,
 
-                                  }}>
-                            Join
+                                  }} onClick={<Checkout/>}>
+                            <Link to="/groups/checkout" style={{ color: 'inherit', textDecoration: 'none' }}>
+                              Join
+                            </Link>
                           </Button>
                         </TableCell>
                         <TableCell>

@@ -174,6 +174,7 @@ const Profile = () => {
                                     height: {xs: 80, md: 128},
                                 }}
                               />
+
                               <Box
                                 sx={{
                                     display: 'flex',
