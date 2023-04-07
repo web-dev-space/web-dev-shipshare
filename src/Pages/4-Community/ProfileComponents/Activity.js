@@ -30,7 +30,7 @@ export default function Activity() {
 			content: 'Added a new task',
 		},]
 	return (
-		<Timeline align="alternate">
+		<Timeline align="alternate" style={{marginLeft:-400}}>
 			{activities.map((activity, index) => (
 				<TimelineItem key={activity.id}>
 					<TimelineSeparator>
