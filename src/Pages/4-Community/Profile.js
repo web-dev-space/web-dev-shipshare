@@ -24,6 +24,7 @@ import backgroundImg from '../3-Groups/background.jpg';
 import {styled} from "@mui/material/styles";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Activity from "./ProfileComponents/Activity";
+import UserCardsPage from "./ProfileComponents/UserCardsPage";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -172,7 +173,7 @@ const Profile = () => {
                             <Activity />
                           )}
                           {selected === 'option2' && (
-                            <Typography variant="body1">Content for option 2</Typography>
+                            <UserCardsPage />
                           )}
                           {selected === 'option3' && (
                             <Typography variant="body1">Content for option 3</Typography>
