@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 // @mui
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Card, Avatar, Divider, Typography, Stack, IconButton } from '@mui/material';
+import {Box, Card, Avatar, Divider, Typography, Stack, IconButton, Button} from '@mui/material';
 // utils
 import { fShortenNumber } from '../../../third-party/utils/formatNumber';
 // _mock
@@ -10,6 +10,7 @@ import { _socials } from '../../../third-party/_mock/arrays';
 import Image from '../../../third-party/components/image';
 import Iconify from '../../../third-party/components/iconify';
 import SvgColor from '../../../third-party/components/svg-color';
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 // ----------------------------------------------------------------------
 
@@ -78,21 +79,24 @@ export default function UserCard({ user }) {
 				{role}
 			</Typography>
 
-			<Stack direction="row" alignItems="center" justifyContent="center" sx={{ mt: 1, mb: 3 }}>
-				{_socials.map((social) => (
-					<IconButton
-						key={social.name}
-						sx={{
-							color: social.color,
-							'&:hover': {
-								bgcolor: alpha(social.color, 0.08),
-							},
-						}}
-					>
-						<Iconify icon={social.icon} />
-					</IconButton>
-				))}
-			</Stack>
+			{/*<Stack direction="row" alignItems="center" justifyContent="center" sx={{ mt: 1, mb: 3 }}>*/}
+			{/*	{_socials.map((social) => (*/}
+			{/*		<IconButton*/}
+			{/*			key={social.name}*/}
+			{/*			sx={{*/}
+			{/*				color: social.color,*/}
+			{/*				'&:hover': {*/}
+			{/*					bgcolor: alpha(social.color, 0.08),*/}
+			{/*				},*/}
+			{/*			}}*/}
+			{/*		>*/}
+			{/*			<Iconify icon={social.icon} />*/}
+			{/*		</IconButton>*/}
+			{/*	))}*/}
+			{/*</Stack>*/}
+			<Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, width: 120 , marginBottom:30, marginTop:10}}>
+				Follow
+			</Button>
 
 			<Divider sx={{ borderStyle: 'dashed' }} />
 

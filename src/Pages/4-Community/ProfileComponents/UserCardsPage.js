@@ -20,6 +20,10 @@ export default function UserCardsPage() {
 			role: 'admin',
 			status: 'active',
 			createdAt: '2020-12-20T15:24:16.000Z',
+			cover:'/static/mock-images/avatars/avatar_default.jpg',
+			follower: '1341', totalPosts:"1524",
+			avatarUrl: 'awgvqe',
+			following: '4574',
 		},
 		]
 	return (
