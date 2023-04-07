@@ -20,6 +20,7 @@ import Activity from "./ProfileComponents/Activity";
 import UserCardsPage from "./ProfileComponents/UserCardsPage";
 import GreenChipGroup from "../../components/GreenChipGroup";
 import GroupCardsPage from "./ProfileComponents/GroupCardsPage";
+import PostCard from "./Discover/post-components/PostCard";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -50,6 +51,58 @@ const Profile = () => {
   const chipLabelsArray = ['Activity', 'Posts', 'Formed Group', 'Joined Group','Following', 'Followers'];
   const [filter, setFilter] = useState('Posts');
   const [focusChip, setFocusChip] = useState('Posts');
+
+
+  const examplePosts = [{
+    title: "ShipShare is the Best Shipping Platform!",
+    post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+    author: "Joe Doe",
+    date: new Date("2021-08-01"),
+    image: "https://source.unsplash.com/random",
+    commentsNumber: 1910,
+    viewsNumber: 8820,
+    repostsNumber: 7460,
+  },
+    {
+      title: "ShipShare is the Best Shipping Platform!",
+      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+      author: "Joe Doe",
+      date: new Date("2021-08-01"),
+      image: "https://source.unsplash.com/random",
+      commentsNumber: 1910,
+      viewsNumber: 8820,
+      repostsNumber: 7460,
+    },
+    {
+      title: "ShipShare is the Best Shipping Platform!",
+      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+      author: "Joe Doe",
+      date: new Date("2021-08-01"),
+      image: "https://source.unsplash.com/random",
+      commentsNumber: 1910,
+      viewsNumber: 8820,
+      repostsNumber: 7460,
+    },
+    {
+      title: "ShipShare is the Best Shipping Platform!",
+      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+      author: "Joe Doe",
+      date: new Date("2021-08-01"),
+      image: "https://source.unsplash.com/random",
+      commentsNumber: 1910,
+      viewsNumber: 8820,
+      repostsNumber: 7460,
+    },
+    {
+      title: "ShipShare is the Best Shipping Platform!",
+      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+      author: "Joe Doe",
+      date: new Date("2021-08-01"),
+      image: "https://source.unsplash.com/random",
+      commentsNumber: 1910,
+      viewsNumber: 8820,
+      repostsNumber: 7460,
+    }];
 
     return (
       <>
@@ -168,7 +221,7 @@ const Profile = () => {
                         {/*  onClick={() => handleChipClick('option3')}*/}
                         {/*/>*/}
                       </div>
-                      <Card style={{marginTop:10}}>
+                      <div style={{marginTop:10}}>
                         {/*'Activity', 'Posts', 'Formed Group', 'Joined Group','Following', 'Followers'*/}
                         <CardContent>
                           {focusChip === 'Activity' && (
@@ -186,8 +239,27 @@ const Profile = () => {
                           {focusChip === 'Joined Group' && (
                             <GroupCardsPage />
                           )}
+                          {focusChip === 'Posts' && (
+                            <div style={{
+                            display: 'flex',
+                            flexDirection:'column',
+                            gap: 16 }}>
+                          {examplePosts.map((examplePost) => (
+                            <PostCard
+                            title={examplePost.title}
+                            post={examplePost.post}
+                            author={examplePost.author}
+                            date={examplePost.date}
+                            image={examplePost.image}
+                            commentsNumber={examplePost.commentsNumber}
+                            viewsNumber={examplePost.viewsNumber}
+                            repostsNumber={examplePost.repostsNumber} />
+                            ))}
+                            </div>
+                          )}
+
                         </CardContent>
-                      </Card>
+                      </div>
 
                   </Container>
 
