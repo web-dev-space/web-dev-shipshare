@@ -11,6 +11,7 @@ import { parcelData } from '../../sampleData/parcels';
 import DeliveryStatusCard from '../../components/DeliveryStatusCard';
 import deliveryStatus from '../../sampleData/deliveryStatus';
 import { borderRadius } from '@mui/system';
+import CustomizedSteppers from "../../components/CustomizedSteppers";
 
 const FontFamily = {
 }
@@ -32,6 +33,8 @@ const ShipmentDetails = ({ ship }) => {
   const shipEndDate = '2021-08-01';
   const startDate = '2021-07-01';
 
+  const activeStep = 2;
+
   return (
     <div>
       <Typography variant="h6">
@@ -45,14 +48,6 @@ const ShipmentDetails = ({ ship }) => {
             <div style={styles.trackingNumberText}>Tracking Number</div>
             <div style={styles.trackingNumber}>{ship.trackingNumber || "No Tracking Number Yet"}</div>
           </div>
-
-          {/* <div style={styles.flexRow}>
-            <div style={styles.ball} />
-            <div style={styles.breakLine} />
-            <div style={styles.ball} />
-          </div> */}
-          {/* <Divider flexItem sx={{ mt: 2, width: '80%' }} alignItems='center'/> */}
-          {/* <Divider variant="inset" ></Divider> */}
 
           <div style={{ height: 28 }} />
           <div style={styles.breakLine} />
@@ -109,10 +104,7 @@ const ShipmentDetails = ({ ship }) => {
           {/*animation status*/}
           <div style={styles.shippingText}>{hintText[ship.phaseNumber]}</div>
           <div style={styles.animationStatusContainer}>
-            {/* <ShippingStatusBar
-              phaseNumber={ship.phaseNumber}
-              animationWidth={width - 32 * 2 - 10} /> */}
-            <></>
+            <CustomizedSteppers activeStep={ship.phaseNumber} />
           </div>
         </div>
 
@@ -209,9 +201,10 @@ const styles = {
     justifyContent: 'center',
   },
   animationStatusContainer: {
-    height: 56,
+    // height: 56,
     marginTop: 8,
     alignItems: 'center',
+    paddingBottom: 20,
   },
   ball: {
     width: 50,
