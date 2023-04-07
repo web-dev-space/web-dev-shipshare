@@ -1,0 +1,17 @@
+:root {
+  --white: #fff;
+  --blackText: #212121;
+  --black: #141312;
+  --darkGrayBlack: #444444;
+  --lightGray: #f7f7f7;
+  --lineGray: #eeeeee;
+  --textGray: #898989;
+  --gray: #9e9e9e;
+  --backgroundGray: #e5e5e5;
+  --detailBackgroundGray: #f2f2f2;
+  --buttonDarkGreen: #80b213;
+  --labelLightGreen: #a9d250;
+  --profileBackgroundGreen: rgba(169, 210, 80, 0.2);
+  --statusOrange: #f9c662;
+  --textOrange: #eebd5e;
+}

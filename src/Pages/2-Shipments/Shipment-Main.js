@@ -1,8 +1,8 @@
-import {useState} from "react";
-import Header from "../../third-party/layouts/dashboard/header/index.js"
-import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical.js"
-import Main from "../../third-party/layouts/dashboard/Main.js"
-import {Container, Typography, Box} from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
+import { useState } from "react";
+import Main from "../../third-party/layouts/dashboard/Main.js";
+import Header from "../../third-party/layouts/dashboard/header/index.js";
+import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical.js";
 import EnhancedTable from "./EnhancedTable.js";
 
 
@@ -19,16 +19,16 @@ const ShipmentMainPage = () => {
 
   return (
     <>
-      <Header onOpenNav={handleOpen}/>
+      <Header onOpenNav={handleOpen} />
       {/*-------Box is the layout of the whole page-----*/}
       <Box
         sx={{
-          display: {lg: 'flex'},
-          minHeight: {lg: 1},
+          display: { lg: 'flex' },
+          minHeight: { lg: 1 },
         }}
       >
         {/*--------------Navigation bar------------------*/}
-        <NavVertical openNav={open} onCloseNav={handleClose}/>
+        <NavVertical openNav={open} onCloseNav={handleClose} />
 
         {/*--------------Main Content----------------------*/}
         <Main>
@@ -36,7 +36,7 @@ const ShipmentMainPage = () => {
             <Typography variant="h4" component="h1" paragraph>
               Shipments
             </Typography>
-            <EnhancedTable/>
+            <EnhancedTable />
           </Container>
         </Main>
         {/*------------------------------------*/}
