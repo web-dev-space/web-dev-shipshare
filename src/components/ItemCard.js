@@ -38,14 +38,14 @@ const ItemCard = ({ items, leftCornerIconColor, title }) => {
         items.map((item, index) =>
           <div style={{ marginLeft: 20, marginVertical: 10 }}>
             <div style={{ flexDirection: 'row' }}>
-              {/* <image
+              <image
                 style={styles.tinyLogo}
                 source={
                   item.picture ?
                     { uri: item.picture } :
-                    require('../../assets/images/placeholder.png')
+                    require(' /images/placeholder.png')
                 }
-              /> */}
+              />
               <div style={styles.itemContainer}>
                 <div style={styles.itemTitle}>{item.name}</div>
                 <div style={styles.itemNumber}>{item.trackingNumber}</div>
@@ -86,6 +86,7 @@ const styles = {
     fontFamily: FontFamily.regular,
   },
   deliveryBar: {
+    display: 'flex',
     flexDirection: 'row',
     marginTop: 20,
     marginLeft: 20,

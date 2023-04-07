@@ -124,9 +124,9 @@ const ShipmentDetails = ({ ship }) => {
 
         {/*Detail items list*/}
         <div style={{ marginTop: ship.phaseNumber >= 2 ? 30 : -10, width: '90%' }}>
-          {/* <ItemCard leftCornerIconColor={"#F9C662"}
+          <ItemCard leftCornerIconColor={"#F9C662"}
             items={parcelData}
-            title={"Items Included"}/> */}
+            title={"Items Included"}/>
         </div>
       </div>
 
