@@ -45,26 +45,33 @@ const DeliveryStatusCard = ({ deliveryStatus }) => {
               </svg>}
           </div> */}
 
-
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{ position: 'relative', background: 'rgba(249, 198, 98, 0.1)', borderRadius: '50%', width: 18, height: 18 }}>
-              <div style={{ position: 'absolute', top: 5, left: 5, background: index===0?'#F9C662':'rgba(249, 198, 98, 0.2)', borderRadius: '50%', width: 8, height: 8 }} />
-            </div>
-            <div
-              style={{
-                width: 2,
-                height: index === deliveryStatus.length - 1 ? 0 : 'calc(100% - 18px)',
-                marginTop: 3,
-                background: '#EAEAEA',
-              }}
-            />
-          </div>
-
-          <div style={{ marginLeft: 10, flexShrink: 1, paddingBottom: 12, width: '100%'}}>
+          <div style={{ marginLeft: 28, flexShrink: 1, paddingBottom: 12, width: '100%', position: 'relative'}}>
             <div numberOfLines={1} style={index === 0 ? styles.deliveryTextCurrent : styles.deliveryText}>{item.StatusDescription}</div>
             <div style={styles.deliveryDateText}>{item.Date}</div>
             {index !== deliveryStatus.length - 1 && <div style={styles.breakDeliveryLine} />}
+
+            {index === 0 && <div style={{ position: 'absolute', left:-28, top: 0, background: 'rgba(249, 198, 98, 0.1)', borderRadius: '50%', width: 18, height: 18 }}>
+              <div style={{ position: 'absolute', top: 5, left: 5, background: index===0?'#F9C662':'rgba(249, 198, 98, 0.2)', borderRadius: '50%', width: 8, height: 8 }} />
+            </div>}
+
+            {index !== 0 && <div style={{ position: 'absolute' ,left:-23, top: 4, background: '#EAEAEA', borderRadius: '50%', width: 8, height: 8 }}>
+              </div>}
+
+            {index !== deliveryStatus.length - 1 && <div
+              style={{width: 2,
+                // height: index === deliveryStatus.length - 1 ? 0 : 'calc(100% - 18px)',
+                height: '100%', left: -20, top: 13, background: '#EAEAEA', position: 'absolute',
+              }}
+            />}
           </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'absolute' }}>
+
+
+
+          </div>
+
+
         </div>
       )}
 
