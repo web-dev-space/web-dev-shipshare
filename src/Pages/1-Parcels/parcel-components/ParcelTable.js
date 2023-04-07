@@ -7,8 +7,8 @@ import {
     useGridApiContext,
     useGridSelector
 } from "@mui/x-data-grid";
-import { OutlinedOrangeButton, OriginalOrangeButton, DisabledOrangeButton } from "./TableButtons";
-import {OutlinedGreenButton} from "./TableButtons";
+import { OutlinedOrangeButton, OriginalOrangeButton, DisabledOrangeButton } from "../../../components/TableButtons";
+import {OutlinedGreenButton} from "../../../components/TableButtons";
 import {Box, TablePaginationProps, Typography} from "@mui/material";
 import MuiPagination from '@mui/material/Pagination';
 import './ParcelTable.css';

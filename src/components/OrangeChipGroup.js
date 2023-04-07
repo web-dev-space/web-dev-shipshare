@@ -1,7 +1,7 @@
 import {Chip} from "@mui/material";
 
 
-function ChipGroup ({chipLabelsArray, setFilter, focusChip, setFocusChip}) {
+function OrangeChipGroup ({chipLabelsArray, setFilter, focusChip, setFocusChip}) {
     return (
         <div>
             {chipLabelsArray.map((label) => (
@@ -22,4 +22,4 @@ function ChipGroup ({chipLabelsArray, setFilter, focusChip, setFocusChip}) {
         </div>
     )
 }
-export default ChipGroup;
+export default OrangeChipGroup;
