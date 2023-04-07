@@ -37,19 +37,19 @@ const ItemCard = ({ items, leftCornerIconColor, title }) => {
       {items &&
         items.map((item, index) =>
           <div style={{ marginLeft: 20, marginVertical: 10 }}>
-            <div style={{ flexDirection: 'row' }}>
-              <image
+            <div style={{ flexDirection: 'row', display: 'flex', marginBottom: 20 }}>
+              <img
                 style={styles.tinyLogo}
-                source={
+                src={
                   item.picture ?
-                    { uri: item.picture } :
-                    require(' /images/placeholder.png')
+                    item.picture :
+                    require('../images/placeholder.png')
                 }
               />
               <div style={styles.itemContainer}>
                 <div style={styles.itemTitle}>{item.name}</div>
                 <div style={styles.itemNumber}>{item.trackingNumber}</div>
-                <div style={styles.itemTitle}>{item.weight} kg</div>
+                {item.weight && <div style={styles.itemTitle}>{item.weight} kg</div>}
               </div>
             </div>
           </div>
@@ -66,7 +66,6 @@ const styles = {
   bottomContainer: {
     backgroundColor: Colors.white,
     borderRadius: 10,
-    marginVertical: 10,
   },
   itemContainer: {
     marginLeft: 10,

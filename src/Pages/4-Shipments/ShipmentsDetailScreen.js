@@ -123,11 +123,16 @@ const ShipmentDetails = ({ ship }) => {
         }
 
         {/*Detail items list*/}
-        <div style={{ marginTop: ship.phaseNumber >= 2 ? 30 : -10, width: '90%' }}>
+        <Box style={{
+          border: '1px solid rgb(226, 232, 240)',
+          borderRadius: 10,
+          marginTop: 40,
+          padding: 20,
+        }}>
           <ItemCard leftCornerIconColor={"#F9C662"}
             items={parcelData}
-            title={"Items Included"}/>
-        </div>
+            title={"Items Included"} />
+        </Box>
       </div>
 
 
