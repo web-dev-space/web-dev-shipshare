@@ -41,7 +41,7 @@ const Comment = ({name, date, content}) => {
             display: 'flex', flexDirection: 'row',
             alignItems: 'center',
             marginTop: 32, marginBottom: 32}}>
-            <Avatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_1.jpg" sx={{ width: 48, height: 48 }} />
+            <Avatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_1.jpg" sx={{ width: 48, height: 48, mb: 'auto' }} />
             <div style={{ marginLeft: 16}}>
                 <div style={{
                     fontSize: 16,
@@ -50,7 +50,7 @@ const Comment = ({name, date, content}) => {
                     {name}
                 </div>
                 <div style={{
-                    fontSize: 12,
+                    fontSize: 13,
                     color: '#929191'
                 }}>
                     {new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(date))}
@@ -123,18 +123,19 @@ const PostDetails = () => {
                             <Typography variant="h2" gutterBottom style={{ color: 'white'}}>
                                 {post.title}
                             </Typography>
+
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 80}}>
                                 <Avatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_1.jpg" sx={{ width: 48, height: 48 }} />
                                 <div style={{ marginLeft: 8}}>
                                     <div style={{
-                                        fontSize: 14,
+                                        fontSize: 16,
                                         fontWeight: 600,
                                         color: "white"
                                     }}>
                                         {post.author}
                                     </div>
                                     <div style={{
-                                        fontSize: 14,
+                                        fontSize: 13,
                                         color: '#929191'
                                     }}>
                                         {new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(post.date))}
