@@ -18,7 +18,7 @@ import {Icon} from "@iconify/react";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {Pagination} from "@mui/lab";
 import TuneIcon from '@mui/icons-material/Tune';
-import ChipGroup from "../../components/ChipGroup";
+import OrangeChipGroup from "../../components/OrangeChipGroup";
 
 const GroupMainPage = () => {
   const [open, setOpen] = useState(false);
@@ -62,7 +62,7 @@ const GroupMainPage = () => {
               sx={{justifyContent: 'space-between', width: '100%'}}
             >
               <Stack direction="row" spacing={2}>
-                <ChipGroup
+                <OrangeChipGroup
                   chipLabelsArray={chipLabelsArray}
                   setFilter={setFilter}
                   focusChip={focusChip}

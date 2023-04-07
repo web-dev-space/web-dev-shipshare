@@ -8,7 +8,7 @@ import { MotionLazyContainer } from './third-party/components/animate';
 import ScrollToTop from './third-party/components/scroll-to-top';
 
 import ParcelMainPage from "./Pages/1-Parcels/Parcel-Main";
-import ShipmentMainPage from "./Pages/4-Shipments/Shipment-Main.js";
+import ShipmentMainPage from "./Pages/2-Shipments/Shipment-Main.js";
 import {Route, Routes} from "react-router";
 import {Group} from "./Pages/3-Groups";
 import {Account} from "./Pages/5-Account";
