@@ -9,7 +9,7 @@ import Header from "../../third-party/layouts/dashboard/header";
 import {useState} from "react";
 import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical";
 import Main from "../../third-party/layouts/dashboard/Main"
-import {Card, CardContent, Grid} from "@mui/material";
+import {Card, CardContent, Container, Grid, Stack} from "@mui/material";
 import TextField from '@mui/material/TextField';
 import {DemoContainer} from '@mui/x-date-pickers/internals/demo';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
@@ -87,7 +87,17 @@ export default function FormGroupPageOne() {
         {/*--------------Navigation bar------------------*/}
         <NavVertical openNav={open} onCloseNav={handleClose}/>
         <Main>
-          <Box sx={{width: '100%', alignItems: 'center'}}>
+          <Container
+            maxWidth="xl"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}>
+          <Box sx={{
+            width: '100%',
+            alignItems: 'center',
+          }}>
             <Stepper
               activeStep={activeStep}
 
@@ -168,18 +178,18 @@ export default function FormGroupPageOne() {
                         mb: 5,
                         ml: 20,
                         mr: 20,
-                        flexWrap: 'wrap', // add this property to allow flex items to wrap
+                        flexWrap: 'wrap',
                         '& > *': {
-                          flexBasis: '22%', // set a smaller width for each card
+                          flexBasis: '22%',
                           mb: 3,
                         },
-                        '@media (max-width: 1500px)': { // add a media query to change the layout
+                        '@media (max-width: 1500px)': {
                           // flexDirection: 'column',
                           '& > *': {
                             flexBasis: '45%',
                           },
                         },
-                        '@media (max-width: 800px)': { // add a media query to change the layout
+                        '@media (max-width: 800px)': {
                           flexDirection: 'column',
                           '& > *': {
                             flexBasis: '100%',
@@ -344,31 +354,31 @@ export default function FormGroupPageOne() {
                       noValidate
                       autoComplete="off"
                     >
-                      <div>
+                      <Stack>
                         <TextField
                           required
-                          fullWidth
+                          fullWidth={true}
                           id="outlined-required"
                           label="Group Name"
                           placeholder={'e.g. My Group'}
 
-                        /></div>
-                      <div>
+                        /></Stack>
+                      <Stack>
                         <TextField
-                          fullWidth
+                          fullWidth={true}
                           required
                           id="outlined-required"
                           label="Receiver's Name"
                           placeholder={'e.g. Mary Smith'}
-                        /></div>
-                      <div>
+                        /></Stack>
+                      <Stack>
                         <TextField
                           required
-                          fullWidth
+                          fullWidth={true}
                           id="outlined-required"
                           label="Pickup Location"
                           placeholder={'e.g. 123 Main Street, New York, NY 10001'}
-                        /></div>
+                        /></Stack>
                       {/*<div>*/}
                       <TextField
                         required
@@ -377,7 +387,7 @@ export default function FormGroupPageOne() {
                         placeholder={'e.g. 123-456-7890'}
                       />
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker label="End Date"/>
+                        <DatePicker label="End Date" required/>
                       </LocalizationProvider>
                       {/*</div>*/}
 
@@ -568,6 +578,7 @@ export default function FormGroupPageOne() {
               </React.Fragment>
             )}
           </Box>
+          </Container>
         </Main>
       </Box>
     </>
