@@ -337,11 +337,8 @@ const GroupMainPage = () => {
                                     borderRadius: 5,
                                     backgroundColor: '80B213',
                                     height: 45,
-
-                                  }} onClick={<Checkout/>}>
-                            <Link to="/groups/checkout" style={{ color: 'inherit', textDecoration: 'none' }}>
+                                  }} href="/groups/checkout">
                               Join
-                            </Link>
                           </Button>
                         </TableCell>
                         <TableCell>
