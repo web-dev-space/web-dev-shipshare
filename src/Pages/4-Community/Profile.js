@@ -104,6 +104,12 @@ const Profile = () => {
       repostsNumber: 7460,
     }];
 
+  const [follow, setFollow] = useState(false);
+  const handleFollow = () => {
+    setFollow(!follow);
+  };
+
+
     return (
       <>
           <Header onOpenNav={handleOpen}/>
@@ -133,7 +139,6 @@ const Profile = () => {
                                 zIndex: 1,
                                 left: 0,
                                 right: 0,
-                                // mr: 5,
                                 position: 'absolute',
                             }}
                           />
@@ -187,12 +192,23 @@ const Profile = () => {
                                       <strong>4587</strong>{' '}
                                       <span style={{ color: 'grey' }}>following</span>{' '}
                                   </Typography>
-                                  <Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }}>
+
+                                {!follow && (
+                                  <Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
                                       <IconButton edge="start" color="inherit" aria-label="menu">
                                           <PersonAddIcon />
                                       </IconButton>
                                       Follow
-                                  </Button>
+                                  </Button> )}
+                                {follow && (
+                                  <Button variant="outlined" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
+                                      <IconButton edge="start" color="inherit" aria-label="menu">
+                                          <PersonAddIcon />
+                                      </IconButton>
+                                      Unfollow
+                                  </Button>)}
+
+
                               </Box>
                           </Box>
                       </Box>
@@ -204,25 +220,10 @@ const Profile = () => {
                                         focusChip={focusChip}
                                         setFilter={setFilter}
                                         setFocusChip={setFocusChip}/>
-
-                        {/*<Chip*/}
-                        {/*  label="Option 1"*/}
-                        {/*  color={selected === 'option1' ? 'primary' : 'default'}*/}
-                        {/*  onClick={() => handleChipClick('option1')}*/}
-                        {/*/>*/}
-                        {/*<Chip*/}
-                        {/*  label="Option 2"*/}
-                        {/*  color={selected === 'option2' ? 'primary' : 'default'}*/}
-                        {/*  onClick={() => handleChipClick('option2')}*/}
-                        {/*/>*/}
-                        {/*<Chip*/}
-                        {/*  label="Option 3"*/}
-                        {/*  color={selected === 'option3' ? 'primary' : 'default'}*/}
-                        {/*  onClick={() => handleChipClick('option3')}*/}
-                        {/*/>*/}
                       </div>
+
+                      {/*content*/}
                       <div style={{marginTop:10}}>
-                        {/*'Activity', 'Posts', 'Formed Group', 'Joined Group','Following', 'Followers'*/}
                         <CardContent>
                           {focusChip === 'Activity' && (
                             <Activity />
@@ -257,7 +258,6 @@ const Profile = () => {
                             ))}
                             </div>
                           )}
-
                         </CardContent>
                       </div>
 
