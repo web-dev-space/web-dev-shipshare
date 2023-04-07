@@ -65,7 +65,7 @@ const Profile = () => {
                     {/*head part*/}
                       {/*backgroundImg*/}
                       <Box
-                        sx={{height: 300, position: 'relative'}}
+                        sx={{height: 250, position: 'relative'}}
                       >
                           <Image
                             src={backgroundImg}
