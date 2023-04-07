@@ -19,6 +19,8 @@ import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import ShippingDetailScreen from "./ShipmentsDetailScreen.js";
 import { Drawer } from "@mui/material";
+import ChipGroup from "../../components/ChipGroup";
+import { Stack } from "@mui/material";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -118,7 +120,14 @@ MyTableHead.propTypes = {
   orderBy: PropTypes.string.isRequired,
 };
 
-const filterStrings = ["All", "Arrived", "Shipping", "Packed", "Order Placed"];
+const chipLabelsArray = [
+  "All",
+  "Arrived",
+  "Shipping",
+  "Packed",
+  "Order Placed",
+  "Order Created",
+];
 
 const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
   "&.MuiToggleButton-root": {
@@ -149,7 +158,7 @@ const FilterButtons = ({ selected, setSelected }) => {
 
   return (
     <Box display="flex" justifyContent="flex-start" flexWrap="wrap">
-      {filterStrings.map((filter, index) => (
+      {chipLabelsArray.map((filter, index) => (
         <StyledToggleButton
           selected={selected === filter}
           onChange={(event) => handleFilterChange(event, filter)}
@@ -170,7 +179,8 @@ export default function EnhancedTable() {
   const [visibleRows, setVisibleRows] = React.useState(null);
   const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
   const [paddingHeight, setPaddingHeight] = React.useState(0);
-  const [selected, setSelected] = useState("All");
+  const [filter, setFilter] = useState("All");
+  const [focusChip, setFocusChip] = useState("All");
 
   const [originalRows, setOriginalRows] = React.useState([]);
   const [rows, setRows] = useState([]);
@@ -211,6 +221,22 @@ export default function EnhancedTable() {
           joinDate: "Mar 12, 2023",
           pickupLocation: "Sunnyvale",
           status: "Packed",
+        },
+        {
+          key: uuidv4(),
+          trackingNumber: "YT7136320603122",
+          shipRoute: "Air Sensitive",
+          joinDate: "Mar 12, 2023",
+          pickupLocation: "Sunnyvale",
+          status: "Order Placed",
+        },
+        {
+          key: uuidv4(),
+          trackingNumber: "YT7136320603122",
+          shipRoute: "Air Sensitive",
+          joinDate: "Mar 12, 2023",
+          pickupLocation: "Sunnyvale",
+          status: "Order Created",
         },
       ];
 
@@ -301,7 +327,7 @@ export default function EnhancedTable() {
       setPaddingHeight(newPaddingHeight);
     };
     changePage();
-  }, [page, order, orderBy, rowsPerPage]);
+  }, [rows, page, order, orderBy, rowsPerPage]);
 
   const handleChangeRowsPerPage = React.useCallback(
     (event) => {
@@ -326,13 +352,11 @@ export default function EnhancedTable() {
   useEffect(() => {
     const filterTableData = () => {
       setRows(
-        originalRows.filter(
-          (row) => row.status === selected || selected === "All"
-        )
+        originalRows.filter((row) => row.status === filter || filter === "All")
       );
     };
     filterTableData();
-  }, [originalRows, selected]);
+  }, [originalRows, filter]);
 
   function getStatusColor(row) {
     switch (row?.status?.toLowerCase()) {
@@ -391,10 +415,19 @@ export default function EnhancedTable() {
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <Box sx={{ mb: 2 }}>
-          <Tooltip title="Filter list">
+          {/* <Tooltip title="Filter list">
             <FilterButtons selected={selected} setSelected={setSelected} />
-          </Tooltip>
+          </Tooltip> */}
+          <Stack direction="row" spacing={2}>
+            <ChipGroup
+              chipLabelsArray={chipLabelsArray}
+              setFilter={setFilter}
+              focusChip={focusChip}
+              setFocusChip={setFocusChip}
+            />
+          </Stack>
         </Box>
+
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
