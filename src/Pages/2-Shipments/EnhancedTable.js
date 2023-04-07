@@ -169,7 +169,7 @@ const FilterButtons = ({ selected, setSelected }) => {
   );
 };
 
-const EnhancedTable = () => {
+const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
   const [page, setPage] = React.useState(1);
@@ -179,7 +179,11 @@ const EnhancedTable = () => {
   const [filter, setFilter] = useState("All");
   const [focusChip, setFocusChip] = useState("All");
 
-  const [originalRows, setOriginalRows] = React.useState([]);
+  // const [originalRows, setOriginalRows] = React.useState([]);
+
+  const originalRows = shipGroups;
+  const setOriginalRows = setShipGroups;
+
   const [rows, setRows] = useState([]);
 
   const [open, setOpen] = useState(false);
@@ -253,9 +257,10 @@ const EnhancedTable = () => {
       // onlyForTest();
 
       setOriginalRows(initialRows);
+
     };
 
-    initialRowsData();
+    // initialRowsData();
   }, []);
 
   useEffect(() => {
