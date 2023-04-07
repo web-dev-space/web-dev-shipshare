@@ -9,7 +9,7 @@ import {Add as AddIcon} from "@mui/icons-material";
 import Stack from "@mui/material/Stack";
 import SearchBar from "../../../components/searchBar";
 import GreenChipGroup from "../../../components/GreenChipGroup";
-import PostCard from "../post-components/PostCard";
+import PostCard from "./post-components/PostCard";
 import backgroundImg from "../../3-Groups/background.jpg";
 import Image from "mui-image";
 import {Pagination} from "@mui/lab";
