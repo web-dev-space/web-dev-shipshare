@@ -18,6 +18,8 @@ import {styled} from "@mui/material/styles";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Activity from "./ProfileComponents/Activity";
 import UserCardsPage from "./ProfileComponents/UserCardsPage";
+import GreenChipGroup from "../../components/GreenChipGroup";
+import GroupCardsPage from "./ProfileComponents/GroupCardsPage";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -44,6 +46,10 @@ const Profile = () => {
     const handleChipClick = (value) => {
       setSelected(value);
     };
+
+  const chipLabelsArray = ['Activity', 'Posts', 'Formed Group', 'Joined Group','Following', 'Followers'];
+  const [filter, setFilter] = useState('Posts');
+  const [focusChip, setFocusChip] = useState('Posts');
 
     return (
       <>
@@ -141,32 +147,44 @@ const Profile = () => {
 
                       {/*bottom part*/}
                       <div style={{ display: 'flex', gap: '8px' }}>
-                        <Chip
-                          label="Option 1"
-                          color={selected === 'option1' ? 'primary' : 'default'}
-                          onClick={() => handleChipClick('option1')}
-                        />
-                        <Chip
-                          label="Option 2"
-                          color={selected === 'option2' ? 'primary' : 'default'}
-                          onClick={() => handleChipClick('option2')}
-                        />
-                        <Chip
-                          label="Option 3"
-                          color={selected === 'option3' ? 'primary' : 'default'}
-                          onClick={() => handleChipClick('option3')}
-                        />
+                        <GreenChipGroup chipLabelsArray={chipLabelsArray}
+                                        focusChip={focusChip}
+                                        setFilter={setFilter}
+                                        setFocusChip={setFocusChip}/>
+
+                        {/*<Chip*/}
+                        {/*  label="Option 1"*/}
+                        {/*  color={selected === 'option1' ? 'primary' : 'default'}*/}
+                        {/*  onClick={() => handleChipClick('option1')}*/}
+                        {/*/>*/}
+                        {/*<Chip*/}
+                        {/*  label="Option 2"*/}
+                        {/*  color={selected === 'option2' ? 'primary' : 'default'}*/}
+                        {/*  onClick={() => handleChipClick('option2')}*/}
+                        {/*/>*/}
+                        {/*<Chip*/}
+                        {/*  label="Option 3"*/}
+                        {/*  color={selected === 'option3' ? 'primary' : 'default'}*/}
+                        {/*  onClick={() => handleChipClick('option3')}*/}
+                        {/*/>*/}
                       </div>
                       <Card style={{marginTop:10}}>
+                        {/*'Activity', 'Posts', 'Formed Group', 'Joined Group','Following', 'Followers'*/}
                         <CardContent>
-                          {selected === 'option1' && (
+                          {focusChip === 'Activity' && (
                             <Activity />
                           )}
-                          {selected === 'option2' && (
+                          {focusChip === 'Following' && (
                             <UserCardsPage />
                           )}
-                          {selected === 'option3' && (
-                            <Typography variant="body1">Content for option 3</Typography>
+                          {focusChip === 'Followers' && (
+                            <UserCardsPage />
+                          )}
+                          {focusChip === 'Formed Group' && (
+                            <GroupCardsPage />
+                          )}
+                          {focusChip === 'Joined Group' && (
+                            <GroupCardsPage />
                           )}
                         </CardContent>
                       </Card>
