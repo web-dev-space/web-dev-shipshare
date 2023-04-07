@@ -94,7 +94,7 @@ const styles = {
   deliveryBarText: {
     marginLeft: 10,
     color: Colors.darkGrayBlack,
-    fontSize: FontSizes.groupCardText,
+    fontSize: 14,
     fontFamily: FontFamily.regular,
   },
   deliveryTextCurrent: {

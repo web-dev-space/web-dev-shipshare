@@ -143,7 +143,6 @@ const ShipmentDetails = ({ ship, handleClose }) => {
           border: '1px solid rgb(226, 232, 240)',
           borderRadius: 10,
           marginTop: 40,
-          padding: 20,
         }}>
           <ItemCard leftCornerIconColor={"#F9C662"}
             items={parcelData}
