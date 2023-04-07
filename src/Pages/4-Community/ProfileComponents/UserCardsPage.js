@@ -28,7 +28,6 @@ export default function UserCardsPage() {
 	return (
 		<>
 			<Container maxWidth={themeStretch ? false : 'lg'}>
-
 				<Box
 					gap={3}
 					display="grid"

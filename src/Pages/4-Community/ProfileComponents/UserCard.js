@@ -11,6 +11,7 @@ import Image from '../../../third-party/components/image';
 import Iconify from '../../../third-party/components/iconify';
 import SvgColor from '../../../third-party/components/svg-color';
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import {useState} from "react";
 
 // ----------------------------------------------------------------------
 
@@ -31,7 +32,11 @@ UserCard.propTypes = {
 };
 
 export default function UserCard({ user }) {
-	const { name, cover, role, follower, totalPosts, avatarUrl, following } = user;
+	const { name, cover, follower, totalPosts, avatarUrl, following } = user;
+	const [follow, setFollow] = useState(false);
+	const handleFollow = () => {
+		setFollow(!follow);
+	};
 
 	return (
 		<Card sx={{ textAlign: 'center' }}>
@@ -75,9 +80,17 @@ export default function UserCard({ user }) {
 				{name}
 			</Typography>
 
-			<Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, width: 120 , marginBottom:30, marginTop:10}}>
-				Follow
-			</Button>
+			{/*<Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, width: 120 , marginBottom:30, marginTop:10}}>*/}
+			{/*	Follow*/}
+			{/*</Button>*/}
+			{!follow && (
+				<Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
+					Follow
+				</Button> )}
+			{follow && (
+				<Button variant="outlined" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
+					Unfollow
+				</Button>)}
 
 			<Divider sx={{ borderStyle: 'dashed' }} />
 
