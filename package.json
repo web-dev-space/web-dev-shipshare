@@ -46,6 +46,7 @@
         "react-router-dom": "^6.8.1",
         "react-scripts": "^5.0.1",
         "redux": "^4.2.1",
+        "redux-thunk": "^2.4.2",
         "simplebar-react": "^3.2.1",
         "styled-components": "^5.3.9",
         "stylis": "^4.1.3",
