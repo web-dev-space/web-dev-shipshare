@@ -10,7 +10,7 @@ import {
     Card,
     TableContainer,
     Tooltip,
-    IconButton, TableBody, TableRow, TableCell, Avatar, TableHead, Table, Stack, Chip, Paper
+    IconButton, TableBody, TableRow, TableCell, Avatar, TableHead, Table, Stack, Chip, Paper, CardContent
 } from '@mui/material';
 import Iconify from "../../third-party/components/iconify";
 import Scrollbar from "../../third-party/components/scrollbar";
@@ -23,6 +23,7 @@ import Image from 'mui-image'
 import backgroundImg from '../3-Groups/background.jpg';
 import {styled} from "@mui/material/styles";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import Activity from "./ProfileComponents/Activity";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -49,6 +50,11 @@ const Profile = () => {
     const [focusChip, setFocusChip] = useState('All');
     const chipLabelsArray = ["All", "Air Standard", "Air Sensitive", "Sea Standard", "Sea Sensitive"];
 
+    // chip controller
+    const [selected, setSelected] = useState(null);
+    const handleChipClick = (value) => {
+      setSelected(value);
+    };
 
     return (
       <>
@@ -65,9 +71,9 @@ const Profile = () => {
 
               {/*--------------Main Content----------------------*/}
               <Main>
-
                   <Container maxWidth="xl">
 
+                    {/*head part*/}
                       {/*backgroundImg*/}
                       <Box
                         sx={{height: 300, position: 'relative'}}
@@ -142,259 +148,38 @@ const Profile = () => {
                       </Box>
 
 
-                      {/*group info box (left)*/}
-                      <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            my: 5,
-                            ml: 5,
-                            mr: 5,
-                            flexWrap: 'wrap',
-                            '& > *': {
-                                flexBasis: '47%',
-                                mb: 3,
-                            },
-                            '@media (max-width: 880px)': {
-                                '& > *': {
-                                    flexBasis: '100%',
-                                },
-                            },
-                        }}
+                      {/*bottom part*/}
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <Chip
+                          label="Option 1"
+                          color={selected === 'option1' ? 'primary' : 'default'}
+                          onClick={() => handleChipClick('option1')}
+                        />
+                        <Chip
+                          label="Option 2"
+                          color={selected === 'option2' ? 'primary' : 'default'}
+                          onClick={() => handleChipClick('option2')}
+                        />
+                        <Chip
+                          label="Option 3"
+                          color={selected === 'option3' ? 'primary' : 'default'}
+                          onClick={() => handleChipClick('option3')}
+                        />
+                      </div>
+                      <Card style={{marginTop:10}}>
+                        <CardContent>
+                          {selected === 'option1' && (
+                            <Activity />
+                          )}
+                          {selected === 'option2' && (
+                            <Typography variant="body1">Content for option 2</Typography>
+                          )}
+                          {selected === 'option3' && (
+                            <Typography variant="body1">Content for option 3</Typography>
+                          )}
+                        </CardContent>
+                      </Card>
 
-                      >
-                          <Card
-                            sx={{
-                                mb: 2,
-                                width: '48%',
-                                px:3,
-                            }}>
-                              <Box
-                                sx={{
-                                    my:2,
-                                }}
-                              >
-                                  <Typography variant="h6">About</Typography>
-                                  <hr style={{ borderTop: "1px solid #F6F7FB", marginTop: "0.5rem" }} />
-                              </Box>
-                              {/*group details*/}
-                              <Stack spacing={2}>
-                                  <Item
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        justifyContent: 'space-between',
-                                    }}
-                                  >
-                                      <Typography variant="subtitle2">
-                                          Group Leader
-                                      </Typography>
-                                      <Box
-                                        sx={{
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            alignItems: 'center',
-                                        }
-                                        }
-                                      >
-                                          <div>
-                                              <Avatar
-                                                alt="Remy Sharp"
-                                                src="https://material-ui.com/static/images/avatar/1.jpg"
-                                                sx={{
-                                                    mx: 'auto',
-                                                    borderWidth: 2,
-                                                    borderStyle: 'solid',
-                                                    borderColor: 'common.white',
-                                                    zIndex: 2,
-                                                    mr:1,
-                                                    width: 50,
-                                                    height: 50,
-                                                }}
-                                              /></div>
-                                          <div>
-                                              <Typography variant="caption">
-                                                  John Doe
-                                              </Typography>
-                                          </div>
-                                      </Box>
-                                  </Item>
-
-                                  <Item
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        justifyContent: 'space-between',
-                                    }}
-                                  >
-                                      <Typography variant="subtitle2">
-                                          Group Route
-                                      </Typography>
-                                      <Typography variant="caption">
-                                          Air Standard
-                                      </Typography>
-                                  </Item>
-                                  <Item
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        justifyContent: 'space-between',
-                                    }}
-                                  >
-                                      <Typography variant="subtitle2">
-                                          Join Before
-                                      </Typography>
-                                      <Typography variant="caption">
-                                          April 30, 2023
-                                      </Typography>
-                                  </Item>
-                                  <Item
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        justifyContent: 'space-between',
-                                    }}
-                                  >
-                                      <Typography variant="subtitle2">
-                                          Pickup at
-                                      </Typography>
-                                      <Typography variant="caption">
-                                          San Jose, CA
-                                      </Typography>
-                                  </Item>
-                                  <Item
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        justifyContent: 'space-between',
-                                    }}
-                                  >
-                                      <Typography variant="subtitle2">
-                                          Current Weight
-                                      </Typography>
-                                      <Typography variant="caption">
-                                          23.5kg
-                                      </Typography>
-                                  </Item>
-                                  <Item
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        justifyContent: 'space-between',
-                                    }}
-                                  >
-                                      <Typography variant="subtitle2">
-                                          Members
-                                      </Typography>
-                                      <Typography variant="caption">
-                                          9
-                                      </Typography>
-                                  </Item>
-
-                              </Stack>
-                          </Card>
-
-
-                          <Card
-                            sx={{
-                                mb: 2,
-                                width: '48%',
-                                px:3,
-                            }}>
-                              <Box
-                                sx={{
-                                    my:2,
-                                }}
-                              >
-                                  <Typography variant="h6">Activity</Typography>
-                                  <hr style={{ borderTop: "1px solid #F6F7FB", marginTop: "0.5rem" }} />
-                              </Box>
-                              {/*activity details*/}
-                              <Stack spacing={2}>
-                                  {/*one activity cell*/}
-                                  <Item
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        justifyContent: 'space-between',
-                                    }}
-                                  >
-                                      <Box
-                                        sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-                                      >
-                                          <Avatar
-                                            alt="Remy Sharp"
-                                            src="https://material-ui.com/static/images/avatar/1.jpg"
-                                            sx={{
-                                                mx: 'auto',
-                                                borderWidth: 2,
-                                                borderStyle: 'solid',
-                                                borderColor: 'common.white',
-                                                zIndex: 2,
-                                                mr:1,
-                                                width: 50,
-                                                height: 50,
-                                            }}
-                                          />
-                                          <Box textAlign="left">
-                                              <Typography variant="subtitle2">
-                                                  John Doe
-                                              </Typography>
-                                              <Typography variant="caption">
-                                                  Joined in March 23, 2023
-                                              </Typography>
-                                          </Box>
-                                      </Box>
-                                  </Item>
-
-                                  <Item
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        justifyContent: 'space-between',
-                                    }}
-                                  >
-                                      <Box
-                                        sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-                                      >
-                                          <Avatar
-                                            alt="Remy Sharp"
-                                            src="https://material-ui.com/static/images/avatar/1.jpg"
-                                            sx={{
-                                                mx: 'auto',
-                                                borderWidth: 2,
-                                                borderStyle: 'solid',
-                                                borderColor: 'common.white',
-                                                zIndex: 2,
-                                                mr:1,
-                                                width: 50,
-                                                height: 50,
-                                            }}
-                                          />
-                                          <Box textAlign="left">
-                                              <Typography variant="subtitle2">
-                                                  John Doe
-                                              </Typography>
-                                              <Typography variant="caption">
-                                                  Joined in March 23, 2023
-                                              </Typography>
-                                          </Box>
-                                      </Box>
-                                  </Item>
-
-                              </Stack>
-
-                          </Card>
-                      </Box>
                   </Container>
 
 
