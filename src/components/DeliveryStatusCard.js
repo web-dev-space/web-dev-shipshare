@@ -45,9 +45,10 @@ const DeliveryStatusCard = ({ deliveryStatus }) => {
               </svg>}
           </div> */}
 
+
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{ position: 'relative', background: 'rgba(249, 198, 98, 0.1)', borderRadius: '50%', width: 18, height: 18 }}>
-              <div style={{ position: 'absolute', top: 5, left: 5, background: '#F9C662', borderRadius: '50%', width: 8, height: 8 }} />
+              <div style={{ position: 'absolute', top: 5, left: 5, background: index===0?'#F9C662':'rgba(249, 198, 98, 0.2)', borderRadius: '50%', width: 8, height: 8 }} />
             </div>
             <div
               style={{

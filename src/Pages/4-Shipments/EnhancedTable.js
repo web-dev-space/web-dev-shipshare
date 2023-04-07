@@ -1,23 +1,24 @@
 import { ToggleButton } from "@mui/lab";
-import Pagination from '@mui/lab/Pagination';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Tooltip from '@mui/material/Tooltip';
-import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
-import { visuallyHidden } from '@mui/utils';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import ShippingDetailScreen from './ShipmentsDetailScreen.js';
+import Pagination from "@mui/lab/Pagination";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import Tooltip from "@mui/material/Tooltip";
+import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
+import { visuallyHidden } from "@mui/utils";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import ShippingDetailScreen from "./ShipmentsDetailScreen.js";
+import { Drawer } from "@mui/material";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -30,7 +31,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === 'desc'
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -48,16 +49,31 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'trackingNumber', numeric: false, disablePadding: true, label: 'Tracking No.' },
-  { id: 'shipRoute', numeric: false, disablePadding: false, label: 'shipRoute' },
-  { id: 'joinDate', numeric: false, disablePadding: false, label: 'Join Date' },
-  { id: 'pickupLocation', numeric: false, disablePadding: false, label: 'Pickup At' },
-  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
-  { id: 'actions', numeric: false, disablePadding: false, label: 'Actions' },
+  {
+    id: "trackingNumber",
+    numeric: false,
+    disablePadding: true,
+    label: "Tracking No.",
+  },
+  {
+    id: "shipRoute",
+    numeric: false,
+    disablePadding: false,
+    label: "shipRoute",
+  },
+  { id: "joinDate", numeric: false, disablePadding: false, label: "Join Date" },
+  {
+    id: "pickupLocation",
+    numeric: false,
+    disablePadding: false,
+    label: "Pickup At",
+  },
+  { id: "status", numeric: false, disablePadding: false, label: "Status" },
+  { id: "actions", numeric: false, disablePadding: false, label: "Actions" },
 ];
 
-const DEFAULT_ORDER = 'asc';
-const DEFAULT_ORDER_BY = 'joinDate';
+const DEFAULT_ORDER = "asc";
+const DEFAULT_ORDER_BY = "joinDate";
 const DEFAULT_ROWS_PER_PAGE = 5;
 
 function MyTableHead(props) {
@@ -68,24 +84,24 @@ function MyTableHead(props) {
 
   return (
     <TableHead>
-      <TableRow style={{ borderTop: '1px solid #EDF2F7' }}>
+      <TableRow style={{ borderTop: "1px solid #EDF2F7" }}>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
+            align={headCell.numeric ? "right" : "left"}
+            padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
-            style={{ backgroundColor: 'white' }}
+            style={{ backgroundColor: "white" }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </Box>
               ) : null}
             </TableSortLabel>
@@ -98,35 +114,33 @@ function MyTableHead(props) {
 
 MyTableHead.propTypes = {
   onRequestSort: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
 };
 
-const filterStrings = ['All', 'Arrived', 'Shipping', 'Packed', 'Order Placed'];
-
+const filterStrings = ["All", "Arrived", "Shipping", "Packed", "Order Placed"];
 
 const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
-  '&.MuiToggleButton-root': {
-    borderRadius: '25px',
-    marginRight: '19px',
+  "&.MuiToggleButton-root": {
+    borderRadius: "25px",
+    marginRight: "19px",
     padding: "8px 22px",
-    color: '#CFDBD5',
+    color: "#CFDBD5",
   },
-  '&.Mui-selected': {
-    backgroundColor: '#f0bc68',
-    borderColor: '#e4e8eb',
-    color: '#ffffff',
-    '&:hover': {
-      backgroundColor: '#f0bc68',
+  "&.Mui-selected": {
+    backgroundColor: "#f0bc68",
+    borderColor: "#e4e8eb",
+    color: "#ffffff",
+    "&:hover": {
+      backgroundColor: "#f0bc68",
     },
-    '&.Mui-disabled': {
-      backgroundColor: 'gray',
+    "&.Mui-disabled": {
+      backgroundColor: "gray",
     },
   },
-}))
+}));
 
 const FilterButtons = ({ selected, setSelected }) => {
-
   const handleFilterChange = (event, selectedFilter) => {
     if (selectedFilter !== null && selectedFilter !== selected) {
       setSelected(selectedFilter);
@@ -149,7 +163,6 @@ const FilterButtons = ({ selected, setSelected }) => {
   );
 };
 
-
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
@@ -157,7 +170,7 @@ export default function EnhancedTable() {
   const [visibleRows, setVisibleRows] = React.useState(null);
   const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
   const [paddingHeight, setPaddingHeight] = React.useState(0);
-  const [selected, setSelected] = useState('All');
+  const [selected, setSelected] = useState("All");
 
   const [originalRows, setOriginalRows] = React.useState([]);
   const [rows, setRows] = useState([]);
@@ -177,40 +190,42 @@ export default function EnhancedTable() {
       let initialRows = [
         {
           key: uuidv4(),
-          trackingNumber: 'YT6950106245135',
-          shipRoute: 'Air Sensitive',
-          joinDate: 'Mar 12, 2023',
-          pickupLocation: 'San Jose',
-          status: 'Arrived',
+          trackingNumber: "YT6950106245135",
+          shipRoute: "Air Sensitive",
+          joinDate: "Mar 12, 2023",
+          pickupLocation: "San Jose",
+          status: "Arrived",
         },
         {
           key: uuidv4(),
-          trackingNumber: 'YT7136320603122',
-          shipRoute: 'Air Sensitive',
-          joinDate: 'Mar 12, 2023',
-          pickupLocation: 'San Francisco',
-          status: 'In Shipping',
+          trackingNumber: "YT7136320603122",
+          shipRoute: "Air Sensitive",
+          joinDate: "Mar 12, 2023",
+          pickupLocation: "San Francisco",
+          status: "In Shipping",
         },
         {
           key: uuidv4(),
-          trackingNumber: 'YT7136320603122',
-          shipRoute: 'Air Sensitive',
-          joinDate: 'Mar 12, 2023',
-          pickupLocation: 'Sunnyvale',
-          status: 'Packed',
+          trackingNumber: "YT7136320603122",
+          shipRoute: "Air Sensitive",
+          joinDate: "Mar 12, 2023",
+          pickupLocation: "Sunnyvale",
+          status: "Packed",
         },
       ];
 
       const onlyForTest = () => {
         // duplicate the rows to make the table longer
         for (let i = 0; i < 10; i++) {
-          initialRows = initialRows.concat(JSON.parse(JSON.stringify(initialRows)));
+          initialRows = initialRows.concat(
+            JSON.parse(JSON.stringify(initialRows))
+          );
           // set every row's tracking number as 0, 1, 2, 3, ...
           initialRows.forEach((row, index) => {
             row.trackingNumber = index;
           });
         }
-      }
+      };
 
       // onlyForTest();
 
@@ -220,16 +235,15 @@ export default function EnhancedTable() {
     initialRowsData();
   }, []);
 
-
   useEffect(() => {
     let rowsOnMount = stableSort(
       rows,
-      getComparator(DEFAULT_ORDER, DEFAULT_ORDER_BY),
+      getComparator(DEFAULT_ORDER, DEFAULT_ORDER_BY)
     );
 
     rowsOnMount = rowsOnMount.slice(
       0 * DEFAULT_ROWS_PER_PAGE,
-      0 * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE,
+      0 * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE
     );
 
     setVisibleRows(rowsOnMount);
@@ -237,54 +251,57 @@ export default function EnhancedTable() {
 
   const handleRequestSort = React.useCallback(
     (event, newOrderBy) => {
-      const isAsc = orderBy === newOrderBy && order === 'asc';
-      const toggledOrder = isAsc ? 'desc' : 'asc';
+      const isAsc = orderBy === newOrderBy && order === "asc";
+      const toggledOrder = isAsc ? "desc" : "asc";
       setOrder(toggledOrder);
       setOrderBy(newOrderBy);
 
-      const sortedRows = stableSort(rows, getComparator(toggledOrder, newOrderBy));
+      const sortedRows = stableSort(
+        rows,
+        getComparator(toggledOrder, newOrderBy)
+      );
       const updatedRows = sortedRows.slice(
         page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
+        page * rowsPerPage + rowsPerPage
       );
 
       setVisibleRows(updatedRows);
     },
-    [rows, order, orderBy, page, rowsPerPage],
+    [rows, order, orderBy, page, rowsPerPage]
   );
 
   useEffect(() => {
     const changePage = () => {
       const newPage = page - 1;
 
-      console.debug('newPage', newPage);
+      console.debug("newPage", newPage);
 
-      console.debug('rows', rows);
+      console.debug("rows", rows);
 
       const sortedRows = stableSort(rows, getComparator(order, orderBy));
       const updatedRows = sortedRows.slice(
         newPage * rowsPerPage,
-        newPage * rowsPerPage + rowsPerPage,
+        newPage * rowsPerPage + rowsPerPage
       );
 
-      console.debug('sortedRows', sortedRows);
-      console.debug('rowsPerPage', rowsPerPage);
-      console.debug('page', page);
+      console.debug("sortedRows", sortedRows);
+      console.debug("rowsPerPage", rowsPerPage);
+      console.debug("page", page);
 
-      console.debug('updatedRows', updatedRows);
+      console.debug("updatedRows", updatedRows);
 
       setVisibleRows(updatedRows);
 
       const numEmptyRows =
-        newPage > 0 ? Math.max(0, (1 + newPage) * rowsPerPage - rows.length) : 0;
+        newPage > 0
+          ? Math.max(0, (1 + newPage) * rowsPerPage - rows.length)
+          : 0;
 
       const newPaddingHeight = 53 * numEmptyRows;
       setPaddingHeight(newPaddingHeight);
-    }
+    };
     changePage();
-  },
-    [page, order, orderBy, rowsPerPage],
-  );
+  }, [page, order, orderBy, rowsPerPage]);
 
   const handleChangeRowsPerPage = React.useCallback(
     (event) => {
@@ -296,38 +313,41 @@ export default function EnhancedTable() {
       const sortedRows = stableSort(rows, getComparator(order, orderBy));
       const updatedRows = sortedRows.slice(
         0 * updatedRowsPerPage,
-        0 * updatedRowsPerPage + updatedRowsPerPage,
+        0 * updatedRowsPerPage + updatedRowsPerPage
       );
 
       setVisibleRows(updatedRows);
 
       setPaddingHeight(0);
     },
-    [order, orderBy],
+    [order, orderBy]
   );
 
   useEffect(() => {
     const filterTableData = () => {
-      setRows(originalRows.filter(row =>
-        row.status === selected || selected === 'All'
-      )
+      setRows(
+        originalRows.filter(
+          (row) => row.status === selected || selected === "All"
+        )
       );
     };
     filterTableData();
   }, [originalRows, selected]);
 
   function getStatusColor(row) {
-    switch (row.status.toLowerCase()) {
-      case 'arrived':
-        return '#EEBD5E';
-      case 'in shipping':
-        return '#FFE03F';
-      case 'packed':
-        return '#80B213';
-      case 'order placed':
-        return '#1A202C';
+    switch (row?.status?.toLowerCase()) {
+      case "arrived":
+        return "#EEBD5E";
+      case "in shipping":
+        return "#FFE03F";
+      case "packed":
+        return "#80B213";
+      case "order placed":
+        return "#1A202C";
+      case "order created":
+        return "#A0AEC0";
       default:
-        return '';
+        return "";
     }
   }
 
@@ -336,9 +356,9 @@ export default function EnhancedTable() {
       MuiPaginationItem: {
         styleOverrides: {
           root: {
-            '&.Mui-selected': {
-              backgroundColor: '#80B213',
-              color: 'white',
+            "&.Mui-selected": {
+              backgroundColor: "#80B213",
+              color: "white",
             },
           },
         },
@@ -347,7 +367,6 @@ export default function EnhancedTable() {
   });
 
   const PageNavigation = (props) => {
-
     // get the total number of pages
     const count = Math.ceil(rows.length / rowsPerPage);
 
@@ -358,7 +377,9 @@ export default function EnhancedTable() {
           page={page}
           siblingCount={2}
           boundaryCount={1}
-          onChange={(event, value) => { setPage(value) }}
+          onChange={(event, value) => {
+            setPage(value);
+          }}
           showFirstButton
           showLastButton
         />
@@ -366,22 +387,19 @@ export default function EnhancedTable() {
     );
   };
 
-
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
+    <Box sx={{ width: "100%" }}>
+      <Paper sx={{ width: "100%", mb: 2 }}>
         <Box sx={{ mb: 2 }}>
           <Tooltip title="Filter list">
-            <FilterButtons
-              selected={selected}
-              setSelected={setSelected} />
+            <FilterButtons selected={selected} setSelected={setSelected} />
           </Tooltip>
         </Box>
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
-            size={'medium'}
+            size={"medium"}
           >
             <MyTableHead
               order={order}
@@ -391,41 +409,49 @@ export default function EnhancedTable() {
             <TableBody>
               {visibleRows
                 ? visibleRows.map((row, index) => {
-                  return (
-                    <TableRow hover
-                      tabIndex={-1}
-                      key={row.trackingNumber}
-                      style={{
-                        borderTop: '1px solid #EDF2F7',
-                        borderBottom: '1px solid #EDF2F7',
-                      }}>
-                      <TableCell component="th" scope="row" padding="none">
-                        {row.trackingNumber}
-                      </TableCell>
-                      <TableCell align="left">{row.shipRoute}</TableCell>
-                      <TableCell align="left">{row.joinDate}</TableCell>
-                      <TableCell align="left">{row.pickupLocation}</TableCell>
-                      <TableCell align="left"
-                        style={{ color: getStatusColor(row) }}>
-                        {row.status}
-                      </TableCell>
-                      <TableCell align="left">
-                        <Button variant="contained"
-                          sx={{
-                            backgroundColor: 'white',
-                            '&:hover': {
-                              backgroundColor: 'white',
-                            },
-                            color: '#1A202C',
-                            border: '1px solid rgba(0, 90, 100, 0.35)',
-                          }}
-                          onClick={() => { handleOpen() }}
+                    return (
+                      <TableRow
+                        hover
+                        tabIndex={-1}
+                        key={row.trackingNumber}
+                        style={{
+                          borderTop: "1px solid #EDF2F7",
+                          borderBottom: "1px solid #EDF2F7",
+                        }}
+                      >
+                        <TableCell component="th" scope="row" padding="none">
+                          {row.trackingNumber}
+                        </TableCell>
+                        <TableCell align="left">{row.shipRoute}</TableCell>
+                        <TableCell align="left">{row.joinDate}</TableCell>
+                        <TableCell align="left">{row.pickupLocation}</TableCell>
+                        <TableCell
+                          align="left"
+                          style={{ color: getStatusColor(row) }}
                         >
-                          Details</Button>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
+                          {row.status}
+                        </TableCell>
+                        <TableCell align="left">
+                          <Button
+                            variant="contained"
+                            sx={{
+                              backgroundColor: "white",
+                              "&:hover": {
+                                backgroundColor: "white",
+                              },
+                              color: "#1A202C",
+                              border: "1px solid rgba(0, 90, 100, 0.35)",
+                            }}
+                            onClick={() => {
+                              handleOpen();
+                            }}
+                          >
+                            Details
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
                 : null}
               {paddingHeight > 0 && (
                 <TableRow
@@ -439,39 +465,40 @@ export default function EnhancedTable() {
             </TableBody>
           </Table>
         </TableContainer>
-        <Box sx={{ mt: 2 }} display='flex' justifyContent='center'>
+        <Box sx={{ mt: 2 }} display="flex" justifyContent="center">
           <PageNavigation />
         </Box>
       </Paper>
 
-      <Modal
+      <Drawer
+        anchor="right"
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
         sx={{
-          display: 'flex',
-          alignItems: 'flex-end',
-          overflowY: 'auto',
-          flexDirection: 'column',
-          height: 'auto',
-          minHeight: '100%',
+          display: "flex",
+          alignItems: "flex-end",
+          overflowY: "auto",
+          flexDirection: "column",
+          height: "auto",
+          minHeight: "100%",
         }}
       >
         <Box
           sx={{
-            bgcolor: 'background.paper',
+            bgcolor: "background.paper",
             boxShadow: 24,
             // p: 4,
-            padding: '53px 22px',
-            width: '400px',
-            outline: 'none',
+            padding: "53px 22px",
+            width: "400px",
+            outline: "none",
             m: 0,
           }}
         >
           <ShippingDetailScreen handleClose={handleClose} />
         </Box>
-      </Modal>
+      </Drawer>
     </Box>
   );
 }
