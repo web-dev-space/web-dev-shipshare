@@ -16,7 +16,7 @@ import {
 
 import SearchBar from "../../components/searchBar";
 import TwoSmallButtonGroup from "../../components/TwoSmallButtonGroup";
-import ParcelTable from "../../components/ParcelTable";
+import ParcelTable from "./parcel-components/ParcelTable";
 import {parcelData} from "../../sampleData/parcels";
 
 
