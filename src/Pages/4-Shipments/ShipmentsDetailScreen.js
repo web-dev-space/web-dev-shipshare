@@ -205,7 +205,8 @@ const styles = {
     marginTop: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    width: '90%',
+    width: '100%',
+    justifyContent: 'center',
   },
   animationStatusContainer: {
     height: 56,
