@@ -1,16 +1,16 @@
 import { useState } from "react";
-import Header from "../../third-party/layouts/dashboard/header"
-import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical"
-import Main from "../../third-party/layouts/dashboard/Main"
+import Header from "../../../third-party/layouts/dashboard/header"
+import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
+import Main from "../../../third-party/layouts/dashboard/Main"
 import { Container, Typography, Box } from '@mui/material';
-import InputCard from "../../components/InputCard"
+import InputCard from "../../../components/InputCard"
 import Button from "@mui/material/Button";
 import {Add as AddIcon} from "@mui/icons-material";
 import Stack from "@mui/material/Stack";
-import SearchBar from "../../components/searchBar";
-import GreenChipGroup from "../../components/GreenChipGroup";
-import PostCard from "../../components/PostCard";
-import backgroundImg from "../3-Groups/background.jpg";
+import SearchBar from "../../../components/searchBar";
+import GreenChipGroup from "../../../components/GreenChipGroup";
+import PostCard from "../post-components/PostCard";
+import backgroundImg from "../../3-Groups/background.jpg";
 import Image from "mui-image";
 import {Pagination} from "@mui/lab";
 

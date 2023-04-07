@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Header from "../../third-party/layouts/dashboard/header"
-import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical"
-import Main from "../../third-party/layouts/dashboard/Main"
-import {Container, Box, Avatar, Typography, TextField, Button} from '@mui/material';
+import Header from "../../../third-party/layouts/dashboard/header"
+import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
+import Main from "../../../third-party/layouts/dashboard/Main"
+import {Container, Box, Avatar, Typography, TextField, Button, Pagination} from '@mui/material';
 import Image from "mui-image";
 
 const post = {
@@ -203,6 +203,19 @@ const PostDetails = () => {
                                 />
                                 </>
                             ))}
+                        </div>
+
+                        <hr style={{
+                            borderWidth: 0,
+                            borderColor: 'rgba(145, 158, 171, 0.24)',
+                            borderBottomWidth: 'thin',
+                        }}/>
+
+                        {/*-----------------Pagination---------------------*/}
+                        <div
+                            style={{ marginTop: 40, marginBottom: 32,
+                                    display: 'flex', justifyContent: 'center'}}>
+                            <Pagination count={10} color="primary" />
                         </div>
 
                     </Container>
