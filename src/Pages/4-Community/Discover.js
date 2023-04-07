@@ -12,6 +12,7 @@ import GreenChipGroup from "../../components/GreenChipGroup";
 import PostCard from "../../components/PostCard";
 import backgroundImg from "../3-Groups/background.jpg";
 import Image from "mui-image";
+import {Pagination} from "@mui/lab";
 
 const chipLabelsArray = ["Latest", "Popular"];
 
@@ -69,10 +70,13 @@ const examplePosts = [{
 ];
 
 const Discover = () => {
+    const MAX_SIZE_PER_PAGE = 10;
     const [open, setOpen] = useState(false);
 
     const [focusChip, setFocusChip] = useState('Latest');
     const [filter, setFilter] = useState('All');
+    const [posts, setPosts] = useState(examplePosts);
+    const [page, setPage] = useState(1);
 
     const handleOpen = () => {
         setOpen(true);
@@ -80,6 +84,10 @@ const Discover = () => {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handlePaginationChange = (event, page) => {
+        console.log(page);
     };
 
     return (
@@ -172,6 +180,18 @@ const Discover = () => {
                                     viewsNumber={examplePost.viewsNumber}
                                     repostsNumber={examplePost.repostsNumber} />
                             ))}
+                        </div>
+
+                        {/*---Pagination---*/}
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            height: 100,
+                        }}>
+                            <Pagination count={10}
+                                onChange={handlePaginationChange}
+                            />
                         </div>
                     </Container>
                 </Main>
