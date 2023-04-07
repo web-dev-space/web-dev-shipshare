@@ -21,6 +21,7 @@ import UserCardsPage from "./ProfileComponents/UserCardsPage";
 import GreenChipGroup from "../../components/GreenChipGroup";
 import GroupCardsPage from "./ProfileComponents/GroupCardsPage";
 import PostCard from "./Discover/post-components/PostCard";
+import {Pagination} from "@mui/lab";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -48,21 +49,28 @@ const Profile = () => {
       setSelected(value);
     };
 
-  const chipLabelsArray = ['Activity', 'Posts', 'Formed Group', 'Joined Group','Following', 'Followers'];
-  const [filter, setFilter] = useState('Posts');
-  const [focusChip, setFocusChip] = useState('Posts');
+    // control profile page
+    const user = ['myself', 'other'];
+
+    let chipLabelsArray = ['Activity', 'Posts', 'Formed Group', 'Joined Group','Following', 'Followers'];
+    if(user==='myself'){
+      chipLabelsArray = ['Posts', 'Formed Group','Following', 'Followers'];
+    }
+
+    const [filter, setFilter] = useState('Posts');
+    const [focusChip, setFocusChip] = useState('Posts');
 
 
-  const examplePosts = [{
-    title: "ShipShare is the Best Shipping Platform!",
-    post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-    author: "Joe Doe",
-    date: new Date("2021-08-01"),
-    image: "https://source.unsplash.com/random",
-    commentsNumber: 1910,
-    viewsNumber: 8820,
-    repostsNumber: 7460,
-  },
+    const examplePosts = [{
+      title: "ShipShare is the Best Shipping Platform!",
+      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+      author: "Joe Doe",
+      date: new Date("2021-08-01"),
+      image: "https://source.unsplash.com/random",
+      commentsNumber: 1910,
+      viewsNumber: 8820,
+      repostsNumber: 7460,
+    },
     {
       title: "ShipShare is the Best Shipping Platform!",
       post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
@@ -104,11 +112,15 @@ const Profile = () => {
       repostsNumber: 7460,
     }];
 
-  const [follow, setFollow] = useState(false);
-  const handleFollow = () => {
-    setFollow(!follow);
-  };
+    const [follow, setFollow] = useState(false);
+    const handleFollow = () => {
+      setFollow(!follow);
+    };
 
+
+    const handlePaginationChange = (event, page) => {
+      console.log(page);
+    };
 
     return (
       <>
@@ -262,6 +274,18 @@ const Profile = () => {
                         </CardContent>
                       </div>
 
+
+                    {/*---Pagination---*/}
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      height: 100,
+                    }}>
+                      <Pagination count={10}
+                                  onChange={handlePaginationChange}
+                      />
+                    </div>
                   </Container>
 
 
