@@ -9,13 +9,13 @@ import {
 } from "@mui/x-data-grid";
 import { OutlinedOrangeButton, OriginalOrangeButton, DisabledOrangeButton } from "../../../components/TableButtons";
 import {OutlinedGreenButton} from "../../../components/TableButtons";
-import {Box, TablePaginationProps, Typography} from "@mui/material";
+import {Box, Drawer, TablePaginationProps, Typography} from "@mui/material";
 import MuiPagination from '@mui/material/Pagination';
 import './ParcelTable.css';
-
+import ParcelDetailsScreen from "./ParcelDetailsScreen";
 
 // Column definitions
-const columns: GridColDef[] = [
+const columns: GridColDef[] = (handleOpen) => [
     {
         field: "name",
         headerName: "Name",
@@ -74,7 +74,7 @@ const columns: GridColDef[] = [
         width: 120,
         renderCell: (params) =>
             <OutlinedGreenButton
-                text="Detail" onClick={() => console.log("Detail")}
+                text="Detail" onClick={() => handleOpen(params.row)}
             />,
     },
 ];
@@ -83,6 +83,18 @@ const columns: GridColDef[] = [
 const ParcelTable = ({ data }) => {
     const [rows, setRows] = React.useState(data);
     React.useEffect(() => {setRows(data)}, [data]);
+
+    const [open, setOpen] = React.useState(false);
+    const [selectedParcel, setSelectedParcel] = React.useState({});
+
+    const handleOpen = (parcel) => {
+        setSelectedParcel(parcel);
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
     // Sort rows
     const handleSortModelChange = (model) => {
         const sortedRows = [...rows].sort((a, b) => {
@@ -184,7 +196,7 @@ const ParcelTable = ({ data }) => {
     return (
         <div style={{ height: 600, width: '100% ', marginTop:24,}}>
             <DataGrid
-                rows={rows} columns={columns}
+                rows={rows} columns={columns(handleOpen)}
                 getRowId={(row) => row._id.$oid}
                 sortModel={[]}
                 onSortModelChange={handleSortModelChange}
@@ -203,6 +215,36 @@ const ParcelTable = ({ data }) => {
                     noRowsOverlay: CustomNoRowsOverlay,
                 }}
             />
+
+            <Drawer
+                anchor="right"
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+                sx={{
+                    display: "flex",
+                    alignItems: "flex-end",
+                    overflowY: "auto",
+                    flexDirection: "column",
+                    height: "auto",
+                    minHeight: "100%",
+                }}
+            >
+                <Box
+                    sx={{
+                        bgcolor: "background.paper",
+                        boxShadow: 24,
+                        // p: 4,
+                        padding: "53px 22px",
+                        width: "400px",
+                        outline: "none",
+                        m: 0,
+                    }}
+                >
+                    <ParcelDetailsScreen parcel={selectedParcel} handleClose={handleClose} />
+                </Box>
+            </Drawer>
         </div>
     );
 };

@@ -17,7 +17,7 @@ const DeliveryStatusCard = ({ deliveryStatus }) => {
     <div style={styles.bottomContainer}>
       <div style={styles.deliveryBar}>
         <div style={{position: 'absolute', left: -20,top: -1}}>
-          <LocalShippingIcon htmlColor="#F9C662"/>
+          <LocalShippingIcon htmlColor="#F9C662" style={{fontSize: 18}}/>
         </div>
         <div style={styles.deliveryBarText}>Delivery status</div>
       </div>
