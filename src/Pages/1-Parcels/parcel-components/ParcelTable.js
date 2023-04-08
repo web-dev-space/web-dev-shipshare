@@ -1,129 +1,230 @@
 import * as React from "react";
-import {
-    DataGrid,
-    GridColDef,
-    gridPageCountSelector,
-    GridPagination,
-    useGridApiContext,
-    useGridSelector
-} from "@mui/x-data-grid";
 import { OutlinedOrangeButton, OriginalOrangeButton, DisabledOrangeButton } from "../../../components/TableButtons";
-import {OutlinedGreenButton} from "../../../components/TableButtons";
-import {Box, TablePaginationProps, Typography} from "@mui/material";
-import MuiPagination from '@mui/material/Pagination';
+import {Box} from "@mui/material";
 import './ParcelTable.css';
+import TableContainer from "@mui/material/TableContainer";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import Button from "@mui/material/Button";
+import TableHead from "@mui/material/TableHead";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import {visuallyHidden} from "@mui/utils";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
+import Pagination from "@mui/lab/Pagination";
 
+const DEFAULT_ORDER = "asc";
+const DEFAULT_ORDER_BY = "date";
+const DEFAULT_ROWS_PER_PAGE = 10;
 
-// Column definitions
-const columns: GridColDef[] = [
+// Table head cells
+const headCells = [
     {
-        field: "name",
-        headerName: "Name",
+        id: "name",
+        numeric: false,
+        disablePadding: true,
+        label: "Name",
         sortable: true,
-        width: 240,
-        renderCell: (params) => (
-            <div style={{ display: "flex", alignItems: "center" }}>
-                <img src={params.row.picture}
-                     alt={params.row.name}
-                     width="60" height="60"
-                     style={{ marginRight: 19, borderRadius:15,
-                         objectFit: 'fill',
-                         objectPosition: 'center',}} />
-                <text style={{ fontWeight: 600, maxWidth: 130, overflow: 'hidden', textOverflow: 'ellipsis'}}>{params.row.name}</text>
-            </div>
-        ),
     },
+    { id: "date", numeric: false, disablePadding: false, label: "Date", sortable: true },
     {
-        field: "created.$date",
-        headerName: "Date",
-        sortable: false,
-        width: 180,
-        renderCell: (params) =>
-            new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(params.row.created.$date)),
-    },
-    { field: "trackingNumber",
-        headerName: "Tracking No.",
+        id: "trackingNumber",
+        numeric: false,
+        disablePadding: true,
+        label: "Tracking No.",
         sortable: true,
-        width: 180 },
-    {
-        field: "weight",
-        headerName: "Weight",
-        sortable: false,
-        width: 120,
-        renderCell: (params) => (params.row.isWeighted ? `${params.row.weight} lbs` : "--"),
     },
     {
-        field: "isShipped",
-        headerName: "Status",
-        sortable: false,
-        width: 160,
-        renderCell: (params) =>
-            params.row.isShipped ? (
-                <OutlinedOrangeButton text="Shipped" onClick={() => console.log("Shipped")} />
-            ) : params.row.isWeighted ? (
-                <OriginalOrangeButton text="Ship Now" onClick={() => console.log("Ship Now")} />
-            ) : (
-                <DisabledOrangeButton text="In Transit" />
-            ),
+        id: "weight",
+        numeric: false,
+        disablePadding: false,
+        label: "Weight",
+        sortable: true,
     },
-    {
-        field: "actions",
-        headerName: "Actions",
-        sortable: false,
-        filterable: false,
-        width: 120,
-        renderCell: (params) =>
-            <OutlinedGreenButton
-                text="Detail" onClick={() => console.log("Detail")}
-            />,
-    },
+    { id: "status", numeric: false, disablePadding: false, label: "Status", sortable: true },
+    { id: "actions", numeric: false, disablePadding: false, label: "Actions", sortable: false },
 ];
+function MyTableHead(props) {
+    const { order, orderBy, onRequestSort } = props;
+    const createSortHandler = (newOrderBy) => (event) => {
+        onRequestSort(event, newOrderBy);
+    };
+
+    return (
+        <TableHead>
+            <TableRow style={{ borderTop: "1px solid #EDF2F7" }}>
+                {headCells.map((headCell) => (
+                    <TableCell
+                        key={headCell.id}
+                        align={headCell.numeric ? "right" : "left"}
+                        padding={headCell.disablePadding ? "none" : "normal"}
+                        sortDirection={orderBy === headCell.id ? order : false}
+                        style={{ backgroundColor: "white" }}
+                    >
+                        {
+                            headCell.sortable ? <TableSortLabel
+                                active={orderBy === headCell.id}
+                                direction={orderBy === headCell.id ? order : "asc"}
+                                onClick={createSortHandler(headCell.id)}
+                            >
+                                {headCell.label}
+                                {orderBy === headCell.id ? (
+                                    <Box component="span" sx={visuallyHidden}>
+                                        {order === "desc" ? "sorted descending" : "sorted ascending"}
+                                    </Box>
+                                ) : null}
+                            </TableSortLabel> : headCell.label
+                        }
+
+                    </TableCell>
+                ))}
+            </TableRow>
+        </TableHead>
+    );
+}
+
+function descendingComparator(a, b, orderBy) {
+    switch (orderBy) {
+        case "date":
+            return new Date(b.created.$date).getTime() - new Date(a.created.$date).getTime();
+        case "weight":
+            if (!a.isWeighted) {
+                return 1;
+            } else if (!b.isWeighted) {
+                return -1;
+            } else {
+                return b.weight - a.weight;
+            }
+        case "name":
+            return b.name.localeCompare(a.name);
+        case "status":
+            if (a.isShipped) {
+                return 1;
+            } else if (b.isShipped) {
+                return -1;
+            } else if (a.isWeighted) {
+                return 1;
+            } else if (b.isWeighted) {
+                return -1;
+            } else {
+                return 0;
+            }
+        default:
+            return b[orderBy] - a[orderBy];
+    }
+}
+
+function getComparator(order, orderBy) {
+    return order === "desc"
+        ? (a, b) => descendingComparator(a, b, orderBy)
+        : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+
+function stableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+        const order = comparator(a[0], b[0]);
+        if (order !== 0) {
+            return order;
+        }
+        return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+}
+
+const theme = createTheme({
+    components: {
+        MuiPaginationItem: {
+            styleOverrides: {
+                root: {
+                    "&.Mui-selected": {
+                        backgroundColor: "#80B213",
+                        color: "white",
+                    },
+                },
+            },
+        },
+    },
+});
 
 // Table component
 const ParcelTable = ({ data }) => {
     const [rows, setRows] = React.useState(data);
+    const [order, setOrder] = React.useState(DEFAULT_ORDER);
+    const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
+    const [page, setPage] = React.useState(1);
+    const [visibleRows, setVisibleRows] = React.useState(null);
+    const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
+    const [paddingHeight, setPaddingHeight] = React.useState(0);
     React.useEffect(() => {setRows(data)}, [data]);
     // Sort rows
-    const handleSortModelChange = (model) => {
-        const sortedRows = [...rows].sort((a, b) => {
-            let cmp = 0;
-            model.forEach(({ field, sort }) => {
-                const v1 = a[field];
-                const v2 = b[field];
-                if (cmp === 0 && sort) {
-                    cmp = (v1 > v2 ? 1 : v1 < v2 ? -1 : 0) * (sort === "asc" ? 1 : -1);
-                }
-            });
-            return cmp;
-        });
-        setRows(sortedRows);
-    };
+    const handleRequestSort = React.useCallback(
+        (event, newOrderBy) => {
+            const isAsc = orderBy === newOrderBy && order === "asc";
+            const toggledOrder = isAsc ? "desc" : "asc";
+            setOrder(toggledOrder);
+            setOrderBy(newOrderBy);
 
-    // Custom Pagination
-    function Pagination({
-                            page,
-                            onPageChange,
-                            className,
-                        }: Pick<TablePaginationProps, 'page' | 'onPageChange' | 'className'>) {
-        const apiRef = useGridApiContext();
-        const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+            const sortedRows = stableSort(
+                rows,
+                getComparator(toggledOrder, newOrderBy)
+            );
+            const updatedRows = sortedRows.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+            );
+
+            setVisibleRows(updatedRows);
+        },
+        [rows, order, orderBy, page, rowsPerPage]
+    );
+
+
+    React.useEffect(() => {
+        const changePage = () => {
+            const newPage = page - 1;
+
+            const sortedRows = stableSort(rows, getComparator(order, orderBy));
+            const updatedRows = sortedRows.slice(
+                newPage * rowsPerPage,
+                newPage * rowsPerPage + rowsPerPage
+            );
+
+            setVisibleRows(updatedRows);
+
+            const numEmptyRows =
+                newPage > 0
+                    ? Math.max(0, (1 + newPage) * rowsPerPage - rows.length)
+                    : 0;
+
+            const newPaddingHeight = 53 * numEmptyRows;
+            setPaddingHeight(newPaddingHeight);
+        };
+        changePage();
+    }, [rows, page, order, orderBy, rowsPerPage]);
+
+    const PageNavigation = (props) => {
+        // get the total number of pages
+        const count = Math.ceil(rows.length / rowsPerPage);
 
         return (
-            <MuiPagination
-                color="primary"
-                className={className}
-                count={pageCount}
-                page={page + 1}
-                onChange={(event, newPage) => {
-                    onPageChange(event, newPage - 1);
-                }}
-            />
+            <ThemeProvider theme={theme}>
+                <Pagination
+                    count={count}
+                    page={page}
+                    siblingCount={2}
+                    boundaryCount={1}
+                    onChange={(event, value) => {
+                        setPage(value);
+                    }}
+                    showFirstButton
+                    showLastButton
+                />
+            </ThemeProvider>
         );
-    }
-
-    function CustomPagination(props: any) {
-        return <GridPagination rowsPerPage={<div></div>} ActionsComponent={Pagination} {...props} />;
-    }
+    };
 
     // Custom No Rows Overlay
     function CustomNoRowsOverlay() {
@@ -183,26 +284,90 @@ const ParcelTable = ({ data }) => {
 
     return (
         <div style={{ height: 600, width: '100% ', marginTop:24,}}>
-            <DataGrid
-                rows={rows} columns={columns}
-                getRowId={(row) => row._id.$oid}
-                sortModel={[]}
-                onSortModelChange={handleSortModelChange}
-                rowHeight={80}
-                pagination
-                classes={{withBorderColor: {borderColor: 'black'}}}
-                hideFooterRowCount
-                initialState={{
-                    pagination: {
-                        paginationModel: { pageSize: 10, page: 0 },
-                    },
-                }}
-                className="custom-datagrid custom-footer"
-                slots={{
-                    pagination: CustomPagination,
-                    noRowsOverlay: CustomNoRowsOverlay,
-                }}
-            />
+            <TableContainer>
+                <Table
+                    sx={{ minWidth: 750 }}
+                    aria-labelledby="tableTitle"
+                    size={"medium"}
+                >
+                    <MyTableHead
+                        order={order}
+                        orderBy={orderBy}
+                        onRequestSort={handleRequestSort}
+                    />
+                    <TableBody>
+                        {visibleRows
+                            ? visibleRows.map((row, index) => {
+                                return (
+                                    <TableRow
+                                        hover
+                                        tabIndex={-1}
+                                        key={row.trackingNumber}
+                                        style={{
+                                            borderTop: "1px solid #EDF2F7",
+                                            borderBottom: "1px solid #EDF2F7",
+                                        }}
+                                    >
+                                        <TableCell  paddingLeft="none">
+                                            <div style={{ display: "flex", alignItems: "center" }}>
+                                                <img src={row.picture}
+                                                     alt={row.name}
+                                                     width="60" height="60"
+                                                     style={{ marginRight: 19, borderRadius:15,
+                                                         objectFit: 'fill',
+                                                         objectPosition: 'center',}} />
+                                                <text style={{ fontWeight: 600, maxWidth: 130, overflow: 'hidden', textOverflow: 'ellipsis'}}>{row.name}</text>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell align="left">{new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(row.created.$date))}</TableCell>
+                                        <TableCell component="th" scope="row" padding="none">{row.trackingNumber}</TableCell>
+                                        <TableCell align="left">{row.isWeighted ? `${row.weight} lbs` : "--"}</TableCell>
+                                        <TableCell align="left">
+                                            {row.isShipped ? (
+                                                <OutlinedOrangeButton text="Shipped" onClick={() => console.log("Shipped")} />
+                                            ) : row.isWeighted ? (
+                                                <OriginalOrangeButton text="Ship Now" onClick={() => console.log("Ship Now")} />
+                                            ) : (
+                                                <DisabledOrangeButton text="In Transit" />
+                                            )}
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            <Button
+                                                variant="contained"
+                                                sx={{
+                                                    backgroundColor: "white",
+                                                    "&:hover": {
+                                                        backgroundColor: "white",
+                                                    },
+                                                    color: "#1A202C",
+                                                    border: "1px solid rgba(0, 90, 100, 0.35)",
+                                                }}
+                                                onClick={() => {
+                                                    console.log("aaa");
+                                                }}
+                                            >
+                                                Details
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                );
+                            })
+                            : <CustomNoRowsOverlay />}
+                        {paddingHeight > 0 && (
+                            <TableRow
+                                style={{
+                                    height: paddingHeight,
+                                }}
+                            >
+                                <TableCell colSpan={6} />
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <Box sx={{ mt: 2 }} display="flex" justifyContent="center">
+                <PageNavigation />
+            </Box>
         </div>
     );
 };

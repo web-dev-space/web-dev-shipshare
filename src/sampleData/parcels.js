@@ -381,21 +381,5 @@ export const parcelData = [
         "modified": {
             "$date": "2023-04-02T20:49:13.442Z"
         }
-    },{
-        "_id": {
-            "$oid": "642a1541d9cee35dbdc12d8f"
-        },
-        "name": "Dress",
-        "trackingNumber": "433061274107582",
-        "courier": "yunda",
-        "user": "abc@test.com",
-        "isShipped": false,
-        "isWeighted": false,
-        "created": {
-            "$date": "2023-04-02T23:52:33.344Z"
-        },
-        "modified": {
-            "$date": "2023-04-02T23:52:33.344Z"
-        }
     }];
 
