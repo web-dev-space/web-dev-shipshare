@@ -136,6 +136,7 @@ const Discover = () => {
                                     color="primary"
                                     startIcon={<AddIcon />}
                                     style={{height:44}}
+                                    href="/community/discover/create-new-post"
                                     >
                                 New Post
                             </Button>
