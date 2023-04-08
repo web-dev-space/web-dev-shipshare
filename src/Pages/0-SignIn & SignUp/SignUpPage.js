@@ -4,8 +4,44 @@ import welcomeImg from "./welcome3.png";
 import Image from "mui-image";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
+import * as Yup from "yup";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {useSnackbar} from "notistack";
+import {useNavigate} from "react-router-dom";
+import FormProvider, {RHFTextField} from "../../third-party/components/hook-form";
+
 
 const SignUpPage = () => {
+
+  // ---- handle the new post object ---
+  const defaultValues = {
+    email: '',
+    password: '',
+  };
+
+
+  // validation schema
+  const NewUserSchema = Yup.object().shape({
+    email: Yup.string().required('Please enter a valid email'),
+    password: Yup.string().required('Password is required'),
+  });
+
+  const methods = useForm({
+    resolver: yupResolver(NewUserSchema),
+    defaultValues,
+  });
+
+  const {handleSubmit, setValue} = methods;
+
+  const {enqueueSnackbar} = useSnackbar();
+  const navigate = useNavigate();
+  const onSubmit = (data) => {
+    enqueueSnackbar('Sign in success!');
+    navigate("/");
+    console.log(data);
+  };
+
 
   return (
     <>
@@ -33,10 +69,12 @@ const SignUpPage = () => {
             position: 'relative',
           }}
         >
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+
           <Stack
             spacing={3}
             sx={{
-              width: '50%',
+              width: '100%',
             }}
           >
             <Box
@@ -51,7 +89,7 @@ const SignUpPage = () => {
                 Create Your Account
               </Typography>
             </Box>
-            <TextField fullWidth={true} variant="filled" id="email" placeholder="EMAIL"
+            <RHFTextField fullWidth={true} name="email" variant="filled" id="email" placeholder="EMAIL"
                        InputProps={{
                          startAdornment: (
                            <InputAdornment position="start">
@@ -64,7 +102,7 @@ const SignUpPage = () => {
                            </InputAdornment>
                          )
                        }}/>
-            <TextField fullWidth={true} variant="filled" id="password" placeholder="PASSWORD"
+            <RHFTextField fullWidth={true} name="password" variant="filled" id="password" placeholder="PASSWORD"
                        InputProps={{
                          startAdornment: (
                            <InputAdornment position="start">
@@ -81,7 +119,13 @@ const SignUpPage = () => {
                          )
                        }}/>
 
-            <Button variant="contained" color="primary" fullWidth={true} size="large" sx={{height: 50}}
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth={true}
+              size="large"
+              sx={{height: 50}}
+              type={"submit"}
                     onClick={() => console.log('Button clicked')}
 
             >
@@ -94,6 +138,7 @@ const SignUpPage = () => {
             </Box>
 
           </Stack>
+          </FormProvider>
         </Box>
 
 
