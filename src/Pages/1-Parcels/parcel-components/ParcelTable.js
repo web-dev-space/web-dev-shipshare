@@ -283,7 +283,7 @@ const ParcelTable = ({ data }) => {
     }
 
     return (
-        <div style={{ height: 600, width: '100% ', marginTop:24,}}>
+        <div style={{ height: 'fit-content', width: '100% ', marginTop:24}}>
             <TableContainer>
                 <Table
                     sx={{ minWidth: 750 }}
@@ -316,7 +316,7 @@ const ParcelTable = ({ data }) => {
                                                      style={{ marginRight: 19, borderRadius:15,
                                                          objectFit: 'fill',
                                                          objectPosition: 'center',}} />
-                                                <text style={{ fontWeight: 600, maxWidth: 130, overflow: 'hidden', textOverflow: 'ellipsis'}}>{row.name}</text>
+                                                <text style={{ fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>{row.name}</text>
                                             </div>
                                         </TableCell>
                                         <TableCell align="left">{new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(row.created.$date))}</TableCell>
@@ -365,7 +365,7 @@ const ParcelTable = ({ data }) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Box sx={{ mt: 2 }} display="flex" justifyContent="center">
+            <Box sx={{ mt: 4, mb: 2 }} display="flex" justifyContent="center">
                 <PageNavigation />
             </Box>
         </div>
