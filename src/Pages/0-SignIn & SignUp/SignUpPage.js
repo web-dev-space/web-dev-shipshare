@@ -37,7 +37,7 @@ const SignUpPage = () => {
   const {enqueueSnackbar} = useSnackbar();
   const navigate = useNavigate();
   const onSubmit = (data) => {
-    enqueueSnackbar('Sign in success!');
+    enqueueSnackbar('Welcome to ShipShare!');
     navigate("/");
     console.log(data);
   };
