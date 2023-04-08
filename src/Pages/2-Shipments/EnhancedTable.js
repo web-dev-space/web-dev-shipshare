@@ -169,7 +169,7 @@ const FilterButtons = ({ selected, setSelected }) => {
   );
 };
 
-const EnhancedTable = () => {
+const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
   const [page, setPage] = React.useState(1);
@@ -179,7 +179,11 @@ const EnhancedTable = () => {
   const [filter, setFilter] = useState("All");
   const [focusChip, setFocusChip] = useState("All");
 
-  const [originalRows, setOriginalRows] = React.useState([]);
+  // const [originalRows, setOriginalRows] = React.useState([]);
+
+  const originalRows = shipGroups;
+  const setOriginalRows = setShipGroups;
+
   const [rows, setRows] = useState([]);
 
   const [open, setOpen] = useState(false);
@@ -191,72 +195,6 @@ const EnhancedTable = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  useEffect(() => {
-    const initialRowsData = () => {
-      let initialRows = [
-        {
-          key: uuidv4(),
-          trackingNumber: "YT6950106245135",
-          shipRoute: "Air Sensitive",
-          joinDate: "Mar 12, 2023",
-          pickupLocation: "San Jose",
-          status: "Arrived",
-        },
-        {
-          key: uuidv4(),
-          trackingNumber: "YT7136320603122",
-          shipRoute: "Air Sensitive",
-          joinDate: "Mar 12, 2023",
-          pickupLocation: "San Francisco",
-          status: "In Shipping",
-        },
-        {
-          key: uuidv4(),
-          trackingNumber: "YT7136320603122",
-          shipRoute: "Air Sensitive",
-          joinDate: "Mar 12, 2023",
-          pickupLocation: "Sunnyvale",
-          status: "Packed",
-        },
-        {
-          key: uuidv4(),
-          trackingNumber: "YT7136320603122",
-          shipRoute: "Air Sensitive",
-          joinDate: "Mar 12, 2023",
-          pickupLocation: "Sunnyvale",
-          status: "Order Placed",
-        },
-        {
-          key: uuidv4(),
-          trackingNumber: "YT7136320603122",
-          shipRoute: "Air Sensitive",
-          joinDate: "Mar 12, 2023",
-          pickupLocation: "Sunnyvale",
-          status: "Order Created",
-        },
-      ];
-
-      const onlyForTest = () => {
-        // duplicate the rows to make the table longer
-        for (let i = 0; i < 10; i++) {
-          initialRows = initialRows.concat(
-            JSON.parse(JSON.stringify(initialRows))
-          );
-          // set every row's tracking number as 0, 1, 2, 3, ...
-          initialRows.forEach((row, index) => {
-            row.trackingNumber = index;
-          });
-        }
-      };
-
-      // onlyForTest();
-
-      setOriginalRows(initialRows);
-    };
-
-    initialRowsData();
-  }, []);
 
   useEffect(() => {
     let rowsOnMount = stableSort(

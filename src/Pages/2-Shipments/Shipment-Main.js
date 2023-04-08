@@ -1,13 +1,21 @@
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from "@mui/material";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Main from "../../third-party/layouts/dashboard/Main.js";
 import Header from "../../third-party/layouts/dashboard/header/index.js";
 import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical.js";
 import EnhancedTable from "./EnhancedTable.js";
-
+import { updateShipGroups } from "redux/shipGroup-reducer.js";
 
 const ShipmentMainPage = () => {
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
+
+  const shipGroups = useSelector((state) => state.shipGroup.shipGroups);
+  const setShipGroups = (shipGroups) => {
+    dispatch(updateShipGroups(shipGroups));
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -23,7 +31,7 @@ const ShipmentMainPage = () => {
       {/*-------Box is the layout of the whole page-----*/}
       <Box
         sx={{
-          display: { lg: 'flex' },
+          display: { lg: "flex" },
           minHeight: { lg: 1 },
         }}
       >
@@ -36,7 +44,10 @@ const ShipmentMainPage = () => {
             <Typography variant="h4" component="h1" paragraph>
               Shipments
             </Typography>
-            <EnhancedTable />
+            <EnhancedTable
+              shipGroups={shipGroups}
+              setShipGroups={setShipGroups}
+            />
           </Container>
         </Main>
         {/*------------------------------------*/}
