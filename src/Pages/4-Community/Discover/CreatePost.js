@@ -11,6 +11,8 @@ import {useForm} from "react-hook-form";
 import Button from "@mui/material/Button";
 import * as Yup from 'yup';
 import {yupResolver} from "@hookform/resolvers/yup";
+import {useSnackbar} from "notistack";
+import {useNavigate} from "react-router-dom";
 
 const CreatePost = () => {
     // ---- handle the nav bar ---
@@ -47,7 +49,11 @@ const CreatePost = () => {
 
     const {handleSubmit, setValue} = methods;
 
+    const { enqueueSnackbar } = useSnackbar();
+    const navigate = useNavigate();
     const onSubmit = (data) => {
+        enqueueSnackbar('Post success!');
+        navigate("../");
         console.log(data);
     };
 
@@ -148,7 +154,7 @@ const CreatePost = () => {
                                     variant="outlined"
                                     size="large"
                                     style={{maxWidth: 200}}
-
+                                    href="../"
                                 >
                                     Cancel
                                 </Button>
