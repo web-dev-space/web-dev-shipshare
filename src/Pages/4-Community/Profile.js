@@ -18,6 +18,10 @@ import {styled} from "@mui/material/styles";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Activity from "./ProfileComponents/Activity";
 import UserCardsPage from "./ProfileComponents/UserCardsPage";
+import GreenChipGroup from "../../components/GreenChipGroup";
+import GroupCardsPage from "./ProfileComponents/GroupCardsPage";
+import PostCard from "./Discover/post-components/PostCard";
+import {Pagination} from "@mui/lab";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -43,6 +47,79 @@ const Profile = () => {
     const [selected, setSelected] = useState(null);
     const handleChipClick = (value) => {
       setSelected(value);
+    };
+
+    // control profile page
+    const user = ['myself', 'other'];
+
+    let chipLabelsArray = ['Activity', 'Posts', 'Formed Group', 'Joined Group','Following', 'Followers'];
+    if(user==='myself'){
+      chipLabelsArray = ['Posts', 'Formed Group','Following', 'Followers'];
+    }
+
+    const [filter, setFilter] = useState('Posts');
+    const [focusChip, setFocusChip] = useState('Posts');
+
+
+    const examplePosts = [{
+      title: "ShipShare is the Best Shipping Platform!",
+      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+      author: "Joe Doe",
+      date: new Date("2021-08-01"),
+      image: "https://source.unsplash.com/random",
+      commentsNumber: 1910,
+      viewsNumber: 8820,
+      repostsNumber: 7460,
+    },
+    {
+      title: "ShipShare is the Best Shipping Platform!",
+      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+      author: "Joe Doe",
+      date: new Date("2021-08-01"),
+      image: "https://source.unsplash.com/random",
+      commentsNumber: 1910,
+      viewsNumber: 8820,
+      repostsNumber: 7460,
+    },
+    {
+      title: "ShipShare is the Best Shipping Platform!",
+      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+      author: "Joe Doe",
+      date: new Date("2021-08-01"),
+      image: "https://source.unsplash.com/random",
+      commentsNumber: 1910,
+      viewsNumber: 8820,
+      repostsNumber: 7460,
+    },
+    {
+      title: "ShipShare is the Best Shipping Platform!",
+      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+      author: "Joe Doe",
+      date: new Date("2021-08-01"),
+      image: "https://source.unsplash.com/random",
+      commentsNumber: 1910,
+      viewsNumber: 8820,
+      repostsNumber: 7460,
+    },
+    {
+      title: "ShipShare is the Best Shipping Platform!",
+      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+      author: "Joe Doe",
+      date: new Date("2021-08-01"),
+      image: "https://source.unsplash.com/random",
+      commentsNumber: 1910,
+      viewsNumber: 8820,
+      repostsNumber: 7460,
+    }];
+
+    const [follow, setFollow] = useState(false);
+    const handleFollow = () => {
+      setFollow(!follow);
+    };
+
+
+    const handlePaginationChange = (event, page) => {
+      console.log(page);
     };
 
     return (
@@ -74,7 +151,6 @@ const Profile = () => {
                                 zIndex: 1,
                                 left: 0,
                                 right: 0,
-                                // mr: 5,
                                 position: 'absolute',
                             }}
                           />
@@ -110,6 +186,7 @@ const Profile = () => {
                                     height: {xs: 80, md: 128},
                                 }}
                               />
+
                               <Box
                                 sx={{
                                     display: 'flex',
@@ -128,12 +205,23 @@ const Profile = () => {
                                       <strong>4587</strong>{' '}
                                       <span style={{ color: 'grey' }}>following</span>{' '}
                                   </Typography>
-                                  <Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }}>
+
+                                {!follow && (
+                                  <Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
                                       <IconButton edge="start" color="inherit" aria-label="menu">
                                           <PersonAddIcon />
                                       </IconButton>
                                       Follow
-                                  </Button>
+                                  </Button> )}
+                                {follow && (
+                                  <Button variant="outlined" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
+                                      <IconButton edge="start" color="inherit" aria-label="menu">
+                                          <PersonAddIcon />
+                                      </IconButton>
+                                      Unfollow
+                                  </Button>)}
+
+
                               </Box>
                           </Box>
                       </Box>
@@ -141,36 +229,63 @@ const Profile = () => {
 
                       {/*bottom part*/}
                       <div style={{ display: 'flex', gap: '8px' }}>
-                        <Chip
-                          label="Option 1"
-                          color={selected === 'option1' ? 'primary' : 'default'}
-                          onClick={() => handleChipClick('option1')}
-                        />
-                        <Chip
-                          label="Option 2"
-                          color={selected === 'option2' ? 'primary' : 'default'}
-                          onClick={() => handleChipClick('option2')}
-                        />
-                        <Chip
-                          label="Option 3"
-                          color={selected === 'option3' ? 'primary' : 'default'}
-                          onClick={() => handleChipClick('option3')}
-                        />
+                        <GreenChipGroup chipLabelsArray={chipLabelsArray}
+                                        focusChip={focusChip}
+                                        setFilter={setFilter}
+                                        setFocusChip={setFocusChip}/>
                       </div>
-                      <Card style={{marginTop:10}}>
+
+                      {/*content*/}
+                      <div style={{marginTop:10}}>
                         <CardContent>
-                          {selected === 'option1' && (
+                          {focusChip === 'Activity' && (
                             <Activity />
                           )}
-                          {selected === 'option2' && (
+                          {focusChip === 'Following' && (
                             <UserCardsPage />
                           )}
-                          {selected === 'option3' && (
-                            <Typography variant="body1">Content for option 3</Typography>
+                          {focusChip === 'Followers' && (
+                            <UserCardsPage />
+                          )}
+                          {focusChip === 'Formed Group' && (
+                            <GroupCardsPage />
+                          )}
+                          {focusChip === 'Joined Group' && (
+                            <GroupCardsPage />
+                          )}
+                          {focusChip === 'Posts' && (
+                            <div style={{
+                            display: 'flex',
+                            flexDirection:'column',
+                            gap: 16 }}>
+                          {examplePosts.map((examplePost) => (
+                            <PostCard
+                            title={examplePost.title}
+                            post={examplePost.post}
+                            author={examplePost.author}
+                            date={examplePost.date}
+                            image={examplePost.image}
+                            commentsNumber={examplePost.commentsNumber}
+                            viewsNumber={examplePost.viewsNumber}
+                            repostsNumber={examplePost.repostsNumber} />
+                            ))}
+                            </div>
                           )}
                         </CardContent>
-                      </Card>
+                      </div>
 
+
+                    {/*---Pagination---*/}
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      height: 100,
+                    }}>
+                      <Pagination count={10}
+                                  onChange={handlePaginationChange}
+                      />
+                    </div>
                   </Container>
 
 
