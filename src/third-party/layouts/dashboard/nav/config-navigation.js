@@ -8,8 +8,16 @@ const icon = (name) => (
 );
 
 const ICONS = {
-  user: icon('ic_user'),
-  ecommerce: icon('ic_ecommerce'),
+  parcel: icon('nav_parcel'),
+  shipment: icon('nav_shipment'),
+  group: icon('nav_groups'),
+  discover: icon('nav_discover'),
+  follow: icon('nav_follow'),
+  profile: icon('nav_profile'),
+  account: icon('nav_account'),
+  help: icon('nav_help'),
+
+
   analytics: icon('ic_analytics'),
   dashboard: icon('ic_dashboard'),
 };
@@ -21,9 +29,9 @@ const navConfig = [
   {
     subheader: 'Main Menu',
     items: [
-      { title: 'Parcels', path: '/parcels', icon: ICONS.dashboard },
-      { title: 'Shipments', path: '/shipments', icon: ICONS.ecommerce },
-      { title: 'Groups', path: '/groups', icon: ICONS.analytics },
+      { title: 'Parcels', path: '/parcels', icon: ICONS.parcel },
+      { title: 'Shipments', path: '/shipments', icon: ICONS.shipment },
+      { title: 'Groups', path: '/groups', icon: ICONS.group },
     ],
   },
 
@@ -32,9 +40,9 @@ const navConfig = [
     subheader: 'Community',
     path: '/community/',
     items: [
-      { title: 'Discover', path: '/community/discover', icon: ICONS.user },
-      { title: 'Follow', path: '/community/follow', icon: ICONS.user },
-      { title: 'My Profile', path: '/community/profile', icon: ICONS.user },
+      { title: 'Discover', path: '/community/discover', icon: ICONS.discover },
+      { title: 'Follow', path: '/community/follow', icon: ICONS.follow },
+      { title: 'My Profile', path: '/community/profile', icon: ICONS.profile },
     ],
   },
 
@@ -45,7 +53,7 @@ const navConfig = [
       {
         title: 'Account',
         path: '/account/',
-        icon: ICONS.user,
+        icon: ICONS.account,
         children: [
           { title: 'Account Info', path: '/account/account-info' },
           { title: 'Change Password', path: '/account/change-password'},
@@ -54,7 +62,7 @@ const navConfig = [
       {
         title: 'Help',
         path: '/help/',
-        icon: ICONS.user,
+        icon: ICONS.help,
         children: [
           {title: 'Tutorials', path: '/help/tutorials'},
           {title: 'Warehouse Address', path: '/help/warehouse-address'},
