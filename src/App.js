@@ -3,14 +3,6 @@ import {BrowserRouter} from 'react-router-dom';
 import ThemeProvider from './third-party/theme';
 // components
 import SnackbarProvider from "./third-party/components/snackbar";
-import {
-  ThemeSettings,
-  SettingsProvider,
-} from "./third-party/components/settings";
-import {MotionLazyContainer} from "./third-party/components/animate";
-import ScrollToTop from "./third-party/components/scroll-to-top";
-
-import SnackbarProvider from './third-party/components/snackbar';
 import {ThemeSettings, SettingsProvider} from './third-party/components/settings';
 import {MotionLazyContainer} from './third-party/components/animate';
 import ScrollToTop from './third-party/components/scroll-to-top';
@@ -25,13 +17,6 @@ import {faCube} from "@fortawesome/free-solid-svg-icons";
 import {library} from "@fortawesome/fontawesome-svg-core";
 import {Provider} from "react-redux";
 import store from "./redux/store";
-import {Route, Routes} from "react-router";
-import {Group} from "./Pages/3-Groups";
-import {Account} from "./Pages/5-Account";
-import {Community} from "./Pages/4-Community";
-import {Help} from "./Pages/6-Help";
-import {faCube} from "@fortawesome/free-solid-svg-icons";
-import {library} from "@fortawesome/fontawesome-svg-core";
 import LoginPage from "./Pages/0-SignIn & SignUp/SignInPage";
 import SignUpPage from "./Pages/0-SignIn & SignUp/SignUpPage";
 
