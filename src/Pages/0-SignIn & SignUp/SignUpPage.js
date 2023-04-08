@@ -89,7 +89,7 @@ const SignUpPage = () => {
             </Button>
             <Box>
               <Typography style={{textAlign: 'center'}}>
-                Already have an account? <Link href="#" underline="hover">Log In</Link>
+                Already have an account? <Link href="../login" underline="hover">Log In</Link>
               </Typography>
             </Box>
 
