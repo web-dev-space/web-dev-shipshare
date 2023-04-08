@@ -1,7 +1,7 @@
 const FontSizes = {
   buttonText: 20,
   logTitle: 44,
-  bodyText: 12,
+  bodyText: 14,
   iconSize: 20,
   groupCardText: 14,
   pageTitle: 16,
