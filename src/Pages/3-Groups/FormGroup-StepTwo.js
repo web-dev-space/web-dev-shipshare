@@ -18,11 +18,7 @@ export default function FormGroupStepTwo() {
 
   // ---- handle the new post object ---
   const defaultValues = {
-    groupName: '',
-    receiverName: '',
-    pickupLocation: '',
-    phoneNumber: '',
-    endDate: '',
+    groupName: '', receiverName: '', pickupLocation: '', phoneNumber: '', endDate: '',
   };
 
 
@@ -36,8 +32,7 @@ export default function FormGroupStepTwo() {
   });
 
   const methods = useForm({
-    resolver: yupResolver(NewUserSchema),
-    defaultValues,
+    resolver: yupResolver(NewUserSchema), defaultValues,
   });
 
   const {handleSubmit, setValue} = methods;
@@ -51,17 +46,13 @@ export default function FormGroupStepTwo() {
   };
 
 
-  return (
-    <>
+  return (<>
 
 
       {/*----------------- Title & Description -----------------*/}
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          mb: 5,
+          display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 5,
         }}
       >
         <Typography
@@ -69,8 +60,7 @@ export default function FormGroupStepTwo() {
         >Enter Group Details</Typography>
         <Box
           sx={{
-            width: '35%',
-            alignItems: 'center',
+            width: '35%', alignItems: 'center',
           }}
         >
           <Typography
@@ -82,18 +72,28 @@ export default function FormGroupStepTwo() {
 
       {/*----------------- Form -----------------*/}
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Box
-          component="form"
-          sx={{
-            '& .MuiTextField-root': {m: 1, width: '25ch'},
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <Stack>
+        {/*<Box*/}
+        {/*  component="form"*/}
+        {/*  sx={{*/}
+        {/*    '& .MuiTextField-root': {m: 1, width: '25ch'},*/}
+        {/*    display: 'flex',*/}
+        {/*    flexDirection: 'column',*/}
+        {/*    alignItems: 'center',*/}
+        {/*  }}*/}
+        {/*  noValidate*/}
+        {/*  autoComplete="off"*/}
+        {/*>*/}
+        <div style={{
+          display: 'flex', flexDirection: 'column', alignItems: 'center',
+
+        }}>
+          <Stack
+            component={'form'}
+            spacing={2}
+            sx={{
+              width: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center',
+            }}
+          >
             <RHFTextField
               required
               name="groupName"
@@ -102,8 +102,7 @@ export default function FormGroupStepTwo() {
               label="Group Name"
               placeholder={'e.g. My Group'}
             />
-          </Stack>
-          <Stack>
+
             <RHFTextField
               fullWidth={true}
               required
@@ -111,8 +110,7 @@ export default function FormGroupStepTwo() {
               id="outlined-required"
               label="Receiver's Name"
               placeholder={'e.g. Mary Smith'}
-            /></Stack>
-          <Stack>
+            />
             <RHFTextField
               required
               fullWidth={true}
@@ -120,28 +118,38 @@ export default function FormGroupStepTwo() {
               id="outlined-required"
               label="Pickup Location"
               placeholder={'e.g. 123 Main Street, New York, NY 10001'}
-            /></Stack>
-
-          <RHFTextField
-            required
-            fullWidth={true}
-            name="phoneNumber"
-            id="outlined-required"
-            label="Phone Number"
-            placeholder={'e.g. 123-456-7890'}
-          />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              name="endDate"
-              label="End Date *"
-              renderInput={(props) => (
-                <TextField {...props} required />
-              )}
             />
-          </LocalizationProvider>
-
-
-        </Box>
+            <Stack
+              direction={{ sm: 'column', md: 'row' }}
+              spacing={2}
+              sx={{
+                  width: '100%',
+                  justifyContent: 'space-between',
+                '& > *': {
+                  flex: 1,
+                },
+                }}
+              >
+              <RHFTextField
+                required
+                fullWidth={true}
+                name="phoneNumber"
+                id="outlined-required"
+                label="Phone Number"
+                placeholder={'e.g. 123-456-7890'}
+              />
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  name="endDate"
+                  label="End Date *"
+                  renderInput={(props) => (<TextField {...props} required/>)}
+                />
+              </LocalizationProvider>
+            </Stack>
+          </Stack>
+        </div>
+        {/*</Box>*/}
       </FormProvider>
 
     </>

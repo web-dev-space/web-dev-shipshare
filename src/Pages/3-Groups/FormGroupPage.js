@@ -29,10 +29,10 @@ const steps = ['', '', ''];
 export default function FormGroupPage() {
 
   const [activeStep, setActiveStep] = React.useState(0);
-
+  const navigate = useNavigate();
   const handleNext = () => {
     if (activeStep === 2) {
-      window.location.href = '/groups';
+      navigate("/groups");
       return;
     }
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
