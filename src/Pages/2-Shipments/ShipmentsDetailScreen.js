@@ -21,13 +21,27 @@ const hintText = [
 
 
 
-const ShipmentDetails = ({ ship, handleClose }) => {
-  const width = window.innerWidth;
+const ShipmentDetails = ({ ship, handleClose, isMerchant = false }) => {
 
   const shipEndDate = '2021-08-01';
   const startDate = '2021-07-01';
 
-  const activeStep = 2;
+  //TODO: REMOVE THIS
+  isMerchant = true;
+
+  let classifiedParcels = [];
+
+  if (isMerchant) {
+    classifiedParcels = parcelData.reduce((accumulator, current) => {
+      if (!accumulator[current.user]) {
+        accumulator[current.user] = [];
+      }
+
+      accumulator[current.user].push(current);
+      return accumulator;
+    }, {});
+  }
+
 
   return (
     <div>
@@ -140,9 +154,16 @@ const ShipmentDetails = ({ ship, handleClose }) => {
           borderRadius: 10,
           marginTop: 40,
         }}>
-          <ItemCard leftCornerIconColor={"#F9C662"}
-            items={parcelData}
-            title={"Items Included"} />
+          {isMerchant
+            ? <ItemCard leftCornerIconColor={"#F9C662"}
+              items={classifiedParcels}
+              title={"Items Included"}
+              isMerchant={isMerchant} />
+            :
+            <ItemCard leftCornerIconColor={"#F9C662"}
+              items={parcelData}
+              title={"Items Included"} />
+          }
         </Box>
       </div>
 
