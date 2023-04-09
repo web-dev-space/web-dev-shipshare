@@ -18,49 +18,29 @@ import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import FormGroupStepOne from "./FormGroup-StepOne";
 import FormGroupStepTwo from "./FormGroup-StepTwo";
 import FormGroupStepThree from "./FormGroup-StepThree";
+import FormProvider, {RHFTextField} from "../../../third-party/components/hook-form";
+import * as Yup from "yup";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {useSnackbar} from "notistack";
+import {useNavigate} from "react-router-dom";
 
-// const steps = ['Choose a Route', 'Enter Group Details', 'Done'];
 const steps = ['', '', ''];
 export default function FormGroupPage() {
+
   const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
-
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
-
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
-  };
-
+  const navigate = useNavigate();
   const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
+    if (activeStep === 2) {
+      navigate("/groups");
+      return;
     }
-
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
   };
 
   const handleReset = () => {
@@ -103,7 +83,6 @@ export default function FormGroupPage() {
             }}>
               <Stepper
                 activeStep={activeStep}
-
                 sx={{
                   width: '50%',
                   marginLeft: 'auto',
@@ -116,14 +95,7 @@ export default function FormGroupPage() {
                 {steps.map((label, index) => {
                   const stepProps = {};
                   const labelProps = {};
-                  // if (isStepOptional(index)) {
-                  //   labelProps.optional = (
-                  //     <Typography variant="caption">Optional</Typography>
-                  //   );
-                  // }
-                  // if (isStepSkipped(index)) {
-                  //   stepProps.completed = false;
-                  // }
+
                   return (
                     <Step key={label} {...stepProps}>
                       <StepLabel {...labelProps}>{label}</StepLabel>
@@ -176,21 +148,17 @@ export default function FormGroupPage() {
                   <Box sx={{display: 'flex', flexDirection: 'row', pt: 2, ml: 10, mr: 10}}>
                     <Button
                       color="inherit"
-                      disabled={activeStep === 0}
+                      disabled={activeStep === 0 || activeStep === 2}
                       onClick={handleBack}
                       sx={{mr: 1}}
                     >
-                      Back
+                      {activeStep === steps.length - 1 ? '' : 'Back'}
                     </Button>
                     <Box sx={{flex: '1 1 auto'}}/>
-                    {/*{isStepOptional(activeStep) && (*/}
-                    {/*  <Button color="inherit" onClick={handleSkip} sx={{mr: 1}}>*/}
-                    {/*    Skip*/}
-                    {/*  </Button>*/}
-                    {/*)}*/}
-
-                    <Button onClick={handleNext}>
-                      {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                    <Button
+                      type={activeStep === 1 ? "submit" : "button"}
+                      onClick={handleNext}>
+                      {activeStep === steps.length - 1 ? 'Back to group page' : 'Next'}
                     </Button>
                   </Box>
                 </React.Fragment>

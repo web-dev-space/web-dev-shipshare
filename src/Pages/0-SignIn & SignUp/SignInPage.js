@@ -136,11 +136,7 @@ const LoginPage = () => {
                 size="large"
                 sx={{height: 50}}
                 type={"submit"}
-                onClick={() => console.log('Button clicked')}
-
-              >
-                Sign In
-              </Button>
+              >Sign In</Button>
               <Box>
                 <Typography style={{textAlign: 'center'}}>
                   Create a new account? <Link href="../signup" underline="hover">Sign Up</Link>
