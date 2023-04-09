@@ -109,25 +109,25 @@ const Following = () => {
                               chart={{
                                 labels: TIME_LABELS,
                                 colors: [
-                                  theme.palette.primary.main,
+                                  theme.palette.success.main,
                                   theme.palette.error.main,
+                                  theme.palette.info.main,
                                   theme.palette.warning.main,
-                                  theme.palette.text.disabled,
                                 ],
                                 series: [
                                   {
                                     type: 'Week',
                                     data: [
-                                      { name: 'Images', data: [20, 34, 48, 65, 37, 48] },
-                                      { name: 'Media', data: [10, 34, 13, 26, 27, 28] },
-                                      { name: 'Documents', data: [10, 14, 13, 16, 17, 18] },
-                                      { name: 'Other', data: [5, 12, 6, 7, 8, 9] },
+                                      { name: 'Air Sensitive', data: [20, 34, 48, 65, 37, 48] },
+                                      { name: 'Air Standard', data: [10, 34, 13, 26, 27, 28] },
+                                      { name: 'Sea Sensitive', data: [10, 14, 13, 16, 17, 18] },
+                                      { name: 'Sea Standard', data: [5, 12, 6, 7, 8, 9] },
                                     ],
                                   },
                                   {
                                     type: 'Month',
                                     data: [
-                                      { name: 'Images', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
+                                      { name: 'Air Sensitive', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
                                       { name: 'Media', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
                                       { name: 'Documents', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
                                       { name: 'Other', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
@@ -149,8 +149,8 @@ const Following = () => {
 
                           <Grid item xs={12} md={6} lg={6}>
                             <EcommerceYearlySales
-                              title="Yearly Sales"
-                              subheader="(+43%) than last year"
+                              title="Line"
+                              // subheader="(+43%) than last year"
                               chart={{
                                 categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
                                 series: [
