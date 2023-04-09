@@ -18,6 +18,7 @@ import SearchBar from "../../../components/searchBar";
 import TwoSmallButtonGroup from "../../../components/TwoSmallButtonGroup";
 import {parcelData} from "../../../sampleData/parcels";
 import MerchantParcelTable from "./MerchantParcelTable";
+import {useSelector} from "react-redux";
 
 
 
@@ -33,11 +34,11 @@ const MerchantParcelMainPage = () => {
     };
 
 
+
     // search bar
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSearch = () => {
-        console.log(tableData);
         setTableData(
             originalData.filter((val) => {
             if (searchTerm === "") {

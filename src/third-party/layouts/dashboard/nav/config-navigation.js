@@ -27,7 +27,6 @@ const ICONS = {
 function navConfig(role) {
   // get the role, to set the nav paths
   const rootPath = "/"+role;
-  console.log("rootPath: ", rootPath)
 
   return ([
       // Main Menu

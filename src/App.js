@@ -15,6 +15,7 @@ import LoginPage from "./Pages/0-SignIn & SignUp/SignInPage";
 import SignUpPage from "./Pages/0-SignIn & SignUp/SignUpPage";
 import Buyer from "./Pages/Buyer";
 import Merchant from "./Pages/Merchant";
+import ChangeRole from "./change-role";
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +33,7 @@ export default function App() {
                 <SnackbarProvider>
                   {/*---------------Main Routers----------------*/}
                   <Routes>
-                    <Route path="/" element={<Buyer/>}/>
+                    <Route path="/" element={<ChangeRole/>}/>
                     <Route path="/buyer/*" element={<Buyer/>}/>
                     <Route path="/merchant/*" element={<Merchant/>}/>
                     <Route path="/login" element={<LoginPage/>}/>
