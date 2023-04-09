@@ -2,7 +2,30 @@ import { useState } from "react";
 import Header from "../../third-party/layouts/dashboard/header"
 import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../third-party/layouts/dashboard/Main"
-import { Container, Typography, Box } from '@mui/material';
+import { Container, Typography, Box, Grid } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+// _mock_
+import {
+  _ecommerceNewProducts,
+  _ecommerceSalesOverview,
+  _ecommerceBestSalesman,
+  _ecommerceLatestProducts,
+} from '../../third-party/_mock/arrays';
+// components
+import { useSettingsContext } from '../../third-party/components/settings';
+// sections
+import {
+  EcommerceNewProducts,
+  EcommerceYearlySales,
+  EcommerceBestSalesman,
+  EcommerceSaleByGender,
+  EcommerceWidgetSummary,
+  EcommerceSalesOverview,
+  EcommerceLatestProducts,
+  EcommerceCurrentBalance,
+} from '../../third-party/e-commerce';
+import { FileGeneralDataActivity } from '../../third-party/file';
+
 
 
 const Following = () => {
@@ -14,6 +37,15 @@ const Following = () => {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const theme = useTheme();
+    const { themeStretch } = useSettingsContext();
+
+    const TIME_LABELS = {
+      week: ['Mon', 'Tue', 'Web', 'Thu', 'Fri', 'Sat', 'Sun'],
+      month: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      year: ['2018', '2019', '2020', '2021', '2022'],
     };
 
     return (
@@ -32,27 +64,142 @@ const Following = () => {
                 {/*--------------Main Content----------------------*/}
                 <Main>
                     <Container maxWidth={false}>
-                        <Typography variant="h3" component="h1" paragraph>
-                            Following
-                        </Typography>
+                      <Container maxWidth={themeStretch ? false : 'xl'}>
+                        <Grid container spacing={3}>
 
-                        <Typography gutterBottom>
-                            Curabitur turpis. Vestibulum facilisis, purus nec pulvinar iaculis, ligula mi congue nunc,
-                            vitae euismod ligula urna in dolor. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit
-                            id, lorem. Phasellus blandit leo ut odio. Vestibulum ante ipsum primis in faucibus orci
-                            luctus et ultrices posuere cubilia Curae; Fusce id purus. Aliquam lorem ante, dapibus in,
-                            viverra quis, feugiat a, tellus. In consectetuer turpis ut velit. Aenean posuere, tortor
-                            sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus.
-                            Vestibulum suscipit nulla quis orci. Nam commodo suscipit quam. Sed a libero.
-                        </Typography>
+                          <Grid item xs={12} md={4}>
+                            <EcommerceWidgetSummary
+                              title="Parcels Received"
+                              percent={2.6}
+                              total={765}
+                              chart={{
+                                colors: [theme.palette.primary.main],
+                                series: [22, 8, 35, 50, 82, 84, 77, 12, 87, 43],
+                              }}
+                            />
+                          </Grid>
 
-                        <Typography>
-                            Praesent ac sem eget est egestas volutpat. Phasellus viverra nulla ut metus varius
-                            laoreet. Curabitur ullamcorper ultricies nisi. Ut non enim eleifend felis pretium feugiat.
-                            Donec mi odio, faucibus at, scelerisque quis, convallis in, nisi. Fusce vel dui. Quisque
-                            libero metus, condimentum nec, tempor a, commodo mollis, magna. In enim justo, rhoncus ut,
-                            imperdiet a, venenatis vitae, justo. Cras dapibus.
-                        </Typography>
+                          <Grid item xs={12} md={4}>
+                            <EcommerceWidgetSummary
+                              title="Shipment Sent"
+                              percent={-0.1}
+                              total={18765}
+                              chart={{
+                                colors: [theme.palette.info.main],
+                                series: [56, 47, 40, 62, 73, 30, 23, 54, 67, 68],
+                              }}
+                            />
+                          </Grid>
+
+                          <Grid item xs={12} md={4}>
+                            <EcommerceWidgetSummary
+                              title="Total Revenue"
+                              percent={0.6}
+                              total={4876}
+                              chart={{
+                                colors: [theme.palette.warning.main],
+                                series: [40, 70, 75, 70, 50, 28, 7, 64, 38, 27],
+                              }}
+                            />
+                          </Grid>
+
+                          <Grid item xs={12} md={6} lg={6}>
+                            <FileGeneralDataActivity
+                              title="Data Activity"
+                              chart={{
+                                labels: TIME_LABELS,
+                                colors: [
+                                  theme.palette.primary.main,
+                                  theme.palette.error.main,
+                                  theme.palette.warning.main,
+                                  theme.palette.text.disabled,
+                                ],
+                                series: [
+                                  {
+                                    type: 'Week',
+                                    data: [
+                                      { name: 'Images', data: [20, 34, 48, 65, 37, 48] },
+                                      { name: 'Media', data: [10, 34, 13, 26, 27, 28] },
+                                      { name: 'Documents', data: [10, 14, 13, 16, 17, 18] },
+                                      { name: 'Other', data: [5, 12, 6, 7, 8, 9] },
+                                    ],
+                                  },
+                                  {
+                                    type: 'Month',
+                                    data: [
+                                      { name: 'Images', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
+                                      { name: 'Media', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
+                                      { name: 'Documents', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
+                                      { name: 'Other', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
+                                    ],
+                                  },
+                                  {
+                                    type: 'Year',
+                                    data: [
+                                      { name: 'Images', data: [10, 34, 13, 56, 77] },
+                                      { name: 'Media', data: [10, 34, 13, 56, 77] },
+                                      { name: 'Documents', data: [10, 34, 13, 56, 77] },
+                                      { name: 'Other', data: [10, 34, 13, 56, 77] },
+                                    ],
+                                  },
+                                ],
+                              }}
+                            />
+                          </Grid>
+
+                          <Grid item xs={12} md={6} lg={6}>
+                            <EcommerceYearlySales
+                              title="Yearly Sales"
+                              subheader="(+43%) than last year"
+                              chart={{
+                                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                                series: [
+                                  {
+                                    year: '2019',
+                                    data: [
+                                      { name: 'Total Income', data: [10, 41, 35, 151, 49, 62, 69, 91, 48] },
+                                      { name: 'Total Expenses', data: [10, 34, 13, 56, 77, 88, 99, 77, 45] },
+                                    ],
+                                  },
+                                  {
+                                    year: '2020',
+                                    data: [
+                                      { name: 'Total Income', data: [148, 91, 69, 62, 49, 51, 35, 41, 10] },
+                                      { name: 'Total Expenses', data: [45, 77, 99, 88, 77, 56, 13, 34, 10] },
+                                    ],
+                                  },
+                                ],
+                              }}
+                            />
+                          </Grid>
+
+
+                          <Grid item xs={12} md={6} lg={6}>
+                            <EcommerceBestSalesman
+                              title="Group Leader"
+                              tableData={_ecommerceBestSalesman}
+                              tableLabels={[
+                                { id: 'seller', label: 'Seller' },
+                                { id: 'amount', label: 'Amount' },
+                                { id: 'rank', label: 'Rank', align: 'right' },
+                              ]}
+                            />
+                          </Grid>
+
+                          <Grid item xs={12} md={6} lg={6}>
+                            <EcommerceBestSalesman
+                              title="Buyer"
+                              tableData={_ecommerceBestSalesman}
+                              tableLabels={[
+                                { id: 'seller', label: 'Seller' },
+                                { id: 'amount', label: 'Amount' },
+                                { id: 'rank', label: 'Rank', align: 'right' },
+                              ]}
+                            />
+                          </Grid>
+
+                        </Grid>
+                      </Container>
                     </Container>
                 </Main>
                 {/*------------------------------------*/}
