@@ -37,7 +37,7 @@ export default [
             "shortAddress": "Sunnyvale, CA"
         },
         "user": "test@test.com",
-        "phaseNumber": 3,
+        "phaseNumber": 2,
         "trackingNumber": "3342476771",
         "courier": "dhl",
         "members": [
@@ -107,7 +107,7 @@ export default [
             "shortAddress": "Cupertino, CA"
         },
         "user": "test@test.com",
-        "phaseNumber": 0,
+        "phaseNumber": 4,
         "courier": "dhl",
         "members": [
             "test@test.com"

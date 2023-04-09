@@ -8,6 +8,9 @@ import { parcelData } from '../../sampleData/parcels';
 import shipGroups from '../../sampleData/shipGroups';
 import Colors from '../../styles/Colors';
 import FontSizes from '../../styles/FontSizes';
+import { calculateDeliveryTime } from '../../utils/calculateDeliveryTime';
+import { convertDateToString } from '../../utils/convertDateToString';
+
 
 const FontFamily = {
 }
@@ -23,8 +26,8 @@ const hintText = [
 
 const ShipmentDetails = ({ ship, handleClose, isMerchant = false }) => {
 
-  const shipEndDate = '2021-08-01';
-  const startDate = '2021-07-01';
+  const shipEndDate = calculateDeliveryTime(ship, deliveryStatus);
+  const startDate = convertDateToString(ship.shipEndDate);
 
   //TODO: REMOVE THIS
   isMerchant = true;

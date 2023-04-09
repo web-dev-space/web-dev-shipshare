@@ -18,6 +18,7 @@ import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import OrangeChipGroup from "../../components/OrangeChipGroup";
 import ShippingDetailScreen from "./ShipmentsDetailScreen.js";
+import { status } from "nprogress";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -178,11 +179,39 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   const [paddingHeight, setPaddingHeight] = React.useState(0);
   const [filter, setFilter] = useState("All");
   const [focusChip, setFocusChip] = useState("All");
+  const originalRows = shipGroups;
+  const setOriginalRows = setShipGroups;
 
   // const [originalRows, setOriginalRows] = React.useState([]);
 
-  const originalRows = shipGroups;
-  const setOriginalRows = setShipGroups;
+  const addStatus = (shipGroup) => {
+    switch (shipGroup?.phaseNumber) {
+      case 0:
+        return "Order Created";
+      case 1:
+        return "Order Placed";
+      case 2:
+        return "Packed";
+      case 3:
+        return "Shipping";
+      case 4:
+        return "Arrived";
+      default:
+        return "unknown";
+    }
+  }
+
+  useEffect(() => {
+    setOriginalRows(originalRows?.map((shipGroup) => {
+      return {
+        ...shipGroup,
+        status: addStatus(shipGroup),
+      }
+    })
+    )
+  }, []);
+
+
 
   const [rows, setRows] = useState([]);
 
@@ -280,7 +309,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   useEffect(() => {
     const filterTableData = () => {
       setRows(
-        originalRows.filter((row) => row.status === filter || filter === "All")
+        originalRows.filter((row) => row?.status?.toLowerCase() === filter.toLowerCase() || filter.toLowerCase() === "all")
       );
     };
     filterTableData();
@@ -290,7 +319,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     switch (row?.status?.toLowerCase()) {
       case "arrived":
         return "#EEBD5E";
-      case "in shipping":
+      case "shipping":
         return "#FFE03F";
       case "packed":
         return "#80B213";
