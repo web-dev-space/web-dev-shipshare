@@ -15,7 +15,6 @@ import { NavSectionVertical } from '../../../components/nav-section';
 import navConfig from './config-navigation';
 import NavAccount from './NavAccount';
 import NavToggleButton from './NavToggleButton';
-import {useSelector} from "react-redux";
 
 // ----------------------------------------------------------------------
 
@@ -35,8 +34,6 @@ export default function NavVertical({ openNav, onCloseNav }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
-
-  const role = useSelector(state => state.auth.role);
 
   const renderContent = (
     <Scrollbar
@@ -65,7 +62,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
           <NavAccount />
       </Stack>
 
-      <NavSectionVertical data={navConfig(role)} />
+      <NavSectionVertical data={navConfig} />
 
       <Box sx={{ flexGrow: 1 }} />
 
