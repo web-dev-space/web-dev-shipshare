@@ -76,10 +76,70 @@ const examplePosts = [{
         viewsNumber: 8820,
         repostsNumber: 7460,
     },
+    {
+        title: "Welcome to Shipshare!",
+        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+        author: "Joe Doe",
+        date: new Date("2018-08-01"),
+        image: "https://source.unsplash.com/random",
+        commentsNumber: 1910,
+        viewsNumber: 2820,
+        repostsNumber: 7460,
+    },
+    {
+        title: "Welcome to Shipshare!",
+        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+        author: "Joe Doe",
+        date: new Date("2020-08-22"),
+        image: "https://source.unsplash.com/random",
+        commentsNumber: 1910,
+        viewsNumber: 3820,
+        repostsNumber: 7460,
+    },
+    {
+        title: "Welcome to Shipshare!",
+        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+        author: "Joe Doe",
+        date: new Date("2021-03-22"),
+        image: "https://source.unsplash.com/random",
+        commentsNumber: 1910,
+        viewsNumber: 4820,
+        repostsNumber: 7460,
+    },
+    {
+        title: "Welcome to Shipshare!",
+        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+        author: "Joe Doe",
+        date: new Date("2023-01-01"),
+        image: "https://source.unsplash.com/random",
+        commentsNumber: 1910,
+        viewsNumber: 2320,
+        repostsNumber: 7460,
+    },
+    {
+        title: "Welcome to Shipshare!",
+        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+        author: "Joe Doe",
+        date: new Date("2021-07-01"),
+        image: "https://source.unsplash.com/random",
+        commentsNumber: 1910,
+        viewsNumber: 4420,
+        repostsNumber: 7460,
+    },
+    {
+        title: "Welcome to Shipshare!",
+        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+        author: "Joe Doe",
+        date: new Date("2020-08-01"),
+        image: "https://source.unsplash.com/random",
+        commentsNumber: 1910,
+        viewsNumber: 8820,
+        repostsNumber: 7460,
+    },
 ];
 
 const Discover = () => {
-    const MAX_SIZE_PER_PAGE = 3;
+    const MAX_SIZE_PER_PAGE = 10;
     const [open, setOpen] = useState(false);
 
     const [focusChip, setFocusChip] = useState('Latest');
@@ -222,7 +282,14 @@ const Discover = () => {
                             display: 'flex',
                             flexDirection:'column',
                             gap: 16 }}>
-                            {visiblePosts.map((post) => (
+                            {visiblePosts.sort((a, b) => {
+                                if (focusChip === 'Latest') {
+                                    return b.date - a.date;
+                                } else if (focusChip === 'Popular') {
+                                    return b.viewsNumber - a.viewsNumber;
+                                }
+                                return 0;
+                            }).map((post) => (
                                 <PostCard
                                     title={post.title}
                                     post={post.post}
