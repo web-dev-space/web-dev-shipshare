@@ -11,13 +11,14 @@ import GroupMainMerchant from "./3-Groups/GroupMain-Merchant";
 import { Group } from "../Buyer/3-Groups";
 import ShipmentMainPage from "../Buyer/2-Shipments/Shipment-Main";
 import DiscoverMerchantPage from "../Merchant/4-Community/Discover/Merchant-Main.js"
+import ShipmentsMainMerchant from "../Merchant/2-Shipments/Shipment-MainMerchant"
 
 export default function Merchant() {
     return (
         <Routes>
             <Route path="/" element={<MerchantParcelMain />} />
             <Route path="/parcels" element={<MerchantParcelMain />} />
-            <Route path="/shipments" element={<ShipmentMainPage />} />
+            <Route path="/shipments" element={<ShipmentsMainMerchant />} />
             <Route path="/groups/*" element={<GroupMainMerchant />} />
             <Route path="/community/*" element={<Community />} />
             <Route path="/account/*" element={<Account />} />
