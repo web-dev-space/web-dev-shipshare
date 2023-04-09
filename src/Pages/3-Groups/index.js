@@ -3,6 +3,7 @@ import GroupMain from "./Group-Main";
 import FormGroup from "./FormGroupPage";
 import GroupDetail from "./GroupDetail";
 import Checkout from "./Checkout";
+import GroupMainMerchant from "./GroupMain-Merchant";
 
 
 export function Group() {
@@ -10,6 +11,7 @@ export function Group() {
         <div>
             <Routes>
                 <Route path="/"    element={<GroupMain/>}/>
+              <Route path="/merchant"    element={<GroupMainMerchant/>}/>
                 <Route path="/form-new-group" element={<FormGroup/>}/>
                 <Route path="/group-details" element={<GroupDetail/>}/>
                 <Route path="/checkout" element={<Checkout/>}/>
