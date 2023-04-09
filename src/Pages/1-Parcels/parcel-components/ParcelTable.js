@@ -159,6 +159,18 @@ const ParcelTable = ({ data }) => {
     const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
     const [paddingHeight, setPaddingHeight] = React.useState(0);
     React.useEffect(() => {setRows(data)}, [data]);
+
+    const [open, setOpen] = React.useState(false);
+    const [selectedParcel, setSelectedParcel] = React.useState({});
+
+    const handleOpen = (parcel) => {
+        setSelectedParcel(parcel);
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
     // Sort rows
     const handleRequestSort = React.useCallback(
         (event, newOrderBy) => {
@@ -343,7 +355,7 @@ const ParcelTable = ({ data }) => {
                                                     border: "1px solid rgba(0, 90, 100, 0.35)",
                                                 }}
                                                 onClick={() => {
-                                                    console.log("aaa");
+                                                    handleOpen(row);
                                                 }}
                                             >
                                                 Details
@@ -368,6 +380,36 @@ const ParcelTable = ({ data }) => {
             <Box sx={{ mt: 4, mb: 2 }} display="flex" justifyContent="center">
                 <PageNavigation />
             </Box>
+            
+            <Drawer
+                anchor="right"
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+                sx={{
+                    display: "flex",
+                    alignItems: "flex-end",
+                    overflowY: "auto",
+                    flexDirection: "column",
+                    height: "auto",
+                    minHeight: "100%",
+                }}
+            >
+                <Box
+                    sx={{
+                        bgcolor: "background.paper",
+                        boxShadow: 24,
+                        // p: 4,
+                        padding: "53px 22px",
+                        width: "400px",
+                        outline: "none",
+                        m: 0,
+                    }}
+                >
+                    <ParcelDetailsScreen parcel={selectedParcel} handleClose={handleClose} />
+                </Box>
+            </Drawer>
         </div>
     );
 };

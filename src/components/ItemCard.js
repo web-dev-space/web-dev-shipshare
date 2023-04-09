@@ -1,7 +1,7 @@
 import React from "react";
 import Colors from '../styles/Colors';
 import FontSizes from '../styles/FontSizes';
-import BookIcon from '@mui/icons-material/Book';
+import InventoryIcon from '@mui/icons-material/Inventory';
 
 const FontFamily = {
 }
@@ -12,7 +12,7 @@ const ItemCard = ({ items, leftCornerIconColor, title }) => {
       <div style={styles.deliveryBar}>
         {/*<Feather name="package" size={24} color={Colors.statusOrange} />*/}
 
-        <BookIcon htmlColor="#F9C662"/>
+        <InventoryIcon htmlColor="#F9C662" style={{fontSize:18}}/>
         <div style={styles.deliveryBarText}>{title}</div>
       </div>
 
@@ -32,7 +32,7 @@ const ItemCard = ({ items, leftCornerIconColor, title }) => {
               <div style={styles.itemContainer}>
                 <div style={styles.itemTitle}>{item.name}</div>
                 <div style={styles.itemNumber}>{item.trackingNumber}</div>
-                {item.weight && <div style={styles.itemTitle}>{item.weight} kg</div>}
+                {item.weight && <div style={styles.itemWeight}>{item.weight} kg</div>}
               </div>
             </div>
           </div>
@@ -58,6 +58,12 @@ const styles = {
     color: Colors.blackText,
     fontSize: FontSizes.groupCardText,
     fontWeight: 'bold',
+    marginBottom: 6,
+    fontFamily: FontFamily.bold,
+  },
+  itemWeight: {
+    color: Colors.blackText,
+    fontSize: FontSizes.groupCardText,
     marginBottom: 6,
     fontFamily: FontFamily.bold,
   },

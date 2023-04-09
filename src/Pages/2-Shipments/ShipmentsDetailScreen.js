@@ -213,7 +213,7 @@ const styles = {
     fontFamily: FontFamily.bold,
   },
   flexRow: {
-    disply: 'flex',
+    display: 'flex',
     marginTop: 20,
     flexDirection: 'row',
     alignItems: 'center',
@@ -250,7 +250,6 @@ const styles = {
   },
   addressTitle: {
     color: Colors.textGray,
-    marginLeft: 10,
     fontSize: FontSizes.bodyText,
     fontWeight: 'bold',
     fontFamily: FontFamily.bold,
