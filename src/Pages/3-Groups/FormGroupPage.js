@@ -158,7 +158,7 @@ export default function FormGroupPage() {
                     <Button
                       type={activeStep === 1 ? "submit" : "button"}
                       onClick={handleNext}>
-                      {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                      {activeStep === steps.length - 1 ? 'Back to group page' : 'Next'}
                     </Button>
                   </Box>
                 </React.Fragment>

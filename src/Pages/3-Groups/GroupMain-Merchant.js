@@ -48,7 +48,6 @@ const headCells = [
   {id: 'route', numeric: false, disablePadding: false, label: 'Route'},
   {id: 'endDate', numeric: false, disablePadding: false, label: 'End Date'},
   {id: 'pickUpAt', numeric: false, disablePadding: false, label: 'Pick Up At'},
-  {id: 'Distance', numeric: false, disablePadding: false, label: 'Distance'},
   {id: 'actions', numeric: false, disablePadding: false, label: 'Action'},
 ];
 
@@ -126,7 +125,7 @@ function getComparator(order, orderBy) {
 
 
 // ----------------------------------------------------------------------------------------------
-const GroupMainPage = () => {
+const GroupMainMerchant = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -307,15 +306,6 @@ const GroupMainPage = () => {
                      spacing={2}
               >
                 <Button
-                  variant="contained"
-                  size="large"
-                  color='primary'
-                  startIcon={<Iconify icon="eva:plus-fill"/>}
-                  href="/groups/form-new-group"
-                >
-                  Form New
-                </Button>
-                <Button
                   // component={RouterLink}
                   // to={PATH_DASHBOARD.eCommerce.new}
                   variant="outlined"
@@ -388,30 +378,30 @@ const GroupMainPage = () => {
                         </TableCell>
                         <TableCell>
                           <Box
-                          sx={{
-                            alignItems: 'center',
-                            display: 'flex',
-                          }}
-                          >
-                          <svg style={{paddingRight:3}} width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#clip0_1_1749)">
-                              <path d="M5.30005 15C4.67505 15 4.1438 14.7813 3.7063 14.3438C3.2688 13.9063 3.05005 13.375 3.05005 12.75H1.55005V4.5C1.55005 4.0875 1.69705 3.7345 1.99105 3.441C2.28455 3.147 2.63755 3 3.05005 3H13.55V6H15.8L18.05 9V12.75H16.55C16.55 13.375 16.3313 13.9063 15.8938 14.3438C15.4563 14.7813 14.925 15 14.3 15C13.675 15 13.1438 14.7813 12.7063 14.3438C12.2688 13.9063 12.05 13.375 12.05 12.75H7.55005C7.55005 13.375 7.3313 13.9063 6.8938 14.3438C6.4563 14.7813 5.92505 15 5.30005 15ZM5.30005 13.5C5.51255 13.5 5.6908 13.428 5.8348 13.284C5.9783 13.1405 6.05005 12.9625 6.05005 12.75C6.05005 12.5375 5.9783 12.3595 5.8348 12.216C5.6908 12.072 5.51255 12 5.30005 12C5.08755 12 4.9093 12.072 4.7653 12.216C4.6218 12.3595 4.55005 12.5375 4.55005 12.75C4.55005 12.9625 4.6218 13.1405 4.7653 13.284C4.9093 13.428 5.08755 13.5 5.30005 13.5ZM14.3 13.5C14.5125 13.5 14.6905 13.428 14.834 13.284C14.978 13.1405 15.05 12.9625 15.05 12.75C15.05 12.5375 14.978 12.3595 14.834 12.216C14.6905 12.072 14.5125 12 14.3 12C14.0875 12 13.9095 12.072 13.766 12.216C13.622 12.3595 13.55 12.5375 13.55 12.75C13.55 12.9625 13.622 13.1405 13.766 13.284C13.9095 13.428 14.0875 13.5 14.3 13.5ZM13.55 9.75H16.7375L15.05 7.5H13.55V9.75Z" fill="#EEBD5E"/>
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_1_1749">
-                                <rect width="18" height="18" fill="white" transform="translate(0.800049)"/>
-                              </clipPath>
-                            </defs>
-                          </svg>
-
-                          <Typography
-                            variant="body"
                             sx={{
-                              color: 'rgb(238, 189, 94)',
+                              alignItems: 'center',
+                              display: 'flex',
                             }}
                           >
-                            {row.route}
-                          </Typography>
+                            <svg style={{paddingRight:3}} width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <g clip-path="url(#clip0_1_1749)">
+                                <path d="M5.30005 15C4.67505 15 4.1438 14.7813 3.7063 14.3438C3.2688 13.9063 3.05005 13.375 3.05005 12.75H1.55005V4.5C1.55005 4.0875 1.69705 3.7345 1.99105 3.441C2.28455 3.147 2.63755 3 3.05005 3H13.55V6H15.8L18.05 9V12.75H16.55C16.55 13.375 16.3313 13.9063 15.8938 14.3438C15.4563 14.7813 14.925 15 14.3 15C13.675 15 13.1438 14.7813 12.7063 14.3438C12.2688 13.9063 12.05 13.375 12.05 12.75H7.55005C7.55005 13.375 7.3313 13.9063 6.8938 14.3438C6.4563 14.7813 5.92505 15 5.30005 15ZM5.30005 13.5C5.51255 13.5 5.6908 13.428 5.8348 13.284C5.9783 13.1405 6.05005 12.9625 6.05005 12.75C6.05005 12.5375 5.9783 12.3595 5.8348 12.216C5.6908 12.072 5.51255 12 5.30005 12C5.08755 12 4.9093 12.072 4.7653 12.216C4.6218 12.3595 4.55005 12.5375 4.55005 12.75C4.55005 12.9625 4.6218 13.1405 4.7653 13.284C4.9093 13.428 5.08755 13.5 5.30005 13.5ZM14.3 13.5C14.5125 13.5 14.6905 13.428 14.834 13.284C14.978 13.1405 15.05 12.9625 15.05 12.75C15.05 12.5375 14.978 12.3595 14.834 12.216C14.6905 12.072 14.5125 12 14.3 12C14.0875 12 13.9095 12.072 13.766 12.216C13.622 12.3595 13.55 12.5375 13.55 12.75C13.55 12.9625 13.622 13.1405 13.766 13.284C13.9095 13.428 14.0875 13.5 14.3 13.5ZM13.55 9.75H16.7375L15.05 7.5H13.55V9.75Z" fill="#EEBD5E"/>
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_1_1749">
+                                  <rect width="18" height="18" fill="white" transform="translate(0.800049)"/>
+                                </clipPath>
+                              </defs>
+                            </svg>
+
+                            <Typography
+                              variant="body"
+                              sx={{
+                                color: 'rgb(238, 189, 94)',
+                              }}
+                            >
+                              {row.route}
+                            </Typography>
                           </Box>
                         </TableCell>
                         <TableCell>
@@ -429,29 +419,23 @@ const GroupMainPage = () => {
                           </Typography>
                         </TableCell>
                         <TableCell>
-                          <Typography
-                            variant="body"
-                          >
-                            0.5 miles
-                          </Typography>
-                        </TableCell>
-                        <TableCell>
                           <Button variant="contained"
                                   sx={{
                                     color: 'white',
-                                    borderRadius: 5,
+                                    borderRadius: 1,
                                     backgroundColor: '80B213',
                                     height: 45,
-                                  }} href="/groups/checkout">
-                              Join
+                                  }} href="/groups/group-details">
+                            Group Page
                           </Button>
                         </TableCell>
                         <TableCell>
                           <Button
-                            href={"/groups/group-details"}
-                            sx={{borderRadius: 5, backgroundColor: 'white', height: 45,}}
+                            variant="outlined"
+                            // href={"/groups/group-details"}
+                            sx={{borderRadius: 1,  height: 45,}}
                           >
-                            <MoreHorizIcon/></Button>
+                            Details</Button>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -563,4 +547,4 @@ const FilterDialog = ({
 };
 
 
-export default GroupMainPage;
+export default GroupMainMerchant;
