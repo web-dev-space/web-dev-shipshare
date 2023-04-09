@@ -37,6 +37,7 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import {visuallyHidden} from "@mui/utils";
 import {ALL_STATES, stateFullNameToAbbr} from "./allStates";
 import ShippingDetailScreen from "../2-Shipments/ShipmentsDetailScreen";
+import GroupDetailDrawerScreen from "./GroupDetailDrawerScreen";
 
 
 const DEFAULT_ORDER = 'asc';
@@ -506,7 +507,7 @@ const GroupMainMerchant = () => {
                 m: 0,
               }}
             >
-              <ShippingDetailScreen handleClose={handleCloseDrawer}/>
+              <GroupDetailDrawerScreen handleClose={handleCloseDrawer}/>
             </Box>
           </Drawer>
 
