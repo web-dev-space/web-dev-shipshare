@@ -1,6 +1,6 @@
 import {Route, Router, Routes} from "react-router";
 import ChangePassword from "./Change-Password";
-import AccountInfo from "./Account-Info";
+import AccountInfo from "./AccountInfo";
 
 export function Account() {
     return (
