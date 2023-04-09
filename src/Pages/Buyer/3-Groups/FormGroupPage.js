@@ -18,7 +18,7 @@ import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import FormGroupStepOne from "./FormGroup-StepOne";
 import FormGroupStepTwo from "./FormGroup-StepTwo";
 import FormGroupStepThree from "./FormGroup-StepThree";
-import FormProvider, {RHFTextField} from "../../third-party/components/hook-form";
+import FormProvider, {RHFTextField} from "../../../third-party/components/hook-form";
 import * as Yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
