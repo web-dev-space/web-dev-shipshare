@@ -59,6 +59,7 @@ export default function Header({ onOpenNav }) {
         justifyContent="flex-end"
         spacing={{ xs: 0.5, sm: 1.5 }}
       >
+        <NotificationsPopover />
         <AccountPopover />
       </Stack>
     </>

@@ -75,10 +75,12 @@ const ParcelMainPage = () => {
     const handleCloseFilter = () => {
         setOpenFilter(false);
     }
+    const [filterAddedIn, setFilterAddedIn] = useState("all");
     const [filterStatus, setFilterStatus] = useState("all");
     const [filterCourier, setFilterCourier] = useState("all");
 
     const handleFilter  = () => {
+        console.log({filterAddedIn, filterStatus, filterCourier});
         setTableData(
             originalData.filter((val) => {
                 return filterCourier === "all" || val.courier === filterCourier;
@@ -148,6 +150,7 @@ const ParcelMainPage = () => {
                         </Box>
                         <AddParcelDialog open={openAddParcel} onClose={handleCloseAddParcel} />
                         <FilterDialog open={openFilter} onClose={handleCloseFilter}
+                                        filterAddedIn={filterAddedIn} setFilterAddedIn={setFilterAddedIn}
                                         filterStatus={filterStatus} setFilterStatus={setFilterStatus}
                                         filterCourier={filterCourier} setFilterCourier={setFilterCourier}
                                         onSubmitFilter={handleFilter}
@@ -247,9 +250,14 @@ const AddParcelDialog = ({ open, onClose }) => {
 
 
 const FilterDialog = ({ open, onClose,onSubmitFilter,
+                          filterAddedIn, setFilterAddedIn,
                           filterStatus, setFilterStatus,
                           filterCourier, setFilterCourier}) =>
 {
+    const handleAddedInChange = (event) => {
+        setFilterAddedIn(event.target.value);
+    };
+
     const handleStatusChange = (event) => {
         setFilterStatus(event.target.value);
     };
@@ -262,9 +270,24 @@ const FilterDialog = ({ open, onClose,onSubmitFilter,
         <Dialog open={open} onClose={onClose}>
             <DialogTitle>Filter</DialogTitle>
             <DialogContent>
-                <DialogContentText style={{marginBottom:14}}>
+                <DialogContentText style={{marginBottom:16}}>
                     Please select the filter options below.
                 </DialogContentText>
+                <FormControl fullWidth margin="dense">
+                    <InputLabel id="added-in-label">Added In</InputLabel>
+                    <Select
+                        labelId="added-in-label"
+                        id="added-in"
+                        value={filterAddedIn}
+                        onChange={handleAddedInChange}
+                        label="Added In"
+                    >
+                        <MenuItem value="all" selected>All</MenuItem>
+                        <MenuItem value={7}>7 days</MenuItem>
+                        <MenuItem value={15}>15 days</MenuItem>
+                        <MenuItem value={30}>30 days</MenuItem>
+                    </Select>
+                </FormControl>
                 <FormControl fullWidth margin="dense">
                     <InputLabel id="status-label">Status</InputLabel>
                     <Select
@@ -298,6 +321,7 @@ const FilterDialog = ({ open, onClose,onSubmitFilter,
             <DialogActions>
                 <Button onClick={() => {
                     setFilterStatus("all");
+                    setFilterAddedIn("all");
                     setFilterCourier("all");
                     onSubmitFilter();
                 }}>Reset</Button>
