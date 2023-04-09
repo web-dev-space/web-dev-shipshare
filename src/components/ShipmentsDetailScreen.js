@@ -1,15 +1,15 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, IconButton, Typography } from '@mui/material';
-import CustomizedSteppers from "../../../components/CustomizedSteppers";
-import DeliveryStatusCard from '../../../components/DeliveryStatusCard';
-import ItemCard from '../../../components/ItemCard.js';
-import deliveryStatus from '../../../sampleData/deliveryStatus';
-import { parcelData } from '../../../sampleData/parcels';
-import shipGroups from '../../../sampleData/shipGroups';
-import Colors from '../../../styles/Colors';
-import FontSizes from '../../../styles/FontSizes';
-import { calculateDeliveryTime } from '../../../utils/calculateDeliveryTime';
-import { convertDateToString } from '../../../utils/convertDateToString';
+import CustomizedSteppers from "./CustomizedSteppers";
+import DeliveryStatusCard from './DeliveryStatusCard';
+import ItemCard from './ItemCard.js';
+import deliveryStatus from '../sampleData/deliveryStatus';
+import { parcelData } from '../sampleData/parcels';
+import shipGroups from '../sampleData/shipGroups';
+import Colors from '../styles/Colors';
+import FontSizes from '../styles/FontSizes';
+import { calculateDeliveryTime } from '../utils/calculateDeliveryTime';
+import { convertDateToString } from '../utils/convertDateToString';
 
 const FontFamily = {
 }

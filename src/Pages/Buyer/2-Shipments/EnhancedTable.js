@@ -17,7 +17,7 @@ import PropTypes from "prop-types";
 import React, {useEffect, useState} from "react";
 import {v4 as uuidv4} from "uuid";
 import OrangeChipGroup from "../../../components/OrangeChipGroup";
-import ShippingDetailScreen from "./ShipmentsDetailScreen.js";
+import ShippingDetailScreen from "../../../components/ShipmentsDetailScreen.js";
 import { status } from "nprogress";
 
 function descendingComparator(a, b, orderBy) {
