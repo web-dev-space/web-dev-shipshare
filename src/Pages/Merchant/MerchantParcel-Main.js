@@ -42,7 +42,7 @@ const MerchantParcelMainPage = () => {
             originalData.filter((val) => {
             if (searchTerm === "") {
                 return val;
-            } else if (val.trackingNumber.startsWith(searchTerm)) {
+            } else if (val.trackingNumber.match(searchTerm)) {
                 return val;
             }
         }))

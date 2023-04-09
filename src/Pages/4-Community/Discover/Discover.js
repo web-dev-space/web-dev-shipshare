@@ -66,7 +66,16 @@ const examplePosts = [{
         viewsNumber: 8820,
         repostsNumber: 7460,
     },
-
+    {
+        title: "Welcome to Shipshare!",
+        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
+        author: "Joe Doe",
+        date: new Date("2021-08-01"),
+        image: "https://source.unsplash.com/random",
+        commentsNumber: 1910,
+        viewsNumber: 8820,
+        repostsNumber: 7460,
+    },
 ];
 
 const Discover = () => {
@@ -76,6 +85,7 @@ const Discover = () => {
     const [focusChip, setFocusChip] = useState('Latest');
     const [filter, setFilter] = useState('All');
     const [posts, setPosts] = useState(examplePosts);
+    const [filteredPosts, setFilteredPosts] = useState(examplePosts);
     const [page, setPage] = useState(1);
 
     const handleOpen = () => {
@@ -88,6 +98,32 @@ const Discover = () => {
 
     const handlePaginationChange = (event, page) => {
         console.log(page);
+    };
+
+
+    // search bar
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const handleSearch = () => {
+        console.log(searchTerm);
+        setFilteredPosts(
+            posts.filter((val) => {
+                if (searchTerm === "") {
+                    return val;
+                } else if (val.title.match(searchTerm)) {
+                    return val;
+                }
+            }));
+    };
+
+    const handleInputChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
     };
 
     return (
@@ -155,6 +191,11 @@ const Discover = () => {
                                 searchText="Search by Post Title"
                                 width={360}
                                 height={48}
+                                searchTerm={searchTerm}
+                                setSearchTerm={setSearchTerm}
+                                handleSearch={handleSearch}
+                                handleInputChange={handleInputChange}
+                                handleKeyPress={handleKeyPress}
                             />
                             {/*---NewPost---*/}
                             <GreenChipGroup chipLabelsArray={chipLabelsArray}
@@ -170,16 +211,16 @@ const Discover = () => {
                             display: 'flex',
                             flexDirection:'column',
                             gap: 16 }}>
-                            {examplePosts.map((examplePost) => (
+                            {filteredPosts.map((post) => (
                                 <PostCard
-                                    title={examplePost.title}
-                                    post={examplePost.post}
-                                    author={examplePost.author}
-                                    date={examplePost.date}
-                                    image={examplePost.image}
-                                    commentsNumber={examplePost.commentsNumber}
-                                    viewsNumber={examplePost.viewsNumber}
-                                    repostsNumber={examplePost.repostsNumber} />
+                                    title={post.title}
+                                    post={post.post}
+                                    author={post.author}
+                                    date={post.date}
+                                    image={post.image}
+                                    commentsNumber={post.commentsNumber}
+                                    viewsNumber={post.viewsNumber}
+                                    repostsNumber={post.repostsNumber} />
                             ))}
                         </div>
 
