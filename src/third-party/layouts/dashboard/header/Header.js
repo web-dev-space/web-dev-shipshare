@@ -14,7 +14,11 @@ import Logo from '../../../components/logo';
 import Iconify from '../../../components/iconify';
 import { useSettingsContext } from '../../../components/settings';
 //
+import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
+import LanguagePopover from './LanguagePopover';
+import ContactsPopover from './ContactsPopover';
+import NotificationsPopover from './NotificationsPopover';
 
 // ----------------------------------------------------------------------
 

@@ -24,58 +24,54 @@ const ICONS = {
 
 // ----------------------------------------------------------------------
 
-function navConfig(role) {
-  // get the role, to set the nav paths
-  const rootPath = "/"+role;
+const navConfig = [
+  // Main Menu
+  {
+    subheader: 'Main Menu',
+    items: [
+      { title: 'Parcels', path: '/parcels', icon: ICONS.parcel },
+      { title: 'Shipments', path: '/shipments', icon: ICONS.shipment },
+      { title: 'Groups', path: '/groups', icon: ICONS.group },
+    ],
+  },
 
-  return ([
-      // Main Menu
+  // COMMUNITY
+  {
+    subheader: 'Community',
+    path: '/community/',
+    items: [
+      { title: 'Discover', path: '/community/discover', icon: ICONS.discover },
+      { title: 'Follow', path: '/community/follow', icon: ICONS.follow },
+      { title: 'My Profile', path: '/community/profile', icon: ICONS.profile },
+    ],
+  },
+
+  // More
+  {
+    subheader: 'More',
+    items: [
       {
-        subheader: 'Main Menu',
-        items: [
-          { title: 'Parcels', path: rootPath+'/parcels', icon: ICONS.parcel },
-          { title: 'Shipments', path: rootPath+'/shipments', icon: ICONS.shipment },
-          { title: 'Groups', path: rootPath+'/groups', icon: ICONS.group },
+        title: 'Account',
+        path: '/account/',
+        icon: ICONS.account,
+        children: [
+          { title: 'Account Info', path: '/account/account-info' },
+          { title: 'Change Password', path: '/account/change-password'},
         ],
       },
-
-      // COMMUNITY
       {
-        subheader: 'Community',
-        items: [
-          { title: 'Discover', path: rootPath+'/community/discover', icon: ICONS.discover },
-          { title: 'Follow', path: rootPath+'/community/follow', icon: ICONS.follow },
-          { title: 'My Profile', path: rootPath+'/community/profile', icon: ICONS.profile },
+        title: 'Help',
+        path: '/help/',
+        icon: ICONS.help,
+        children: [
+          {title: 'Tutorials', path: '/help/tutorials'},
+          {title: 'Warehouse Address', path: '/help/warehouse-address'},
+          {title: 'Time & Costs', path: '/help/time-costs'},
+          {title: 'Calculate Fees', path: '/help/calculate-fees'},
         ],
-      },
-
-      // More
-      {
-        subheader: 'More',
-        items: [
-          {
-            title: 'Account',
-            path: rootPath + '/account/',
-            icon: ICONS.account,
-            children: [
-              {title: 'Account Info', path: rootPath+'/account/account-info'},
-              {title: 'Change Password', path: rootPath+'/account/change-password'},
-            ],
-          },
-          {
-            title: 'Help',
-            path: rootPath + '/help/',
-            icon: ICONS.help,
-            children: [
-              {title: 'Tutorials', path: rootPath+'/help/tutorials'},
-              {title: 'Warehouse Address', path: rootPath+'/help/warehouse-address'},
-              {title: 'Time & Costs', path: rootPath+'/help/time-costs'},
-              {title: 'Calculate Fees', path: rootPath+'/help/calculate-fees'},
-            ],
-          }
-        ]
       }
-    ]);
-}
+    ],
+  },
+];
 
 export default navConfig;
