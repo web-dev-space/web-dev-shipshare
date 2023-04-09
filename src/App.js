@@ -6,19 +6,16 @@ import SnackbarProvider from "./third-party/components/snackbar";
 import {ThemeSettings, SettingsProvider} from './third-party/components/settings';
 import {MotionLazyContainer} from './third-party/components/animate';
 import ScrollToTop from './third-party/components/scroll-to-top';
-import ParcelMainPage from "./Pages/1-Parcels/Parcel-Main";
-import ShipmentMainPage from "./Pages/2-Shipments/Shipment-Main.js";
 import {Route, Routes} from "react-router";
-import {Group} from "./Pages/3-Groups";
-import {Account} from "./Pages/5-Account";
-import {Community} from "./Pages/4-Community";
-import {Help} from "./Pages/6-Help";
 import {faCube} from "@fortawesome/free-solid-svg-icons";
 import {library} from "@fortawesome/fontawesome-svg-core";
 import {Provider} from "react-redux";
 import store from "./redux/store";
 import LoginPage from "./Pages/0-SignIn & SignUp/SignInPage";
 import SignUpPage from "./Pages/0-SignIn & SignUp/SignUpPage";
+import Buyer from "./Pages/Buyer";
+import Merchant from "./Pages/Merchant";
+import ChangeRole from "./change-role";
 
 // ----------------------------------------------------------------------
 
@@ -36,13 +33,9 @@ export default function App() {
                 <SnackbarProvider>
                   {/*---------------Main Routers----------------*/}
                   <Routes>
-                    <Route path="/" element={<ParcelMainPage/>}/>
-                    <Route path="/parcels" element={<ParcelMainPage/>}/>
-                    <Route path="/shipments" element={<ShipmentMainPage/>}/>
-                    <Route path="/groups/*" element={<Group/>}/>
-                    <Route path="/community/*" element={<Community/>}/>
-                    <Route path="/account/*" element={<Account/>}/>
-                    <Route path="/help/*" element={<Help/>}/>
+                    <Route path="/" element={<ChangeRole/>}/>
+                    <Route path="/buyer/*" element={<Buyer/>}/>
+                    <Route path="/merchant/*" element={<Merchant/>}/>
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/signup" element={<SignUpPage/>}/>
                   </Routes>
