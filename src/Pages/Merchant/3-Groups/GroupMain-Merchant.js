@@ -435,7 +435,7 @@ const GroupMainMerchant = () => {
                                     borderRadius: 1,
                                     backgroundColor: '80B213',
                                     height: 45,
-                                  }} href="/groups/group-details">
+                                  }} href="./groups/group-details">
                             Group Page
                           </Button>
                         </TableCell>

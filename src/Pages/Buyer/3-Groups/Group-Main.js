@@ -448,7 +448,7 @@ const GroupMainPage = () => {
                         </TableCell>
                         <TableCell>
                           <Button
-                            href={"/groups/group-details"}
+                            href={"./groups/group-details"}
                             sx={{borderRadius: 5, backgroundColor: 'white', height: 45,}}
                           >
                             <MoreHorizIcon/></Button>
