@@ -11,7 +11,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useSnackbar} from "notistack";
 import {useNavigate} from "react-router-dom";
-import FormProvider, {RHFTextField} from "../../third-party/components/hook-form";
+import FormProvider, {RHFTextField} from "../../../third-party/components/hook-form";
 
 
 export default function FormGroupStepTwo() {

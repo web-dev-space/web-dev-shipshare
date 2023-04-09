@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import Header from "../../third-party/layouts/dashboard/header"
-import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical"
-import Main from "../../third-party/layouts/dashboard/Main"
+import Header from "../../../third-party/layouts/dashboard/header"
+import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
+import Main from "../../../third-party/layouts/dashboard/Main"
 import {
   Container,
   Typography,
@@ -23,14 +23,14 @@ import {
   DialogContent,
   DialogContentText, FormControl, InputLabel, Select, MenuItem, DialogActions, Drawer
 } from '@mui/material';
-import Iconify from "../../third-party/components/iconify";
-import Scrollbar from "../../third-party/components/scrollbar";
+import Iconify from "../../../third-party/components/iconify";
+import Scrollbar from "../../../third-party/components/scrollbar";
 import {Icon} from "@iconify/react";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {Pagination} from "@mui/lab";
 import TuneIcon from '@mui/icons-material/Tune';
-import OrangeChipGroup from "../../components/OrangeChipGroup";
-import {shipments} from "../../sampleData/shipments";
+import OrangeChipGroup from "../../../components/OrangeChipGroup";
+import {shipments} from "../../../sampleData/shipments";
 import Checkout from "../3-Groups/Checkout";
 import {Link} from "react-router-dom";
 import TableSortLabel from "@mui/material/TableSortLabel";
