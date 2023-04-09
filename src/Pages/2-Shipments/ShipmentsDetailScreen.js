@@ -22,10 +22,6 @@ const hintText = [
 
 
 const ShipmentDetails = ({ ship, handleClose }) => {
-  if (ship === undefined) {
-    ship = shipGroups[0];
-  }
-
   const width = window.innerWidth;
 
   const shipEndDate = '2021-08-01';
@@ -89,9 +85,9 @@ const ShipmentDetails = ({ ship, handleClose }) => {
             </div>
             <div>
               <div style={styles.addressTitle}>Shipping address</div>
-              <div style={styles.nameText}>{ship.pickupLocation.name}</div>
-              <div style={styles.contactText}>{ship.phoneNumber}</div>
-              <div style={styles.contactText}>{ship.pickupLocation.address}</div>
+              <div style={styles.nameText}>{ship?.pickupLocation?.name}</div>
+              <div style={styles.contactText}>{ship?.phoneNumber}</div>
+              <div style={styles.contactText}>{ship?.pickupLocation?.address}</div>
             </div>
           </div>
 

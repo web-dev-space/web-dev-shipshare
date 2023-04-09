@@ -1,6 +1,6 @@
-import {ToggleButton} from "@mui/lab";
+import { ToggleButton } from "@mui/lab";
 import Pagination from "@mui/lab/Pagination";
-import {Drawer, Stack} from "@mui/material";
+import { Drawer, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
@@ -11,11 +11,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import {ThemeProvider, createTheme, styled} from "@mui/material/styles";
-import {visuallyHidden} from "@mui/utils";
+import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
+import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
-import React, {useEffect, useState} from "react";
-import {v4 as uuidv4} from "uuid";
+import React, { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import OrangeChipGroup from "../../components/OrangeChipGroup";
 import ShippingDetailScreen from "./ShipmentsDetailScreen.js";
 
@@ -58,39 +58,39 @@ const headCells = [
     id: "shipRoute",
     numeric: false,
     disablePadding: false,
-    label: "shipRoute",
+    label: "Route",
   },
-  {id: "joinDate", numeric: false, disablePadding: false, label: "Join Date"},
+  { id: "joinDate", numeric: false, disablePadding: false, label: "Join Date" },
   {
     id: "pickupLocation",
     numeric: false,
     disablePadding: false,
     label: "Pickup At",
   },
-  {id: "status", numeric: false, disablePadding: false, label: "Status"},
-  {id: "actions", numeric: false, disablePadding: false, label: "Actions"},
+  { id: "status", numeric: false, disablePadding: false, label: "Status" },
+  { id: "actions", numeric: false, disablePadding: false, label: "Actions" },
 ];
 
-const DEFAULT_ORDER = "asc";
+const DEFAULT_ORDER = "desc";
 const DEFAULT_ORDER_BY = "joinDate";
 const DEFAULT_ROWS_PER_PAGE = 5;
 
 function MyTableHead(props) {
-  const {order, orderBy, onRequestSort} = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (newOrderBy) => (event) => {
     onRequestSort(event, newOrderBy);
   };
 
   return (
     <TableHead>
-      <TableRow style={{borderTop: "1px solid #EDF2F7"}}>
+      <TableRow style={{ borderTop: "1px solid #EDF2F7" }}>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
-            style={{backgroundColor: "white"}}
+            style={{ backgroundColor: "white" }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -126,7 +126,7 @@ const chipLabelsArray = [
   "Order Created",
 ];
 
-const StyledToggleButton = styled(ToggleButton)(({theme}) => ({
+const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
   "&.MuiToggleButton-root": {
     borderRadius: "25px",
     marginRight: "19px",
@@ -146,7 +146,7 @@ const StyledToggleButton = styled(ToggleButton)(({theme}) => ({
   },
 }));
 
-const FilterButtons = ({selected, setSelected}) => {
+const FilterButtons = ({ selected, setSelected }) => {
   const handleFilterChange = (event, selectedFilter) => {
     if (selectedFilter !== null && selectedFilter !== selected) {
       setSelected(selectedFilter);
@@ -188,7 +188,10 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
 
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
+  const [detailedShip, setDetailedShip] = useState({});
+
+  const handleOpen = (row) => {
+    setDetailedShip(row);
     setOpen(true);
   };
 
@@ -235,21 +238,11 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     const changePage = () => {
       const newPage = page - 1;
 
-      console.debug("newPage", newPage);
-
-      console.debug("rows", rows);
-
       const sortedRows = stableSort(rows, getComparator(order, orderBy));
       const updatedRows = sortedRows.slice(
         newPage * rowsPerPage,
         newPage * rowsPerPage + rowsPerPage
       );
-
-      console.debug("sortedRows", sortedRows);
-      console.debug("rowsPerPage", rowsPerPage);
-      console.debug("page", page);
-
-      console.debug("updatedRows", updatedRows);
 
       setVisibleRows(updatedRows);
 
@@ -346,10 +339,11 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     );
   };
 
+
   return (
-    <Box sx={{width: "100%"}}>
-      <Paper sx={{width: "100%", mb: 2}}>
-        <Box sx={{mb: 2}}>
+    <Box sx={{ width: "100%" }}>
+      <Paper sx={{ width: "100%", mb: 2 }}>
+        <Box sx={{ mb: 2 }}>
           {/* <Tooltip title="Filter list">
             <FilterButtons selected={selected} setSelected={setSelected} />
           </Tooltip> */}
@@ -365,7 +359,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
 
         <TableContainer>
           <Table
-            sx={{minWidth: 750}}
+            sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size={"medium"}
           >
@@ -377,6 +371,9 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
             <TableBody>
               {visibleRows
                 ? visibleRows.map((row, index) => {
+
+                  const cityName = row?.pickupLocation?.shortAddress?.split(",");
+
                   return (
                     <TableRow
                       hover
@@ -388,16 +385,16 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                       }}
                     >
                       <TableCell component="th" scope="row" padding="none">
-                        {row.trackingNumber}
+                        {row?.trackingNumber === undefined ? "N/A" : row?.trackingNumber}
                       </TableCell>
                       <TableCell align="left">{row.shipRoute}</TableCell>
-                      <TableCell align="left">{row.joinDate}</TableCell>
-                      <TableCell align="left">{row.pickupLocation}</TableCell>
+                      <TableCell align="left">{row?.joinDate === undefined ? "N/A" : row?.joinDate}</TableCell>
+                      <TableCell align="left">{cityName?.length >= 2 ? cityName[0] : cityName}</TableCell>
                       <TableCell
                         align="left"
-                        style={{color: getStatusColor(row)}}
+                        style={{ color: getStatusColor(row) }}
                       >
-                        {row.status}
+                        {row?.status === undefined ? "unknown" : row?.status}
                       </TableCell>
                       <TableCell align="left">
                         <Button
@@ -411,7 +408,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                             border: "1px solid rgba(0, 90, 100, 0.35)",
                           }}
                           onClick={() => {
-                            handleOpen();
+                            handleOpen(row);
                           }}
                         >
                           Details
@@ -427,14 +424,14 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                     height: paddingHeight,
                   }}
                 >
-                  <TableCell colSpan={6}/>
+                  <TableCell colSpan={6} />
                 </TableRow>
               )}
             </TableBody>
           </Table>
         </TableContainer>
-        <Box sx={{mt: 2}} display="flex" justifyContent="center">
-          <PageNavigation/>
+        <Box sx={{ mt: 2 }} display="flex" justifyContent="center">
+          <PageNavigation />
         </Box>
       </Paper>
 
@@ -464,7 +461,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
             m: 0,
           }}
         >
-          <ShippingDetailScreen handleClose={handleClose}/>
+          <ShippingDetailScreen handleClose={handleClose} ship={detailedShip} />
         </Box>
       </Drawer>
     </Box>
