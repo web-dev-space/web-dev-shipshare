@@ -31,13 +31,13 @@ import {Pagination} from "@mui/lab";
 import TuneIcon from '@mui/icons-material/Tune';
 import OrangeChipGroup from "../../../components/OrangeChipGroup";
 import {shipments} from "../../../sampleData/shipments";
-import Checkout from "../3-Groups/Checkout";
+import Checkout from "../../Buyer/3-Groups/Checkout";
 import {Link} from "react-router-dom";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import {visuallyHidden} from "@mui/utils";
-import {ALL_STATES, stateFullNameToAbbr} from "./allStates";
-import ShippingDetailScreen from "../2-Shipments/ShipmentsDetailScreen";
-import GroupDetailDrawerScreen from "./GroupDetailDrawerScreen";
+import {ALL_STATES, stateFullNameToAbbr} from "../../Buyer/3-Groups/allStates";
+import ShippingDetailScreen from "../../Buyer/2-Shipments/ShipmentsDetailScreen";
+import GroupDetailDrawerScreen from "../../Buyer/3-Groups/GroupDetailDrawerScreen";
 
 
 const DEFAULT_ORDER = 'asc';

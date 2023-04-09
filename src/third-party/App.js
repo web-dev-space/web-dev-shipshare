@@ -8,7 +8,7 @@ import SnackbarProvider from './components/snackbar';
 import { ThemeSettings, SettingsProvider } from './components/settings';
 import { MotionLazyContainer } from './components/animate';
 import ScrollToTop from './components/scroll-to-top';
-import MerchantMain from "../Pages/Merchant/Merchant-Main";
+import MerchantMain from "../Pages/Merchant/4-Community/Discover/Merchant-Main";
 
 // ----------------------------------------------------------------------
 

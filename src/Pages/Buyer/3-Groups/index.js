@@ -3,7 +3,7 @@ import GroupMain from "./Group-Main";
 import FormGroup from "./FormGroupPage";
 import GroupDetail from "./GroupDetail";
 import Checkout from "./Checkout";
-import GroupMainMerchant from "./GroupMain-Merchant";
+import GroupMainMerchant from "../../Merchant/3-Groups/GroupMain-Merchant";
 
 
 export function Group() {

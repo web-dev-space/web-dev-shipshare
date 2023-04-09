@@ -5,11 +5,12 @@ import MerchantParcelMain from "./1-Parcels/MerchantParcel-Main";
 import { Account } from "../Buyer/5-Account";
 import { Help } from "../Buyer/6-Help";
 import { Community } from "../Buyer/4-Community";
-import GroupMainMerchant from "../Buyer/3-Groups/GroupMain-Merchant";
+import GroupMainMerchant from "./3-Groups/GroupMain-Merchant";
 
 // replace below imports with merchant pages
 import { Group } from "../Buyer/3-Groups";
 import ShipmentMainPage from "../Buyer/2-Shipments/Shipment-Main";
+import DiscoverMerchantPage from "../Merchant/4-Community/Discover/Merchant-Main.js"
 
 export default function Merchant() {
     return (
