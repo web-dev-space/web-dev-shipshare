@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: null,
   token: null,
+  role: "buyer"
 };
 
 const authSlice = createSlice({
@@ -15,9 +16,12 @@ const authSlice = createSlice({
     updateToken: (state, action) => {
       state.token = action.payload;
     },
+    updateRole: (state, action) => {
+      state.role = action.payload;
+    }
   },
 });
 
-export const { updateUser, updateToken } = authSlice.actions;
+export const { updateUser, updateToken, updateRole } = authSlice.actions;
 
 export default authSlice.reducer;
