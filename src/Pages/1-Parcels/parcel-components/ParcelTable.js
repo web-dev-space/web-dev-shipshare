@@ -1,6 +1,6 @@
 import * as React from "react";
 import { OutlinedOrangeButton, OriginalOrangeButton, DisabledOrangeButton } from "../../../components/TableButtons";
-import {Box} from "@mui/material";
+import {Box, Drawer} from "@mui/material";
 import './ParcelTable.css';
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -13,6 +13,7 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import {visuallyHidden} from "@mui/utils";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import Pagination from "@mui/lab/Pagination";
+import ParcelDetailsScreen from "./ParcelDetailsScreen";
 
 const DEFAULT_ORDER = "asc";
 const DEFAULT_ORDER_BY = "date";
@@ -308,7 +309,7 @@ const ParcelTable = ({ data }) => {
                         onRequestSort={handleRequestSort}
                     />
                     <TableBody>
-                        {visibleRows
+                        {visibleRows && visibleRows.length > 0
                             ? visibleRows.map((row, index) => {
                                 return (
                                     <TableRow
@@ -322,7 +323,7 @@ const ParcelTable = ({ data }) => {
                                     >
                                         <TableCell  paddingLeft="none">
                                             <div style={{ display: "flex", alignItems: "center" }}>
-                                                <img src={row.picture}
+                                                <img src={row.picture || require('../../../images/placeholder.png')}
                                                      alt={row.name}
                                                      width="60" height="60"
                                                      style={{ marginRight: 19, borderRadius:15,
