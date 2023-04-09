@@ -368,14 +368,10 @@ const MerchantParcelTable = ({ data }) => {
                                         </TableCell>
                                         <TableCell align="left">
                                             <Button
-                                                variant="contained"
-                                                sx={{
-                                                    backgroundColor: "white",
-                                                    "&:hover": {
-                                                        backgroundColor: "white",
-                                                    },
+                                                variant="outlined"
+                                                style={{
                                                     color: "#1A202C",
-                                                    border: "1px solid rgba(0, 90, 100, 0.35)",
+                                                    border: "1px solid rgba(0, 90, 100, 0.35)"
                                                 }}
                                                 onClick={() => {
                                                     handleOpen(row);
@@ -387,14 +383,9 @@ const MerchantParcelTable = ({ data }) => {
                                                 rowBeingEdited.trackingNumber === row.trackingNumber ? (
                                                     <Button
                                                         variant="contained"
+                                                        color="error"
                                                         sx={{
-                                                            backgroundColor: "white",
-                                                            "&:hover": {
-                                                                backgroundColor: "white",
-                                                            },
                                                             ml: 1,
-                                                            color: "#1A202C",
-                                                            border: "1px solid rgba(0, 90, 100, 0.35)",
                                                         }}
                                                         onClick={() => {
                                                             rowBeingEdited.weight = newWeight;
@@ -407,14 +398,9 @@ const MerchantParcelTable = ({ data }) => {
                                                 ) : (
                                                     <Button
                                                         variant="contained"
+                                                        color="primary"
                                                         sx={{
-                                                            backgroundColor: "white",
-                                                            "&:hover": {
-                                                                backgroundColor: "white",
-                                                            },
                                                             ml: 1,
-                                                            color: "#1A202C",
-                                                            border: "1px solid rgba(0, 90, 100, 0.35)",
                                                         }}
                                                         disabled={rowBeingEdited.trackingNumber && rowBeingEdited.trackingNumber !== row.trackingNumber}
                                                         onClick={() => {
