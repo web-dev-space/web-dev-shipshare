@@ -7,12 +7,13 @@ export default function SearchBar({width, height,
                                   searchText,
                                   searchTerm, setSearchTerm,
                                   handleSearch, handleInputChange,
-                                  handleKeyPress}) {
+                                  handleKeyPress, borderStyle}) {
     return (
         <Paper sx={{ p: '2px 4px', display: 'flex',
             alignItems: 'center',
             width: width, height: height,
-            border: '2px solid #80B213', borderRadius: 2 }}
+            border: borderStyle ? borderStyle : '2px solid #80B213',
+            borderRadius: 2 }}
         >
             {/*icon*/}
             <IconButton sx={{ p: '10px' }} aria-label="search"
