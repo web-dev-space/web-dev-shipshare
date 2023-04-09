@@ -54,7 +54,9 @@ const GroupDetailDrawerScreen = ({ship, handleClose}) => {
         {/*----------------------Team members-----------------------*/}
 
 
-        <Box>
+        <Box style={{
+          border: '1px solid rgb(226, 232, 240)', borderRadius: 10, marginTop: 40,
+        }}>
           <GroupMemberCard leftCornerIconColor={"#F9C662"}
                     items={parcelData}
                     title={"Group Members"}/>
