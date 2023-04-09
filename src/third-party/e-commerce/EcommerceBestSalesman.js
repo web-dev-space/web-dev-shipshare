@@ -88,14 +88,9 @@ function EcommerceBestSalesmanRow({ row }) {
         </Stack>
       </TableCell>
 
-      <TableCell>{row.category}</TableCell>
+      <TableCell>{row.total}</TableCell>
 
-      {/*<TableCell>*/}
-      {/*  <Image src={row.flag} alt="country flag" sx={{ maxWidth: 28, mx: 'auto' }} />*/}
-      {/*</TableCell>*/}
-
-      {/*<TableCell>{fCurrency(row.total)}</TableCell>*/}
-
+      {/* Rank */}
       <TableCell align="right">
         <Label
           variant="soft"

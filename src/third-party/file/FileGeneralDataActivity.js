@@ -69,7 +69,7 @@ export default function FileGeneralDataActivity({ title, subheader, chart, ...ot
       />
 
       {series.map((item) => (
-        <Box key={item.type} sx={{ mt: 4.5, mx: 3 }} dir="ltr">
+        <Box key={item.type} sx={{ mt: 3, mx: 3 }} dir="ltr">
           {item.type === seriesData && (
             <Chart type="bar" series={item.data} options={chartOptions} height={364} />
           )}

@@ -152,20 +152,18 @@ const Following = () => {
                               title="Line"
                               // subheader="(+43%) than last year"
                               chart={{
-                                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                                categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
                                 series: [
                                   {
                                     year: '2019',
                                     data: [
-                                      { name: 'Total Income', data: [10, 41, 35, 151, 49, 62, 69, 91, 48] },
-                                      { name: 'Total Expenses', data: [10, 34, 13, 56, 77, 88, 99, 77, 45] },
+                                      { name: 'Total Revenue', data: [10, 41, 35, 151, 49, 62, 69] },
                                     ],
                                   },
                                   {
                                     year: '2020',
                                     data: [
-                                      { name: 'Total Income', data: [148, 91, 69, 62, 49, 51, 35, 41, 10] },
-                                      { name: 'Total Expenses', data: [45, 77, 99, 88, 77, 56, 13, 34, 10] },
+                                      { name: 'Total Revenue', data: [148, 91, 69, 62, 49, 51, 35] },
                                     ],
                                   },
                                 ],
@@ -176,24 +174,24 @@ const Following = () => {
 
                           <Grid item xs={12} md={6} lg={6}>
                             <EcommerceBestSalesman
-                              title="Group Leader"
+                              title="Best Salesman"
                               tableData={_ecommerceBestSalesman}
                               tableLabels={[
-                                { id: 'seller', label: 'Seller' },
+                                { id: 'groupLeader', label: 'Group Leader' },
                                 { id: 'amount', label: 'Amount' },
-                                { id: 'rank', label: 'Rank', align: 'right' },
+                                { id: 'rank', label: 'Rank', align: 'right' }, //delete if not needed
                               ]}
                             />
                           </Grid>
 
                           <Grid item xs={12} md={6} lg={6}>
                             <EcommerceBestSalesman
-                              title="Buyer"
+                              title="Best Salesman"
                               tableData={_ecommerceBestSalesman}
                               tableLabels={[
-                                { id: 'seller', label: 'Seller' },
+                                { id: 'buyer', label: 'Buyer' },
                                 { id: 'amount', label: 'Amount' },
-                                { id: 'rank', label: 'Rank', align: 'right' },
+                                { id: 'rank', label: 'Rank', align: 'right' }, //delete if not needed
                               ]}
                             />
                           </Grid>
