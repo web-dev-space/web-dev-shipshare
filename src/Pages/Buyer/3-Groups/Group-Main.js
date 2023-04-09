@@ -311,7 +311,7 @@ const GroupMainPage = () => {
                   size="large"
                   color='primary'
                   startIcon={<Iconify icon="eva:plus-fill"/>}
-                  href="/groups/form-new-group"
+                  href="./groups/form-new-group"
                 >
                   Form New
                 </Button>
