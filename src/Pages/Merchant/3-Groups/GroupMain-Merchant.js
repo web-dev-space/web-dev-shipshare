@@ -37,7 +37,7 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import {visuallyHidden} from "@mui/utils";
 import {ALL_STATES, stateFullNameToAbbr} from "../../Buyer/3-Groups/allStates";
 import ShippingDetailScreen from "../../../components/ShipmentsDetailScreen";
-import GroupDetailDrawerScreen from "../../Buyer/3-Groups/GroupDetailDrawerScreen";
+import GroupDetailDrawerScreen from "./GroupDetailDrawerScreen";
 
 
 const DEFAULT_ORDER = 'asc';
@@ -345,7 +345,6 @@ const GroupMainMerchant = () => {
                   />
 
                   {/*table body*/}
-                  {/*first line data*/}
                   <TableBody>
                     {displayedItems.map((row) => (
                       <TableRow
@@ -436,8 +435,7 @@ const GroupMainMerchant = () => {
                                     backgroundColor: '80B213',
                                     height: 45,
                                   }} href="./groups/group-details">
-                            Group Page
-                          </Button>
+                            Group Page</Button>
                         </TableCell>
                         <TableCell>
                           <Button
@@ -447,8 +445,7 @@ const GroupMainMerchant = () => {
                             onClick={() => {
                               handleOpenDrawer();
                             }}
-                          >
-                            Details</Button>
+                          >Details</Button>
                         </TableCell>
                       </TableRow>
                     ))}

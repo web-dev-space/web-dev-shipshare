@@ -9,6 +9,7 @@ import shipGroups from '../../../sampleData/shipGroups';
 import Colors from '../../../styles/Colors';
 import FontSizes from '../../../styles/FontSizes';
 import GroupMemberCard from "../../../components/GroupMemberCard";
+import GroupItemCard from "../../../components/GroupItemCard";
 
 const FontFamily = {}
 
@@ -66,7 +67,7 @@ const GroupDetailDrawerScreen = ({ship, handleClose}) => {
         <Box style={{
           border: '1px solid rgb(226, 232, 240)', borderRadius: 10, marginTop: 40,
         }}>
-          <ItemCard leftCornerIconColor={"#F9C662"}
+          <GroupItemCard leftCornerIconColor={"#F9C662"}
                     items={parcelData}
                     title={"Items Included"}/>
         </Box>
