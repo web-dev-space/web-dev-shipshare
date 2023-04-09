@@ -121,7 +121,7 @@ MyTableHead.propTypes = {
 const chipLabelsArray = [
   "All",
   "Arrived",
-  "Shipping",
+  "In Shipping",
   "Packed",
   "Order Placed",
   "Order Created",
@@ -193,7 +193,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
       case 2:
         return "Packed";
       case 3:
-        return "Shipping";
+        return "In Shipping";
       case 4:
         return "Arrived";
       default:
@@ -319,7 +319,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     switch (row?.status?.toLowerCase()) {
       case "arrived":
         return "#EEBD5E";
-      case "shipping":
+      case "in shipping":
         return "#FFE03F";
       case "packed":
         return "#80B213";
