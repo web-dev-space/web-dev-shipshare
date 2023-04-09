@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
@@ -20,57 +20,57 @@ const examplePosts = [{
     title: "ShipShare is the Best Shipping Platform!",
     post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
     author: "Joe Doe",
-    date: new Date("2021-08-01"),
+    date: new Date("2022-08-01"),
     image: "https://source.unsplash.com/random",
     commentsNumber: 1910,
-    viewsNumber: 8820,
+    viewsNumber: 4820,
     repostsNumber: 7460,
 },
     {
         title: "ShipShare is the Best Shipping Platform!",
         post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
         author: "Joe Doe",
-        date: new Date("2021-08-01"),
+        date: new Date("2023-08-01"),
         image: "https://source.unsplash.com/random",
         commentsNumber: 1910,
-        viewsNumber: 8820,
+        viewsNumber: 8821,
         repostsNumber: 7460,
     },
     {
         title: "ShipShare is the Best Shipping Platform!",
         post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
         author: "Joe Doe",
-        date: new Date("2021-08-01"),
+        date: new Date("2021-02-01"),
         image: "https://source.unsplash.com/random",
         commentsNumber: 1910,
-        viewsNumber: 8820,
+        viewsNumber: 85820,
         repostsNumber: 7460,
     },
     {
         title: "ShipShare is the Best Shipping Platform!",
         post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
         author: "Joe Doe",
-        date: new Date("2021-08-01"),
+        date: new Date("2021-03-01"),
         image: "https://source.unsplash.com/random",
         commentsNumber: 1910,
-        viewsNumber: 8820,
+        viewsNumber: 28820,
         repostsNumber: 7460,
     },
     {
         title: "ShipShare is the Best Shipping Platform!",
         post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
         author: "Joe Doe",
-        date: new Date("2021-08-01"),
+        date: new Date("2021-08-05"),
         image: "https://source.unsplash.com/random",
         commentsNumber: 1910,
-        viewsNumber: 8820,
+        viewsNumber: 8810,
         repostsNumber: 7460,
     },
     {
         title: "Welcome to Shipshare!",
         post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
         author: "Joe Doe",
-        date: new Date("2021-08-01"),
+        date: new Date("2020-08-01"),
         image: "https://source.unsplash.com/random",
         commentsNumber: 1910,
         viewsNumber: 8820,
@@ -79,13 +79,14 @@ const examplePosts = [{
 ];
 
 const Discover = () => {
-    const MAX_SIZE_PER_PAGE = 10;
+    const MAX_SIZE_PER_PAGE = 3;
     const [open, setOpen] = useState(false);
 
     const [focusChip, setFocusChip] = useState('Latest');
     const [filter, setFilter] = useState('All');
     const [posts, setPosts] = useState(examplePosts);
-    const [filteredPosts, setFilteredPosts] = useState(examplePosts);
+    const [filteredPosts, setFilteredPosts] = useState(posts);
+    const [visiblePosts, setVisiblePosts] = useState([]);
     const [page, setPage] = useState(1);
 
     const handleOpen = () => {
@@ -97,15 +98,25 @@ const Discover = () => {
     };
 
     const handlePaginationChange = (event, page) => {
-        console.log(page);
+        setPage(page);
     };
 
+    useEffect(() => {
+        const changePage = () => {
+            const newPage = page - 1;
+            const updatedVisiblePosts = filteredPosts.slice(
+                newPage * MAX_SIZE_PER_PAGE,
+                newPage * MAX_SIZE_PER_PAGE + MAX_SIZE_PER_PAGE
+            );
 
+            setVisiblePosts(updatedVisiblePosts);
+        };
+        changePage();
+    }, [page, filteredPosts]);
     // search bar
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSearch = () => {
-        console.log(searchTerm);
         setFilteredPosts(
             posts.filter((val) => {
                 if (searchTerm === "") {
@@ -211,7 +222,7 @@ const Discover = () => {
                             display: 'flex',
                             flexDirection:'column',
                             gap: 16 }}>
-                            {filteredPosts.map((post) => (
+                            {visiblePosts.map((post) => (
                                 <PostCard
                                     title={post.title}
                                     post={post.post}
@@ -231,7 +242,7 @@ const Discover = () => {
                             alignItems: 'center',
                             height: 100,
                         }}>
-                            <Pagination count={10}
+                            <Pagination count={Math.ceil(filteredPosts.length / MAX_SIZE_PER_PAGE)}
                                 onChange={handlePaginationChange}
                             />
                         </div>
