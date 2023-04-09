@@ -2,6 +2,8 @@ import React from "react";
 import Colors from '../styles/Colors';
 import FontSizes from '../styles/FontSizes';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import PeopleIcon from '@mui/icons-material/People';
+import {Avatar, Stack, Typography} from "@mui/material";
 
 const FontFamily = {
 }
@@ -12,7 +14,7 @@ const GroupMemberCard = ({ items, leftCornerIconColor, title }) => {
       <div style={styles.deliveryBar}>
         {/*<Feather name="package" size={24} color={Colors.statusOrange} />*/}
 
-        <InventoryIcon htmlColor="#F9C662" style={{fontSize:18}}/>
+        <PeopleIcon htmlColor="#F9C662" style={{fontSize:18}}/>
         <div style={styles.deliveryBarText}>{title}</div>
       </div>
 
@@ -21,19 +23,23 @@ const GroupMemberCard = ({ items, leftCornerIconColor, title }) => {
         items.map((item, index) =>
           <div style={{ marginLeft: 20, marginVertical: 10 }}>
             <div style={{ flexDirection: 'row', display: 'flex', marginBottom: 20 }}>
-              <img
+              <Stack
+                direction='row'
+                spacing={2}
+              >
+              <Avatar
                 style={styles.tinyLogo}
+                sx={{ width: 30, height: 30 }}
                 src={
                   item.picture ?
                     item.picture :
                     require('../images/placeholder.png')
                 }
               />
-              <div style={styles.itemContainer}>
-                <div style={styles.itemTitle}>{item.name}</div>
-                <div style={styles.itemNumber}>{item.trackingNumber}</div>
-                {item.weight && <div style={styles.itemWeight}>{item.weight} kg</div>}
-              </div>
+
+                <Typography variant="body1" >test@test.com</Typography>
+                <Typography variant="body2" >{item.weight} kg</Typography>
+              </Stack>
             </div>
           </div>
         )
@@ -104,9 +110,9 @@ const styles = {
     marginBottom: 5,
     fontFamily: FontFamily.regular,
   },
-  tinyLogo: {
-    width: 72,
-    height: 72,
-    borderRadius: 10,
-  },
+  // tinyLogo: {
+  //   width: 72,
+  //   height: 72,
+  //   borderRadius: 10,
+  // },
 };
