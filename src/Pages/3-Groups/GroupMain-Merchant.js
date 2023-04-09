@@ -21,7 +21,7 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText, FormControl, InputLabel, Select, MenuItem, DialogActions
+  DialogContentText, FormControl, InputLabel, Select, MenuItem, DialogActions, Drawer
 } from '@mui/material';
 import Iconify from "../../third-party/components/iconify";
 import Scrollbar from "../../third-party/components/scrollbar";
@@ -36,6 +36,7 @@ import {Link} from "react-router-dom";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import {visuallyHidden} from "@mui/utils";
 import {ALL_STATES, stateFullNameToAbbr} from "./allStates";
+import ShippingDetailScreen from "../2-Shipments/ShipmentsDetailScreen";
 
 
 const DEFAULT_ORDER = 'asc';
@@ -268,6 +269,14 @@ const GroupMainMerchant = () => {
   }
 
 
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const handleOpenDrawer = () => {
+    setOpenDrawer(true);
+  }
+  const handleCloseDrawer = () => {
+    setOpenDrawer(false);
+  }
+
   return (
     <>
       <Header onOpenNav={handleOpen}/>
@@ -434,6 +443,9 @@ const GroupMainMerchant = () => {
                             variant="outlined"
                             // href={"/groups/group-details"}
                             sx={{borderRadius: 1,  height: 45,}}
+                            onClick={() => {
+                              handleOpenDrawer();
+                            }}
                           >
                             Details</Button>
                         </TableCell>
@@ -467,6 +479,38 @@ const GroupMainMerchant = () => {
               width: '100%',
             }}
           />
+
+          <Drawer
+            anchor="right"
+            open={openDrawer}
+            onClose={handleCloseDrawer}
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
+            sx={{
+              display: "flex",
+              alignItems: "flex-end",
+              overflowY: "auto",
+              flexDirection: "column",
+              height: "auto",
+              minHeight: "100%",
+            }}
+          >
+            <Box
+              sx={{
+                bgcolor: "background.paper",
+                boxShadow: 24,
+                // p: 4,
+                padding: "53px 22px",
+                width: "400px",
+                outline: "none",
+                m: 0,
+              }}
+            >
+              <ShippingDetailScreen handleClose={handleCloseDrawer}/>
+            </Box>
+          </Drawer>
+
+
         </Main>
         {/*------------------------------------*/}
       </Box>
