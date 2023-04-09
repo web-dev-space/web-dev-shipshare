@@ -10,7 +10,7 @@ import {
     Typography,
     Stack,
     IconButton,
-    MenuItem, Avatar, Divider
+    MenuItem, Avatar, Divider, TextField
 } from "@mui/material";
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical";
 import Main from "../../../third-party/layouts/dashboard/Main";
@@ -20,7 +20,7 @@ import TableContainer from "@mui/material/TableContainer";
 import {users as defaultUsers} from "../../../sampleData/user";
 import Table from "@mui/material/Table";
 import {
-    emptyRows,
+    emptyRows, getComparator,
     TableEmptyRows,
     TableHeadCustom,
     TableNoData,
@@ -33,6 +33,7 @@ import MenuPopover from "../../../third-party/components/menu-popover";
 import Label from "../../../third-party/components/label";
 
 const STATUS_OPTIONS = ['all', 'active', 'banned'];
+const ROLE_OPTIONS = ['all', 'admin', 'buyer', 'merchant'];
 
 const TABLE_HEAD = [
     { id: 'name', label: 'Name', align: 'left' },
@@ -67,11 +68,32 @@ export default function UsersList() {
         setOpen(false);
     };
 
+    const [filterName, setFilterName] = useState('');
+    const [filterRole, setFilterRole] = useState('all');
     const [filterStatus, setFilterStatus] = useState('all');
 
-    const handleFilterStatus = (event, newValue) => {
-        setFilterStatus(newValue);
+    const handleFilterStatus = (event) => {
+        setPage(0);
+        setFilterStatus(event.target.value);
     };
+
+    const handleFilterRole = (event) => {
+        setPage(0);
+        setFilterRole(event.target.value);
+    };
+
+    const handleInputChange = (event) => {
+        setPage(0);
+        setFilterName(event.target.value);
+    };
+
+    const userFiltered = applyFilter({
+        inputData: users,
+        comparator: getComparator(order, orderBy),
+        filterName,
+        filterRole,
+        filterStatus,
+    });
 
     // Table row
     const [openConfirm, setOpenConfirm] = useState(false);
@@ -120,30 +142,92 @@ export default function UsersList() {
                     </Container>
 
                     <Container maxWidth={false}>
-                        <Card>
-                            <Tabs
+
+                        <Container maxWidth={false} sx={{ display: 'flex', justifyContent: 'flex-start', mt: 1, mb: 1, gap: 2}}>
+                            {/*---Search Bar---*/}
+                            <SearchBar
+                                width={360}
+                                height={53}
+                                searchText="Search by User Name"
+                                searchTerm={filterName}
+                                setSearchTerm={setFilterName}
+                                handleInputChange={handleInputChange}
+                                borderStyle={"1px solid #919EAB"}
+                            />
+
+                            <TextField
+                                fullWidth
+                                select
+                                label="Status"
                                 value={filterStatus}
                                 onChange={handleFilterStatus}
+                                SelectProps={{
+                                    MenuProps: {
+                                        PaperProps: {
+                                            sx: {
+                                                maxHeight: 260,
+                                            },
+                                        },
+                                    },
+                                }}
                                 sx={{
-                                    px: 2,
-                                    bgcolor: 'background.neutral',
+                                    maxWidth: { sm: 240 },
+                                    textTransform: 'capitalize',
                                 }}
                             >
-                                {STATUS_OPTIONS.map((tab) => (
-                                    <Tab key={tab} label={tab} value={tab} />
+                                {STATUS_OPTIONS.map((option) => (
+                                    <MenuItem
+                                        key={option}
+                                        value={option}
+                                        sx={{
+                                            mx: 1,
+                                            borderRadius: 0.75,
+                                            typography: 'body2',
+                                            textTransform: 'capitalize',
+                                        }}
+                                    >
+                                        {option}
+                                    </MenuItem>
                                 ))}
-                            </Tabs>
+                            </TextField>
+                            <TextField
+                                fullWidth
+                                select
+                                label="Role"
+                                value={filterRole}
+                                onChange={handleFilterRole}
+                                SelectProps={{
+                                    MenuProps: {
+                                        PaperProps: {
+                                            sx: {
+                                                maxHeight: 260,
+                                            },
+                                        },
+                                    },
+                                }}
+                                sx={{
+                                    maxWidth: { sm: 240 },
+                                    textTransform: 'capitalize',
+                                }}
+                            >
+                                {ROLE_OPTIONS.map((option) => (
+                                    <MenuItem
+                                        key={option}
+                                        value={option}
+                                        sx={{
+                                            mx: 1,
+                                            borderRadius: 0.75,
+                                            typography: 'body2',
+                                            textTransform: 'capitalize',
+                                        }}
+                                    >
+                                        {option}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </Container>
 
-                            <Divider />
-
-                            <Container maxWidth={false} sx={{ display: 'flex', justifyContent: 'space-between', mt: 1, mb: 1 }}>
-                                {/*---Search Bar---*/}
-                                <SearchBar
-                                    width={360}
-                                    height={53}
-                                    searchText="Search by User Name"
-                                />
-                            </Container>
+                        <Card>
 
                             {/*---Table---*/}
                             <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
@@ -152,12 +236,12 @@ export default function UsersList() {
                                         order={order}
                                         orderBy={orderBy}
                                         headLabel={TABLE_HEAD}
-                                        rowCount={users.length}
+                                        rowCount={userFiltered.length}
                                         onSort={onSort}
                                     />
 
                                     <TableBody>
-                                        {users
+                                        {userFiltered
                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                             .map((row) => (
                                                 <>
@@ -232,7 +316,7 @@ export default function UsersList() {
 
                                         <TableEmptyRows
                                             height={denseHeight}
-                                            emptyRows={emptyRows(page, rowsPerPage, users.length)}
+                                            emptyRows={emptyRows(page, rowsPerPage, userFiltered.length)}
                                         />
 
                                         <TableNoData isNotFound={isNotFound} />
@@ -240,7 +324,7 @@ export default function UsersList() {
                                 </Table>
                             </TableContainer>
                             <TablePaginationCustom
-                                count={users.length}
+                                count={userFiltered.length}
                                 page={page}
                                 rowsPerPage={rowsPerPage}
                                 onPageChange={onChangePage}
@@ -254,3 +338,31 @@ export default function UsersList() {
         </>
     );
 };
+
+function applyFilter({ inputData, comparator, filterName, filterStatus, filterRole }) {
+    const stabilizedThis = inputData.map((el, index) => [el, index]);
+
+    stabilizedThis.sort((a, b) => {
+        const order = comparator(a[0], b[0]);
+        if (order !== 0) return order;
+        return a[1] - b[1];
+    });
+
+    inputData = stabilizedThis.map((el) => el[0]);
+
+    if (filterName) {
+        inputData = inputData.filter(
+            (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+        );
+    }
+
+    if (filterStatus !== 'all') {
+        inputData = inputData.filter((user) => user.status === filterStatus);
+    }
+
+    if (filterRole !== 'all') {
+        inputData = inputData.filter((user) => user.role === filterRole);
+    }
+
+    return inputData;
+}
