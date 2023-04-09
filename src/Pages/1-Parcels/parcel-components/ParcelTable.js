@@ -14,6 +14,8 @@ import {visuallyHidden} from "@mui/utils";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import Pagination from "@mui/lab/Pagination";
 import ParcelDetailsScreen from "./ParcelDetailsScreen";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
 
 const DEFAULT_ORDER = "asc";
 const DEFAULT_ORDER_BY = "date";
@@ -159,6 +161,8 @@ const ParcelTable = ({ data }) => {
     const [visibleRows, setVisibleRows] = React.useState(null);
     const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
     const [paddingHeight, setPaddingHeight] = React.useState(0);
+    const [rowBeingEdited, setRowBeingEdited] = React.useState({});
+    const [newWeight, setNewWeight] = React.useState(0);
     React.useEffect(() => {setRows(data)}, [data]);
 
     const [open, setOpen] = React.useState(false);
@@ -334,7 +338,25 @@ const ParcelTable = ({ data }) => {
                                         </TableCell>
                                         <TableCell align="left">{new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(row.created.$date))}</TableCell>
                                         <TableCell component="th" scope="row" padding="none">{row.trackingNumber}</TableCell>
-                                        <TableCell align="left">{row.isWeighted ? `${row.weight} lbs` : "--"}</TableCell>
+                                        <TableCell align="left">
+                                            {rowBeingEdited.trackingNumber === row.trackingNumber ? (
+                                                <TextField
+                                                    id="outlined-basic"
+                                                    label="Weight"
+                                                    variant="outlined"
+                                                    value={newWeight}
+                                                    InputProps={{
+                                                        endAdornment: <InputAdornment position="end">kg</InputAdornment>,
+                                                    }}
+                                                    onChange={(e) => setNewWeight(e.target.value)}
+                                                    sx={{
+                                                        width: 100,
+                                                    }}
+                                                />
+                                            ) : (
+                                                <text>{row.isWeighted ? `${row.weight} kg` : "--"}</text>
+                                            )}
+                                        </TableCell>
                                         <TableCell align="left">
                                             {row.isShipped ? (
                                                 <OutlinedOrangeButton text="Shipped" onClick={() => console.log("Shipped")} />
@@ -361,6 +383,49 @@ const ParcelTable = ({ data }) => {
                                             >
                                                 Details
                                             </Button>
+                                            {
+                                                rowBeingEdited.trackingNumber === row.trackingNumber ? (
+                                                    <Button
+                                                        variant="contained"
+                                                        sx={{
+                                                            backgroundColor: "white",
+                                                            "&:hover": {
+                                                                backgroundColor: "white",
+                                                            },
+                                                            ml: 1,
+                                                            color: "#1A202C",
+                                                            border: "1px solid rgba(0, 90, 100, 0.35)",
+                                                        }}
+                                                        onClick={() => {
+                                                            rowBeingEdited.weight = newWeight;
+                                                            rowBeingEdited.isWeighted = rowBeingEdited.weight !== 0;
+                                                            setRowBeingEdited({});
+                                                        }}
+                                                    >
+                                                        Done
+                                                    </Button>
+                                                ) : (
+                                                    <Button
+                                                        variant="contained"
+                                                        sx={{
+                                                            backgroundColor: "white",
+                                                            "&:hover": {
+                                                                backgroundColor: "white",
+                                                            },
+                                                            ml: 1,
+                                                            color: "#1A202C",
+                                                            border: "1px solid rgba(0, 90, 100, 0.35)",
+                                                        }}
+                                                        disabled={rowBeingEdited.trackingNumber && rowBeingEdited.trackingNumber !== row.trackingNumber}
+                                                        onClick={() => {
+                                                            setRowBeingEdited(row);
+                                                            setNewWeight(row.isWeighted ? row.weight : 0);
+                                                        }}
+                                                    >
+                                                        Edit
+                                                    </Button>
+                                                )
+                                            }
                                         </TableCell>
                                     </TableRow>
                                 );
