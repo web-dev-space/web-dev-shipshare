@@ -17,12 +17,12 @@ import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import OrangeChipGroup from "../../../components/OrangeChipGroup";
-import ShippingDetailScreen from "../../../components/ShipmentsDetailScreen.js";
-import { convertDateToString } from "../../../utils/convertDateToString.js";
 
-import DropdownList from "../../../components/DropdownList";
-
+import OrangeChipGroup from "components/OrangeChipGroup";
+import ShippingDetailScreen from "components/ShipmentsDetailScreen.js";
+import { convertDateToString } from "utils/convertDateToString.js";
+import DropdownList from "components/DropdownList.js";
+import DatePick from "components/DatePick.js";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -209,8 +209,9 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   const [newWeight, setNewWeight] = React.useState(0);
   const [newTrackingNumber, setNewTrackingNumber] = React.useState("");
   const [newShipRoute, setNewShipRoute] = React.useState("");
-  const [newShipEndDate, setNewShipEndDate] = React.useState("");
+  const [newShipEndDate, setNewShipEndDate] = React.useState(new Date("2021-01-01"));
   const [newStatus, setNewStatus] = React.useState("");
+
 
   // const [originalRows, setOriginalRows] = React.useState([]);
 
@@ -425,7 +426,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     setNewWeight(row?.totalWeight);
     setNewTrackingNumber(row?.trackingNumber);
     setNewShipRoute(row?.shipRoute);
-    setNewShipEndDate(row?.shipEndDate);
+    setNewShipEndDate(new Date(row?.shipEndDate));
     setNewStatus(row?.status);
   }
 
@@ -478,12 +479,32 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                         group id
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
-                        {row?.shipEndDate === undefined ? "--" : convertDateToString(row?.shipEndDate)}
+                        {rowBeingEdited.id === row.id ? (
+                          <DatePick selectedDate={newShipEndDate}
+                            setSelectedDate={setNewShipEndDate} />
+                        ) :
+                          <text>{row?.shipEndDate === undefined ? "--" : convertDateToString(row?.shipEndDate)}</text>
+                        }
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
                         {row?.trackingNumber === undefined ? "--" : row?.trackingNumber}
                       </TableCell>
-                      <TableCell align="left">{row.shipRoute}</TableCell>
+                      <TableCell align="left">
+                        {rowBeingEdited.id === row.id ? (
+                          <DropdownList
+                            selectedValue={newShipRoute}
+                            setSelectedValue={setNewShipRoute}
+                            label="Ship Route"
+                            options={[
+                              { value: "Sea Standard", displayName: 'Sea Standard' },
+                              { value: "Air Sensitive", displayName: 'Air Sensitive' },
+                              { value: "Sea Sensitive", displayName: 'Sea Standard' },
+                              { value: "Air Standard", displayName: 'Air Standard' },
+                            ]} />
+                        ) :
+                          <text>{row.shipRoute}</text>
+                        }
+                      </TableCell>
                       <TableCell align="left">
                         {rowBeingEdited.id === row.id ? (
                           <TextField
