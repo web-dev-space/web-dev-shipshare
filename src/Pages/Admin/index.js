@@ -11,7 +11,7 @@ import UserList from "Pages/Admin/1-Users/UserList.js";
 import MerchantParcelMain from "Pages/Merchant/1-Parcels/MerchantParcel-Main";
 import ShipmentsMainMerchant from "Pages/Merchant/2-Shipments/Shipment-MainMerchant"
 import GroupMainMerchant from "Pages/Merchant/3-Groups/GroupMain-Merchant";
-import ChangeWarehouse from "Pages/Merchant/ChangeWarehouseAddress";
+import ChangeWarehouse from "Pages/Merchant/4-Account/ChangeWarehouseAddress";
 
 export default function Admin() {
     return (

@@ -68,7 +68,7 @@ function navConfig(role) {
               {title: 'Account Info', path: rootPath+'/account/account-info'},
               {title: 'Change Password', path: rootPath+'/account/change-password'},
               role === 'merchant' || role === 'admin'
-                  ? {title: 'Change Warehouse Address', path: rootPath+'/change-warehouse-address'}
+                  ? {title: 'Change Warehouse Address', path: rootPath+'/account/change-warehouse-address'}
                   : null,
             ].filter(Boolean), // filter null values
           },

@@ -1,8 +1,9 @@
 import { useState } from "react";
-import Header from "../../third-party/layouts/dashboard/header"
-import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical"
-import Main from "../../third-party/layouts/dashboard/Main"
-import { Container, Typography, Box } from '@mui/material';
+import Header from "../../../third-party/layouts/dashboard/header"
+import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
+import Main from "../../../third-party/layouts/dashboard/Main"
+import { Container, Typography, Box} from '@mui/material';
+import WarehouseAddressForm from "./WarehouseAddressForm";
 
 
 const ChangeWarehouse = () => {
@@ -14,6 +15,14 @@ const ChangeWarehouse = () => {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    let currentAddress = {
+        receiver: "John",
+        street: "1234 Main St",
+        city: "Guangzhou",
+        province: "Guangdong",
+        phoneNumber: "13800001234",
     };
 
     return (
@@ -32,10 +41,11 @@ const ChangeWarehouse = () => {
                 {/*--------------Main Content----------------------*/}
                 <Main>
                     <Container maxWidth={false}>
-                        <Typography variant="h4" align="center" paragraph>
+                        <Typography variant="h4" paragraph>
                             Change Warehouse Address
                         </Typography>
 
+                        <WarehouseAddressForm currentAddress={currentAddress} />
                     </Container>
                 </Main>
                 {/*------------------------------------*/}

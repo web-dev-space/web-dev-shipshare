@@ -10,7 +10,7 @@ import Dashboard from "Pages/Merchant/0-Dashboard/Dashboard";
 import MerchantParcelMain from "Pages/Merchant/1-Parcels/MerchantParcel-Main";
 import ShipmentsMainMerchant from "Pages/Merchant/2-Shipments/Shipment-MainMerchant"
 import GroupMainMerchant from "Pages/Merchant/3-Groups/GroupMain-Merchant";
-import ChangeWarehouse from "Pages/Merchant/ChangeWarehouseAddress";
+import ChangeWarehouse from "Pages/Merchant/4-Account/ChangeWarehouseAddress";
 
 export default function Merchant() {
     return (
@@ -22,7 +22,7 @@ export default function Merchant() {
             <Route path="/groups/*" element={<GroupMainMerchant />} />
             <Route path="/community/*" element={<Community />} />
             <Route path="/account/*" element={<Account />} />
-            <Route path="/change-warehouse-address" element={<ChangeWarehouse/>} />
+            <Route path="/account/change-warehouse-address" element={<ChangeWarehouse/>} />
             <Route path="/help/*" element={<Help />} />
 
             <Route path="/login" element={<LoginPage />} />

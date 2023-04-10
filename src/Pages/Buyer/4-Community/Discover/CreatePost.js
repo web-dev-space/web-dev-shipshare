@@ -13,6 +13,7 @@ import * as Yup from 'yup';
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useSnackbar} from "notistack";
 import {useNavigate} from "react-router-dom";
+import {LoadingButton} from "@mui/lab";
 
 const CreatePost = () => {
     // ---- handle the nav bar ---
@@ -47,14 +48,23 @@ const CreatePost = () => {
         defaultValues,
     });
 
-    const {handleSubmit, setValue} = methods;
+    const {
+        handleSubmit,
+        setValue,
+        formState: { isSubmitting }
+    } = methods;
 
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
-    const onSubmit = (data) => {
-        enqueueSnackbar('Post success!');
-        navigate("../");
-        console.log(data);
+    const onSubmit = async (data) => {
+        try {
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            enqueueSnackbar('Post success!');
+            navigate("../");
+            console.log('DATA', data);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
 
@@ -159,15 +169,16 @@ const CreatePost = () => {
                                     Cancel
                                 </Button>
 
-                                <Button
+                                <LoadingButton
                                     fullWidth
                                     variant="contained"
                                     size="large"
                                     type={"submit"}
                                     style={{maxWidth: 200}}
+                                    loading={isSubmitting}
                                 >
                                     Post
-                                </Button>
+                                </LoadingButton>
                             </Stack>
                         </Card>
                     </FormProvider>

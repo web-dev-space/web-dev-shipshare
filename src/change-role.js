@@ -16,7 +16,7 @@ function ChangeRole() {
     function handleMerchantButton() {
         dispatch(updateRole('merchant'));
         console.log('log in as merchant');
-        navigate("../merchant/parcels");
+        navigate("../merchant/");
     }
     function handleAdminButton() {
         dispatch(updateRole('admin'));
