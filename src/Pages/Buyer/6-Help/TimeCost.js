@@ -61,7 +61,7 @@ const TimeCost = () => {
 
 				{/*--------------Main Content----------------------*/}
 				<Main>
-					<Container maxWidth={false}>
+					<Container maxWidth="md">
 						<Typography variant="h3" component="h1" paragraph>
 							Time & Cost
 						</Typography>
