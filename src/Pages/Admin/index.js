@@ -7,11 +7,13 @@ import {Help} from "../Buyer/6-Help";
 import LoginPage from "../0-SignIn & SignUp/SignInPage";
 import SignUpPage from "../0-SignIn & SignUp/SignUpPage";
 import UsersList from "./1-Users/UsersList";
+import Dashboard from "./2-DashBoard/Dashboard";
 
 export default function Admin() {
     return (
         <Routes>
             <Route path="/" element={<UsersList/>}/>
+            <Route path="/dashboard" element={<Dashboard/>}/>
             <Route path="/shipments" element={<ShipmentMainPage/>}/>
             <Route path="/groups/*" element={<Group/>}/>
             <Route path="/community/*" element={<Community/>}/>
