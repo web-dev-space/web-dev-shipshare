@@ -400,8 +400,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   };
 
   const handleClickDoneButton = (row) => {
-    console.debug('newWeight', newWeight);
-
     // update the row in the shipGroups object
     setOriginalRows(originalRows.map((shipGroup) => {
       if (shipGroup?.id === row?.id) {

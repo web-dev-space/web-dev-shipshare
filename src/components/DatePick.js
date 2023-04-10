@@ -5,8 +5,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import TextField from '@mui/material/TextField';
 
 function DatePick({ selectedDate, setSelectedDate }) {
-    console.debug('selectedDate', selectedDate);
-
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };

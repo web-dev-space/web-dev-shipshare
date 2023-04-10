@@ -29,8 +29,6 @@ const ParcelItem = ({ item, index }) => {
 }
 
 const ItemCard = ({ items, leftCornerIconColor, title, isMerchant }) => {
-  console.debug('items in ItemCard: ', items)
-
   return (
     <div style={styles.bottomContainer}>
       <div style={styles.deliveryBar}>
