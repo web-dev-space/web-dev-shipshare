@@ -2,11 +2,11 @@ import { useState } from "react";
 import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
-import { Container, Typography, Box } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
+import { Container, Typography, Box, Card, Stack } from '@mui/material';
+// clipboard
+import {useSnackbar} from "notistack";
+import useDoubleClick from '../../../third-party/hooks/useDoubleClick';
+import useCopyToClipboard from "../../../third-party/hooks/useCopyToClipboard";
 
 
 const Warehouse = () => {
@@ -19,6 +19,37 @@ const Warehouse = () => {
 	const handleClose = () => {
 		setOpen(false);
 	};
+
+	// handle copy to clipboard
+	const { enqueueSnackbar } = useSnackbar();
+
+	const { copy } = useCopyToClipboard();
+
+	// handle text
+	let currentAddress = {
+		receiver: "John",
+		street: "1234 Main St",
+		city: "Guangzhou",
+		province: "Guangdong",
+		phoneNumber: "13800001234",
+	};
+
+	const fullAddress = `${currentAddress.street}, ${currentAddress.city}, ${currentAddress.province}`;
+	const textOnClick =
+		`Receiver: ${currentAddress.receiver}` + "\n" +
+		`Phone Number: ${currentAddress.phoneNumber}` + "\n" +
+		`Address: ${fullAddress}`;
+
+	const onCopy = (text) => {
+		if (text) {
+			enqueueSnackbar('Copied!');
+			copy(text);
+		}
+	};
+
+	const handleClick = useDoubleClick({
+		doubleClick: () => onCopy(textOnClick),
+	});
 
 	return (
 		<>
@@ -36,16 +67,31 @@ const Warehouse = () => {
 				{/*--------------Main Content----------------------*/}
 				<Main>
 					<Container maxWidth={false}>
-						<Typography variant="h3" component="h1" paragraph>
+						<Typography variant="h4" component="h1" paragraph>
 							Warehouse Address
 						</Typography>
 
+						<Card onClick={handleClick} sx={{ p: 3 }}>
+							<Stack direction="row" spacing={1}>
+								<Typography paragraph style={{fontSize: 18, fontWeight: 'bold'}}>Receiver: </Typography>
+								<Typography paragraph style={{fontSize: 18}}>{currentAddress.receiver}</Typography>
+							</Stack>
+							<Stack direction="row" spacing={1}>
+								<Typography paragraph style={{fontSize: 18, fontWeight: 'bold'}}>Phone Number: </Typography>
+								<Typography paragraph style={{fontSize: 18}}>{currentAddress.phoneNumber}</Typography>
+							</Stack>
+							<Stack direction="row" spacing={1}>
+								<Typography paragraph style={{fontSize: 18, fontWeight: 'bold'}}>Address: </Typography>
+								<Typography paragraph style={{fontSize: 18}}>{fullAddress}</Typography>
+							</Stack>
+						</Card>
 
-							<Typography variant="h5" component="h1" paragraph>
-								Address: 1234 Main Street, Anytown, CA 12345
-							</Typography>
-							<Typography paragraph>
-							Please paste the above information into the "Shipping Address" field of your online shopping order.
+						<Typography paragraph style={{color: 'grey', marginTop: 20}}>
+							Double click on the card above to copy it to your clipboard.
+						</Typography>
+
+						<Typography paragraph style={{color: 'grey'}}>
+							Then you can paste the address into the "Shipping Address" field of your online shopping order.
 						</Typography>
 
 					</Container>

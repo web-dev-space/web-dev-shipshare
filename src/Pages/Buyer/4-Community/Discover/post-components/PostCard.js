@@ -9,15 +9,15 @@ export default function PostCard({
     date,
     image,
     commentsNumber,
-    viewsNumber})  {
+    viewsNumber,
+    onPostCardClick})  {
 
     return(
-    <Link to="./post"
-        style={{textDecoration: 'none', color: 'inherit'}}>
         <div style={{
                 border: '1px solid',
                 borderColor: 'rgba(207, 219, 213, 0.6)',
                 borderRadius:20}}
+             onClick={onPostCardClick}
         >
             <div style={{
                 display: "flex",
@@ -114,7 +114,6 @@ export default function PostCard({
                     </div>
                 </div>
             </div>
-        </div>
-    </Link>
+    </div>
     )
 }

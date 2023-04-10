@@ -41,10 +41,6 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 		email: Yup.string().required('Email is required').email('Email must be a valid email address'),
 		phoneNumber: Yup.string().required('Phone number is required'),
 		address: Yup.string().required('Address is required'),
-		country: Yup.string().required('Country is required'),
-		company: Yup.string().required('Company is required'),
-		state: Yup.string().required('State is required'),
-		city: Yup.string().required('City is required'),
 		role: Yup.string().required('Role is required'),
 		avatarUrl: Yup.mixed().required('Avatar is required'),
 	});
@@ -55,15 +51,8 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 			email: currentUser?.email || '',
 			phoneNumber: currentUser?.phoneNumber || '',
 			address: currentUser?.address || '',
-			country: currentUser?.country || '',
-			state: currentUser?.state || '',
-			city: currentUser?.city || '',
-			zipCode: currentUser?.zipCode || '',
 			avatarUrl: currentUser?.avatarUrl || null,
-			isVerified: currentUser?.isVerified || true,
-			status: currentUser?.status,
-			company: currentUser?.company || '',
-			role: currentUser?.role || 'User',
+			role: currentUser?.role || 'Buyer',
 		}),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[currentUser]
@@ -100,7 +89,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 			await new Promise((resolve) => setTimeout(resolve, 500));
 			reset();
 			enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-			navigate(PATH_DASHBOARD.user.list);
+			navigate("./");
 			console.log('DATA', data);
 		} catch (error) {
 			console.error(error);
@@ -129,7 +118,12 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 					<Card sx={{ pt: 6, pb: 5, px: 3 }}>
 						{isEdit && (
 							<Label
-								color={values.status === 'active' ? 'success' : 'error'}
+								color={
+									defaultValues.role === 'buyer'
+										? 'primary'
+										: defaultValues.role === 'merchant'
+										? 'secondary'
+										: 'warning'}
 								sx={{ textTransform: 'uppercase', position: 'absolute', top: 24, right: 24 }}
 							>
 								{defaultValues.role}

@@ -43,7 +43,7 @@ const TABLE_HEAD = [
     { id: '' },
 ];
 
-export default function UsersList() {
+export default function UserList() {
 
     const {
         dense,
@@ -137,7 +137,7 @@ export default function UsersList() {
                 <Main>
                     <Container maxWidth={false}>
                         <Typography variant="h4" component="h1" paragraph>
-                            Users List
+                            User List
                         </Typography>
                     </Container>
 

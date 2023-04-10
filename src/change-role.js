@@ -16,12 +16,12 @@ function ChangeRole() {
     function handleMerchantButton() {
         dispatch(updateRole('merchant'));
         console.log('log in as merchant');
-        navigate("../merchant/parcels");
+        navigate("../merchant/");
     }
     function handleAdminButton() {
         dispatch(updateRole('admin'));
         console.log('log in as admin');
-        navigate("../admin/parcels");
+        navigate("../admin/");
     }
 
 
@@ -32,7 +32,7 @@ function ChangeRole() {
             align: 'center',
             minHeight: "200",
         }}>
-            <Button onClick={handleBuyerButton} variant="">
+            <Button onClick={handleBuyerButton} variant="contained">
                 Buyer Mode
             </Button>
             <Button onClick={handleMerchantButton} variant="outlined">
