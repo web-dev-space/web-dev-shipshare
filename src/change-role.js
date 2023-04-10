@@ -21,7 +21,7 @@ function ChangeRole() {
     function handleAdminButton() {
         dispatch(updateRole('admin'));
         console.log('log in as admin');
-        navigate("../admin/parcels");
+        navigate("../admin/");
     }
 
 
@@ -32,13 +32,13 @@ function ChangeRole() {
             align: 'center',
             minHeight: "200",
         }}>
-            <Button onClick={handleBuyerButton} variant="">
+            <Button onClick={handleBuyerButton} variant="contained">
                 Buyer Mode
             </Button>
             <Button onClick={handleMerchantButton} variant="outlined">
                 Merchant Mode
             </Button>
-            <Button onClick={handleAdminButton} disabled>
+            <Button onClick={handleAdminButton} >
                 Admin Mode
             </Button>
         </Box>

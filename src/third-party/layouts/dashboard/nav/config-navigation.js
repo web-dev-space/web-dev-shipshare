@@ -18,7 +18,6 @@ const ICONS = {
   help: icon('nav_help'),
 
 
-  analytics: icon('ic_analytics'),
   dashboard: icon('ic_dashboard'),
 };
 
@@ -28,25 +27,33 @@ function navConfig(role) {
   // get the role, to set the nav paths
   const rootPath = "/"+role;
 
+
   return ([
       // Main Menu
       {
-        subheader: 'Main Menu',
+        subheader: 'Main',
         items: [
-          { title: 'Parcels', path: rootPath+'/parcels', icon: ICONS.parcel },
-          { title: 'Shipments', path: rootPath+'/shipments', icon: ICONS.shipment },
-          { title: 'Groups', path: rootPath+'/groups', icon: ICONS.group },
-        ],
+          role === 'admin' || role === "merchant"
+              ? { title: 'Dashboard', path: rootPath + '/dashboard', icon: ICONS.dashboard }
+              : null,
+          role === 'admin'
+              ? { title: 'User List', path: rootPath + '/userlist', icon: ICONS.profile }
+              : null,
+          { title: 'Parcels', path: rootPath + '/parcels', icon: ICONS.parcel },
+          { title: 'Shipments', path: rootPath + '/shipments', icon: ICONS.shipment },
+          { title: 'Groups', path: rootPath + '/groups', icon: ICONS.group },
+        ].filter(Boolean), // filter null values
       },
 
-      // COMMUNITY
+    // COMMUNITY
       {
         subheader: 'Community',
         items: [
-          { title: 'Discover', path: rootPath+'/community/discover', icon: ICONS.discover },
-          { title: 'Follow', path: rootPath+'/community/follow', icon: ICONS.follow },
-          { title: 'My Profile', path: rootPath+'/community/profile', icon: ICONS.profile },
-        ],
+          { title: 'Discover', path: rootPath + '/community/discover', icon: ICONS.discover },
+          role === "merchant" || role === "admin"
+            ? null
+            :{ title: 'My Profile', path: rootPath + '/community/profile', icon: ICONS.profile },
+        ].filter(Boolean) // filter null values
       },
 
       // More
@@ -60,7 +67,10 @@ function navConfig(role) {
             children: [
               {title: 'Account Info', path: rootPath+'/account/account-info'},
               {title: 'Change Password', path: rootPath+'/account/change-password'},
-            ],
+              role === 'merchant' || role === 'admin'
+                  ? {title: 'Change Warehouse Address', path: rootPath+'/change-warehouse-address'}
+                  : null,
+            ].filter(Boolean), // filter null values
           },
           {
             title: 'Help',

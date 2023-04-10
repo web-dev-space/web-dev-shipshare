@@ -20,7 +20,7 @@ import { FileGeneralDataActivity } from '../../../third-party/file';
 
 
 
-const Following = () => {
+const Dashboard = () => {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -188,4 +188,4 @@ const Following = () => {
         </>
     );
 };
-export default Following;
+export default Dashboard;
