@@ -9,6 +9,9 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {useSnackbar} from "notistack";
 import {useNavigate} from "react-router-dom";
 import FormProvider, {RHFTextField} from "../../third-party/components/hook-form";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import {useState} from "react";
 
 const LoginPage = () => {
 
@@ -38,6 +41,12 @@ const LoginPage = () => {
     enqueueSnackbar('Welcome to ShipShare!');
     navigate("/");
     console.log(data);
+  };
+
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const handleTogglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
   };
 
 
@@ -104,7 +113,8 @@ const LoginPage = () => {
                               )
                             }}
               />
-              <RHFTextField name="password" variant="filled" lable="Password" placeholder="PASSWORD"
+              <RHFTextField type={passwordVisible ? "text" : "password"} fullWidth={true} name="password" variant="filled" id="password"
+                            placeholder="PASSWORD"
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position="start">
@@ -118,6 +128,15 @@ const LoginPage = () => {
                                           fill="#C2C3CB"/>
                                   </svg>
                                 </InputAdornment>
+                              ),
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  {!passwordVisible ? (
+                                    <VisibilityOffIcon onClick={handleTogglePasswordVisibility} />
+                                  ) : (
+                                    <VisibilityIcon onClick={handleTogglePasswordVisibility} />
+                                  )}
+                                </InputAdornment>
                               )
                             }}/>
 
@@ -126,7 +145,7 @@ const LoginPage = () => {
                 <Typography style={{textAlign: 'right'}}
                             color='primary'
                 >
-                  Forget Password?
+                  <Link href="../login" underline="hover">Forget Password?</Link>
                 </Typography>
               </Box>
               <Button
