@@ -22,9 +22,10 @@ import OrangeChipGroup from "../../../components/OrangeChipGroup";
 import Image from 'mui-image'
 import backgroundImg from './background.jpg';
 import {styled} from "@mui/material/styles";
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 
-const Item = styled(Paper)(({ theme }) => ({
+const Item = styled(Paper)(({theme}) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -64,8 +65,15 @@ const GroupDetailPage = () => {
         {/*--------------Main Content----------------------*/}
         <Main>
 
-          <Container maxWidth="xl">
-
+          <Container maxWidth="xl" style={{position: 'relative'}}>
+            <IconButton aria-label="delete" size="small"
+                        style={{position: 'absolute', zIndex: 99, top: '20px', left: '40px', backgroundColor: 'white'}}
+                        onClick={() => {
+                          window.history.back();
+                        }}
+            >
+              <ArrowBackIosNewIcon/>
+            </IconButton>
             {/*backgroundImg & join button*/}
             <Box
               sx={{height: 300, position: 'relative'}}
@@ -106,6 +114,7 @@ const GroupDetailPage = () => {
                 position: 'relative',
               }}
             >
+
               <Box sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -165,15 +174,15 @@ const GroupDetailPage = () => {
                 sx={{
                   mb: 2,
                   width: '48%',
-                  px:3,
-              }}>
+                  px: 3,
+                }}>
                 <Box
                   sx={{
-                    my:2,
+                    my: 2,
                   }}
                 >
                   <Typography variant="h6">About</Typography>
-                  <hr style={{ borderTop: "1px solid #F6F7FB", marginTop: "0.5rem" }} />
+                  <hr style={{borderTop: "1px solid #F6F7FB", marginTop: "0.5rem"}}/>
                 </Box>
                 {/*group details*/}
                 <Stack spacing={2}>
@@ -189,32 +198,32 @@ const GroupDetailPage = () => {
                       Group Leader
                     </Typography>
                     <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }
-                    }
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }
+                      }
                     >
                       <div>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src="https://material-ui.com/static/images/avatar/1.jpg"
-                      sx={{
-                        mx: 'auto',
-                        borderWidth: 2,
-                        borderStyle: 'solid',
-                        borderColor: 'common.white',
-                        zIndex: 2,
-                        mr:1,
-                        width: 50,
-                        height: 50,
-                      }}
-                    /></div>
+                        <Avatar
+                          alt="Remy Sharp"
+                          src="https://material-ui.com/static/images/avatar/1.jpg"
+                          sx={{
+                            mx: 'auto',
+                            borderWidth: 2,
+                            borderStyle: 'solid',
+                            borderColor: 'common.white',
+                            zIndex: 2,
+                            mr: 1,
+                            width: 50,
+                            height: 50,
+                          }}
+                        /></div>
                       <div>
-                    <Typography variant="caption">
-                      John Doe
-                    </Typography>
+                        <Typography variant="caption">
+                          John Doe
+                        </Typography>
                       </div>
                     </Box>
                   </Item>
@@ -291,27 +300,27 @@ const GroupDetailPage = () => {
                       Members
                     </Typography>
                     <Typography variant="caption">
-                     9
+                      9
                     </Typography>
                   </Item>
 
                 </Stack>
               </Card>
 
-
+              {/*group activity box (right)*/}
               <Card
                 sx={{
                   mb: 2,
                   width: '48%',
-                  px:3,
+                  px: 3,
                 }}>
                 <Box
                   sx={{
-                    my:2,
+                    my: 2,
                   }}
                 >
                   <Typography variant="h6">Activity</Typography>
-                  <hr style={{ borderTop: "1px solid #F6F7FB", marginTop: "0.5rem" }} />
+                  <hr style={{borderTop: "1px solid #F6F7FB", marginTop: "0.5rem"}}/>
                 </Box>
                 {/*activity details*/}
                 <Stack spacing={2}>
@@ -325,22 +334,22 @@ const GroupDetailPage = () => {
                     }}
                   >
                     <Box
-                    sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+                      sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}
                     >
-                    <Avatar
-                      alt="Remy Sharp"
-                      src="https://material-ui.com/static/images/avatar/1.jpg"
-                      sx={{
-                        mx: 'auto',
-                        borderWidth: 2,
-                        borderStyle: 'solid',
-                        borderColor: 'common.white',
-                        zIndex: 2,
-                        mr:1,
-                        width: 50,
-                        height: 50,
-                      }}
-                    />
+                      <Avatar
+                        alt="Remy Sharp"
+                        src="https://material-ui.com/static/images/avatar/1.jpg"
+                        sx={{
+                          mx: 'auto',
+                          borderWidth: 2,
+                          borderStyle: 'solid',
+                          borderColor: 'common.white',
+                          zIndex: 2,
+                          mr: 1,
+                          width: 50,
+                          height: 50,
+                        }}
+                      />
                       <Box textAlign="left">
                         <Typography variant="subtitle2">
                           John Doe
@@ -361,7 +370,7 @@ const GroupDetailPage = () => {
                     }}
                   >
                     <Box
-                      sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+                      sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}
                     >
                       <Avatar
                         alt="Remy Sharp"
@@ -372,7 +381,7 @@ const GroupDetailPage = () => {
                           borderStyle: 'solid',
                           borderColor: 'common.white',
                           zIndex: 2,
-                          mr:1,
+                          mr: 1,
                           width: 50,
                           height: 50,
                         }}

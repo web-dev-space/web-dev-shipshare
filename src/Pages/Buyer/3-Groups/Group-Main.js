@@ -44,12 +44,13 @@ const DEFAULT_ROWS_PER_PAGE = 5;
 
 
 const headCells = [
-  {id: 'name', numeric: false, disablePadding: true, label: 'Group Name'},
-  {id: 'route', numeric: false, disablePadding: false, label: 'Route'},
-  {id: 'endDate', numeric: false, disablePadding: false, label: 'End Date'},
-  {id: 'pickUpAt', numeric: false, disablePadding: false, label: 'Pick Up At'},
-  {id: 'Distance', numeric: false, disablePadding: false, label: 'Distance'},
-  {id: 'actions', numeric: false, disablePadding: false, label: 'Action'},
+  {id: 'name', numeric: false, disablePadding: true, label: 'Group Name', sortable: true},
+  {id: 'route', numeric: false, disablePadding: false, label: 'Route', sortable: true},
+  {id: 'endDate', numeric: false, disablePadding: false, label: 'End Date', sortable: true},
+  {id: 'pickUpAt', numeric: false, disablePadding: false, label: 'Pick Up At', sortable: true},
+  {id: 'Distance', numeric: false, disablePadding: false, label: 'Distance', sortable: true},
+  {id: 'actions', numeric: false, disablePadding: false, label: 'Action', sortable: false},
+  {id: 'more', numeric: false, disablePadding: false, label: '', sortable: false},
 ];
 
 function MyTableHead(props) {
@@ -69,18 +70,20 @@ function MyTableHead(props) {
             sortDirection={orderBy === headCell.id ? order : false}
             style={{backgroundColor: 'white'}}
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+            {
+              headCell.sortable ? <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : 'asc'}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  </Box>
+                ) : null}
+              </TableSortLabel> : headCell.label
+            }
           </TableCell>
         ))}
       </TableRow>
@@ -441,7 +444,7 @@ const GroupMainPage = () => {
                                     borderRadius: 5,
                                     backgroundColor: '80B213',
                                     height: 45,
-                                  }} href="/groups/checkout">
+                                  }} href="./groups/checkout">
                             Join
                           </Button>
                         </TableCell>
