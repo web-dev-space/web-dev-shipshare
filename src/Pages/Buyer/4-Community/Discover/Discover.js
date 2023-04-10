@@ -199,7 +199,7 @@ const Discover = () => {
     };
 
     const onPostCardClick = () => {
-        navigate('./discover/post');
+        navigate('./post');
     }
 
     const navigate = useNavigate();

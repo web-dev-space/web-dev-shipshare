@@ -154,7 +154,7 @@ const CreatePost = () => {
                                     variant="outlined"
                                     size="large"
                                     style={{maxWidth: 200}}
-                                    href="../"
+                                    onClick={() => navigate("../")}
                                 >
                                     Cancel
                                 </Button>

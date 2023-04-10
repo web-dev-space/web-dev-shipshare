@@ -7,7 +7,6 @@ export function Community() {
     return (
         <div>
             <Routes>
-                <Route path="/"    element={<DiscoverRoute/>}/>
                 <Route path="/discover/*"    element={<DiscoverRoute/>}/>
                 <Route path="/profile" element={<Profile/>}/>
             </Routes>
