@@ -18,6 +18,9 @@ import SearchBar from "../../../components/searchBar";
 import TwoSmallButtonGroup from "../../../components/TwoSmallButtonGroup";
 import ParcelTable from "./parcel-components/ParcelTable";
 import {parcelData} from "../../../sampleData/parcels";
+import ReactImagePickerEditor, { ImagePickerConf } from 'react-image-picker-editor';
+import 'react-image-picker-editor/dist/index.css'
+import './parcel-main.css';
 
 
 
@@ -176,6 +179,22 @@ const AddParcelDialog = ({ open, onClose }) => {
     const [name, setName] = useState('');
     const [trackingNumber, setTrackingNumber] = useState('');
     const [courier, setCourier] = useState('');
+    const [image, setImage] = useState('');
+
+    const config2: ImagePickerConf = {
+        borderRadius: '100%',
+        language: 'en',
+        width: '200px',
+        height: '200px',
+        objectFit: 'cover',
+        compressInitial: null,
+        hideDeleteBtn: true,
+        hideDownloadBtn: true,
+        hideEditBtn: true,
+        hideAddBtn: true,
+    };
+    // const initialImage: string = '/assets/images/8ptAya.webp';
+    const initialImage = '';
 
     const handleSubmit = () => {
         // ...
@@ -188,8 +207,12 @@ const AddParcelDialog = ({ open, onClose }) => {
             <DialogTitle>Add A New Parcel</DialogTitle>
             <DialogContent>
                 {/* <---UploadImage---> */}
-                <div style={{ marginBottom: 16 }}>
-
+                <div className='custom-hover'
+                    style={{ marginBottom: 16, display: "flex", justifyContent: "center" }}>
+                    <ReactImagePickerEditor
+                        config={config2}
+                        imageSrcProp={initialImage}
+                        imageChanged={(newDataUri: any) => { setImage(newDataUri) }} />
                 </div>
                 {/* <---Name---> */}
                 <TextField
