@@ -198,6 +198,10 @@ const Discover = () => {
         }
     };
 
+    const onPostCardClick = () => {
+        navigate('./discover/post');
+    }
+
     const navigate = useNavigate();
 
     return (
@@ -301,7 +305,8 @@ const Discover = () => {
                                     image={post.image}
                                     commentsNumber={post.commentsNumber}
                                     viewsNumber={post.viewsNumber}
-                                    repostsNumber={post.repostsNumber} />
+                                    repostsNumber={post.repostsNumber}
+                                    onPostCardClick={onPostCardClick}/>
                             ))}
                         </div>
 
