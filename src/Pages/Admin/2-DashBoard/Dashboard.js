@@ -195,7 +195,6 @@ const Dashboard = () => {
 								<Grid item xs={12} md={6} lg={6}>
 									<EcommerceYearlySales
 										title="Line"
-										// subheader="(+43%) than last year"
 										chart={{
 											categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
 											series: [
