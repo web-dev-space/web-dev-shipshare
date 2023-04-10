@@ -53,17 +53,7 @@ const CalculateFees = () => {
 
 	const [isOpen, setIsOpen] = useState(false);
 
-	let actualFactor = 1;
 	const handleCalculate = () => {
-		console.log(parcelWeight, parcelHeight, parcelLength, parcelWidth);
-		console.log(typeof(parcelWeight), typeof(parcelHeight), typeof(parcelLength), typeof(parcelWidth));
-		actualFactor = parseFloat(parcelWeight) > Math.ceil(parseFloat(parcelHeight) * parseFloat(parcelLength) * parseFloat(parcelWidth) / 5000) ? parseFloat(parcelWeight) : Math.ceil(parseFloat(parcelHeight) * parseFloat(parcelHeight) * parseFloat(parcelWeight) / 5000);
-		console.log("actual is " + actualFactor);
-		console.log(typeof(actualFactor));
-		const price1 = actualFactor * items[0].price;
-		const price2 = actualFactor * items[1].price;
-		const price3 = actualFactor * items[2].price;
-		const price4 = actualFactor * items[3].price;
 		setIsOpen(true);
 	}
 

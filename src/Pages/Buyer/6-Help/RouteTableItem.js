@@ -66,7 +66,7 @@ const RouteTableItem = ({ index, type, time, price, factor, parcelWeight, parcel
 
 			{/* green text */}
 			<Typography variant="subtitle1" component="p" sx={{ color: "#80B213", marginLeft: 'auto', fontWeight: 'bold' }}>
-				${isNaN(price * actualFactor) ? price : price * actualFactor}
+				${isNaN(price * actualFactor) ? price +"/kg" : price * actualFactor}
 			</Typography>
 		</Box>
 	);

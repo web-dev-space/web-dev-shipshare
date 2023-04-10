@@ -28,22 +28,22 @@ const TimeCost = () => {
 		{
 			type : 'Air Standard',
 			time : '1 week',
-			price : '15/kg',
+			price : '15',
 		},
 		{
 			type : 'Air Sensitive',
 			time : '2 week',
-			price : '20/kg',
+			price : '20',
 		},
 		{
 			type : 'Sea Standard',
 			time : '4 week',
-			price : '5/kg',
+			price : '5',
 		},
 		{
 			type : 'Sea Sensitive',
 			time : '6 week',
-			price : '10/kg',
+			price : '10',
 		}];
 
 	return (
