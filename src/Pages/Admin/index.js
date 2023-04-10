@@ -6,7 +6,7 @@ import { Help } from "Pages/Buyer/6-Help";
 import { Community } from "Pages/Buyer/4-Community";
 
 // replace below imports with Admin pages
-import Dashboard from "Pages/Merchant/0-Dashboard/Dashboard";
+import Dashboard from "Pages/Admin/2-DashBoard/Dashboard";
 import UserList from "Pages/Admin/1-Users/UserList.js";
 import MerchantParcelMain from "Pages/Merchant/1-Parcels/MerchantParcel-Main";
 import ShipmentsMainMerchant from "Pages/Merchant/2-Shipments/Shipment-MainMerchant"
