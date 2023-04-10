@@ -9,7 +9,7 @@ import GroupMainMerchant from "Pages/Merchant/3-Groups/GroupMain-Merchant";
 
 // replace below imports with merchant pages
 import { Group } from "Pages/Buyer/3-Groups";
-import ShipmentMainPage from "Pages/Buyer/2-Shipments/Shipment-Main";
+// import ShipmentMainPage from "Pages/Buyer/2-Shipments/Shipment-Main";
 import DiscoverMerchantPage from "Pages/Merchant/4-Community/Discover/Merchant-Main.js"
 import ShipmentsMainMerchant from "Pages/Merchant/2-Shipments/Shipment-MainMerchant"
 import GroupDetailPage from "../Buyer/3-Groups/GroupDetail";
@@ -19,7 +19,7 @@ export default function Merchant() {
     <Routes>
       <Route path="/" element={<MerchantParcelMain/>}/>
       <Route path="/parcels" element={<MerchantParcelMain/>}/>
-      <Route path="/shipments" element={<ShipmentMainPage/>}/>
+      <Route path="/shipments" element={<ShipmentsMainMerchant/>}/>
       <Route path="/groups/*" element={<GroupMainMerchant/>}/>
       <Route path="/groups/group-details" element={<GroupDetailPage/>}/>
       <Route path="/community/*" element={<Community/>}/>
