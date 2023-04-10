@@ -102,23 +102,19 @@ function stableSort(array, comparator) {
 }
 
 function descendingComparator(a, b, orderBy) {
-  console.log("a", a);
-  console.log("orderBy", orderBy);
-  console.log("a[orderBy]", a[orderBy]);
-  console.log("b[orderBy]", b[orderBy]);
-
-  if (b[orderBy] < a[orderBy]) {
-    console.log("-1")
-    return -1;
+  switch (orderBy) {
+    case 'endDate':
+      return parseInt(b[orderBy].$date.$numberLong) - parseInt(a[orderBy].$date.$numberLong);
+    default:
+      if (b[orderBy] < a[orderBy]) {
+        return -1;
+      }
+      if (b[orderBy] > a[orderBy]) {
+        return 1;
+      }
+      return 0;
   }
-  if (b[orderBy] > a[orderBy]) {
-    console.log("1")
-    return 1;
-  }
-  console.log("0")
-  return 0;
 }
-
 function getComparator(order, orderBy) {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
