@@ -182,9 +182,14 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 						<RHFTextField name="address" label="Address" style={{marginBottom:24}}/>
 
 						<Stack alignItems="flex-end" sx={{ mt: 3 }}>
-							<LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-								{!isEdit ? 'Create User' : 'Save Changes'}
-							</LoadingButton>
+							<div>
+								<LoadingButton type="cancel" variant="outlined" style={{marginRight:10}}>
+									 Cancel
+								</LoadingButton>
+								<LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+									{!isEdit ? 'Create User' : 'Save Changes'}
+								</LoadingButton>
+							</div>
 						</Stack>
 					</Card>
 				</Grid>
