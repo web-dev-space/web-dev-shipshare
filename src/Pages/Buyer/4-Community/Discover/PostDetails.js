@@ -2,8 +2,12 @@ import { useState } from "react";
 import Header from "../../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../../third-party/layouts/dashboard/Main"
-import {Container, Box, Avatar, Typography, TextField, Button, Pagination} from '@mui/material';
+import {Container, Box, Avatar, Typography, TextField, Button, Pagination, IconButton} from '@mui/material';
 import Image from "mui-image";
+import {useSelector} from "react-redux";
+import DeleteIcon from '@mui/icons-material/Delete';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {useNavigate} from "react-router-dom";
 
 const post = {
     title: "ShipShare is the Best Shipping Platform!",
@@ -35,7 +39,7 @@ const post = {
 
 
 // Comment component
-const Comment = ({name, date, content}) => {
+const Comment = ({name, date, content, role, handleDeleteComment}) => {
     return (
         <div style={{
             display: 'flex', flexDirection: 'row',
@@ -43,18 +47,32 @@ const Comment = ({name, date, content}) => {
             marginTop: 32, marginBottom: 32}}>
             <Avatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_1.jpg" sx={{ width: 48, height: 48, mb: 'auto' }} />
             <div style={{ marginLeft: 16}}>
-                <div style={{
-                    fontSize: 16,
-                    fontWeight: 600,
-                }}>
-                    {name}
+                <div style={{display: 'flex', flexDirection: "row"}}>
+                    <div style={{width:"70%"}}>
+                        <div style={{
+                            fontSize: 16,
+                            fontWeight: 600,
+                        }}>
+                            {name}
+                        <div style={{
+                            fontSize: 13,
+                            color: '#929191'
+                        }}>
+                            {new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(date))}
+                        </div>
+                    </div>
+
+                    </div>
+                    {role === 'admin' && (
+                        <div style={{width:"100%", display: "flex", justifyContent:"flex-end",
+                            marginRight: 8}}>
+                            <IconButton onClick={handleDeleteComment}>
+                                <DeleteIcon style={{color:"lightGrey", fontSize:"large"}}/>
+                            </IconButton>
+                        </div>
+                    )}
                 </div>
-                <div style={{
-                    fontSize: 13,
-                    color: '#929191'
-                }}>
-                    {new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(date))}
-                </div>
+
                 <div style={{
                     fontSize: 14,
                     marginTop: 10
@@ -78,6 +96,17 @@ const PostDetails = () => {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const navigate = useNavigate();
+    const handleDeletePost = () => {
+        navigate("../");
+    };
+   const handleDeleteComment = () => {
+       console.log('delete');
+       navigate("./");
+    };
+
+    const role = useSelector(state => state.auth.role);
 
     return (
         <>
@@ -116,10 +145,15 @@ const PostDetails = () => {
                         <div style={{
                             zIndex: 2,
                             position: 'absolute',
-                            top: 100,
+                            top: 60,
                             height: 350,
                             padding: 60,
                         }}>
+                            <IconButton
+                                style={{ marginLeft: -40}}
+                                onClick={() => navigate("../")}>
+                                <ArrowBackIcon style={{ color: 'white'}}/>
+                            </IconButton>
                             <Typography variant="h2" gutterBottom style={{ color: 'white'}}>
                                 {post.title}
                             </Typography>
@@ -143,6 +177,20 @@ const PostDetails = () => {
                                 </div>
                             </div>
                         </div>
+
+                        {/*-----------------Delete Button---------------------*/}
+                        {role === 'admin' && (
+                            <div style={{width:"100%", display: "flex", justifyContent:"flex-end",
+                                marginRight: 32, marginTop: 16,}}>
+                                <Button
+                                    variant="contained"
+                                    color="error"
+                                    onClick={handleDeletePost}>
+                                    <DeleteIcon/>
+                                    Delete Post
+                                </Button>
+                            </div>
+                        )}
 
                         {/*-----------------Post Content---------------------*/}
                         <div style={{ padding: 8, marginTop: 48, marginBottom: 48}}>
@@ -201,6 +249,8 @@ const PostDetails = () => {
                                     name={comment.user.name}
                                     date={comment.date}
                                     content={comment.content}
+                                    role={role}
+                                    handleDeleteComment={handleDeleteComment}
                                 />
                                 </>
                             ))}
