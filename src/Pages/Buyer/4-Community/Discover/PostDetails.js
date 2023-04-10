@@ -13,16 +13,17 @@ import {useNavigate} from "react-router-dom";
 import posts from "../../../../sampleData/posts";
 
 const post = posts[0];
+const COMMENT_PER_PAGE = 5;
 
 
 // Comment component
-const Comment = ({name, date, content, role, handleDeleteComment}) => {
+const Comment = ({user, date, content, role, handleDeleteComment}) => {
     return (
         <div style={{
             display: 'flex', flexDirection: 'row',
             alignItems: 'center',
             marginTop: 32, marginBottom: 32}}>
-            <Avatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_1.jpg" sx={{ width: 48, height: 48, mb: 'auto' }} />
+            <Avatar src={user.picture} sx={{ width: 48, height: 48, mb: 'auto' }} />
             <div style={{ marginLeft: 16}}>
                 <div style={{display: 'flex', flexDirection: "row"}}>
                     <div style={{width:"70%"}}>
@@ -30,7 +31,7 @@ const Comment = ({name, date, content, role, handleDeleteComment}) => {
                             fontSize: 16,
                             fontWeight: 600,
                         }}>
-                            {name}
+                            {user.name}
                         <div style={{
                             fontSize: 13,
                             color: '#929191'
@@ -73,6 +74,8 @@ const PostDetails = () => {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const [page, setPage] = useState(1);
 
     const navigate = useNavigate();
     const handleDeletePost = () => {
@@ -214,7 +217,9 @@ const PostDetails = () => {
 
                         {/*-----------------Comments---------------------*/}
                         <div style={{ marginTop: 16}}>
-                            {post.comments.map((comment, index) => (
+                            {post.comments
+                                .slice((page - 1) * COMMENT_PER_PAGE, (page - 1) * COMMENT_PER_PAGE + COMMENT_PER_PAGE)
+                                .map((comment, index) => (
                                 <>
                                 <hr style={{
                                     borderWidth: 0,
@@ -223,7 +228,7 @@ const PostDetails = () => {
                                 }}/>
                                 <Comment
                                     key={index}
-                                    name={comment.user.name}
+                                    user={comment.user}
                                     date={comment.date}
                                     content={comment.content}
                                     role={role}
@@ -243,7 +248,15 @@ const PostDetails = () => {
                         <div
                             style={{ marginTop: 40, marginBottom: 32,
                                     display: 'flex', justifyContent: 'center'}}>
-                            <Pagination count={10} color="primary" />
+                            <Pagination
+                                color="primary"
+                                count={Math.ceil(post.comments.length / COMMENT_PER_PAGE)}
+                                page={page}
+                                siblingCount={2}
+                                boundaryCount={1}
+                                onChange={(event, value) => {
+                                    setPage(value);
+                                }} />
                         </div>
 
                     </Container>
