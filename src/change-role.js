@@ -38,7 +38,7 @@ function ChangeRole() {
             <Button onClick={handleMerchantButton} variant="outlined">
                 Merchant Mode
             </Button>
-            <Button onClick={handleAdminButton} disabled>
+            <Button onClick={handleAdminButton} >
                 Admin Mode
             </Button>
         </Box>
