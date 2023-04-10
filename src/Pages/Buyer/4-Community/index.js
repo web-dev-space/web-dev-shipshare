@@ -1,5 +1,5 @@
 import {Route, Router, Routes} from "react-router";
-import Following from "../../Merchant/0-Dashboard/Dashboard";
+import Following from "Pages/Merchant/0-Dashboard/Dashboard";
 import {DiscoverRoute} from "./Discover";
 import Profile from "./Profile";
 
