@@ -15,129 +15,11 @@ import Image from "mui-image";
 import {Pagination} from "@mui/lab";
 import {useNavigate} from "react-router-dom";
 
-const chipLabelsArray = ["Latest", "Popular"];
+// sample date
+import posts from "../../../../sampleData/posts";
+const examplePosts = posts;
 
-const examplePosts = [{
-    title: "ShipShare is the Best Shipping Platform!",
-    post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-    author: "Joe Doe",
-    date: new Date("2022-08-01"),
-    image: "https://source.unsplash.com/random",
-    commentsNumber: 1910,
-    viewsNumber: 4820,
-    repostsNumber: 7460,
-},
-    {
-        title: "ShipShare is the Best Shipping Platform!",
-        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-        author: "Joe Doe",
-        date: new Date("2023-08-01"),
-        image: "https://source.unsplash.com/random",
-        commentsNumber: 1910,
-        viewsNumber: 8821,
-        repostsNumber: 7460,
-    },
-    {
-        title: "ShipShare is the Best Shipping Platform!",
-        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-        author: "Joe Doe",
-        date: new Date("2021-02-01"),
-        image: "https://source.unsplash.com/random",
-        commentsNumber: 1910,
-        viewsNumber: 85820,
-        repostsNumber: 7460,
-    },
-    {
-        title: "ShipShare is the Best Shipping Platform!",
-        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-        author: "Joe Doe",
-        date: new Date("2021-03-01"),
-        image: "https://source.unsplash.com/random",
-        commentsNumber: 1910,
-        viewsNumber: 28820,
-        repostsNumber: 7460,
-    },
-    {
-        title: "ShipShare is the Best Shipping Platform!",
-        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-        author: "Joe Doe",
-        date: new Date("2021-08-05"),
-        image: "https://source.unsplash.com/random",
-        commentsNumber: 1910,
-        viewsNumber: 8810,
-        repostsNumber: 7460,
-    },
-    {
-        title: "Welcome to Shipshare!",
-        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-        author: "Joe Doe",
-        date: new Date("2020-08-01"),
-        image: "https://source.unsplash.com/random",
-        commentsNumber: 1910,
-        viewsNumber: 8820,
-        repostsNumber: 7460,
-    },
-    {
-        title: "Welcome to Shipshare!",
-        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-        author: "Joe Doe",
-        date: new Date("2018-08-01"),
-        image: "https://source.unsplash.com/random",
-        commentsNumber: 1910,
-        viewsNumber: 2820,
-        repostsNumber: 7460,
-    },
-    {
-        title: "Welcome to Shipshare!",
-        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-        author: "Joe Doe",
-        date: new Date("2020-08-22"),
-        image: "https://source.unsplash.com/random",
-        commentsNumber: 1910,
-        viewsNumber: 3820,
-        repostsNumber: 7460,
-    },
-    {
-        title: "Welcome to Shipshare!",
-        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-        author: "Joe Doe",
-        date: new Date("2021-03-22"),
-        image: "https://source.unsplash.com/random",
-        commentsNumber: 1910,
-        viewsNumber: 4820,
-        repostsNumber: 7460,
-    },
-    {
-        title: "Welcome to Shipshare!",
-        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-        author: "Joe Doe",
-        date: new Date("2023-01-01"),
-        image: "https://source.unsplash.com/random",
-        commentsNumber: 1910,
-        viewsNumber: 2320,
-        repostsNumber: 7460,
-    },
-    {
-        title: "Welcome to Shipshare!",
-        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-        author: "Joe Doe",
-        date: new Date("2021-07-01"),
-        image: "https://source.unsplash.com/random",
-        commentsNumber: 1910,
-        viewsNumber: 4420,
-        repostsNumber: 7460,
-    },
-    {
-        title: "Welcome to Shipshare!",
-        post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-        author: "Joe Doe",
-        date: new Date("2020-08-01"),
-        image: "https://source.unsplash.com/random",
-        commentsNumber: 1910,
-        viewsNumber: 8820,
-        repostsNumber: 7460,
-    },
-];
+const chipLabelsArray = ["Latest", "Popular"];
 
 const Discover = () => {
     const MAX_SIZE_PER_PAGE = 10;
@@ -300,12 +182,11 @@ const Discover = () => {
                                 <PostCard
                                     title={post.title}
                                     post={post.post}
-                                    author={post.author}
+                                    author={post.author.name}
                                     date={post.date}
                                     image={post.image}
-                                    commentsNumber={post.commentsNumber}
+                                    commentsNumber={post.comments.length}
                                     viewsNumber={post.viewsNumber}
-                                    repostsNumber={post.repostsNumber}
                                     onPostCardClick={onPostCardClick}/>
                             ))}
                         </div>

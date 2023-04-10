@@ -9,33 +9,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {useNavigate} from "react-router-dom";
 
-const post = {
-    title: "ShipShare is the Best Shipping Platform!",
-    post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-    author: "Joe Doe",
-    date: new Date("2021-08-01"),
-    image: "https://source.unsplash.com/random",
-    commentsNumber: 1910,
-    viewsNumber: 8820,
-    comments: [
-        {
-            user:{
-                name: "Kelly Doe",
-                avatar: "https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_1.jpg",
-            },
-            date: new Date("2021-08-01"),
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-        },
-        {
-            user:{
-                name: "Jelly Cat",
-                picture: "https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_2.jpg"
-            },
-            date: new Date("2021-08-01"),
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-        },
-    ]
-};
+// sample data
+import posts from "../../../../sampleData/posts";
+
+const post = posts[0];
 
 
 // Comment component
@@ -166,7 +143,7 @@ const PostDetails = () => {
                                         fontWeight: 600,
                                         color: "white"
                                     }}>
-                                        {post.author}
+                                        {post.author.name}
                                     </div>
                                     <div style={{
                                         fontSize: 13,
