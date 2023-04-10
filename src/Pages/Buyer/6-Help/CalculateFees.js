@@ -2,13 +2,11 @@ import { useState } from "react";
 import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
-import {Container, Typography, Box, FilledInput} from '@mui/material';
-import Avatar from '@mui/material/Avatar';
+import {Container, Typography, Box} from '@mui/material';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import InventoryIcon from '@mui/icons-material/Inventory';
 import RouteTableItem from "./RouteTableItem";
 
 
@@ -61,7 +59,7 @@ const CalculateFees = () => {
 
 				{/*--------------Main Content----------------------*/}
 				<Main>
-					<Container maxWidth={false}>
+					<Container maxWidth="md">
 						<Typography variant="h3" component="h1" paragraph>
 							Calculate Fee
 						</Typography>
@@ -69,13 +67,11 @@ const CalculateFees = () => {
 						<Typography variant="h6" component="h1" paragraph marginTop={5}>
 							Weight
 						</Typography>
-						<Stack spacing={3} >
-							{/*<FilledInput startAdornment={<InputAdornment position="start"><InventoryIcon /></InputAdornment>}*/}
-							{/*						 endAdornment={<InputAdornment position="end">kg</InputAdornment>} />*/}
+						<Stack spacing={3}>
 							<TextField fullWidth={true} variant="filled" id="length" placeholder="0"
 								 InputProps={{
 									 startAdornment: (
-										 <InputAdornment position="start">
+										 <InputAdornment position="start" >
 											 <svg width={24} height={24} viewBox="0 0 20 20" fill="none">
 												 <path
 													 d="M11.1742 2.09421C10.4212 1.78891 9.57886 1.78891 8.82585 2.09421L7.00085 2.83421L14.9942 5.94254L17.8059 4.85671C17.6906 4.76106 17.5613 4.68376 17.4225 4.62754L11.1742 2.09421Z"
@@ -96,8 +92,9 @@ const CalculateFees = () => {
 										 <InputAdornment position="end">
 											 kg
 										 </InputAdornment>
-									 )
-							 }} />
+									 ),
+							 }}
+							/>
 						</Stack>
 						<Typography variant="h6" component="h1" paragraph marginTop={5}>
 							Dimensions
@@ -128,7 +125,7 @@ const CalculateFees = () => {
 													 },
 													 endAdornment:<InputAdornment position="end">cm</InputAdornment>}} />
 						</Stack>
-						<Button variant="contained" size="large" fullWidth={true}>Calculate</Button>
+						<Button variant="contained" size="large" fullWidth={true} >Calculate</Button>
 
 						<div style={{marginTop: 100}}>
 							{items.map((item, index) => (
