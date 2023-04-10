@@ -24,7 +24,7 @@ export default function UserEditPage() {
 
 	const { name } = useParams();
 
-	const currentUser = _userList.find((user) => paramCase(user.name) === name);
+	const currentUser = _userList?.find((user) => paramCase(user.name) === name);
 
 	const [open, setOpen] = useState(false);
 

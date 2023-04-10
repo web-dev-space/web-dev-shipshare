@@ -1,13 +1,14 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, IconButton, Typography } from '@mui/material';
-import CustomizedSteppers from "../../../components/CustomizedSteppers";
-import DeliveryStatusCard from '../../../components/DeliveryStatusCard';
-import ItemCard from '../../../components/ItemCard.js';
-import deliveryStatus from '../../../sampleData/deliveryStatus';
-import { parcelData } from '../../../sampleData/parcels';
-import shipGroups from '../../../sampleData/shipGroups';
-import Colors from '../../../styles/Colors';
-import FontSizes from '../../../styles/FontSizes';
+import CustomizedSteppers from "components/CustomizedSteppers";
+import DeliveryStatusCard from 'components/DeliveryStatusCard';
+import ItemCard from 'components/ItemCard.js';
+import deliveryStatus from 'sampleData/deliveryStatus';
+import { parcelData } from 'sampleData/parcels';
+import Colors from 'styles/Colors';
+import FontSizes from 'styles/FontSizes';
+import { calculateDeliveryTime } from 'utils/calculateDeliveryTime';
+import { convertDateToString } from 'utils/convertDateToString';
 
 const FontFamily = {
 }
@@ -21,17 +22,27 @@ const hintText = [
 
 
 
-const ShipmentDetails = ({ ship, handleClose }) => {
-  if (ship === undefined) {
-    ship = shipGroups[0];
+const ShipmentDetails = ({ ship, handleClose, isMerchant = false }) => {
+
+  const shipEndDate = calculateDeliveryTime(ship, deliveryStatus);
+  const startDate = convertDateToString(ship.shipEndDate);
+
+  //TODO: REMOVE THIS
+  isMerchant = true;
+
+  let classifiedParcels = [];
+
+  if (isMerchant) {
+    classifiedParcels = parcelData.reduce((accumulator, current) => {
+      if (!accumulator[current.user]) {
+        accumulator[current.user] = [];
+      }
+
+      accumulator[current.user].push(current);
+      return accumulator;
+    }, {});
   }
 
-  const width = window.innerWidth;
-
-  const shipEndDate = '2021-08-01';
-  const startDate = '2021-07-01';
-
-  const activeStep = 2;
 
   return (
     <div>
@@ -89,9 +100,9 @@ const ShipmentDetails = ({ ship, handleClose }) => {
             </div>
             <div>
               <div style={styles.addressTitle}>Shipping address</div>
-              <div style={styles.nameText}>{ship.pickupLocation.name}</div>
-              <div style={styles.contactText}>{ship.phoneNumber}</div>
-              <div style={styles.contactText}>{ship.pickupLocation.address}</div>
+              <div style={styles.nameText}>{ship?.pickupLocation?.name}</div>
+              <div style={styles.contactText}>{ship?.phoneNumber}</div>
+              <div style={styles.contactText}>{ship?.pickupLocation?.address}</div>
             </div>
           </div>
 
@@ -144,9 +155,16 @@ const ShipmentDetails = ({ ship, handleClose }) => {
           borderRadius: 10,
           marginTop: 40,
         }}>
-          <ItemCard leftCornerIconColor={"#F9C662"}
-            items={parcelData}
-            title={"Items Included"} />
+          {isMerchant
+            ? <ItemCard leftCornerIconColor={"#F9C662"}
+              items={classifiedParcels}
+              title={"Items Included"}
+              isMerchant={isMerchant} />
+            :
+            <ItemCard leftCornerIconColor={"#F9C662"}
+              items={parcelData}
+              title={"Items Included"} />
+          }
         </Box>
       </div>
 

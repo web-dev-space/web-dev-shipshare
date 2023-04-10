@@ -36,7 +36,7 @@ import {Link} from "react-router-dom";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import {visuallyHidden} from "@mui/utils";
 import {ALL_STATES, stateFullNameToAbbr} from "../../Buyer/3-Groups/allStates";
-import ShippingDetailScreen from "../../Buyer/2-Shipments/ShipmentsDetailScreen";
+import ShippingDetailScreen from "../../../components/ShipmentsDetailScreen";
 import GroupDetailDrawerScreen from "../../Buyer/3-Groups/GroupDetailDrawerScreen";
 
 

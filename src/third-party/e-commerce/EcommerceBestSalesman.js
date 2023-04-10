@@ -47,7 +47,7 @@ export default function EcommerceBestSalesman({
             <TableHeadCustom headLabel={tableLabels} />
 
             <TableBody>
-              {tableData.map((row) => (
+              {tableData?.map((row) => (
                 <EcommerceBestSalesmanRow key={row.id} row={row} />
               ))}
             </TableBody>

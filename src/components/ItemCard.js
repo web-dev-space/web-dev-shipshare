@@ -6,38 +6,74 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 const FontFamily = {
 }
 
-const ItemCard = ({ items, leftCornerIconColor, title }) => {
+const ParcelItem = ({ item, index }) => {
+  return (
+    <div style={{ flexDirection: 'row', display: 'flex', alignItems: 'center', marginBottom: 20 }}>
+      <img
+        style={styles.tinyLogo}
+        src={
+          item.picture ?
+            item.picture :
+            require('../images/placeholder.png')
+        }
+      />
+      <div style={styles.itemContainer}>
+        <div style={styles.itemTitle}>{item.name}</div>
+        <div style={styles.itemNumber}>{item.trackingNumber}</div>
+        <div style={styles.itemWeight}>
+          {item.weight !== undefined ? `${item.weight} kg` : ' '}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const ItemCard = ({ items, leftCornerIconColor, title, isMerchant }) => {
   return (
     <div style={styles.bottomContainer}>
       <div style={styles.deliveryBar}>
         {/*<Feather name="package" size={24} color={Colors.statusOrange} />*/}
 
-        <InventoryIcon htmlColor="#F9C662" style={{fontSize:18}}/>
+        <InventoryIcon htmlColor="#F9C662" style={{ fontSize: 18 }} />
         <div style={styles.deliveryBarText}>{title}</div>
       </div>
 
-      {/*Item list*/}
-      {items &&
-        items.map((item, index) =>
-          <div style={{ marginLeft: 20, marginVertical: 10 }}>
-            <div style={{ flexDirection: 'row', display: 'flex', marginBottom: 20 }}>
-              <img
-                style={styles.tinyLogo}
-                src={
-                  item.picture ?
-                    item.picture :
-                    require('../images/placeholder.png')
-                }
-              />
-              <div style={styles.itemContainer}>
-                <div style={styles.itemTitle}>{item.name}</div>
-                <div style={styles.itemNumber}>{item.trackingNumber}</div>
-                {item.weight && <div style={styles.itemWeight}>{item.weight} kg</div>}
+      <div>
+        {/*Item list*/}
+        {items && !isMerchant &&
+          items.map((item, index) =>
+            <ParcelItem item={item} index={index} />
+          )
+        }
+
+        {items && isMerchant &&
+          Object.keys(items).map((email, index) => {
+
+            const parcels = items[email];
+            const totalWeight = parcels.reduce((acc, parcel) => acc + (parcel.weight || 0), 0);
+
+            return <div>
+              <div style={{ paddingBottom: 12 }}>
+                <div style={styles.buyerId}>
+                  BuyerID: {email}
+                </div>
+                <div style={styles.buyerId}>
+                  Total: {totalWeight} kg
+                </div>
               </div>
+              {parcels.map((parcel, index) =>
+                <ParcelItem item={parcel} index={index} />
+              )}
+              {index !== Object.keys(items).length - 1 &&
+                <div style={{ height: 1, backgroundColor: '#EDF2F7', marginHorizontal: 20, marginBottom: 12 }}>
+                </div>
+              }
             </div>
-          </div>
-        )
-      }
+
+          })
+        }
+      </div>
+
 
     </div>
   )
@@ -46,13 +82,24 @@ const ItemCard = ({ items, leftCornerIconColor, title }) => {
 export default ItemCard;
 
 const styles = {
+  buyerId: {
+
+    fontStyle: 'normal',
+    fontWeight: 400,
+    fontSize: 14,
+    color: '#939393'
+
+  },
   bottomContainer: {
     backgroundColor: Colors.white,
     borderRadius: 10,
+    paddingLeft: 24,
+    paddingRight: 24,
   },
   itemContainer: {
     marginLeft: 10,
     marginTop: 5,
+    marginBottom: 5,
   },
   itemTitle: {
     color: Colors.blackText,
@@ -64,7 +111,6 @@ const styles = {
   itemWeight: {
     color: Colors.blackText,
     fontSize: FontSizes.groupCardText,
-    marginBottom: 6,
     fontFamily: FontFamily.bold,
   },
   itemNumber: {
@@ -77,9 +123,8 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     marginTop: 20,
-    marginLeft: 20,
-    marginBottom: 20,
     alignItems: 'center',
+    marginBottom: 12,
   },
   deliveryBarText: {
     marginLeft: 10,

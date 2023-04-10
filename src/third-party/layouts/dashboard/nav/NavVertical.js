@@ -38,6 +38,8 @@ export default function NavVertical({ openNav, onCloseNav }) {
 
   const role = useSelector(state => state.auth.role);
 
+  const naviData = navConfig(role);
+
   const renderContent = (
     <Scrollbar
       sx={{
@@ -65,7 +67,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
           <NavAccount />
       </Stack>
 
-      <NavSectionVertical data={navConfig(role)} />
+      <NavSectionVertical data={naviData} />
 
       <Box sx={{ flexGrow: 1 }} />
 
