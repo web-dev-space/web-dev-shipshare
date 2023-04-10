@@ -32,7 +32,7 @@ export default function FormGroupPage() {
   const navigate = useNavigate();
   const handleNext = () => {
     if (activeStep === 2) {
-      navigate("/groups");
+      navigate("/buyer/groups");
       return;
     }
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
