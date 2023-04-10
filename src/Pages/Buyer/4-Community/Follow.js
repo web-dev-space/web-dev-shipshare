@@ -73,7 +73,7 @@ const Following = () => {
 
                           <Grid item xs={12} md={4}>
                             <EcommerceWidgetSummary
-                              title="Shipment Sent"
+                              title="Shipments Sent"
                               percent={-0.1}
                               total={18765}
                               chart={{
@@ -97,7 +97,7 @@ const Following = () => {
 
                           <Grid item xs={12} md={6} lg={6}>
                             <FileGeneralDataActivity
-                              title="Data Activity"
+                              title="Shipment Activity"
                               chart={{
                                 labels: TIME_LABELS,
                                 colors: [
@@ -110,28 +110,19 @@ const Following = () => {
                                   {
                                     type: 'Week',
                                     data: [
-                                      { name: 'Air Sensitive', data: [20, 34, 48, 65, 37, 48] },
-                                      { name: 'Air Standard', data: [10, 34, 13, 26, 27, 28] },
-                                      { name: 'Sea Sensitive', data: [10, 14, 13, 16, 17, 18] },
-                                      { name: 'Sea Standard', data: [5, 12, 6, 7, 8, 9] },
+                                      { name: 'Air Standard', data: [20, 34, 48, 65, 37, 48] },
+                                      { name: 'Air Sensitive', data: [10, 34, 13, 26, 27, 28] },
+                                      { name: 'Sea Standard', data: [10, 14, 13, 16, 17, 18] },
+                                      { name: 'Sea Sensitive', data: [5, 12, 6, 7, 8, 9] },
                                     ],
                                   },
                                   {
                                     type: 'Month',
                                     data: [
+                                      { name: 'Air Standard', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
                                       { name: 'Air Sensitive', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
-                                      { name: 'Media', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
-                                      { name: 'Documents', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
-                                      { name: 'Other', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
-                                    ],
-                                  },
-                                  {
-                                    type: 'Year',
-                                    data: [
-                                      { name: 'Images', data: [10, 34, 13, 56, 77] },
-                                      { name: 'Media', data: [10, 34, 13, 56, 77] },
-                                      { name: 'Documents', data: [10, 34, 13, 56, 77] },
-                                      { name: 'Other', data: [10, 34, 13, 56, 77] },
+                                      { name: 'Sea Standard', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
+                                      { name: 'Sea Sensitive', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
                                     ],
                                   },
                                 ],
@@ -141,7 +132,7 @@ const Following = () => {
 
                           <Grid item xs={12} md={6} lg={6}>
                             <EcommerceYearlySales
-                              title="Line"
+                              title="Total Revenue"
                               // subheader="(+43%) than last year"
                               chart={{
                                 categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
@@ -166,7 +157,7 @@ const Following = () => {
 
                           <Grid item xs={12} md={6} lg={6}>
                             <EcommerceBestSalesman
-                              title="Best Salesman"
+                              title="Top Group Leaders (Forming Groups)"
                               tableData={_ecommerceBestSalesman}
                               tableLabels={[
                                 { id: 'groupLeader', label: 'Group Leader' },
@@ -178,7 +169,7 @@ const Following = () => {
 
                           <Grid item xs={12} md={6} lg={6}>
                             <EcommerceBestSalesman
-                              title="Best Salesman"
+                              title="Top Buyers (Joining Groups)"
                               tableData={_ecommerceBestSalesman}
                               tableLabels={[
                                 { id: 'buyer', label: 'Buyer' },

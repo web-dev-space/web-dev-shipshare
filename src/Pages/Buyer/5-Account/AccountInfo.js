@@ -2,9 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { paramCase } from 'change-case';
 import { useParams } from 'react-router-dom';
 // @mui
-import { Container, Box } from '@mui/material';
-// routes
-import { PATH_DASHBOARD } from '../../../third-party/routes/paths';
+import { Container, Box, Typography } from '@mui/material';
 // _mock_
 import { _userList } from '../../../third-party/_mock/arrays';
 // components
@@ -38,9 +36,6 @@ export default function UserEditPage() {
 
 	return (
 		<>
-			{/*<Helmet>*/}
-			{/*	<title> User: Edit user | Minimal UI</title>*/}
-			{/*</Helmet>*/}
 			<Header onOpenNav={handleOpen} />
 			{/*-------Box is the layout of the whole page-----*/}
 			<Box
@@ -55,24 +50,11 @@ export default function UserEditPage() {
 				{/*--------------Main Content----------------------*/}
 				<Main>
 					<Container maxWidth={false}>
-			{/*<Container maxWidth={themeStretch ? false : 'lg'}>*/}
-				{/*<CustomBreadcrumbs*/}
-				{/*	heading="Edit user"*/}
-				{/*	links={[*/}
-				{/*		{*/}
-				{/*			name: 'Dashboard',*/}
-				{/*			href: PATH_DASHBOARD.root,*/}
-				{/*		},*/}
-				{/*		{*/}
-				{/*			name: 'User',*/}
-				{/*			href: PATH_DASHBOARD.user.list,*/}
-				{/*		},*/}
-				{/*		{ name: currentUser?.name },*/}
-				{/*	]}*/}
-				{/*/>*/}
-
-				<UserNewEditForm isEdit currentUser={currentUser} />
-			</Container>
+						<Typography variant="h4" paragraph>
+							Edit Account Info
+						</Typography>
+						<UserNewEditForm isEdit currentUser={currentUser} />
+					</Container>
 				</Main>
 			{/*</Container>*/}
 			</Box>

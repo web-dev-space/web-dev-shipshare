@@ -15,10 +15,10 @@ import {
 } from '@mui/material';
 
 import SearchBar from "../../../components/searchBar";
-import TwoSmallButtonGroup from "../../../components/TwoSmallButtonGroup";
 import {parcelData} from "../../../sampleData/parcels";
 import MerchantParcelTable from "./MerchantParcelTable";
 import {useSelector} from "react-redux";
+import {FilterList as FilterIcon} from "@mui/icons-material";
 
 
 
@@ -140,12 +140,15 @@ const MerchantParcelMainPage = () => {
 
                         {/*---button group---*/}
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <TwoSmallButtonGroup
-                                leftText="Add New"
-                                rightText="Filter"
-                                onLeftClick={handleOpenAddParcel}
-                                onRightClick={handleOpenFilter}
-                            />
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                style={{ height: '48px' }}
+                                startIcon={<FilterIcon />}
+                                onClick={handleOpenFilter}
+                            >
+                                Filter
+                            </Button>
                         </Box>
                         <AddParcelDialog open={openAddParcel} onClose={handleCloseAddParcel} />
                         <FilterDialog open={openFilter} onClose={handleCloseFilter}
