@@ -12,8 +12,9 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 
 
 
-const RouteTableItem = ({ index, type, time, price }) => {
-
+const RouteTableItem = ({ index, type, time, price, factor, parcelWeight, parcelLength, parcelWidth, parcelHeight }) => {
+	const actualFactor = parseFloat(parcelWeight) > Math.ceil(parseFloat(parcelHeight) * parseFloat(parcelLength) * parseFloat(parcelWidth) / 5000) ? parseFloat(parcelWeight) : Math.ceil(parseFloat(parcelHeight) * parseFloat(parcelHeight) * parseFloat(parcelWeight) / 5000);
+// console.log("factor is " +factor);
 	return (
 		<Box sx={{ display: 'flex', alignItems: 'center', border: '1px solid #E2E8F0', borderRadius: '8px', p: 2 , marginBottom:2}}>
 			{/* left photo */}
@@ -65,7 +66,7 @@ const RouteTableItem = ({ index, type, time, price }) => {
 
 			{/* green text */}
 			<Typography variant="subtitle1" component="p" sx={{ color: "#80B213", marginLeft: 'auto', fontWeight: 'bold' }}>
-				{price}
+				${isNaN(price * actualFactor) ? price : price * actualFactor}
 			</Typography>
 		</Box>
 	);
