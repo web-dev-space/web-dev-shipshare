@@ -1,6 +1,6 @@
 import React from "react";
-import Colors from '../styles/Colors';
-import FontSizes from '../styles/FontSizes';
+import Colors from 'styles/Colors';
+import FontSizes from 'styles/FontSizes';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 const FontFamily = {

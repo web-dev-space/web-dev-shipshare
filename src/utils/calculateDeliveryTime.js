@@ -1,4 +1,4 @@
-import {addDaysToUTCDate, convertDateToString} from "./convertDateToString";
+import { addDaysToUTCDate, convertDateToString } from "utils/convertDateToString";
 
 export const calculateDeliveryTime = (ship, deliveryStatus) => {
     // If the shipment is delivered, use the delivery date in deliveryStatus.
