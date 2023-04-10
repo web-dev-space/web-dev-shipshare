@@ -13,6 +13,7 @@ import PostCard from "./post-components/PostCard";
 import backgroundImg from "../../3-Groups/background.jpg";
 import Image from "mui-image";
 import {Pagination} from "@mui/lab";
+import {useNavigate} from "react-router-dom";
 
 const chipLabelsArray = ["Latest", "Popular"];
 
@@ -197,6 +198,8 @@ const Discover = () => {
         }
     };
 
+    const navigate = useNavigate();
+
     return (
         <>
             <Header onOpenNav={handleOpen} />
@@ -243,7 +246,7 @@ const Discover = () => {
                                     color="primary"
                                     startIcon={<AddIcon />}
                                     style={{height:44}}
-                                    href="/community/discover/create-new-post"
+                                    onClick={() => {navigate('./create-new-post')}}
                                     >
                                 New Post
                             </Button>
