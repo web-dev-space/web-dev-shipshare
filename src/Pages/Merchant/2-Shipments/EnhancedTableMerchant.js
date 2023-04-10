@@ -3,6 +3,7 @@ import Pagination from "@mui/lab/Pagination";
 import { Drawer, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import InputAdornment from "@mui/material/InputAdornment";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -11,17 +12,17 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
+import TextField from "@mui/material/TextField";
 import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import OrangeChipGroup from "../../../components/OrangeChipGroup";
 import ShippingDetailScreen from "../../../components/ShipmentsDetailScreen.js";
-import { status } from "nprogress";
 import { convertDateToString } from "../../../utils/convertDateToString.js";
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
+
+import DropdownList from "../../../components/DropdownList";
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -190,6 +191,8 @@ const FilterButtons = ({ selected, setSelected }) => {
   );
 };
 
+
+
 const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
@@ -207,6 +210,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   const [newTrackingNumber, setNewTrackingNumber] = React.useState("");
   const [newShipRoute, setNewShipRoute] = React.useState("");
   const [newShipEndDate, setNewShipEndDate] = React.useState("");
+  const [newStatus, setNewStatus] = React.useState("");
 
   // const [originalRows, setOriginalRows] = React.useState([]);
 
@@ -406,6 +410,8 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
           trackingNumber: newTrackingNumber,
           shipRoute: newShipRoute,
           shipEndDate: newShipEndDate,
+          status: newStatus,
+          phaseNumber: newStatus === 'Arrived' ? 4 : newStatus === 'In Shipping' ? 3 : newStatus === 'Packed' ? 2 : newStatus === 'Paid' ? 1 : newStatus === 'Ready' ? 0 : 0,
         }
       }
       return shipGroup;
@@ -420,6 +426,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     setNewTrackingNumber(row?.trackingNumber);
     setNewShipRoute(row?.shipRoute);
     setNewShipEndDate(row?.shipEndDate);
+    setNewStatus(row?.status);
   }
 
 
@@ -502,7 +509,21 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                         align="left"
                         style={{ color: getStatusColor(row) }}
                       >
-                        {row?.status === undefined ? "unknown" : row?.status}
+                        {rowBeingEdited.id === row.id ? (
+                          <DropdownList
+                            selectedValue={newStatus}
+                            setSelectedValue={setNewStatus}
+                            label="Status"
+                            options={[
+                              { value: "Ready", displayName: 'Ready' },
+                              { value: "Paid", displayName: 'Paid' },
+                              { value: "Packed", displayName: 'Packed' },
+                              { value: "In Shipping", displayName: 'In Shipping' },
+                              { value: "Arrived", displayName: 'Arrived' },
+                            ]} />
+                        ) :
+                          <text>{row?.status === undefined ? "unknown" : row?.status}</text>
+                        }
                       </TableCell>
                       <TableCell align="left">
                         <Button
