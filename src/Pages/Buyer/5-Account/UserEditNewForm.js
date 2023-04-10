@@ -183,10 +183,10 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 
 						<Stack alignItems="flex-end" sx={{ mt: 3 }}>
 							<div>
-								<LoadingButton type="cancel" variant="outlined" style={{marginRight:10}}>
+								<LoadingButton type="cancel" variant="outlined" style={{marginRight:10, width: 150}}>
 									 Cancel
 								</LoadingButton>
-								<LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+								<LoadingButton type="submit" variant="contained" loading={isSubmitting} style={{width:150}}>
 									{!isEdit ? 'Create User' : 'Save Changes'}
 								</LoadingButton>
 							</div>
