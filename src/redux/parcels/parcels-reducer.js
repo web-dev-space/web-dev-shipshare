@@ -44,12 +44,14 @@ const parcelsSlice = createSlice({
         // update
         [updateParcelThunk.fulfilled]: (state, {payload}) => {
             state.loading = false;
+            console.log(payload)
             state.parcels = state.parcels.map
                 (parcel =>
-                    parcel.id === payload.id
+                    parcel._id === payload._id
                         ? {...parcel, ...payload}
                         : parcel
                 );
+            console.log(state.parcels)
         },
     },
     reducers: {}

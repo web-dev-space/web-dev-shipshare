@@ -334,7 +334,7 @@ const ParcelTable = ({ data }) => {
                                         </TableCell>
                                         <TableCell align="left">{new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(row.created))}</TableCell>
                                         <TableCell component="th" scope="row" padding="none">{row.trackingNumber}</TableCell>
-                                        <TableCell align="left">{row.isWeighted ? `${row.weight} lbs` : "--"}</TableCell>
+                                        <TableCell align="left">{row.isWeighted ? `${row.weight} kg` : "--"}</TableCell>
                                         <TableCell align="left">
                                             {row.isShipped ? (
                                                 <OutlinedOrangeButton text="Shipped" onClick={() => console.log("Shipped")} />

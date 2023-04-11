@@ -32,7 +32,7 @@ export const deleteParcel = async (id) => {
 }
 
 export const updateParcel = async (parcel) => {
-    const id = parcel.id;
+    const id = parcel._id;
     const response = await axios.put(`${PARCELS_API}/${id}`, parcel);
     return response.data;
 }

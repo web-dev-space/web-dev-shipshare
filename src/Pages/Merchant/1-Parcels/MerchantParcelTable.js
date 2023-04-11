@@ -391,7 +391,6 @@ const MerchantParcelTable = ({ data, handleUpdateParcel }) => {
                                                             let updatedRow = {...rowBeingEdited};
                                                             updatedRow.weight = newWeight;
                                                             updatedRow.isWeighted = updatedRow.weight !== 0;
-                                                            console.log(updatedRow);
                                                             handleUpdateParcel(updatedRow);
                                                             setRowBeingEdited({});
                                                         }}
