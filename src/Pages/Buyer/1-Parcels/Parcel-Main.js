@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useState, useEffect, useCallback } from "react";
 import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
@@ -9,7 +9,6 @@ import {
     Dialog,
     DialogTitle,
     DialogContent,
-    TextField,
     MenuItem,
     DialogActions, Button, DialogContentText, FormControl, InputLabel, Select
 } from '@mui/material';
@@ -17,13 +16,16 @@ import {
 import SearchBar from "../../../components/searchBar";
 import TwoSmallButtonGroup from "../../../components/TwoSmallButtonGroup";
 import ParcelTable from "./parcel-components/ParcelTable";
-import ReactImagePickerEditor, { ImagePickerConf } from 'react-image-picker-editor';
-import 'react-image-picker-editor/dist/index.css'
-import './parcel-main.css';
 import {useDispatch, useSelector} from "react-redux";
 import {createParcelThunk, findAllParcelsThunk, updateParcelThunk} from "../../../redux/parcels/parcels-thunks";
-import {FilterList as FilterIcon} from "@mui/icons-material";
 import MerchantParcelTable from "../../Merchant/1-Parcels/MerchantParcelTable";
+import './parcel-main.css';
+import * as Yup from "yup";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
+import FormProvider, {RHFSelect, RHFTextField, RHFUploadAvatar} from "../../../third-party/components/hook-form";
+import {fData} from "../../../third-party/utils/formatNumber";
+import Stack from "@mui/material/Stack";
 
 
 
@@ -49,12 +51,12 @@ const ParcelMainPage = () => {
         console.log(tableData);
         setTableData(
             parcels.filter((val) => {
-            if (searchTerm === "") {
-                return val;
-            } else if (val.trackingNumber.match(searchTerm)) {
-                return val;
-            }
-        }))
+                if (searchTerm === "") {
+                    return val;
+                } else if (val.trackingNumber.match(searchTerm)) {
+                    return val;
+                }
+            }))
     };
 
     const handleInputChange = (event) => {
@@ -138,7 +140,8 @@ const ParcelMainPage = () => {
     const handleUpdateParcel = (props) => {
         const newParcel = {
             _id: props._id,
-            weight: props.weight
+            weight: props.weight,
+            isWeighted: props.isWeighted,
         }
         dispatch(updateParcelThunk(newParcel));
     }
@@ -203,9 +206,9 @@ const ParcelMainPage = () => {
                         </Box>
                         <AddParcelDialog open={openAddParcel} onClose={handleCloseAddParcel} handleAddNewParcel={handleAddNewParcel} />
                         <FilterDialog open={openFilter} onClose={handleCloseFilter}
-                                        filterStatus={filterStatus} setFilterStatus={setFilterStatus}
-                                        filterCourier={filterCourier} setFilterCourier={setFilterCourier}
-                                        onSubmitFilter={handleFilter}
+                                      filterStatus={filterStatus} setFilterStatus={setFilterStatus}
+                                      filterCourier={filterCourier} setFilterCourier={setFilterCourier}
+                                      onSubmitFilter={handleFilter}
                         />
                     </Container>
 
@@ -232,30 +235,50 @@ const couriers = [
 
 const AddParcelDialog = ({ open, onClose, handleAddNewParcel }) => {
 
-    const [name, setName] = useState('');
-    const [trackingNumber, setTrackingNumber] = useState('');
-    const [courier, setCourier] = useState('');
-    const [picture, setPicture] = useState(null);
-
-    const config2: ImagePickerConf = {
-        borderRadius: '100%',
-        language: 'en',
-        width: '200px',
-        height: '200px',
-        objectFit: 'cover',
-        compressInitial: null,
-        hideDeleteBtn: true,
-        hideDownloadBtn: true,
-        hideEditBtn: true,
-        hideAddBtn: true,
+    const defaultValues = {
+        name: '',
+        trackingNumber: '',
+        courier: '',
+        picture: null,
     };
-    const initialImage = '';
+    // validation schema
+    const NewParcelSchema = Yup.object().shape({
+        name: Yup.string().required('Name is required'),
+        trackingNumber: Yup.string().required('Tracking Number is required'),
+        courier: Yup.string().required('courier is required'),
+    });
 
-    const handleSubmit = () => {
-        handleAddNewParcel({ name, trackingNumber, courier, picture });
-        setName("");
-        setTrackingNumber("");
-        setCourier("");
+    const methods = useForm({
+        resolver: yupResolver(NewParcelSchema),
+        defaultValues,
+    });
+
+    const {
+        handleSubmit,
+        setValue,
+        reset,
+        formState: { isSubmitting }
+    } = methods;
+
+    // ---- handle the file upload component ---
+    const handleDrop = useCallback(
+        (acceptedFiles) => {
+            const file = acceptedFiles[0];
+
+            const newFile = Object.assign(file, {
+                preview: URL.createObjectURL(file),
+            });
+
+            if (file) {
+                setValue('picture', newFile, { shouldValidate: true });
+            }
+        },
+        [setValue]
+    );
+
+    const onSubmit = (data) => {
+        // ...
+        handleAddNewParcel(data);
         onClose();
     };
 
@@ -263,64 +286,62 @@ const AddParcelDialog = ({ open, onClose, handleAddNewParcel }) => {
         <Dialog open={open} onClose={onClose}>
             <DialogTitle>Add A New Parcel</DialogTitle>
             <DialogContent>
-                {/* <---UploadImage---> */}
-                <div className='custom-hover'
-                    style={{ marginBottom: 16, display: "flex", justifyContent: "center" }}>
-                    <ReactImagePickerEditor
-                        config={config2}
-                        imageSrcProp={initialImage}
-                        imageChanged={(newDataUri: any) => { setPicture(newDataUri) }} />
-                </div>
-                {/* <---Name---> */}
-                <TextField
-                    label="Name"
-                    fullWidth
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    variant="outlined"
-                    style={{ marginBottom: 16 }}
-                />
+                <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+                    {/*-------------- 3. Upload Banner Picture -----------------*/}
+                    <RHFUploadAvatar
+                        name="picture"
+                        maxSize={3145728}
+                        onDrop={handleDrop}
+                        helperText={
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    mt: 2,
+                                    mx: 'auto',
+                                    display: 'block',
+                                    textAlign: 'center',
+                                    color: 'text.secondary',
+                                }}
+                            >
+                                Allowed *.jpeg, *.jpg, *.png, *.gif
+                                <br /> max size of {fData(3145728)}
+                            </Typography>
+                        }
+                    />
+                    <RHFTextField name="name" label="Name" sx={{mt: 2}}/>
+                    <RHFTextField name="trackingNumber" label="Tracking Number" sx={{mt: 2}}/>
 
-                {/* <---Tracking Number---> */}
-                <TextField
-                    label="Tracking Number"
-                    fullWidth
-                    value={trackingNumber}
-                    onChange={(e) => setTrackingNumber(e.target.value)}
-                    variant="outlined"
-                    style={{ marginBottom: 16 }}
-                />
+                    <RHFSelect native name="courier" label="Courier" placeholder="Courier" sx={{mt: 2}}>
+                        <option value="" />
+                        {couriers.map((courier) => (
+                            <option key={courier.key} value={courier.value}>
+                                {courier.label}
+                            </option>
+                        ))}
+                    </RHFSelect>
 
-                {/* <---Courier---> */}
-                <TextField
-                    select
-                    label="Courier"
-                    fullWidth
-                    value={courier}
-                    onChange={(e) => setCourier(e.target.value)}
-                    variant="outlined"
-                >
-                    {couriers.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                            {option.label}
-                        </MenuItem>
-                    ))}
-                </TextField>
+                    {/*-------------- Submit Button -----------------*/}
+                    <Stack direction="row" spacing={2} sx={{ mt: 2, mb: 2}}
+                           display="flex" justifyContent="flex-end">
+                        <Button
+                            onClick={() => {
+                                reset();
+                                onClose();
+                            }}
+                        >
+                            Cancel
+                        </Button>
+
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            type={"submit"}
+                        >
+                            Save
+                        </Button>
+                    </Stack>
+                </FormProvider>
             </DialogContent>
-            <DialogActions>
-                <Button
-                    onClick={() => {
-                        onClose();
-                        setName("");
-                        setTrackingNumber("");
-                        setCourier("");
-                    }}
-                >
-                    Cancel</Button>
-                <Button onClick={handleSubmit} variant="contained" color="primary">
-                    Save
-                </Button>
-            </DialogActions>
         </Dialog>
     );
 };
