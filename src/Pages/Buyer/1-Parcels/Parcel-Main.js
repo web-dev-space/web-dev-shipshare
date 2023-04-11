@@ -83,6 +83,21 @@ const ParcelMainPage = () => {
     const [filterCourier, setFilterCourier] = useState("all");
 
     const handleFilter  = () => {
+        handleCloseFilter();
+    }
+
+
+    // Link to DB
+    const { parcels, loading } = useSelector((state) => state.parcels);
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(findAllParcelsThunk());
+    }, [])
+
+    // Table data
+    const [tableData, setTableData] = useState(parcels);
+    useEffect(() => {
         setTableData(
             parcels.filter((val) => {
                 return filterCourier === "all" || val.courier === filterCourier;
@@ -100,23 +115,7 @@ const ParcelMainPage = () => {
                     }
                 })
         )
-        handleCloseFilter();
-    }
-
-
-    // Link to DB
-    const { parcels, loading } = useSelector((state) => state.parcels);
-
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(findAllParcelsThunk());
-    }, [])
-
-    // Table data
-    const [tableData, setTableData] = useState(parcels);
-    useEffect(() => {
-        setTableData(parcels);
-    }, [parcels])
+    }, [parcels, filterCourier, filterStatus])
 
 
     return (
@@ -286,12 +285,26 @@ const FilterDialog = ({ open, onClose,onSubmitFilter,
                           filterStatus, setFilterStatus,
                           filterCourier, setFilterCourier}) =>
 {
+    const [localFilterStatus, setLocalFilterStatus] = useState(filterStatus);
+    const [localFilterCourier, setLocalFilterCourier] = useState(filterCourier);
     const handleStatusChange = (event) => {
-        setFilterStatus(event.target.value);
+        setLocalFilterStatus(event.target.value);
     };
 
     const handleCourierChange = (event) => {
-        setFilterCourier(event.target.value);
+        setLocalFilterCourier(event.target.value);
+    };
+
+    const onReset = () => {
+        setLocalFilterStatus('all');
+        setLocalFilterCourier('all');
+        onClose();
+    }
+
+    const onSubmit = () => {
+        setFilterStatus(localFilterStatus);
+        setFilterCourier(localFilterCourier);
+        onClose();
     };
 
     return (
@@ -306,7 +319,7 @@ const FilterDialog = ({ open, onClose,onSubmitFilter,
                     <Select
                         labelId="status-label"
                         id="status"
-                        value={filterStatus}
+                        value={localFilterStatus}
                         onChange={handleStatusChange}
                         label="Status"
                     >
@@ -321,7 +334,7 @@ const FilterDialog = ({ open, onClose,onSubmitFilter,
                     <Select
                         labelId="courier-label"
                         id="courier"
-                        value={filterCourier}
+                        value={localFilterCourier}
                         onChange={handleCourierChange}
                         label="Courier"
                     >
@@ -335,9 +348,9 @@ const FilterDialog = ({ open, onClose,onSubmitFilter,
                 <Button onClick={() => {
                     setFilterStatus("all");
                     setFilterCourier("all");
-                    onSubmitFilter();
+                    onReset();
                 }}>Reset</Button>
-                <Button onClick={onSubmitFilter} variant="contained" color="primary">Filter</Button>
+                <Button onClick={onSubmit} variant="contained" color="primary">Filter</Button>
             </DialogActions>
         </Dialog>
     );
