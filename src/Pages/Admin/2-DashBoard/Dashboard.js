@@ -105,7 +105,7 @@ const Dashboard = () => {
 												{
 													type: 'Week',
 													data: [
-														{ name: 'Air Sensitive', data: [20, 34, 48, 65, 37, 48] },
+														{ name: 'Air Sensitive', data: [20, 34, 48, 65, 37, 48, 43] },
 													],
 												},
 												{
@@ -129,20 +129,20 @@ const Dashboard = () => {
 									<EcommerceYearlySales
 										title="Weekly group formed"
 										chart={{
-											categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
+											categories: ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'],
 											series: [
 												{
-													year: '2019',
-													data: [
-														{ name: 'Total Revenue', data: [10, 41, 35, 151, 49, 62, 69] },
-													],
-												},
-												{
-													year: '2020',
+													year: 'this week',
 													data: [
 														{ name: 'Total Revenue', data: [148, 91, 69, 62, 49, 51, 35] },
 													],
 												},
+												{
+													year: 'last week',
+													data: [
+														{ name: 'Total Revenue', data: [10, 41, 35, 151, 49, 62, 69] },
+													],
+												}
 											],
 										}}
 									/>
@@ -163,10 +163,10 @@ const Dashboard = () => {
 												{
 													type: 'Week',
 													data: [
-														{ name: 'Air Sensitive', data: [20, 34, 48, 65, 37, 48] },
-														{ name: 'Air Standard', data: [10, 34, 13, 26, 27, 28] },
-														{ name: 'Sea Sensitive', data: [10, 14, 13, 16, 17, 18] },
-														{ name: 'Sea Standard', data: [5, 12, 6, 7, 8, 9] },
+														{ name: 'Air Sensitive', data: [20, 34, 48, 65, 37, 48, 11] },
+														{ name: 'Air Standard', data: [10, 34, 13, 26, 27, 28, 42] },
+														{ name: 'Sea Sensitive', data: [10, 14, 13, 16, 17, 18, 32] },
+														{ name: 'Sea Standard', data: [5, 12, 6, 7, 8, 9, 5] },
 													],
 												},
 												{
@@ -196,16 +196,16 @@ const Dashboard = () => {
 									<EcommerceYearlySales
 										title="Line"
 										chart={{
-											categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
+											categories: ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat','Sun'],
 											series: [
 												{
-													year: '2019',
+													year: 'this week',
 													data: [
 														{ name: 'Total Revenue', data: [10, 41, 35, 151, 49, 62, 69] },
 													],
 												},
 												{
-													year: '2020',
+													year: 'last week',
 													data: [
 														{ name: 'Total Revenue', data: [148, 91, 69, 62, 49, 51, 35] },
 													],
