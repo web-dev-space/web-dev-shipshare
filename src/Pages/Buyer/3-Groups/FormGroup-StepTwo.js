@@ -12,13 +12,18 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {useSnackbar} from "notistack";
 import {useNavigate} from "react-router-dom";
 import FormProvider, {RHFTextField} from "../../../third-party/components/hook-form";
+import {useEffect, useState} from "react";
 
 
-export default function FormGroupStepTwo() {
+export default function FormGroupStepTwo({ setIsFormValid }) {
 
-  // ---- handle the new post object ---
+  // ---- handle the new group object ---
   const defaultValues = {
-    groupName: '', receiverName: '', pickupLocation: '', phoneNumber: '', endDate: '',
+    groupName: '',
+    receiverName: '',
+    pickupLocation: '',
+    phoneNumber: '',
+    endDate: '',
   };
 
 
@@ -35,10 +40,11 @@ export default function FormGroupStepTwo() {
     resolver: yupResolver(NewUserSchema), defaultValues,
   });
 
-  const {handleSubmit, setValue} = methods;
+  const { handleSubmit, setValue } = methods;
 
   const {enqueueSnackbar} = useSnackbar();
   const navigate = useNavigate();
+
   const onSubmit = (data) => {
     enqueueSnackbar('Welcome to ShipShare!');
     navigate("/");
@@ -46,9 +52,8 @@ export default function FormGroupStepTwo() {
   };
 
 
+
   return (<>
-
-
       {/*----------------- Title & Description -----------------*/}
       <Box
         sx={{
@@ -69,23 +74,12 @@ export default function FormGroupStepTwo() {
             to ensure the best possible experience for all members.</Typography>
         </Box>
       </Box>
-
       {/*----------------- Form -----------------*/}
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        {/*<Box*/}
-        {/*  component="form"*/}
-        {/*  sx={{*/}
-        {/*    '& .MuiTextField-root': {m: 1, width: '25ch'},*/}
-        {/*    display: 'flex',*/}
-        {/*    flexDirection: 'column',*/}
-        {/*    alignItems: 'center',*/}
-        {/*  }}*/}
-        {/*  noValidate*/}
-        {/*  autoComplete="off"*/}
-        {/*>*/}
+      {/*<FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>*/}
         <div style={{
-          display: 'flex', flexDirection: 'column', alignItems: 'center',
-
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         }}>
           <Stack
             component={'form'}
@@ -102,7 +96,6 @@ export default function FormGroupStepTwo() {
               label="Group Name"
               placeholder={'e.g. My Group'}
             />
-
             <RHFTextField
               fullWidth={true}
               required
@@ -149,8 +142,8 @@ export default function FormGroupStepTwo() {
             </Stack>
           </Stack>
         </div>
-        {/*</Box>*/}
-      </FormProvider>
+
+      {/*</FormProvider>*/}
 
     </>
 

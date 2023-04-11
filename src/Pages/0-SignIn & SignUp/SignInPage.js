@@ -15,12 +15,11 @@ import {useState} from "react";
 
 const LoginPage = () => {
 
-  // ---- handle the new post object ---
+  // ---- handle the new user object ---
   const defaultValues = {
     email: '',
     password: '',
   };
-
 
   // validation schema
   const NewUserSchema = Yup.object().shape({

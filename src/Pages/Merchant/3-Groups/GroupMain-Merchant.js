@@ -269,7 +269,7 @@ const GroupMainMerchant = () => {
     return formattedDate;
   }
 
-
+  const [detailedShip, setDetailedShip] = useState({});
   const [openDrawer, setOpenDrawer] = useState(false);
   const handleOpenDrawer = () => {
     setOpenDrawer(true);
@@ -507,7 +507,7 @@ const GroupMainMerchant = () => {
                 m: 0,
               }}
             >
-              <GroupDetailDrawerScreen handleClose={handleCloseDrawer}/>
+              <GroupDetailDrawerScreen handleClose={handleCloseDrawer}  ship={detailedShip}/>
             </Box>
           </Drawer>
 
