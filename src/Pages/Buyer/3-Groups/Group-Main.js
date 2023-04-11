@@ -236,12 +236,6 @@ const GroupMainPage = () => {
         const oneDay = 24 * 60 * 60 * 1000;
         const diffInDays = Math.round((endDate - today) / oneDay);
 
-        console.log('val', val)
-        console.log("endDate: ", endDate)
-        console.log("today: ", today)
-        console.log("diffInDays: ", diffInDays)
-        console.log("filterEndIn: ", filterEndIn)
-
         if (filterState === "All" && filterEndIn === "All") {
           setTableData(originalRows);
           return val;
@@ -260,6 +254,19 @@ const GroupMainPage = () => {
     setTableData(filteredData);
     handleCloseFilter();
   }
+
+  const handleResetFilter = () => {
+    setFilterState("All");
+    setFilterEndIn("All");
+    setTableData(originalRows);
+    setFilteredData(originalRows);
+    setFocusChip("All");
+    handleCloseFilter();
+  }
+
+  useEffect(() => {
+    handleResetFilter();
+  }, []);
 
   useEffect(() => {
     setTableData(filteredData);
@@ -343,6 +350,7 @@ const GroupMainPage = () => {
                               filterEndIn={filterEndIn} setFilterEndIn={setFilterEndIn}
                               filterState={filterState} setFilterState={setFilterState}
                               onSubmitFilter={handleFilter}
+                              onResetFilter={handleResetFilter}
                 />
               </Stack>
             </Stack>
@@ -510,7 +518,7 @@ const GroupMainPage = () => {
 };
 
 const FilterDialog = ({
-                        open, onClose, onSubmitFilter,
+                        open, onClose, onSubmitFilter,onResetFilter,
                         filterEndIn, setFilterEndIn,
                         filterState: filterState, setFilterState: setFilterState
                       }) => {
@@ -573,7 +581,7 @@ const FilterDialog = ({
           onClick={() => {
             setFilterEndIn("All");
             setFilterState("All");
-            onSubmitFilter();
+            onResetFilter();
           }}>Reset</Button>
         <Button
           onClick={onSubmitFilter}
