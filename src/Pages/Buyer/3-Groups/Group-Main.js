@@ -170,8 +170,8 @@ const GroupMainPage = () => {
   };
 
   const [tableData, setTableData] = useState(originalRows);
-  const [filterEndIn, setFilterEndIn] = useState("all");
-  const [filterState, setFilterState] = useState("all");
+  const [filterEndIn, setFilterEndIn] = useState("All");
+  const [filterState, setFilterState] = useState("All");
   const [page, setPage] = useState(1);
   const itemsPerPage = 5;
   const pageCount = Math.ceil(tableData.length / itemsPerPage);
@@ -230,19 +230,43 @@ const GroupMainPage = () => {
 
     setFilteredData(
       originalRows.filter((val) => {
-        if (filterState === "All") {
+
+        const endDate = parseInt(val.endDate["$date"]["$numberLong"]);
+        const today = parseInt((new Date()).getTime());
+        const oneDay = 24 * 60 * 60 * 1000;
+        const diffInDays = Math.round((endDate - today) / oneDay);
+
+        if (filterState === "All" && filterEndIn === "All") {
           setTableData(originalRows);
           return val;
-        } else {
+        } else if (filterState !== "All" && filterEndIn !== 'All') {
+          return stateFullNameToAbbr[filterState] === val.pickUpAt.slice(-2) &&
+            (diffInDays <= filterEndIn && diffInDays > 0);
+        } else if (filterState !== "All" && filterEndIn === "All") {
           return stateFullNameToAbbr[filterState] === val.pickUpAt.slice(-2);
+        } else {
+          return diffInDays <= filterEndIn && diffInDays > 0;
         }
+
       })
     )
     setFocusChip("All");
     setTableData(filteredData);
     handleCloseFilter();
-
   }
+
+  const handleResetFilter = () => {
+    setFilterState("All");
+    setFilterEndIn("All");
+    setTableData(originalRows);
+    setFilteredData(originalRows);
+    setFocusChip("All");
+    handleCloseFilter();
+  }
+
+  useEffect(() => {
+    handleResetFilter();
+  }, []);
 
   useEffect(() => {
     setTableData(filteredData);
@@ -326,6 +350,7 @@ const GroupMainPage = () => {
                               filterEndIn={filterEndIn} setFilterEndIn={setFilterEndIn}
                               filterState={filterState} setFilterState={setFilterState}
                               onSubmitFilter={handleFilter}
+                              onResetFilter={handleResetFilter}
                 />
               </Stack>
             </Stack>
@@ -493,7 +518,7 @@ const GroupMainPage = () => {
 };
 
 const FilterDialog = ({
-                        open, onClose, onSubmitFilter,
+                        open, onClose, onSubmitFilter,onResetFilter,
                         filterEndIn, setFilterEndIn,
                         filterState: filterState, setFilterState: setFilterState
                       }) => {
@@ -523,7 +548,7 @@ const FilterDialog = ({
             onChange={handleEndInChange}
             label="End In"
           >
-            <MenuItem value="all" selected>All</MenuItem>
+            <MenuItem value="All" selected>All</MenuItem>
             <MenuItem value={7}>7 days</MenuItem>
             <MenuItem value={15}>15 days</MenuItem>
             <MenuItem value={30}>30 days</MenuItem>
@@ -540,7 +565,11 @@ const FilterDialog = ({
             label="State"
           >
             {state.map((option) => (
-              <MenuItem key={option.key} value={option.key} selected={option.key === 'All' ? true : false}>
+              <MenuItem
+                key={option.key}
+                value={option.key}
+                selected={option.key === 'All' ? true : false}
+              >
                 {option.value}
               </MenuItem>
             ))}
@@ -550,9 +579,9 @@ const FilterDialog = ({
       <DialogActions>
         <Button
           onClick={() => {
-            setFilterEndIn("all");
-            setFilterState("all");
-            onSubmitFilter();
+            setFilterEndIn("All");
+            setFilterState("All");
+            onResetFilter();
           }}>Reset</Button>
         <Button
           onClick={onSubmitFilter}

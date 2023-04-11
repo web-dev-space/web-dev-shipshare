@@ -28,24 +28,90 @@ import {useNavigate} from "react-router-dom";
 const steps = ['', '', ''];
 export default function FormGroupPage() {
 
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
+  const [buttonSelected, setButtonSelected] = useState("");
   const navigate = useNavigate();
-  const handleNext = () => {
-    if (activeStep === 2) {
-      navigate("/groups");
-      return;
-    }
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-
-  };
 
   const handleBack = () => {
+    if (activeStep === 0) {
+      navigate("/buyer/groups");
+      return;
+    }
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
+  const handleNext = () => {
+    console.log("activeStep: " + activeStep)
+    console.log(methods)
+    console.log(methods.formState)
+    if (activeStep === 2) {
+      navigate("/buyer/groups");
+      return;
+    };
+    if (activeStep === 0 && buttonSelected !== "") {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      return;
+    }
+    if (activeStep === 1) {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      return;
+    }
+
   };
+
+  const handleButtonClick = (button) => {
+    setButtonSelected(button);
+  };
+
+  const isButtonSelected = () => {
+    return buttonSelected !== "";
+  };
+
+  // ---- handle the new group object ---
+  const defaultValues = {
+    groupName: '',
+    receiverName: '',
+    pickupLocation: '',
+    phoneNumber: '',
+    endDate: '',
+  };
+
+  // validation schema
+  const NewGroupSchema = Yup.object().shape({
+    groupName: Yup.string().required('Required'),
+    receiverName: Yup.string().required('Required'),
+    pickupLocation: Yup.string().required('Required'),
+    phoneNumber: Yup.string().required('Required'),
+    endDate: Yup.string().required('Required'),
+  });
+
+  const methods = useForm({
+    resolver: yupResolver(NewGroupSchema), defaultValues,
+  });
+
+  const {handleSubmit, setValue} = methods;
+  const {enqueueSnackbar} = useSnackbar();
+
+  const onSubmit = (data) => {
+    enqueueSnackbar('Group Created!');
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    console.log('data', data);
+  };
+
+
+  const getPageContent = () => {
+    switch (activeStep) {
+      case 0:
+        return <FormGroupStepOne onButtonClick={handleButtonClick}/>;
+      case 1:
+        return <FormGroupStepTwo/>;
+      case 2:
+        return <FormGroupStepThree/>;
+      default:
+        return null;
+    }
+  };
+
 
   const [open, setOpen] = useState(false);
 
@@ -77,6 +143,8 @@ export default function FormGroupPage() {
               flexDirection: 'column',
               alignItems: 'center',
             }}>
+
+
             <Box sx={{
               width: '100%',
               alignItems: 'center',
@@ -95,7 +163,6 @@ export default function FormGroupPage() {
                 {steps.map((label, index) => {
                   const stepProps = {};
                   const labelProps = {};
-
                   return (
                     <Step key={label} {...stepProps}>
                       <StepLabel {...labelProps}>{label}</StepLabel>
@@ -103,66 +170,31 @@ export default function FormGroupPage() {
                   );
                 })}
               </Stepper>
-              {activeStep === steps.length ? (
-                <React.Fragment>
-                  <Typography sx={{mt: 2, mb: 1}}>
-                    All steps completed - you&apos;re finished
-                  </Typography>
-                  <Box sx={{display: 'flex', flexDirection: 'row', pt: 2}}>
-                    <Box sx={{flex: '1 1 auto'}}/>
-                    <Button onClick={handleReset}>Reset</Button>
-                  </Box>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
+              {/*------------------step page content------------------*/}
+              <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+                {getPageContent()}
 
-                  {/*Body content*/}
+                {/*------------------buttons------------------*/}
+                <Box sx={{display: 'flex', flexDirection: 'row', pt: 2, ml: 10, mr: 10}}>
+                  <Button
+                    color="inherit"
+                    disabled={activeStep === 2}
+                    onClick={handleBack}
+                    sx={{mr: 1}}
+                  >
+                    {activeStep === steps.length - 1 ? '' : 'Back'}
+                  </Button>
+                  <Box sx={{flex: '1 1 auto'}}/>
+                  <Button
+                    disabled={!isButtonSelected()}
+                    type={activeStep === 1 ? 'submit' : 'button'}
+                    onClick={handleNext}
+                  >
+                    {activeStep === steps.length - 1 ? 'Back to group page' : 'Next'}
+                  </Button>
+                </Box>
+              </FormProvider>
 
-                  {/*page 1*/}
-                  {activeStep === 0 ? (
-                    <FormGroupStepOne/>
-                  ) : (
-                    <React.Fragment>
-
-                    </React.Fragment>
-                  )}
-
-                  {/*page 2*/}
-                  {activeStep === 1 ? (
-                    <FormGroupStepTwo/>
-                  ) : (
-                    <React.Fragment>
-
-                    </React.Fragment>
-                  )}
-
-                  {/*page 3*/}
-                  {activeStep === 2 ? (
-                    <FormGroupStepThree/>
-                  ) : (
-                    <React.Fragment>
-
-                    </React.Fragment>
-                  )}
-
-                  <Box sx={{display: 'flex', flexDirection: 'row', pt: 2, ml: 10, mr: 10}}>
-                    <Button
-                      color="inherit"
-                      disabled={activeStep === 0 || activeStep === 2}
-                      onClick={handleBack}
-                      sx={{mr: 1}}
-                    >
-                      {activeStep === steps.length - 1 ? '' : 'Back'}
-                    </Button>
-                    <Box sx={{flex: '1 1 auto'}}/>
-                    <Button
-                      type={activeStep === 1 ? "submit" : "button"}
-                      onClick={handleNext}>
-                      {activeStep === steps.length - 1 ? 'Back to group page' : 'Next'}
-                    </Button>
-                  </Box>
-                </React.Fragment>
-              )}
             </Box>
           </Container>
         </Main>

@@ -5,12 +5,14 @@ import Button from "@mui/material/Button";
 import * as React from "react";
 import {useState} from "react";
 
-export default function FormGroupStepOne() {
+export default function FormGroupStepOne({ onButtonClick }) {
   const [selectedButton, setSelectedButton] = useState(null);
 
   const handleButtonClick = (buttonId) => {
     setSelectedButton(buttonId);
+    onButtonClick(buttonId);
   };
+
   return (
     <>
       <Box
