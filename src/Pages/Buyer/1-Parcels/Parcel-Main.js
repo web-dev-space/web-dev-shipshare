@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
@@ -17,10 +17,11 @@ import {
 import SearchBar from "../../../components/searchBar";
 import TwoSmallButtonGroup from "../../../components/TwoSmallButtonGroup";
 import ParcelTable from "./parcel-components/ParcelTable";
-import {parcelData} from "../../../sampleData/parcels";
 import ReactImagePickerEditor, { ImagePickerConf } from 'react-image-picker-editor';
 import 'react-image-picker-editor/dist/index.css'
 import './parcel-main.css';
+import {useDispatch, useSelector} from "react-redux";
+import {findAllParcelsThunk} from "../../../redux/parcels/parcels-thunks";
 
 
 
@@ -42,7 +43,7 @@ const ParcelMainPage = () => {
     const handleSearch = () => {
         console.log(tableData);
         setTableData(
-            originalData.filter((val) => {
+            parcels.filter((val) => {
             if (searchTerm === "") {
                 return val;
             } else if (val.trackingNumber.match(searchTerm)) {
@@ -83,7 +84,7 @@ const ParcelMainPage = () => {
 
     const handleFilter  = () => {
         setTableData(
-            originalData.filter((val) => {
+            parcels.filter((val) => {
                 return filterCourier === "all" || val.courier === filterCourier;
             })
                 .filter((val) => {
@@ -102,9 +103,21 @@ const ParcelMainPage = () => {
         handleCloseFilter();
     }
 
-    // table data
-    const originalData = parcelData;
-    const [tableData, setTableData] = useState(originalData);
+
+    // Link to DB
+    const { parcels, loading } = useSelector((state) => state.parcels);
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(findAllParcelsThunk());
+    }, [])
+
+    // Table data
+    const [tableData, setTableData] = useState(parcels);
+    useEffect(() => {
+        setTableData(parcels);
+    }, [parcels])
+
 
     return (
         <>
