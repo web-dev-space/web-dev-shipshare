@@ -21,13 +21,13 @@ import ReactImagePickerEditor, { ImagePickerConf } from 'react-image-picker-edit
 import 'react-image-picker-editor/dist/index.css'
 import './parcel-main.css';
 import {useDispatch, useSelector} from "react-redux";
-import {findAllParcelsThunk} from "../../../redux/parcels/parcels-thunks";
+import {createParcelThunk, findAllParcelsThunk} from "../../../redux/parcels/parcels-thunks";
 
 
 
 const ParcelMainPage = () => {
 
-    // nav bar
+    // ---------nav bar---------
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
         setOpen(true);
@@ -37,7 +37,7 @@ const ParcelMainPage = () => {
     };
 
 
-    // search bar
+    // ---------search bar---------
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSearch = () => {
@@ -62,7 +62,7 @@ const ParcelMainPage = () => {
         }
     };
 
-    // Add parcel dialog
+    // ---------Add parcel dialog---------
     const [openAddParcel, setOpenAddParcel] = useState(false);
     const handleOpenAddParcel = () => {
         setOpenAddParcel(true);
@@ -71,7 +71,20 @@ const ParcelMainPage = () => {
         setOpenAddParcel(false);
     }
 
-    // Filter dialog
+    const dispatch = useDispatch();
+    const handleAddNewParcel = (props) => {
+        const newParcel = {
+            user: "test@test.com",
+            name: props.name,
+            trackingNumber: props.trackingNumber,
+            courier: props.courier,
+            picture: props.picture? props.picture : null
+        }
+        dispatch(createParcelThunk(newParcel));
+    }
+
+
+    // ---------Filter dialog---------
     const [openFilter, setOpenFilter] = useState(false);
     const handleOpenFilter = () => {
         setOpenFilter(true);
@@ -90,7 +103,6 @@ const ParcelMainPage = () => {
     // Link to DB
     const { parcels, loading } = useSelector((state) => state.parcels);
 
-    const dispatch = useDispatch();
     useEffect(() => {
         dispatch(findAllParcelsThunk());
     }, [])
@@ -161,7 +173,7 @@ const ParcelMainPage = () => {
                                 onRightClick={handleOpenFilter}
                             />
                         </Box>
-                        <AddParcelDialog open={openAddParcel} onClose={handleCloseAddParcel} />
+                        <AddParcelDialog open={openAddParcel} onClose={handleCloseAddParcel} handleAddNewParcel={handleAddNewParcel} />
                         <FilterDialog open={openFilter} onClose={handleCloseFilter}
                                         filterStatus={filterStatus} setFilterStatus={setFilterStatus}
                                         filterCourier={filterCourier} setFilterCourier={setFilterCourier}
@@ -186,12 +198,12 @@ const couriers = [
     { value: 'yunda', label: 'Yunda Express' },
 ];
 
-const AddParcelDialog = ({ open, onClose }) => {
+const AddParcelDialog = ({ open, onClose, handleAddNewParcel }) => {
 
     const [name, setName] = useState('');
     const [trackingNumber, setTrackingNumber] = useState('');
     const [courier, setCourier] = useState('');
-    const [image, setImage] = useState('');
+    const [picture, setPicture] = useState(null);
 
     const config2: ImagePickerConf = {
         borderRadius: '100%',
@@ -205,12 +217,13 @@ const AddParcelDialog = ({ open, onClose }) => {
         hideEditBtn: true,
         hideAddBtn: true,
     };
-    // const initialImage: string = '/assets/images/8ptAya.webp';
     const initialImage = '';
 
     const handleSubmit = () => {
-        // ...
-        console.log({ name, trackingNumber, courier });
+        handleAddNewParcel({ name, trackingNumber, courier, picture });
+        setName("");
+        setTrackingNumber("");
+        setCourier("");
         onClose();
     };
 
@@ -224,7 +237,7 @@ const AddParcelDialog = ({ open, onClose }) => {
                     <ReactImagePickerEditor
                         config={config2}
                         imageSrcProp={initialImage}
-                        imageChanged={(newDataUri: any) => { setImage(newDataUri) }} />
+                        imageChanged={(newDataUri: any) => { setPicture(newDataUri) }} />
                 </div>
                 {/* <---Name---> */}
                 <TextField

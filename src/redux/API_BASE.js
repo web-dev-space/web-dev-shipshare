@@ -1,0 +1,1 @@
+export const API_BASE = process.env.REACT_APP_WEB_SEVER_API;

@@ -1,6 +1,6 @@
 import axios from 'axios';
-// const PARCELS_API = 'http://localhost:4000/parcels';
-const API_BASE = process.env.REACT_APP_WEB_SEVER_API;
+
+import {API_BASE} from '../API_BASE';
 const PARCELS_API = `${API_BASE}/parcels`;
 
 export const createParcel = async (parcel) => {

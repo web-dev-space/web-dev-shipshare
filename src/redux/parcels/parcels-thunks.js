@@ -11,16 +11,14 @@ export const findAllParcelsThunk = createAsyncThunk(
 export const findParcelByIdThunk = createAsyncThunk(
     'parcels/findParcelById',
     async (id) => {
-        const response = await service.findParcelById(id);
-        return response;
+        return await service.findParcelById(id);
     }
 );
 
 export const findParcelByTrackingNumberThunk = createAsyncThunk(
     'parcels/findParcelByTrackingNumber',
     async (trackingNumber) => {
-        const response = await service.findParcelByTrackingNumber(trackingNumber);
-        return response;
+        return await service.findParcelByTrackingNumber(trackingNumber);
     }
 );
 
@@ -28,8 +26,7 @@ export const findParcelByTrackingNumberThunk = createAsyncThunk(
 export const createParcelThunk = createAsyncThunk(
     'parcels/createParcel',
     async (parcel) => {
-        const response = await service.createParcel(parcel);
-        return response;
+        return await service.createParcel(parcel);
     }
 );
 
@@ -37,8 +34,7 @@ export const createParcelThunk = createAsyncThunk(
 export const deleteParcelThunk = createAsyncThunk(
     'parcels/deleteParcel',
     async (id) => {
-        const response = await service.deleteParcel(id);
-        return response;
+        return await service.deleteParcel(id);
     }
 );
 
@@ -46,7 +42,6 @@ export const deleteParcelThunk = createAsyncThunk(
 export const updateParcelThunk = createAsyncThunk(
     'parcels/updateParcel',
     async (parcel) => {
-        const response = await service.updateParcel(parcel);
-        return response.data;
+        return await service.updateParcel(parcel)
     }
 );
