@@ -19,14 +19,17 @@ const shipGroupsSlice = createSlice({
         [findAllShipGroupsThunk.pending]: (state) => {
             state.loading = true;
             state.shipGroups = [];
+            console.debug('findAllShipGroupsThunk pending...');
         },
         [findAllShipGroupsThunk.fulfilled]: (state, {payload}) => {
             state.loading = false;
             state.shipGroups = payload;
+            console.debug('findAllShipGroupsThunk fulfilled with data:', payload);
         },
         [findAllShipGroupsThunk.rejected]: (state, action) => {
             state.loading = false;
-            state.error = action.error
+            state.error = action.error;
+            console.debug('findAllShipGroupsThunk rejected with error:', action.error);
         },
 
         // delete

@@ -401,7 +401,8 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
               {visibleRows
                 ? visibleRows.map((row, index) => {
 
-                  const cityName = row?.pickupLocation?.shortAddress?.split(",");
+                  const cityName = row?.pickupLocation?.address?.split(",");
+                  console.debug("cityName", cityName);
 
                   return (
                     <TableRow
@@ -418,7 +419,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                       </TableCell>
                       <TableCell align="left">{row.shipRoute}</TableCell>
                       <TableCell align="left">{row?.joinDate === undefined ? "N/A" : row?.joinDate}</TableCell>
-                      <TableCell align="left">{cityName?.length >= 2 ? cityName[0] : cityName}</TableCell>
+                      <TableCell align="left">{cityName?.length >= 2 ? cityName[cityName.length-3] : cityName}</TableCell>
                       <TableCell
                         align="left"
                         style={{ color: getStatusColor(row) }}

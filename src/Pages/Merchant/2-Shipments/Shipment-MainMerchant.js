@@ -5,7 +5,7 @@ import Main from "../../../third-party/layouts/dashboard/Main.js";
 import Header from "../../../third-party/layouts/dashboard/header/index.js";
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical.js";
 import EnhancedTable from "./EnhancedTableMerchant.js";
-import { updateShipGroups } from "redux/shipGroup-reducer.js";
+import { updateShipGroupThunk } from "redux/shipGroups/shipGroups-thunks.js";
 
 const ShipmentMainPage = () => {
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const ShipmentMainPage = () => {
 
   const shipGroups = useSelector((state) => state.shipGroup.shipGroups);
   const setShipGroups = (shipGroups) => {
-    dispatch(updateShipGroups(shipGroups));
+    dispatch(updateShipGroupThunk(shipGroups));
   };
 
   const handleOpen = () => {
