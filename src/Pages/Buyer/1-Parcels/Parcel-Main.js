@@ -21,7 +21,9 @@ import ReactImagePickerEditor, { ImagePickerConf } from 'react-image-picker-edit
 import 'react-image-picker-editor/dist/index.css'
 import './parcel-main.css';
 import {useDispatch, useSelector} from "react-redux";
-import {createParcelThunk, findAllParcelsThunk} from "../../../redux/parcels/parcels-thunks";
+import {createParcelThunk, findAllParcelsThunk, updateParcelThunk} from "../../../redux/parcels/parcels-thunks";
+import {FilterList as FilterIcon} from "@mui/icons-material";
+import MerchantParcelTable from "../../Merchant/1-Parcels/MerchantParcelTable";
 
 
 
@@ -35,6 +37,9 @@ const ParcelMainPage = () => {
     const handleClose = () => {
         setOpen(false);
     };
+
+    // ---------user role---------
+    const role = useSelector(state => state.auth.role);
 
 
     // ---------search bar---------
@@ -129,6 +134,10 @@ const ParcelMainPage = () => {
         )
     }, [parcels, filterCourier, filterStatus])
 
+    // ---------Update parcel---------
+    const handleUpdateParcel = (props) => {
+        dispatch(updateParcelThunk(props));
+    }
 
     return (
         <>
@@ -166,12 +175,22 @@ const ParcelMainPage = () => {
 
                         {/*---button group---*/}
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <TwoSmallButtonGroup
-                                leftText="Add New"
-                                rightText="Filter"
-                                onLeftClick={handleOpenAddParcel}
-                                onRightClick={handleOpenFilter}
-                            />
+                            {
+                                role === "buyer" ? <TwoSmallButtonGroup
+                                    leftText="Add New"
+                                    rightText="Filter"
+                                    onLeftClick={handleOpenAddParcel}
+                                    onRightClick={handleOpenFilter}
+                                /> :  <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    style={{ height: '48px' }}
+                                    startIcon={<FilterIcon />}
+                                    onClick={handleOpenFilter}
+                                >
+                                    Filter
+                                </Button>
+                            }
                         </Box>
                         <AddParcelDialog open={openAddParcel} onClose={handleCloseAddParcel} handleAddNewParcel={handleAddNewParcel} />
                         <FilterDialog open={openFilter} onClose={handleCloseFilter}
@@ -183,7 +202,11 @@ const ParcelMainPage = () => {
 
                     {/*---Table---*/}
                     <Container maxWidth={false}>
-                    <ParcelTable data={tableData} />
+                        { role === "buyer" ?
+                            <ParcelTable data={tableData} /> :
+                            <MerchantParcelTable data={tableData}
+                                                 handleUpdateParcel={handleUpdateParcel} />}
+
 
                     </Container>
                 </Main>

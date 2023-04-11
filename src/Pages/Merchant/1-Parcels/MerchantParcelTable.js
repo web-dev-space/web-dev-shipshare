@@ -90,7 +90,7 @@ function MyTableHead(props) {
 function descendingComparator(a, b, orderBy) {
     switch (orderBy) {
         case "date":
-            return new Date(b.created.$date).getTime() - new Date(a.created.$date).getTime();
+            return new Date(b.created).getTime() - new Date(a.created).getTime();
         case "weight":
             if (!a.isWeighted) {
                 return 1;
@@ -153,7 +153,7 @@ const theme = createTheme({
 });
 
 // Table component
-const MerchantParcelTable = ({ data }) => {
+const MerchantParcelTable = ({ data, handleUpdateParcel }) => {
     const [rows, setRows] = React.useState(data);
     const [order, setOrder] = React.useState(DEFAULT_ORDER);
     const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
@@ -336,10 +336,10 @@ const MerchantParcelTable = ({ data }) => {
                                                 <text style={{ fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>{row.name}</text>
                                             </div>
                                         </TableCell>
-                                        <TableCell align="left">{new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(row.created.$date))}</TableCell>
+                                        <TableCell align="left">{new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(row.created))}</TableCell>
                                         <TableCell component="th" scope="row" padding="none">{row.trackingNumber}</TableCell>
                                         <TableCell align="left">
-                                            {rowBeingEdited.trackingNumber === row.trackingNumber ? (
+                                            {rowBeingEdited._id === row._id ? (
                                                 <TextField
                                                     id="outlined-basic"
                                                     label="Weight"
@@ -388,8 +388,11 @@ const MerchantParcelTable = ({ data }) => {
                                                             ml: 1,
                                                         }}
                                                         onClick={() => {
-                                                            rowBeingEdited.weight = newWeight;
-                                                            rowBeingEdited.isWeighted = rowBeingEdited.weight !== 0;
+                                                            let updatedRow = {...rowBeingEdited};
+                                                            updatedRow.weight = newWeight;
+                                                            updatedRow.isWeighted = updatedRow.weight !== 0;
+                                                            console.log(updatedRow);
+                                                            handleUpdateParcel(updatedRow);
                                                             setRowBeingEdited({});
                                                         }}
                                                     >
