@@ -5,43 +5,44 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import PeopleIcon from '@mui/icons-material/People';
 import {Avatar, Stack, Typography} from "@mui/material";
 
-const FontFamily = {
-}
+const FontFamily = {}
 
-const GroupMemberCard = ({ items, leftCornerIconColor, title }) => {
+const GroupMemberCard = ({items, leftCornerIconColor, title}) => {
   return (
     <div style={styles.bottomContainer}>
       <div style={styles.deliveryBar}>
         {/*<Feather name="package" size={24} color={Colors.statusOrange} />*/}
 
-        <PeopleIcon htmlColor="#F9C662" style={{fontSize:18}}/>
+        <PeopleIcon htmlColor="#F9C662" style={{fontSize: 18}}/>
         <div style={styles.deliveryBarText}>{title}</div>
       </div>
 
       {/*Item list*/}
       {items &&
-        items.map((item, index) =>
-          <div style={{ marginLeft: 20, marginVertical: 10 }}>
-            <div style={{ flexDirection: 'row', display: 'flex', marginBottom: 20 }}>
-              <Stack
-                direction='row'
-                spacing={2}
-              >
-              <Avatar
-                style={styles.tinyLogo}
-                sx={{ width: 30, height: 30 }}
-                src={
-                  item.picture ?
-                    item.picture :
-                    require('../images/placeholder.png')
-                }
-              />
+        Object.keys(items).map((email, index) => {
+            const parcels = items[email];
+            const totalWeight = parcels.reduce((acc, parcel) => acc + (parcel.weight || 0), 0);
 
-                <Typography variant="body1" >test@test.com</Typography>
-                <Typography variant="body2" >{item.weight} kg</Typography>
-              </Stack>
+            return <div style={{marginLeft: 20, marginVertical: 10}}>
+              <div style={{flexDirection: 'row', display: 'flex', marginBottom: 20}}>
+                <Stack
+                  direction='row'
+                  spacing={2}
+                >
+                  <Avatar
+                    style={styles.tinyLogo}
+                    sx={{width: 30, height: 30}}
+                    src={
+                      require('../images/placeholder.png')
+                    }
+                  />
+
+                  <Typography variant="caption">{email}</Typography>
+                  <Typography variant="caption">{totalWeight} kg</Typography>
+                </Stack>
+              </div>
             </div>
-          </div>
+          }
         )
       }
 

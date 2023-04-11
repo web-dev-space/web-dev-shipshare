@@ -10,20 +10,28 @@ import Colors from '../../../styles/Colors';
 import FontSizes from '../../../styles/FontSizes';
 import GroupMemberCard from "../../../components/GroupMemberCard";
 import GroupItemCard from "../../../components/GroupItemCard";
+import {calculateDeliveryTime} from "../../../utils/calculateDeliveryTime";
+import {convertDateToString} from "../../../utils/convertDateToString";
 
 const FontFamily = {}
 
-const GroupDetailDrawerScreen = ({ship, handleClose}) => {
-  if (ship === undefined) {
-    ship = shipGroups[0];
+const GroupDetailDrawerScreen = ({ship, handleClose,isMerchant}) => {
+
+  isMerchant = true;
+
+  let classifiedParcels = [];
+
+  if (isMerchant) {
+    classifiedParcels = parcelData.reduce((accumulator, current) => {
+      if (!accumulator[current.user]) {
+        accumulator[current.user] = [];
+      }
+
+      accumulator[current.user].push(current);
+      return accumulator;
+    }, {});
   }
 
-  const width = window.innerWidth;
-
-  const shipEndDate = '2021-08-01';
-  const startDate = '2021-07-01';
-
-  const activeStep = 2;
 
   return (
     <div>
@@ -59,7 +67,7 @@ const GroupDetailDrawerScreen = ({ship, handleClose}) => {
           border: '1px solid rgb(226, 232, 240)', borderRadius: 10, marginTop: 40,
         }}>
           <GroupMemberCard leftCornerIconColor={"#F9C662"}
-                    items={parcelData}
+                    items={classifiedParcels}
                     title={"Group Members"}/>
         </Box>
 
@@ -67,9 +75,10 @@ const GroupDetailDrawerScreen = ({ship, handleClose}) => {
         <Box style={{
           border: '1px solid rgb(226, 232, 240)', borderRadius: 10, marginTop: 40,
         }}>
-          <GroupItemCard leftCornerIconColor={"#F9C662"}
-                    items={parcelData}
-                    title={"Items Included"}/>
+          <ItemCard leftCornerIconColor={"#F9C662"}
+                    items={classifiedParcels}
+                    title={"Items Included"}
+                    isMerchant={isMerchant}/>
         </Box>
       </div>
 
