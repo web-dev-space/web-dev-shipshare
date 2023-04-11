@@ -88,7 +88,7 @@ function MyTableHead(props) {
 function descendingComparator(a, b, orderBy) {
     switch (orderBy) {
         case "date":
-            return new Date(b.created.$date).getTime() - new Date(a.created.$date).getTime();
+            return new Date(b.created).getTime() - new Date(a.created).getTime();
         case "weight":
             if (!a.isWeighted) {
                 return 1;
@@ -332,7 +332,7 @@ const ParcelTable = ({ data }) => {
                                                 <text style={{ fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>{row.name}</text>
                                             </div>
                                         </TableCell>
-                                        <TableCell align="left">{new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(row.created.$date))}</TableCell>
+                                        <TableCell align="left">{new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(row.created))}</TableCell>
                                         <TableCell component="th" scope="row" padding="none">{row.trackingNumber}</TableCell>
                                         <TableCell align="left">{row.isWeighted ? `${row.weight} lbs` : "--"}</TableCell>
                                         <TableCell align="left">
