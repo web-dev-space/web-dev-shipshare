@@ -269,7 +269,6 @@ const GroupMainMerchant = () => {
    handleResetFilter();
   }, []);
 
-
   useEffect(() => {
     setTableData(filteredData);
   }, [filteredData]);

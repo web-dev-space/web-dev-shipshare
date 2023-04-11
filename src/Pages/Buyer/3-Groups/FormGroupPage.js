@@ -6,7 +6,7 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Header from "../../../third-party/layouts/dashboard/header";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical";
 import Main from "../../../third-party/layouts/dashboard/Main"
 import {Card, CardContent, Container, Grid, Stack} from "@mui/material";
@@ -41,13 +41,15 @@ export default function FormGroupPage() {
   };
 
   const handleNext = () => {
+    console.log("buttonSelected: " + buttonSelected)
     console.log("activeStep: " + activeStep)
-    console.log(methods)
-    console.log(methods.formState)
+    console.log('methods', methods)
+    console.log('methods.formState', methods.formState)
     if (activeStep === 2) {
       navigate("/buyer/groups");
       return;
-    };
+    }
+    ;
     if (activeStep === 0 && buttonSelected !== "") {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       return;
@@ -60,8 +62,10 @@ export default function FormGroupPage() {
   };
 
   const handleButtonClick = (button) => {
+    console.log("handlebuttonclick: " + button)
     setButtonSelected(button);
   };
+
 
   const isButtonSelected = () => {
     return buttonSelected !== "";
@@ -69,6 +73,7 @@ export default function FormGroupPage() {
 
   // ---- handle the new group object ---
   const defaultValues = {
+    shipRoute: buttonSelected,
     groupName: '',
     receiverName: '',
     pickupLocation: '',
@@ -78,11 +83,12 @@ export default function FormGroupPage() {
 
   // validation schema
   const NewGroupSchema = Yup.object().shape({
+
     groupName: Yup.string().required('Required'),
     receiverName: Yup.string().required('Required'),
     pickupLocation: Yup.string().required('Required'),
     phoneNumber: Yup.string().required('Required'),
-    endDate: Yup.string().required('Required'),
+    // endDate: Yup.date().default(() => new Date()),
   });
 
   const methods = useForm({
@@ -94,6 +100,7 @@ export default function FormGroupPage() {
 
   const onSubmit = (data) => {
     enqueueSnackbar('Group Created!');
+
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     console.log('data', data);
   };
@@ -144,7 +151,6 @@ export default function FormGroupPage() {
               alignItems: 'center',
             }}>
 
-
             <Box sx={{
               width: '100%',
               alignItems: 'center',
@@ -185,13 +191,21 @@ export default function FormGroupPage() {
                     {activeStep === steps.length - 1 ? '' : 'Back'}
                   </Button>
                   <Box sx={{flex: '1 1 auto'}}/>
-                  <Button
+                  {activeStep !== 1 &&
+                    <Button
                     disabled={!isButtonSelected()}
-                    type={activeStep === 1 ? 'submit' : 'button'}
                     onClick={handleNext}
                   >
                     {activeStep === steps.length - 1 ? 'Back to group page' : 'Next'}
-                  </Button>
+                  </Button>}
+                  {activeStep === 1 &&
+                    <Button
+                    disabled={!isButtonSelected()}
+                    type='submit'
+                    // onClick={handleNext}
+                  >
+                    {activeStep === steps.length - 1 ? 'Back to group page' : 'Next'}
+                  </Button>}
                 </Box>
               </FormProvider>
 

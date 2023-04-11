@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {Card, CardContent} from "@mui/material";
+import {Card, CardContent, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import * as React from "react";
 import {useState} from "react";
@@ -9,6 +9,7 @@ export default function FormGroupStepOne({ onButtonClick }) {
   const [selectedButton, setSelectedButton] = useState(null);
 
   const handleButtonClick = (buttonId) => {
+    // console.log("buttonId: " + buttonId)
     setSelectedButton(buttonId);
     onButtonClick(buttonId);
   };
