@@ -117,10 +117,11 @@ const ParcelMainPage = () => {
     // Table data
     const [tableData, setTableData] = useState(parcels);
     useEffect(() => {
-        setTableData(
-            parcels.filter((val) => {
-                return filterCourier === "all" || val.courier === filterCourier;
-            })
+        if (parcels) {
+            setTableData(
+                parcels.filter((val) => {
+                    return filterCourier === "all" || val.courier === filterCourier;
+                })
                 .filter((val) => {
                     if (filterStatus === "all")
                         return val;
@@ -133,7 +134,8 @@ const ParcelMainPage = () => {
                         return val.isWeighted === true && val.isShipped === false
                     }
                 })
-        )
+            )
+        }
     }, [parcels, filterCourier, filterStatus])
 
     // ---------Update parcel---------
