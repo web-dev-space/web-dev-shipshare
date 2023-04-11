@@ -1,5 +1,7 @@
 import axios from 'axios';
-const PARCELS_API = 'http://localhost:4000/parcels';
+// const PARCELS_API = 'http://localhost:4000/parcels';
+const API_BASE = process.env.REACT_APP_WEB_SEVER_API;
+const PARCELS_API = `${API_BASE}/parcels`;
 
 export const createParcel = async (parcel) => {
     const response = await axios.post(PARCELS_API, parcel);
