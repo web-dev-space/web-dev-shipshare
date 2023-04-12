@@ -86,7 +86,7 @@ const PostDetails = () => {
        navigate("./");
     };
 
-    const role = useSelector(state => state.auth.role);
+    const role = useSelector(state => state.auth.currentUser.role);
 
     return (
         <>
