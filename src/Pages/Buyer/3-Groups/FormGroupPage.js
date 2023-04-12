@@ -75,6 +75,7 @@ export default function FormGroupPage() {
 
   // ---- handle the new group object ---
   const defaultValues = {
+    shipRoute: '',
     groupName: '',
     receiverName: '',
     pickupLocation: '',

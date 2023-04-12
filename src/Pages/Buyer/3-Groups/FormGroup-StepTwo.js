@@ -9,6 +9,8 @@ import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import * as Yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
+import {useSnackbar} from "notistack";
+import {useNavigate} from "react-router-dom";
 import FormProvider, {RHFTextField} from "../../../third-party/components/hook-form";
 import {useEffect, useState} from "react";
 import dayjs from "dayjs";
@@ -39,6 +41,7 @@ export default function FormGroupStepTwo({onDateChange}) {
     resolver: yupResolver(NewUserSchema), defaultValues,
   });
 
+  const {handleSubmit, setValue} = methods;
 
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -46,6 +49,8 @@ export default function FormGroupStepTwo({onDateChange}) {
     setSelectedDate(date);
     onDateChange(date);
   };
+
+
 
   return (<>
       {/*----------------- Title & Description -----------------*/}
@@ -142,6 +147,7 @@ export default function FormGroupStepTwo({onDateChange}) {
         </Stack>
       </div>
 
+      {/*</FormProvider>*/}
 
     </>
 
