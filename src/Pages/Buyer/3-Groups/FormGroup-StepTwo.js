@@ -13,10 +13,10 @@ import {useSnackbar} from "notistack";
 import {useNavigate} from "react-router-dom";
 import FormProvider, {RHFTextField} from "../../../third-party/components/hook-form";
 import {useEffect, useState} from "react";
-import RHFDatePicker from "./RHFDatePicker";
+import dayjs from "dayjs";
 
 
-export default function FormGroupStepTwo({setIsFormValid}) {
+export default function FormGroupStepTwo({onDateChange}) {
 
   // ---- handle the new group object ---
   const defaultValues = {
@@ -43,14 +43,13 @@ export default function FormGroupStepTwo({setIsFormValid}) {
 
   const {handleSubmit, setValue} = methods;
 
-  const {enqueueSnackbar} = useSnackbar();
-  const navigate = useNavigate();
+  const [selectedDate, setSelectedDate] = useState(null);
 
-  const onSubmit = (data) => {
-    enqueueSnackbar('Welcome to ShipShare!');
-    navigate("/");
-    console.log(data);
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    onDateChange(date);
   };
+
 
 
   return (<>
@@ -75,7 +74,6 @@ export default function FormGroupStepTwo({setIsFormValid}) {
         </Box>
       </Box>
       {/*----------------- Form -----------------*/}
-      {/*<FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>*/}
       <div style={{
         display: 'flex',
         flexDirection: 'column',
@@ -138,6 +136,8 @@ export default function FormGroupStepTwo({setIsFormValid}) {
                 required
                 name="endDate"
                 label="End Date"
+                value={selectedDate ? dayjs(selectedDate) : null}
+                onChange={(date) => handleDateChange(date)}
                 renderInput={(props) => (
                   <TextField {...props}/>
                 )}
