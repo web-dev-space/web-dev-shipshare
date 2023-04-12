@@ -10,7 +10,7 @@ export const findPostByIdThunk = createAsyncThunk(
   "posts/findPostById",
   async (id) => {
     const response = await service.findPostById(id);
-    return response.data;
+    return response;
   }
 );
 

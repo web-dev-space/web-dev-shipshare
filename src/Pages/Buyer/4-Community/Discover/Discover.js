@@ -88,8 +88,8 @@ const Discover = () => {
         }
     };
 
-    const onPostCardClick = () => {
-        navigate('./post');
+    function onPostCardClick  (id) {
+        navigate(`./post/${id}`);
     }
 
     const navigate = useNavigate();
@@ -191,6 +191,7 @@ const Discover = () => {
                                 return 0;
                             }).map((post) => (
                                 <PostCard
+                                    id={post._id}
                                     title={post.title}
                                     post={post.post}
                                     author={post.author}
@@ -198,20 +199,9 @@ const Discover = () => {
                                     image={post.image}
                                     commentsNumber={post.comments.length}
                                     viewsNumber={post.viewsAmount}
-                                    onPostCardClick={onPostCardClick}/>
+                                    onPostCardClick={()=>onPostCardClick(post._id)}/>
                             ))}
 
-                            {/*{posts.map((post) => (*/}
-                            {/*    <PostCard*/}
-                            {/*        title={post.title}*/}
-                            {/*        post={post.post}*/}
-                            {/*        author={post.author}*/}
-                            {/*        date={post.date}*/}
-                            {/*        image={post.image}*/}
-                            {/*        commentsNumber={post.comments.length}*/}
-                            {/*        viewsNumber={post.viewsAmount}*/}
-                            {/*        onPostCardClick={onPostCardClick}/>*/}
-                            {/*))}*/}
                         </div>
 
                         {/*---Pagination---*/}
