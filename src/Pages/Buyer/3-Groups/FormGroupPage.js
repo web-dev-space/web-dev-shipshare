@@ -48,8 +48,7 @@ export default function FormGroupPage() {
     if (activeStep === 2) {
       navigate("/buyer/groups");
       return;
-    }
-    ;
+    };
     if (activeStep === 0 && buttonSelected !== "") {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       return;
@@ -64,8 +63,8 @@ export default function FormGroupPage() {
   const handleButtonClick = (button) => {
     console.log("handlebuttonclick: " + button)
     setButtonSelected(button);
+    setValue("shipRoute", button);
   };
-
 
   const isButtonSelected = () => {
     return buttonSelected !== "";
@@ -73,7 +72,7 @@ export default function FormGroupPage() {
 
   // ---- handle the new group object ---
   const defaultValues = {
-    shipRoute: buttonSelected,
+    shipRoute: '',
     groupName: '',
     receiverName: '',
     pickupLocation: '',
@@ -83,7 +82,6 @@ export default function FormGroupPage() {
 
   // validation schema
   const NewGroupSchema = Yup.object().shape({
-
     groupName: Yup.string().required('Required'),
     receiverName: Yup.string().required('Required'),
     pickupLocation: Yup.string().required('Required'),
@@ -100,7 +98,6 @@ export default function FormGroupPage() {
 
   const onSubmit = (data) => {
     enqueueSnackbar('Group Created!');
-
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     console.log('data', data);
   };
@@ -151,6 +148,7 @@ export default function FormGroupPage() {
               alignItems: 'center',
             }}>
 
+
             <Box sx={{
               width: '100%',
               alignItems: 'center',
@@ -194,6 +192,7 @@ export default function FormGroupPage() {
                   {activeStep !== 1 &&
                     <Button
                     disabled={!isButtonSelected()}
+                    type={activeStep === 1 ? 'submit' : 'button'}
                     onClick={handleNext}
                   >
                     {activeStep === steps.length - 1 ? 'Back to group page' : 'Next'}
