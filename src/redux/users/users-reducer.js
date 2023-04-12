@@ -16,6 +16,7 @@ const usersSlice = createSlice({
     extraReducers:{
         [findAllUsersThunk.pending]: (state, action) => {
             state.loading = true;
+            state.users = [];
         },
         [findAllUsersThunk.fulfilled]: (state, action) => {
             state.loading = false;

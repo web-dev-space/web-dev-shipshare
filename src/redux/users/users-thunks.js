@@ -4,8 +4,10 @@ import * as service from "./users-service"
 // find -- all / by id / by email
 export const findAllUsersThunk = createAsyncThunk(
     'users/findAllUsers',
-    async () =>
-        await service.findAllUsers()
+    async () =>{
+        const users = await service.findAllUsers();
+        return users;
+    }
 );
 
 export const findUserByIdThunk = createAsyncThunk(
