@@ -50,7 +50,7 @@ export default function UserEditPage() {
 				{/*--------------Main Content----------------------*/}
 				<Main>
 					<Container maxWidth="md">
-						<Typography variant="h4" paragraph>
+						<Typography variant="h3" component="h1" paragraph>
 							Edit Account Info
 						</Typography>
 						<UserNewEditForm isEdit currentUser={currentUser} />
