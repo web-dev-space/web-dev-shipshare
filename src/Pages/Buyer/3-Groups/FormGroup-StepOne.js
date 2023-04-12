@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {Card, CardContent} from "@mui/material";
+import {Card, CardContent, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import * as React from "react";
 import {useState} from "react";
@@ -9,6 +9,7 @@ export default function FormGroupStepOne({ onButtonClick }) {
   const [selectedButton, setSelectedButton] = useState(null);
 
   const handleButtonClick = (buttonId) => {
+    // console.log("buttonId: " + buttonId)
     setSelectedButton(buttonId);
     onButtonClick(buttonId);
   };
@@ -99,11 +100,11 @@ export default function FormGroupStepOne({ onButtonClick }) {
               </Typography>
               <Typography variant="caption" component="div">
                 <Button
-                  variant={selectedButton === 1 ? "outlined" : "contained"}
+                  variant={selectedButton === 'Air Standard' ? "outlined" : "contained"}
                   sx={{mt: 3}}
-                  onClick={() => handleButtonClick(1)}
-                  className={selectedButton === 1 ? "selected" : ""}
-                >{selectedButton === 1 ? 'selected' : 'select'}</Button>
+                  onClick={() => handleButtonClick('Air Standard')}
+                  className={selectedButton === 'Air Standard' ? "selected" : ""}
+                >{selectedButton === 'Air Standard' ? 'selected' : 'select'}</Button>
               </Typography>
             </div>
           </CardContent>
@@ -141,11 +142,11 @@ export default function FormGroupStepOne({ onButtonClick }) {
               </Typography>
               <Typography variant="caption" component="div">
                 <Button
-                  variant={selectedButton === 2 ? "outlined" : "contained"}
+                  variant={selectedButton === 'Air Sensitive' ? "outlined" : "contained"}
                   sx={{mt: 3}}
-                  onClick={() => handleButtonClick(2)}
-                  className={selectedButton === 2 ? "selected" : ""}
-                >{selectedButton === 2 ? 'selected' : 'select'}</Button>
+                  onClick={() => handleButtonClick('Air Sensitive')}
+                  className={selectedButton === 'Air Sensitive' ? "selected" : ""}
+                >{selectedButton === 'Air Sensitive' ? 'selected' : 'select'}</Button>
               </Typography>
             </div>
           </CardContent>
@@ -182,11 +183,11 @@ export default function FormGroupStepOne({ onButtonClick }) {
               </Typography>
               <Typography variant="caption" component="div">
                 <Button
-                  variant={selectedButton === 3 ? "outlined" : "contained"}
+                  variant={selectedButton === 'Sea Standard' ? "outlined" : "contained"}
                   sx={{mt: 3}}
-                  onClick={() => handleButtonClick(3)}
-                  className={selectedButton === 3 ? "selected" : ""}
-                >{selectedButton === 3 ? 'selected' : 'select'}</Button>
+                  onClick={() => handleButtonClick('Sea Standard')}
+                  className={selectedButton === 'Sea Standard' ? "selected" : ""}
+                >{selectedButton === 'Sea Standard' ? 'selected' : 'select'}</Button>
               </Typography>
             </div>
           </CardContent>
@@ -223,11 +224,11 @@ export default function FormGroupStepOne({ onButtonClick }) {
               </Typography>
               <Typography variant="caption" component="div">
                 <Button
-                  variant={selectedButton === 4 ? "outlined" : "contained"}
+                  variant={selectedButton === 'Sea Sensitive' ? "outlined" : "contained"}
                   sx={{mt: 3}}
-                  onClick={() => handleButtonClick(4)}
-                  className={selectedButton === 4 ? "selected" : ""}
-                >{selectedButton === 4 ? 'selected' : 'select'}</Button>
+                  onClick={() => handleButtonClick('Sea Sensitive')}
+                  className={selectedButton === 'Sea Sensitive' ? "selected" : ""}
+                >{selectedButton === 'Sea Sensitive' ? 'selected' : 'select'}</Button>
               </Typography>
             </div>
           </CardContent>

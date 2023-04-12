@@ -269,7 +269,6 @@ const GroupMainMerchant = () => {
    handleResetFilter();
   }, []);
 
-
   useEffect(() => {
     setTableData(filteredData);
   }, [filteredData]);
@@ -456,14 +455,16 @@ const GroupMainMerchant = () => {
                           </Typography>
                         </TableCell>
                         <TableCell>
-                          <Button variant="contained"
-                                  sx={{
-                                    color: 'white',
-                                    borderRadius: 1,
-                                    backgroundColor: '80B213',
-                                    height: 45,
-                                  }} href="./groups/group-details">
-                            Group Page</Button>
+                          <Link to="./group-details" style={{ textDecoration: 'none' }}>
+                            <Button variant="contained" sx={{
+                              color: 'white',
+                              borderRadius: 1,
+                              backgroundColor: '80B213',
+                              height: 45,
+                            }}>
+                              Group Page
+                            </Button>
+                          </Link>
                         </TableCell>
                         <TableCell>
                           <Button

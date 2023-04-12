@@ -18,11 +18,14 @@ import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 
+import DatePick from "components/DatePick.js";
+import DropdownList from "components/DropdownList.js";
 import OrangeChipGroup from "components/OrangeChipGroup";
 import ShippingDetailScreen from "components/ShipmentsDetailScreen.js";
+import { useDispatch, useSelector } from "react-redux";
+import { updateShipGroupThunk } from "redux/shipGroups/shipGroups-thunks.js";
 import { convertDateToString } from "utils/convertDateToString.js";
-import DropdownList from "components/DropdownList.js";
-import DatePick from "components/DatePick.js";
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -54,10 +57,10 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "groupId",
+    id: "groupName",
     numeric: false,
     disablePadding: true,
-    label: "Group ID",
+    label: "Group Name",
   },
   {
     id: "endDate",
@@ -191,9 +194,45 @@ const FilterButtons = ({ selected, setSelected }) => {
   );
 };
 
+const convertPhaseNumberToStatus = (shipGroup) => {
+  switch (shipGroup?.phaseNumber) {
+    case 0:
+      return "Ready";
+    case 1:
+      return "Paid";
+    case 2:
+      return "Packed";
+    case 3:
+      return "In Shipping";
+    case 4:
+      return "Arrived";
+    default:
+      return "Ready";
+  }
+}
+
+const convertStatusToPhaseNumber = (status) => {
+  switch (status?.toLowerCase()) {
+    case "ready":
+      return 0;
+    case "paid":
+      return 1;
+    case "packed":
+      return 2;
+    case "in shipping":
+      return 3;
+    case "arrived":
+      return 4;
+    default:
+      return 0;
+  }
+}
 
 
-const EnhancedTable = ({ shipGroups, setShipGroups }) => {
+
+const EnhancedTable = ({ }) => {
+  const dispatch = useDispatch();
+
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
   const [page, setPage] = React.useState(1);
@@ -202,53 +241,38 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   const [paddingHeight, setPaddingHeight] = React.useState(0);
   const [filter, setFilter] = useState("All");
   const [focusChip, setFocusChip] = useState("All");
-  const originalRows = shipGroups;
-  const setOriginalRows = setShipGroups;
+
+  const originalRows = useSelector((state) => state.shipGroup.shipGroups);
 
   const [rowBeingEdited, setRowBeingEdited] = React.useState({});
   const [newWeight, setNewWeight] = React.useState(0);
   const [newTrackingNumber, setNewTrackingNumber] = React.useState("");
   const [newShipRoute, setNewShipRoute] = React.useState("");
   const [newShipEndDate, setNewShipEndDate] = React.useState(new Date("2021-01-01"));
-  const [newStatus, setNewStatus] = React.useState("");
-
-
-  // const [originalRows, setOriginalRows] = React.useState([]);
-
-  const addStatus = (shipGroup) => {
-    switch (shipGroup?.phaseNumber) {
-      case 0:
-        return "Ready";
-      case 1:
-        return "Paid";
-      case 2:
-        return "Packed";
-      case 3:
-        return "In Shipping";
-      case 4:
-        return "Arrived";
-      default:
-        return "unknown";
-    }
-  }
-
-  useEffect(() => {
-    setOriginalRows(originalRows?.map((shipGroup) => {
-      return {
-        ...shipGroup,
-        status: addStatus(shipGroup),
-      }
-    })
-    )
-  }, []);
-
-
 
   const [rows, setRows] = useState([]);
 
   const [open, setOpen] = useState(false);
 
   const [detailedShip, setDetailedShip] = useState({});
+
+  //TODO: remove this useEffect
+  useEffect(() => {
+    const debugVariableChange = () => {
+      
+      
+      
+    };
+    debugVariableChange();
+  }, [originalRows, rows, visibleRows]);
+
+  const newStatus = convertPhaseNumberToStatus(rowBeingEdited);
+  const setNewStatus = (status) => setRowBeingEdited({
+    ...rowBeingEdited,
+    phaseNumber: convertStatusToPhaseNumber(status),
+  })
+
+
 
   const handleOpen = (row) => {
     setDetailedShip(row);
@@ -340,14 +364,14 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   useEffect(() => {
     const filterTableData = () => {
       setRows(
-        originalRows.filter((row) => row?.status?.toLowerCase() === filter.toLowerCase() || filter.toLowerCase() === "all")
+        originalRows.filter((row) => convertPhaseNumberToStatus(row)?.toLowerCase() === filter.toLowerCase() || filter.toLowerCase() === "all")
       );
     };
     filterTableData();
   }, [originalRows, filter]);
 
   function getStatusColor(row) {
-    switch (row?.status?.toLowerCase()) {
+    switch (convertPhaseNumberToStatus(row)?.toLowerCase()) {
       case "arrived":
         return "#EEBD5E";
       case "in shipping":
@@ -400,21 +424,18 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   };
 
   const handleClickDoneButton = (row) => {
-    // update the row in the shipGroups object
-    setOriginalRows(originalRows.map((shipGroup) => {
-      if (shipGroup?.id === row?.id) {
-        return {
-          ...shipGroup,
-          totalWeight: newWeight,
-          trackingNumber: newTrackingNumber,
-          shipRoute: newShipRoute,
-          shipEndDate: newShipEndDate,
-          status: newStatus,
-          phaseNumber: newStatus === 'Arrived' ? 4 : newStatus === 'In Shipping' ? 3 : newStatus === 'Packed' ? 2 : newStatus === 'Paid' ? 1 : newStatus === 'Ready' ? 0 : 0,
-        }
-      }
-      return shipGroup;
-    }))
+
+    const newShipGroup = {
+      ...row,
+      status: undefined,
+      totalWeight: newWeight,
+      trackingNumber: newTrackingNumber,
+      shipRoute: newShipRoute,
+      shipEndDate: newShipEndDate,
+      phaseNumber: convertStatusToPhaseNumber(newStatus),
+    }
+
+    dispatch(updateShipGroupThunk(newShipGroup))
 
     setRowBeingEdited({});
   }
@@ -425,7 +446,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     setNewTrackingNumber(row?.trackingNumber);
     setNewShipRoute(row?.shipRoute);
     setNewShipEndDate(new Date(row?.shipEndDate));
-    setNewStatus(row?.status);
   }
 
 
@@ -460,8 +480,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
             <TableBody>
               {visibleRows
                 ? visibleRows.map((row, index) => {
-
-                  const cityName = row?.pickupLocation?.shortAddress?.split(",");
+                  const cityName = row?.pickupLocation?.address?.split(",");
 
                   return (
                     <TableRow
@@ -474,10 +493,10 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                       }}
                     >
                       <TableCell component="th" scope="row" padding="none">
-                        group id
+                        {row?.name}
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
-                        {rowBeingEdited.id === row.id ? (
+                        {rowBeingEdited._id === row._id ? (
                           <DatePick selectedDate={newShipEndDate}
                             setSelectedDate={setNewShipEndDate} />
                         ) :
@@ -488,7 +507,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                         {row?.trackingNumber === undefined ? "--" : row?.trackingNumber}
                       </TableCell>
                       <TableCell align="left">
-                        {rowBeingEdited.id === row.id ? (
+                        {rowBeingEdited._id === row._id ? (
                           <DropdownList
                             selectedValue={newShipRoute}
                             setSelectedValue={setNewShipRoute}
@@ -496,7 +515,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                             options={[
                               { value: "Sea Standard", displayName: 'Sea Standard' },
                               { value: "Air Sensitive", displayName: 'Air Sensitive' },
-                              { value: "Sea Sensitive", displayName: 'Sea Standard' },
+                              { value: "Sea Sensitive", displayName: 'Sea Sensitive' },
                               { value: "Air Standard", displayName: 'Air Standard' },
                             ]} />
                         ) :
@@ -504,7 +523,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                         }
                       </TableCell>
                       <TableCell align="left">
-                        {rowBeingEdited.id === row.id ? (
+                        {rowBeingEdited._id === row._id ? (
                           <TextField
                             id="outlined-basic"
                             label="Weight"
@@ -523,12 +542,12 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                           <text>{row?.totalWeight === undefined || row?.totalWeight === null ? "--" : `${row?.totalWeight?.toFixed(1)} kg`}</text>
                         )}
                       </TableCell>
-                      <TableCell align="left">{cityName?.length >= 2 ? cityName[0] : cityName}</TableCell>
+                      <TableCell align="left">{cityName?.length >= 2 ? cityName[cityName.length - 3] : cityName}</TableCell>
                       <TableCell
                         align="left"
                         style={{ color: getStatusColor(row) }}
                       >
-                        {rowBeingEdited.id === row.id ? (
+                        {rowBeingEdited._id === row._id ? (
                           <DropdownList
                             selectedValue={newStatus}
                             setSelectedValue={setNewStatus}
@@ -541,7 +560,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                               { value: "Arrived", displayName: 'Arrived' },
                             ]} />
                         ) :
-                          <text>{row?.status === undefined ? "unknown" : row?.status}</text>
+                          <text>{convertPhaseNumberToStatus(row)}</text>
                         }
                       </TableCell>
                       <TableCell align="left">
@@ -562,7 +581,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                           Details
                         </Button>
                         {
-                          rowBeingEdited.id === row.id ? (
+                          rowBeingEdited._id === row._id ? (
                             <Button
                               variant="contained"
                               color="error"
