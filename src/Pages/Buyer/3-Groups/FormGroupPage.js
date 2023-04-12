@@ -79,7 +79,7 @@ export default function FormGroupPage() {
     receiverName: '',
     pickupLocation: '',
     phoneNumber: '',
-    endDate: '',
+    endDate: null,
   };
 
   // validation schema
@@ -88,7 +88,7 @@ export default function FormGroupPage() {
     receiverName: Yup.string().required('Required'),
     pickupLocation: Yup.string().required('Required'),
     phoneNumber: Yup.string().required('Required'),
-    // endDate: Yup.date().default(() => new Date()),
+    endDate: Yup.date().required('Required'),
   });
 
   const methods = useForm({

@@ -222,6 +222,9 @@ const GroupMainPage = () => {
   }, [originalRows, filter]);
 
   function formatDate(dateString) {
+    if (!dateString) {
+      return null;
+    }
     const date = new Date(parseInt(dateString.$date.$numberLong));
     const formattedDate = date.toLocaleDateString('en-US', {
       year: 'numeric',

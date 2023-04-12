@@ -92,7 +92,6 @@ const GroupMainMerchant = () => {
   const chipLabelsArray = ["All", "Air Standard", "Air Sensitive", "Sea Standard", "Sea Sensitive"];
 
 
-
 // chip filter
   useEffect(() => {
     const newFilteredRows = filteredData.filter(
@@ -196,17 +195,17 @@ const GroupMainMerchant = () => {
     handleCloseFilter();
   }
 
- const handleResetFilter = () => {
+  const handleResetFilter = () => {
     setFilterState("All");
     setFilterEndIn("All");
     setTableData(originalRows);
     setFilteredData(originalRows);
     setFocusChip("All");
     handleCloseFilter();
- }
+  }
 
- useEffect(() => {
-   handleResetFilter();
+  useEffect(() => {
+    handleResetFilter();
   }, []);
 
   useEffect(() => {
@@ -223,6 +222,9 @@ const GroupMainMerchant = () => {
   }, [originalRows, filter]);
 
   function formatDate(dateString) {
+    if (!dateString) {
+      return null;
+    }
     const date = new Date(parseInt(dateString.$date.$numberLong));
     const formattedDate = date.toLocaleDateString('en-US', {
       year: 'numeric',
@@ -395,7 +397,7 @@ const GroupMainMerchant = () => {
                           </Typography>
                         </TableCell>
                         <TableCell>
-                          <Link to="./group-details" style={{ textDecoration: 'none' }}>
+                          <Link to="./group-details" style={{textDecoration: 'none'}}>
                             <Button variant="contained" sx={{
                               color: 'white',
                               borderRadius: 1,
@@ -486,7 +488,7 @@ const GroupMainMerchant = () => {
 };
 
 const FilterDialog = ({
-                        open, onClose, onSubmitFilter,onResetFilter,
+                        open, onClose, onSubmitFilter, onResetFilter,
                         filterEndIn, setFilterEndIn,
                         filterState: filterState, setFilterState: setFilterState
                       }) => {

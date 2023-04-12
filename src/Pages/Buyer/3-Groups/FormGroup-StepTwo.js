@@ -15,8 +15,8 @@ import FormProvider, {RHFTextField} from "../../../third-party/components/hook-f
 import {useEffect, useState} from "react";
 import dayjs from "dayjs";
 
-
 export default function FormGroupStepTwo({onDateChange}) {
+
 
   // ---- handle the new group object ---
   const defaultValues = {
@@ -42,13 +42,12 @@ export default function FormGroupStepTwo({onDateChange}) {
   });
 
 
-
   const [selectedDate, setSelectedDate] = useState(null);
-
   const handleDateChange = (date) => {
     setSelectedDate(date);
     onDateChange(date);
   };
+
 
   return (<>
       {/*----------------- Title & Description -----------------*/}
