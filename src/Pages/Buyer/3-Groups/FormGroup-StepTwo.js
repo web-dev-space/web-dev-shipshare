@@ -41,7 +41,7 @@ export default function FormGroupStepTwo({onDateChange}) {
     resolver: yupResolver(NewUserSchema), defaultValues,
   });
 
-  const {handleSubmit, setValue} = methods;
+
 
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -49,8 +49,6 @@ export default function FormGroupStepTwo({onDateChange}) {
     setSelectedDate(date);
     onDateChange(date);
   };
-
-
 
   return (<>
       {/*----------------- Title & Description -----------------*/}
@@ -147,7 +145,6 @@ export default function FormGroupStepTwo({onDateChange}) {
         </Stack>
       </div>
 
-      {/*</FormProvider>*/}
 
     </>
 

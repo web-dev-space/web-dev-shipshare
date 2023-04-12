@@ -44,8 +44,7 @@ export default function FormGroupPage() {
     if (activeStep === 2) {
       navigate("/buyer/groups");
       return;
-    }
-    ;
+    };
     if (activeStep === 0 && buttonSelected !== "") {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       return;
