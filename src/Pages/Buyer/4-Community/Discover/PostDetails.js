@@ -1,16 +1,17 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Header from "../../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../../third-party/layouts/dashboard/Main"
 import {Container, Box, Avatar, Typography, TextField, Button, Pagination, IconButton} from '@mui/material';
 import Image from "mui-image";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 // sample data
 import posts from "../../../../sampleData/posts";
+import {deletePostThunk, findAllPostsThunk, findPostByIdThunk} from "../../../../redux/posts/posts-thunks";
 
 const post = posts[0];
 const COMMENT_PER_PAGE = 5;
@@ -23,7 +24,7 @@ const Comment = ({user, date, content, role, handleDeleteComment}) => {
             display: 'flex', flexDirection: 'row',
             alignItems: 'center',
             marginTop: 32, marginBottom: 32}}>
-            <Avatar src={user.picture} sx={{ width: 48, height: 48, mb: 'auto' }} />
+            {/*<Avatar src={user.picture} sx={{ width: 48, height: 48, mb: 'auto' }} />*/}
             <div style={{ marginLeft: 16}}>
                 <div style={{display: 'flex', flexDirection: "row"}}>
                     <div style={{width:"70%"}}>
@@ -31,7 +32,7 @@ const Comment = ({user, date, content, role, handleDeleteComment}) => {
                             fontSize: 16,
                             fontWeight: 600,
                         }}>
-                            {user.name}
+                            {user}
                         <div style={{
                             fontSize: 13,
                             color: '#929191'
@@ -65,6 +66,14 @@ const Comment = ({user, date, content, role, handleDeleteComment}) => {
 
 // -----------------Post Details Page---------------------
 const PostDetails = () => {
+    const {id} = useParams();
+    const dispatch = useDispatch();
+    const {posts} = useSelector(state => state.posts);
+    const post = posts.find(post => post._id === id);
+    useEffect((id) => {
+        dispatch(findPostByIdThunk(id));
+    }, []);
+
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -78,7 +87,8 @@ const PostDetails = () => {
     const [page, setPage] = useState(1);
 
     const navigate = useNavigate();
-    const handleDeletePost = () => {
+    const handleDeletePost = (id) => {
+        dispatch(deletePostThunk(id));
         navigate("../");
     };
    const handleDeleteComment = () => {
@@ -146,7 +156,7 @@ const PostDetails = () => {
                                         fontWeight: 600,
                                         color: "white"
                                     }}>
-                                        {post.author.name}
+                                        {post.author}
                                     </div>
                                     <div style={{
                                         fontSize: 13,
@@ -165,7 +175,7 @@ const PostDetails = () => {
                                 <Button
                                     variant="contained"
                                     color="error"
-                                    onClick={handleDeletePost}>
+                                    onClick={()=>handleDeletePost(id)}>
                                     <DeleteIcon/>
                                     Delete Post
                                 </Button>
