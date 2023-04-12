@@ -158,22 +158,22 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 
 				<Grid item xs={12} md={8}>
 					<Card sx={{ p: 3 }}>
-						<Box
-							style={{marginBottom:20}}
-							rowGap={3}
-							columnGap={2}
-							display="grid"
-							gridTemplateColumns={{
-								xs: 'repeat(1, 1fr)',
-								sm: 'repeat(2, 1fr)',
-							}}
-						>
-							<RHFTextField name="name" label="Full Name" />
-							<RHFTextField name="phoneNumber" label="Phone Number" />
+						{/*<Box*/}
+						{/*	style={{marginBottom:20}}*/}
+						{/*	rowGap={3}*/}
+						{/*	columnGap={2}*/}
+						{/*	display="grid"*/}
+						{/*	gridTemplateColumns={{*/}
+						{/*		xs: 'repeat(1, 1fr)',*/}
+						{/*		sm: 'repeat(2, 1fr)',*/}
+						{/*	}}*/}
+						{/*>*/}
+							<RHFTextField name="name" label="Full Name" style={{marginBottom:20}}/>
+							<RHFTextField name="phoneNumber" label="Phone Number" style={{marginBottom:20}}/>
 
-						</Box>
-						<RHFTextField name="email" label="Email Address" style={{marginBottom:20}}/>
-						<RHFTextField name="address" label="Address" style={{marginBottom:24}}/>
+
+						{/*<RHFTextField name="email" label="Email Address" style={{marginBottom:20}}/>*/}
+						<RHFTextField name="address" label="Address" style={{marginBottom:25}}/>
 
 						<Stack alignItems="flex-end" sx={{ mt: 3 }}>
 							<div>

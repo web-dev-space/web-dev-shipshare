@@ -49,7 +49,7 @@ export default function UserEditPage() {
 
 				{/*--------------Main Content----------------------*/}
 				<Main>
-					<Container maxWidth={false}>
+					<Container maxWidth="md">
 						<Typography variant="h4" paragraph>
 							Edit Account Info
 						</Typography>
