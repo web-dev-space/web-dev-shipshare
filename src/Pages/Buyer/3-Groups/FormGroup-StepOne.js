@@ -100,11 +100,11 @@ export default function FormGroupStepOne({ onButtonClick }) {
               </Typography>
               <Typography variant="caption" component="div">
                 <Button
-                  variant={selectedButton === 1 ? "outlined" : "contained"}
+                  variant={selectedButton === 'Air Standard' ? "outlined" : "contained"}
                   sx={{mt: 3}}
                   onClick={() => handleButtonClick('Air Standard')}
-                  className={selectedButton === 1 ? "selected" : ""}
-                >{selectedButton === 1 ? 'selected' : 'select'}</Button>
+                  className={selectedButton === 'Air Standard' ? "selected" : ""}
+                >{selectedButton === 'Air Standard' ? 'selected' : 'select'}</Button>
               </Typography>
             </div>
           </CardContent>
@@ -142,11 +142,11 @@ export default function FormGroupStepOne({ onButtonClick }) {
               </Typography>
               <Typography variant="caption" component="div">
                 <Button
-                  variant={selectedButton === 2 ? "outlined" : "contained"}
+                  variant={selectedButton === 'Air Sensitive' ? "outlined" : "contained"}
                   sx={{mt: 3}}
                   onClick={() => handleButtonClick('Air Sensitive')}
-                  className={selectedButton === 2 ? "selected" : ""}
-                >{selectedButton === 2 ? 'selected' : 'select'}</Button>
+                  className={selectedButton === 'Air Sensitive' ? "selected" : ""}
+                >{selectedButton === 'Air Sensitive' ? 'selected' : 'select'}</Button>
               </Typography>
             </div>
           </CardContent>
@@ -183,11 +183,11 @@ export default function FormGroupStepOne({ onButtonClick }) {
               </Typography>
               <Typography variant="caption" component="div">
                 <Button
-                  variant={selectedButton === 3 ? "outlined" : "contained"}
+                  variant={selectedButton === 'Sea Standard' ? "outlined" : "contained"}
                   sx={{mt: 3}}
                   onClick={() => handleButtonClick('Sea Standard')}
-                  className={selectedButton === 3 ? "selected" : ""}
-                >{selectedButton === 3 ? 'selected' : 'select'}</Button>
+                  className={selectedButton === 'Sea Standard' ? "selected" : ""}
+                >{selectedButton === 'Sea Standard' ? 'selected' : 'select'}</Button>
               </Typography>
             </div>
           </CardContent>
@@ -224,11 +224,11 @@ export default function FormGroupStepOne({ onButtonClick }) {
               </Typography>
               <Typography variant="caption" component="div">
                 <Button
-                  variant={selectedButton === 4 ? "outlined" : "contained"}
+                  variant={selectedButton === 'Sea Sensitive' ? "outlined" : "contained"}
                   sx={{mt: 3}}
                   onClick={() => handleButtonClick('Sea Sensitive')}
-                  className={selectedButton === 4 ? "selected" : ""}
-                >{selectedButton === 4 ? 'selected' : 'select'}</Button>
+                  className={selectedButton === 'Sea Sensitive' ? "selected" : ""}
+                >{selectedButton === 'Sea Sensitive' ? 'selected' : 'select'}</Button>
               </Typography>
             </div>
           </CardContent>

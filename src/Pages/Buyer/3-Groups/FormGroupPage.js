@@ -10,11 +10,6 @@ import {useEffect, useState} from "react";
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical";
 import Main from "../../../third-party/layouts/dashboard/Main"
 import {Card, CardContent, Container, Grid, Stack} from "@mui/material";
-import TextField from '@mui/material/TextField';
-import {DemoContainer} from '@mui/x-date-pickers/internals/demo';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import FormGroupStepOne from "./FormGroup-StepOne";
 import FormGroupStepTwo from "./FormGroup-StepTwo";
 import FormGroupStepThree from "./FormGroup-StepThree";
@@ -30,6 +25,7 @@ export default function FormGroupPage() {
 
   const [activeStep, setActiveStep] = useState(0);
   const [buttonSelected, setButtonSelected] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -64,6 +60,12 @@ export default function FormGroupPage() {
     console.log("handlebuttonclick: " + button)
     setButtonSelected(button);
     setValue("shipRoute", button);
+
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    setValue("endDate", date);
   };
 
   const isButtonSelected = () => {
@@ -108,7 +110,7 @@ export default function FormGroupPage() {
       case 0:
         return <FormGroupStepOne onButtonClick={handleButtonClick}/>;
       case 1:
-        return <FormGroupStepTwo/>;
+        return <FormGroupStepTwo onDateChange={handleDateChange}/>;
       case 2:
         return <FormGroupStepThree/>;
       default:
@@ -191,20 +193,20 @@ export default function FormGroupPage() {
                   <Box sx={{flex: '1 1 auto'}}/>
                   {activeStep !== 1 &&
                     <Button
-                    disabled={!isButtonSelected()}
-                    type={activeStep === 1 ? 'submit' : 'button'}
-                    onClick={handleNext}
-                  >
-                    {activeStep === steps.length - 1 ? 'Back to group page' : 'Next'}
-                  </Button>}
+                      disabled={!isButtonSelected()}
+                      type={activeStep === 1 ? 'submit' : 'button'}
+                      onClick={handleNext}
+                    >
+                      {activeStep === steps.length - 1 ? 'Back to group page' : 'Next'}
+                    </Button>}
                   {activeStep === 1 &&
                     <Button
-                    disabled={!isButtonSelected()}
-                    type='submit'
-                    // onClick={handleNext}
-                  >
-                    {activeStep === steps.length - 1 ? 'Back to group page' : 'Next'}
-                  </Button>}
+                      disabled={!isButtonSelected()}
+                      type='submit'
+                      // onClick={handleNext}
+                    >
+                      {activeStep === steps.length - 1 ? 'Back to group page' : 'Next'}
+                    </Button>}
                 </Box>
               </FormProvider>
 

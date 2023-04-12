@@ -14,6 +14,8 @@ import backgroundImg from "../../3-Groups/background.jpg";
 import Image from "mui-image";
 import {Pagination} from "@mui/lab";
 import {useNavigate} from "react-router-dom";
+import {useSelector, useDispatch} from "react-redux";
+import {findAllPostsThunk} from "../../../../redux/posts/posts-thunks";
 
 // sample date
 import posts from "../../../../sampleData/posts";
@@ -22,12 +24,18 @@ const examplePosts = posts;
 const chipLabelsArray = ["Latest", "Popular"];
 
 const Discover = () => {
+    const dispatch = useDispatch();
+    const {posts} = useSelector(state => state.posts);
+    useEffect(() => {
+        dispatch(findAllPostsThunk());
+    }, []);
+
     const MAX_SIZE_PER_PAGE = 10;
     const [open, setOpen] = useState(false);
 
     const [focusChip, setFocusChip] = useState('Latest');
     const [filter, setFilter] = useState('All');
-    const [posts, setPosts] = useState(examplePosts);
+    // const [posts, setPosts] = useState(examplePosts);
     const [filteredPosts, setFilteredPosts] = useState(posts);
     const [visiblePosts, setVisiblePosts] = useState([]);
     const [page, setPage] = useState(1);
@@ -80,11 +88,14 @@ const Discover = () => {
         }
     };
 
-    const onPostCardClick = () => {
-        navigate('./post');
+    function onPostCardClick  (id) {
+        navigate(`./post/${id}`);
     }
 
     const navigate = useNavigate();
+
+
+
 
     return (
         <>
@@ -132,7 +143,7 @@ const Discover = () => {
                                     color="primary"
                                     startIcon={<AddIcon />}
                                     style={{height:44}}
-                                    onClick={() => {navigate('./create-new-post')}}
+                                    onClick={() => {navigate('./posts/create-new-post')}}
                                     >
                                 New Post
                             </Button>
@@ -180,15 +191,17 @@ const Discover = () => {
                                 return 0;
                             }).map((post) => (
                                 <PostCard
+                                    id={post._id}
                                     title={post.title}
                                     post={post.post}
-                                    author={post.author.name}
+                                    author={post.author}
                                     date={post.date}
                                     image={post.image}
                                     commentsNumber={post.comments.length}
-                                    viewsNumber={post.viewsNumber}
-                                    onPostCardClick={onPostCardClick}/>
+                                    viewsNumber={post.viewsAmount}
+                                    onPostCardClick={()=>onPostCardClick(post._id)}/>
                             ))}
+
                         </div>
 
                         {/*---Pagination---*/}
