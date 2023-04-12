@@ -14,6 +14,8 @@ import backgroundImg from "../../3-Groups/background.jpg";
 import Image from "mui-image";
 import {Pagination} from "@mui/lab";
 import {useNavigate} from "react-router-dom";
+import {useSelector, useDispatch} from "react-redux";
+import {findAllPostsThunk} from "../../../../redux/posts/posts-thunks";
 
 // sample date
 import posts from "../../../../sampleData/posts";
@@ -22,12 +24,18 @@ const examplePosts = posts;
 const chipLabelsArray = ["Latest", "Popular"];
 
 const Discover = () => {
+    const dispatch = useDispatch();
+    const {posts} = useSelector(state => state.posts);
+    useEffect(() => {
+        dispatch(findAllPostsThunk());
+    }, []);
+
     const MAX_SIZE_PER_PAGE = 10;
     const [open, setOpen] = useState(false);
 
     const [focusChip, setFocusChip] = useState('Latest');
     const [filter, setFilter] = useState('All');
-    const [posts, setPosts] = useState(examplePosts);
+    // const [posts, setPosts] = useState(examplePosts);
     const [filteredPosts, setFilteredPosts] = useState(posts);
     const [visiblePosts, setVisiblePosts] = useState([]);
     const [page, setPage] = useState(1);
@@ -59,32 +67,35 @@ const Discover = () => {
     // search bar
     const [searchTerm, setSearchTerm] = useState('');
 
-    const handleSearch = () => {
-        setFilteredPosts(
-            posts.filter((val) => {
-                if (searchTerm === "") {
-                    return val;
-                } else if (val.title.match(searchTerm)) {
-                    return val;
-                }
-            }));
-    };
+    // const handleSearch = () => {
+    //     setFilteredPosts(
+    //         posts.filter((val) => {
+    //             if (searchTerm === "") {
+    //                 return val;
+    //             } else if (val.title.match(searchTerm)) {
+    //                 return val;
+    //             }
+    //         }));
+    // };
 
     const handleInputChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            handleSearch();
-        }
-    };
+    // const handleKeyPress = (event) => {
+    //     if (event.key === 'Enter') {
+    //         handleSearch();
+    //     }
+    // };
 
     const onPostCardClick = () => {
         navigate('./post');
     }
 
     const navigate = useNavigate();
+
+
+
 
     return (
         <>
@@ -153,9 +164,9 @@ const Discover = () => {
                                 height={48}
                                 searchTerm={searchTerm}
                                 setSearchTerm={setSearchTerm}
-                                handleSearch={handleSearch}
+                                // handleSearch={handleSearch}
                                 handleInputChange={handleInputChange}
-                                handleKeyPress={handleKeyPress}
+                                // handleKeyPress={handleKeyPress}
                             />
                             {/*---NewPost---*/}
                             <GreenChipGroup chipLabelsArray={chipLabelsArray}
@@ -171,14 +182,26 @@ const Discover = () => {
                             display: 'flex',
                             flexDirection:'column',
                             gap: 16 }}>
-                            {visiblePosts.sort((a, b) => {
-                                if (focusChip === 'Latest') {
-                                    return b.date - a.date;
-                                } else if (focusChip === 'Popular') {
-                                    return b.viewsNumber - a.viewsNumber;
-                                }
-                                return 0;
-                            }).map((post) => (
+                            {/*{visiblePosts.sort((a, b) => {*/}
+                            {/*    if (focusChip === 'Latest') {*/}
+                            {/*        return b.date - a.date;*/}
+                            {/*    } else if (focusChip === 'Popular') {*/}
+                            {/*        return b.viewsNumber - a.viewsNumber;*/}
+                            {/*    }*/}
+                            {/*    return 0;*/}
+                            {/*}).map((post) => (*/}
+                            {/*    <PostCard*/}
+                            {/*        title={post.title}*/}
+                            {/*        post={post.post}*/}
+                            {/*        author={post.author.name}*/}
+                            {/*        date={post.date}*/}
+                            {/*        image={post.image}*/}
+                            {/*        commentsNumber={post.comments.length}*/}
+                            {/*        viewsNumber={post.viewsNumber}*/}
+                            {/*        onPostCardClick={onPostCardClick}/>*/}
+                            {/*))}*/}
+
+                            {posts.map((post) => (
                                 <PostCard
                                     title={post.title}
                                     post={post.post}
@@ -186,7 +209,7 @@ const Discover = () => {
                                     date={post.date}
                                     image={post.image}
                                     commentsNumber={post.comments.length}
-                                    viewsNumber={post.viewsNumber}
+                                    viewsNumber={post.viewsAmount}
                                     onPostCardClick={onPostCardClick}/>
                             ))}
                         </div>

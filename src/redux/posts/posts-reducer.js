@@ -1,34 +1,54 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {findAllPosts, createPost, updatePost, deletePost} from "./posts-service";
+import {findAllPostsThunk, createPostThunk, updatePostThunk, deletePostThunk} from "./posts-thunks.js";
 
 const initialState = {
     posts: [],
     loading: false,
 }
 
+const templatePost = {
+    title: '',
+    body: '',
+    userId: 1,
+}
+
 const postsSlice = createSlice({
     name: 'posts',
     initialState,
     extraReducers:{
-        [findAllPosts.pending]: (state, action) => {
+        [findAllPostsThunk.pending]: (state) => {
             state.loading = true;
+            state.post = [];
         },
-        [findAllPosts.fulfilled]: (state, action) => {
-            state.posts = action.payload;
+        [findAllPostsThunk.fulfilled]: (state, {payload}) => {
             state.loading = false;
+            state.posts = payload;
         },
-        [findAllPosts.rejected]: (state, action) => {
+        [findAllPostsThunk.rejected]: (state, action) => {
             state.loading = false;
+            state.error = action.error;
         },
-        [createPost.fulfilled]: (state, action) => {
-            state.posts.push(action.payload);
+        [deletePostThunk.fulfilled]: (state, {payload}) => {
+            state.posts = state.posts.filter(post => post.id !== payload);
         },
-        [updatePost.fulfilled]: (state, action) => {
-            const index = state.posts.findIndex(post => post.id === action.payload.id);
-            state.posts[index] = action.payload;
+        [createPostThunk.fulfilled]: (state, {payload}) => {
+            state.loading = false;
+            const newPost = {
+                ...payload,
+                ...templatePost,
+            }
+            state.posts.push(payload);
         },
-        [deletePost.fulfilled]: (state, action) => {
-            state.posts = state.posts.filter(post => post.id !== action.payload.id);
+        [updatePostThunk.fulfilled]: (state, {payload}) => {
+            state.loading = false;
+            const index = state.posts.findIndex(post => post.id === payload.id);
+            state.posts[index] = {
+                ...state.posts[index],
+                ...payload,
+            };
         },
-    }
+    },
+    reducers: {}
 });
+
+export default postsSlice.reducer;

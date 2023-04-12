@@ -3,10 +3,7 @@ import * as service from "./posts-service";
 
 export const findAllPostsThunk = createAsyncThunk(
   "posts/findAllPosts",
-  async () => {
-    const response = await service.findAllPosts();
-    return response.data;
-  }
+  async () =>  await service.findAllPosts()
 );
 
 export const findPostByIdThunk = createAsyncThunk(
