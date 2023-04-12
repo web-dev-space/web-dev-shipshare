@@ -33,10 +33,11 @@ export default function App() {
                 <SnackbarProvider>
                   {/*---------------Main Routers----------------*/}
                   <Routes>
+                    <Route path="/" element={<LoginPage/>}/>
                     <Route path="/buyer/*" element={<Buyer/>}/>
                     <Route path="/merchant/*" element={<Merchant/>}/>
                     <Route path="/admin/*" element={<Admin/>}/>
-                    <Route path="/" element={<LoginPage/>}/>
+                    <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/signup" element={<SignUpPage/>}/>
                   </Routes>
                   {/*------------------------------------*/}
