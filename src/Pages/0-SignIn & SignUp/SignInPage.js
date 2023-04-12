@@ -12,6 +12,9 @@ import FormProvider, {RHFTextField} from "../../third-party/components/hook-form
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import {useState} from "react";
+import {useDispatch, useSelector} from 'react-redux';
+import { loginThunk } from '../../redux/users/users-thunks';
+import {current} from "@reduxjs/toolkit";
 
 const LoginPage = () => {
 
@@ -34,12 +37,26 @@ const LoginPage = () => {
 
   const {handleSubmit, setValue} = methods;
 
-  const {enqueueSnackbar} = useSnackbar();
-  const navigate = useNavigate();
-  const onSubmit = (data) => {
-    enqueueSnackbar('Welcome to ShipShare!');
-    navigate("/");
-    console.log(data);
+    const {enqueueSnackbar} = useSnackbar();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const onSubmit = async (data) => {
+    try{
+        const currentUser = await dispatch(loginThunk(data));
+        enqueueSnackbar('Welcome to ShipShare!');
+        const role = currentUser.payload.role;
+        if (role === 'admin') {
+            navigate('/admin');
+        }
+        else if (role === 'buyer') {
+            navigate('/buyer');
+        }
+        else if (role === 'merchant') {
+            navigate('/merchant');
+        }
+    } catch (e) {
+        alert(e);
+    }
   };
 
   const [passwordVisible, setPasswordVisible] = useState(false);

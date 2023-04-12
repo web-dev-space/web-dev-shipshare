@@ -3,14 +3,15 @@ import { useNavigate } from 'react-router-dom';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem } from '@mui/material';
-// routes
-import { PATH_AUTH } from '../../../routes/paths';
 
 // components
 import { CustomAvatar } from '../../../components/custom-avatar';
-import { useSnackbar } from '../../../components/snackbar';
+import { useSnackbar } from 'notistack';
 import MenuPopover from '../../../components/menu-popover';
 import { IconButtonAnimate } from '../../../components/animate';
+import {useDispatch, useSelector} from "react-redux";
+import {logoutThunk} from "../../../../redux/users/users-thunks";
+import {getRandomAvatar} from "../../../../utils/getRandomAvatar";
 
 // ----------------------------------------------------------------------
 
@@ -24,7 +25,7 @@ const OPTIONS = [
     linkTo: '/',
   },
   {
-    label: 'Settings',
+    label: 'Account',
     linkTo: '/',
   },
 ];
@@ -46,9 +47,11 @@ export default function AccountPopover() {
     setOpenPopover(null);
   };
 
+  const dispatch = useDispatch();
   const handleLogout = async () => {
     try {
-      navigate(PATH_AUTH.login, { replace: true });
+      await dispatch(logoutThunk());
+      navigate("/login");
       handleClosePopover();
     } catch (error) {
       console.error(error);
@@ -61,6 +64,8 @@ export default function AccountPopover() {
     navigate(path);
   };
 
+  // get current user
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
 // ----------------------------------------------------------------------
   return (
@@ -84,7 +89,15 @@ export default function AccountPopover() {
         }}
       >
         {/*------Avatar image------*/}
-        <CustomAvatar src="" alt="Rae" name="Rae" />
+        {currentUser ? (
+            currentUser.avatar? (
+                <CustomAvatar src={currentUser.avatar} alt={currentUser.name} />
+            ) : (
+                <CustomAvatar src={getRandomAvatar(currentUser.name)} name={currentUser.name} />
+            )
+        ) : (
+          <CustomAvatar src="" alt="Anonymous" name="Anonymous" />
+        )}
       </IconButtonAnimate>
 
 
@@ -93,12 +106,12 @@ export default function AccountPopover() {
         <Box sx={{ my: 1.5, px: 2.5 }}>
           {/*------1. user name------*/}
           <Typography variant="subtitle2" noWrap>
-            Rae
+            {currentUser? currentUser.name : "Anonymous Buyer"}
           </Typography>
 
           {/*------2. user email------*/}
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            test@test.com
+            {currentUser? currentUser.email : "Anonymous Email"}
           </Typography>
         </Box>
 
