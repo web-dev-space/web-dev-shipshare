@@ -515,7 +515,7 @@ const EnhancedTable = ({ }) => {
                             options={[
                               { value: "Sea Standard", displayName: 'Sea Standard' },
                               { value: "Air Sensitive", displayName: 'Air Sensitive' },
-                              { value: "Sea Sensitive", displayName: 'Sea Standard' },
+                              { value: "Sea Sensitive", displayName: 'Sea Sensitive' },
                               { value: "Air Standard", displayName: 'Air Standard' },
                             ]} />
                         ) :
