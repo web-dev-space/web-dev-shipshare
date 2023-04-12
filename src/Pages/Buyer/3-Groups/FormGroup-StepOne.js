@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {Card, CardContent} from "@mui/material";
+import {Card, CardContent, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import * as React from "react";
 import {useState} from "react";
@@ -9,6 +9,7 @@ export default function FormGroupStepOne({ onButtonClick }) {
   const [selectedButton, setSelectedButton] = useState(null);
 
   const handleButtonClick = (buttonId) => {
+    // console.log("buttonId: " + buttonId)
     setSelectedButton(buttonId);
     onButtonClick(buttonId);
   };
@@ -101,7 +102,7 @@ export default function FormGroupStepOne({ onButtonClick }) {
                 <Button
                   variant={selectedButton === 1 ? "outlined" : "contained"}
                   sx={{mt: 3}}
-                  onClick={() => handleButtonClick(1)}
+                  onClick={() => handleButtonClick('Air Standard')}
                   className={selectedButton === 1 ? "selected" : ""}
                 >{selectedButton === 1 ? 'selected' : 'select'}</Button>
               </Typography>
@@ -143,7 +144,7 @@ export default function FormGroupStepOne({ onButtonClick }) {
                 <Button
                   variant={selectedButton === 2 ? "outlined" : "contained"}
                   sx={{mt: 3}}
-                  onClick={() => handleButtonClick(2)}
+                  onClick={() => handleButtonClick('Air Sensitive')}
                   className={selectedButton === 2 ? "selected" : ""}
                 >{selectedButton === 2 ? 'selected' : 'select'}</Button>
               </Typography>
@@ -184,7 +185,7 @@ export default function FormGroupStepOne({ onButtonClick }) {
                 <Button
                   variant={selectedButton === 3 ? "outlined" : "contained"}
                   sx={{mt: 3}}
-                  onClick={() => handleButtonClick(3)}
+                  onClick={() => handleButtonClick('Sea Standard')}
                   className={selectedButton === 3 ? "selected" : ""}
                 >{selectedButton === 3 ? 'selected' : 'select'}</Button>
               </Typography>
@@ -225,7 +226,7 @@ export default function FormGroupStepOne({ onButtonClick }) {
                 <Button
                   variant={selectedButton === 4 ? "outlined" : "contained"}
                   sx={{mt: 3}}
-                  onClick={() => handleButtonClick(4)}
+                  onClick={() => handleButtonClick('Sea Sensitive')}
                   className={selectedButton === 4 ? "selected" : ""}
                 >{selectedButton === 4 ? 'selected' : 'select'}</Button>
               </Typography>
