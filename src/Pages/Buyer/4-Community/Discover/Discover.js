@@ -67,26 +67,26 @@ const Discover = () => {
     // search bar
     const [searchTerm, setSearchTerm] = useState('');
 
-    // const handleSearch = () => {
-    //     setFilteredPosts(
-    //         posts.filter((val) => {
-    //             if (searchTerm === "") {
-    //                 return val;
-    //             } else if (val.title.match(searchTerm)) {
-    //                 return val;
-    //             }
-    //         }));
-    // };
+    const handleSearch = () => {
+        setFilteredPosts(
+            posts.filter((val) => {
+                if (searchTerm === "") {
+                    return val;
+                } else if (val.title.match(searchTerm)) {
+                    return val;
+                }
+            }));
+    };
 
     const handleInputChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
-    // const handleKeyPress = (event) => {
-    //     if (event.key === 'Enter') {
-    //         handleSearch();
-    //     }
-    // };
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
+    };
 
     const onPostCardClick = () => {
         navigate('./post');
@@ -164,9 +164,9 @@ const Discover = () => {
                                 height={48}
                                 searchTerm={searchTerm}
                                 setSearchTerm={setSearchTerm}
-                                // handleSearch={handleSearch}
+                                handleSearch={handleSearch}
                                 handleInputChange={handleInputChange}
-                                // handleKeyPress={handleKeyPress}
+                                handleKeyPress={handleKeyPress}
                             />
                             {/*---NewPost---*/}
                             <GreenChipGroup chipLabelsArray={chipLabelsArray}
@@ -182,36 +182,36 @@ const Discover = () => {
                             display: 'flex',
                             flexDirection:'column',
                             gap: 16 }}>
-                            {/*{visiblePosts.sort((a, b) => {*/}
-                            {/*    if (focusChip === 'Latest') {*/}
-                            {/*        return b.date - a.date;*/}
-                            {/*    } else if (focusChip === 'Popular') {*/}
-                            {/*        return b.viewsNumber - a.viewsNumber;*/}
-                            {/*    }*/}
-                            {/*    return 0;*/}
-                            {/*}).map((post) => (*/}
-                            {/*    <PostCard*/}
-                            {/*        title={post.title}*/}
-                            {/*        post={post.post}*/}
-                            {/*        author={post.author.name}*/}
-                            {/*        date={post.date}*/}
-                            {/*        image={post.image}*/}
-                            {/*        commentsNumber={post.comments.length}*/}
-                            {/*        viewsNumber={post.viewsNumber}*/}
-                            {/*        onPostCardClick={onPostCardClick}/>*/}
-                            {/*))}*/}
-
-                            {posts.map((post) => (
+                            {visiblePosts.sort((a, b) => {
+                                if (focusChip === 'Latest') {
+                                    return b.date - a.date;
+                                } else if (focusChip === 'Popular') {
+                                    return b.viewsNumber - a.viewsNumber;
+                                }
+                                return 0;
+                            }).map((post) => (
                                 <PostCard
                                     title={post.title}
                                     post={post.post}
-                                    author={post.author.name}
+                                    author={post.author}
                                     date={post.date}
                                     image={post.image}
                                     commentsNumber={post.comments.length}
                                     viewsNumber={post.viewsAmount}
                                     onPostCardClick={onPostCardClick}/>
                             ))}
+
+                            {/*{posts.map((post) => (*/}
+                            {/*    <PostCard*/}
+                            {/*        title={post.title}*/}
+                            {/*        post={post.post}*/}
+                            {/*        author={post.author}*/}
+                            {/*        date={post.date}*/}
+                            {/*        image={post.image}*/}
+                            {/*        commentsNumber={post.comments.length}*/}
+                            {/*        viewsNumber={post.viewsAmount}*/}
+                            {/*        onPostCardClick={onPostCardClick}/>*/}
+                            {/*))}*/}
                         </div>
 
                         {/*---Pagination---*/}
