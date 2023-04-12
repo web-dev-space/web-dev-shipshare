@@ -9,6 +9,7 @@ import Colors from 'styles/Colors';
 import FontSizes from 'styles/FontSizes';
 import { calculateDeliveryTime } from 'utils/calculateDeliveryTime';
 import { convertDateToString } from 'utils/convertDateToString';
+import React, { useMemo } from 'react';
 
 const FontFamily = {
 }
@@ -30,10 +31,12 @@ const ShipmentDetails = ({ ship, handleClose, isMerchant = false }) => {
   //TODO: REMOVE THIS
   isMerchant = true;
 
-  let classifiedParcels = [];
+  const classifiedParcels = useMemo(() => {
+    if (!isMerchant) {
+      return [];
+    }
 
-  if (isMerchant) {
-    classifiedParcels = parcelData.reduce((accumulator, current) => {
+    return parcelData.reduce((accumulator, current) => {
       if (!accumulator[current.user]) {
         accumulator[current.user] = [];
       }
@@ -41,7 +44,11 @@ const ShipmentDetails = ({ ship, handleClose, isMerchant = false }) => {
       accumulator[current.user].push(current);
       return accumulator;
     }, {});
-  }
+
+  }, [isMerchant, parcelData]);
+
+  const shortAddressList = ship?.pickupLocation?.address.split(',');
+  const cityArrival = shortAddressList?.[shortAddressList.length - 3];
 
 
   return (
@@ -123,7 +130,7 @@ const ShipmentDetails = ({ ship, handleClose, isMerchant = false }) => {
             </svg>
             <Box style={styles.status2} display='flex' flexDirection='column'>
               <div style={styles.statusText}>{shipEndDate}</div>
-              <div style={styles.statusLocation}>{ship?.pickupLocation?.shortAddress?.split(",")[0]}</div>
+              <div style={styles.statusLocation}>{cityArrival}</div>
             </Box>
           </Box>
           <div style={{ height: 30 }} />

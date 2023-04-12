@@ -14,6 +14,8 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {useSnackbar} from "notistack";
 import {useNavigate} from "react-router-dom";
 import {LoadingButton} from "@mui/lab";
+import {createPostThunk} from "../../../../redux/posts/posts-thunks";
+import {useDispatch} from "react-redux";
 
 const CreatePost = () => {
     // ---- handle the nav bar ---
@@ -57,12 +59,27 @@ const CreatePost = () => {
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
     const onSubmit = async (data) => {
+        // try {
+        //     // await new Promise((resolve) => setTimeout(resolve, 500));
+        //     enqueueSnackbar('Post success!');
+        //     navigate("../");
+        //     console.log('DATA', data);
         try {
-            await new Promise((resolve) => setTimeout(resolve, 500));
-            enqueueSnackbar('Post success!');
-            navigate("../");
-            console.log('DATA', data);
+            const newPost ={
+                user: "test@test.com",
+                viewsAmount: 0,
+                role: "user",
+                date: new Date(),
+                title: data.title,
+                comment: data.content,
+                image: "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg",
+            }
+            dispatch(createPostThunk(newPost));
+            console.log('DATA is here --> '+ data);
+            console.log('newPost is here --> '+ newPost);
+            navigate('../');
         } catch (error) {
+            console.log("error happens");
             console.error(error);
         }
     };
@@ -86,6 +103,18 @@ const CreatePost = () => {
 
     const handleRemoveFile = () => {
         setValue('cover', null);
+    };
+
+    let [title, setTitle] = useState("");
+    let [content, setContent] = useState("");
+    const dispatch = useDispatch();
+    const postHandler = async (title, content) => {
+        try {
+            const newPost = { title, content };
+            await dispatch(createPostThunk(newPost));
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
@@ -176,6 +205,7 @@ const CreatePost = () => {
                                     type={"submit"}
                                     style={{maxWidth: 200}}
                                     loading={isSubmitting}
+                                    onClick={handleSubmit(onSubmit)}
                                 >
                                     Post
                                 </LoadingButton>
