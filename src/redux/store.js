@@ -8,6 +8,7 @@ const store = configureStore({
     auth: authReducer,
     parcels: parcelsReducer,
     shipGroup: shipGroupReducer,
+    groups: groupsReducer,
   },
 });
 
