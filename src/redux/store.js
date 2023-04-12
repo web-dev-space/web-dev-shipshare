@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import parcelsReducer from "./parcels/parcels-reducer.js";
-import authReducer from "./auth-reducer.js";
 import shipGroupReducer from "./shipGroup-reducer.js";
 import groupsReducer from "./groups/groups-reducer";
+import authReducer from "./users/auth-reducer.js";
+import usersReducer from "./users/users-reducer";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     parcels: parcelsReducer,
     shipGroup: shipGroupReducer,
     groups: groupsReducer,
+    users: usersReducer,
   },
 });
 

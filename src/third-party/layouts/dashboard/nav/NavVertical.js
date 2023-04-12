@@ -36,7 +36,8 @@ export default function NavVertical({ openNav, onCloseNav }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  const role = useSelector(state => state.auth.role);
+  const role = useSelector(state =>
+      (state.auth === null)? "buyer" : state.auth.currentUser.role);
 
   const naviData = navConfig(role);
 
