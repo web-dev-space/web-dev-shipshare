@@ -38,6 +38,8 @@ import {visuallyHidden} from "@mui/utils";
 import {ALL_STATES, stateFullNameToAbbr} from "../../Buyer/3-Groups/allStates";
 import ShippingDetailScreen from "../../../components/ShipmentsDetailScreen";
 import GroupDetailDrawerScreen from "./GroupDetailDrawerScreen";
+import {useDispatch, useSelector} from "react-redux";
+import {findAllShipGroupsThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 
 
 const DEFAULT_ORDER = 'asc';
@@ -55,80 +57,27 @@ const headCells = [
 
 ];
 
-function MyTableHead(props) {
-  const {order, orderBy, onRequestSort} = props;
-  const createSortHandler = (newOrderBy) => (event) => {
-    onRequestSort(event, newOrderBy);
-  };
-
-  return (
-    <TableHead>
-      <TableRow style={{borderTop: '1px solid #EDF2F7'}}>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
-            style={{backgroundColor: 'white'}}
-          >
-            {
-              headCell.sortable ? <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : 'asc'}
-                onClick={createSortHandler(headCell.id)}
-              >
-                {headCell.label}
-                {orderBy === headCell.id ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                  </Box>
-                ) : null}
-              </TableSortLabel> : headCell.label
-            }
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-function descendingComparator(a, b, orderBy) {
-  switch (orderBy) {
-    case 'endDate':
-      return parseInt(b[orderBy].$date.$numberLong) - parseInt(a[orderBy].$date.$numberLong);
-    default:
-      if (b[orderBy] < a[orderBy]) {
-        return -1;
-      }
-      if (b[orderBy] > a[orderBy]) {
-        return 1;
-      }
-      return 0;
-  }
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-
 // ----------------------------------------------------------------------------------------------
 const GroupMainMerchant = () => {
+  const dispatch = useDispatch();
+  const shipGroups = useSelector((state) => state.shipGroup.shipGroups);
+  const setShipGroups = (shipGroups) => dispatch(setShipGroups(shipGroups));
+
+  useEffect(() => {
+    dispatch(findAllShipGroupsThunk());
+  }, []);
+
+  // table data
+  const originalData = shipGroups;
+
+  function createData(id, memberCount, name, route, endDate, pickUpAt) {
+    return {id, memberCount, name, route, endDate, pickUpAt};
+  }
+
+  const originalRows = originalData.map((shipment) => {
+    return createData(shipment.id, shipment.members.length, shipment.name, shipment.shipRoute, shipment.shipEndDate, shipment.pickupLocation.shortAddress);
+  });
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -142,16 +91,7 @@ const GroupMainMerchant = () => {
   const [focusChip, setFocusChip] = useState('All');
   const chipLabelsArray = ["All", "Air Standard", "Air Sensitive", "Sea Standard", "Sea Sensitive"];
 
-  // table data
-  const originalData = shipments;
 
-  function createData(id, memberCount, name, route, endDate, pickUpAt) {
-    return {id, memberCount, name, route, endDate, pickUpAt};
-  }
-
-  const originalRows = originalData.map((shipment) => {
-    return createData(shipment.id, shipment.members.length, shipment.name, shipment.shipRoute, shipment.shipEndDate, shipment.pickupLocation.shortAddress);
-  });
 
 // chip filter
   useEffect(() => {
@@ -616,6 +556,78 @@ const FilterDialog = ({
     </Dialog>
   );
 };
+
+
+function MyTableHead(props) {
+  const {order, orderBy, onRequestSort} = props;
+  const createSortHandler = (newOrderBy) => (event) => {
+    onRequestSort(event, newOrderBy);
+  };
+
+  return (
+    <TableHead>
+      <TableRow style={{borderTop: '1px solid #EDF2F7'}}>
+        {headCells.map((headCell) => (
+          <TableCell
+            key={headCell.id}
+            align={headCell.numeric ? 'right' : 'left'}
+            padding={headCell.disablePadding ? 'none' : 'normal'}
+            sortDirection={orderBy === headCell.id ? order : false}
+            style={{backgroundColor: 'white'}}
+          >
+            {
+              headCell.sortable ? <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : 'asc'}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  </Box>
+                ) : null}
+              </TableSortLabel> : headCell.label
+            }
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
+
+function descendingComparator(a, b, orderBy) {
+  switch (orderBy) {
+    case 'endDate':
+      return parseInt(b[orderBy].$date.$numberLong) - parseInt(a[orderBy].$date.$numberLong);
+    default:
+      if (b[orderBy] < a[orderBy]) {
+        return -1;
+      }
+      if (b[orderBy] > a[orderBy]) {
+        return 1;
+      }
+      return 0;
+  }
+}
+
+function getComparator(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
 
 
 export default GroupMainMerchant;

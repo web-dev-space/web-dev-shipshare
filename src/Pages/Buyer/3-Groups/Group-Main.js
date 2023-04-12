@@ -36,7 +36,7 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import {visuallyHidden} from "@mui/utils";
 import {ALL_STATES, stateFullNameToAbbr} from "./allStates";
 import {useDispatch, useSelector} from "react-redux";
-
+import {updateShipGroupThunk, findAllShipGroupsThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 
 
 const DEFAULT_ORDER = 'asc';
@@ -54,81 +54,30 @@ const headCells = [
   {id: 'more', numeric: false, disablePadding: false, label: '', sortable: false},
 ];
 
-function MyTableHead(props) {
-  const {order, orderBy, onRequestSort} = props;
-  const createSortHandler = (newOrderBy) => (event) => {
-    onRequestSort(event, newOrderBy);
-  };
-
-  return (
-    <TableHead>
-      <TableRow style={{borderTop: '1px solid #EDF2F7'}}>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
-            style={{backgroundColor: 'white'}}
-          >
-            {
-              headCell.sortable ? <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : 'asc'}
-                onClick={createSortHandler(headCell.id)}
-              >
-                {headCell.label}
-                {orderBy === headCell.id ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                  </Box>
-                ) : null}
-              </TableSortLabel> : headCell.label
-            }
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-function descendingComparator(a, b, orderBy) {
-
-  switch (orderBy) {
-    case 'endDate':
-      return parseInt(b[orderBy].$date.$numberLong) - parseInt(a[orderBy].$date.$numberLong);
-    default:
-      if (b[orderBy] < a[orderBy]) {
-        return -1;
-      }
-      if (b[orderBy] > a[orderBy]) {
-        return 1;
-      }
-      return 0;
-  }
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
 
 
 // ---------------------------------------Page-------------------------------------------------------
 const GroupMainPage = () => {
+
+  const dispatch = useDispatch();
+  const shipGroups = useSelector((state) => state.shipGroup.shipGroups);
+  const setShipGroups = (shipGroups) => dispatch(setShipGroups(shipGroups));
+
+  useEffect(() => {
+    dispatch(findAllShipGroupsThunk());
+  }, []);
+
+  // table data
+  const originalData = shipGroups;
+
+  function createData(id, memberCount, name, route, endDate, pickUpAt) {
+    return {id, memberCount, name, route, endDate, pickUpAt};
+  }
+
+  const originalRows = originalData.map((shipment) => {
+    return createData(shipment.id, shipment.members.length, shipment.name, shipment.shipRoute, shipment.shipEndDate, shipment.pickupLocation.shortAddress);
+  });
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -142,16 +91,6 @@ const GroupMainPage = () => {
   const [focusChip, setFocusChip] = useState('All');
   const chipLabelsArray = ["All", "Air Standard", "Air Sensitive", "Sea Standard", "Sea Sensitive"];
 
-  // table data
-  const originalData = shipments;
-
-  function createData(id, memberCount, name, route, endDate, pickUpAt) {
-    return {id, memberCount, name, route, endDate, pickUpAt};
-  }
-
-  const originalRows = originalData.map((shipment) => {
-    return createData(shipment.id, shipment.members.length, shipment.name, shipment.shipRoute, shipment.shipEndDate, shipment.pickupLocation.shortAddress);
-  });
 
 // chip filter
   useEffect(() => {
@@ -170,7 +109,9 @@ const GroupMainPage = () => {
     setOpenFilter(false);
   };
 
-  const [tableData, setTableData] = useState(originalRows);
+
+
+  const [tableData, setTableData] = useState(shipGroups);
   const [filterEndIn, setFilterEndIn] = useState("All");
   const [filterState, setFilterState] = useState("All");
   const [page, setPage] = useState(1);
@@ -228,7 +169,6 @@ const GroupMainPage = () => {
   };
 
   const handleFilter = () => {
-
     setFilteredData(
       originalRows.filter((val) => {
 
@@ -248,7 +188,6 @@ const GroupMainPage = () => {
         } else {
           return diffInDays <= filterEndIn && diffInDays > 0;
         }
-
       })
     )
     setFocusChip("All");
@@ -519,7 +458,7 @@ const GroupMainPage = () => {
 };
 
 const FilterDialog = ({
-                        open, onClose, onSubmitFilter,onResetFilter,
+                        open, onClose, onSubmitFilter, onResetFilter,
                         filterEndIn, setFilterEndIn,
                         filterState: filterState, setFilterState: setFilterState
                       }) => {
@@ -593,6 +532,81 @@ const FilterDialog = ({
     </Dialog>
   );
 };
+
+
+
+function MyTableHead(props) {
+  const {order, orderBy, onRequestSort} = props;
+  const createSortHandler = (newOrderBy) => (event) => {
+    onRequestSort(event, newOrderBy);
+  };
+
+  return (
+    <TableHead>
+      <TableRow style={{borderTop: '1px solid #EDF2F7'}}>
+        {headCells.map((headCell) => (
+          <TableCell
+            key={headCell.id}
+            align={headCell.numeric ? 'right' : 'left'}
+            padding={headCell.disablePadding ? 'none' : 'normal'}
+            sortDirection={orderBy === headCell.id ? order : false}
+            style={{backgroundColor: 'white'}}
+          >
+            {
+              headCell.sortable ? <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : 'asc'}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  </Box>
+                ) : null}
+              </TableSortLabel> : headCell.label
+            }
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
+
+function descendingComparator(a, b, orderBy) {
+
+  switch (orderBy) {
+    case 'endDate':
+      return parseInt(b[orderBy].$date.$numberLong) - parseInt(a[orderBy].$date.$numberLong);
+    default:
+      if (b[orderBy] < a[orderBy]) {
+        return -1;
+      }
+      if (b[orderBy] > a[orderBy]) {
+        return 1;
+      }
+      return 0;
+  }
+}
+
+function getComparator(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
 
 
 export default GroupMainPage;
