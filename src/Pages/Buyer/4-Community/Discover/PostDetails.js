@@ -11,7 +11,7 @@ import {useNavigate, useParams} from "react-router-dom";
 
 // sample data
 import posts from "../../../../sampleData/posts";
-import {findAllPostsThunk, findPostByIdThunk} from "../../../../redux/posts/posts-thunks";
+import {deletePostThunk, findAllPostsThunk, findPostByIdThunk} from "../../../../redux/posts/posts-thunks";
 
 const post = posts[0];
 const COMMENT_PER_PAGE = 5;
@@ -87,7 +87,8 @@ const PostDetails = () => {
     const [page, setPage] = useState(1);
 
     const navigate = useNavigate();
-    const handleDeletePost = () => {
+    const handleDeletePost = (id) => {
+        dispatch(deletePostThunk(id));
         navigate("../");
     };
    const handleDeleteComment = () => {
@@ -174,7 +175,7 @@ const PostDetails = () => {
                                 <Button
                                     variant="contained"
                                     color="error"
-                                    onClick={handleDeletePost}>
+                                    onClick={()=>handleDeletePost(id)}>
                                     <DeleteIcon/>
                                     Delete Post
                                 </Button>
