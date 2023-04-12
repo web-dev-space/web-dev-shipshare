@@ -170,6 +170,40 @@ const FilterButtons = ({ selected, setSelected }) => {
   );
 };
 
+const convertPhaseNumberToStatus = (shipGroup) => {
+  switch (shipGroup?.phaseNumber) {
+    case 0:
+      return "Order Created";
+    case 1:
+      return "Order Placed";
+    case 2:
+      return "Packed";
+    case 3:
+      return "In Shipping";
+    case 4:
+      return "Arrived";
+    default:
+      return "Ready";
+  }
+}
+
+const convertStatusToPhaseNumber = (status) => {
+  switch (status?.toLowerCase()) {
+    case "ready":
+      return 0;
+    case "paid":
+      return 1;
+    case "packed":
+      return 2;
+    case "in shipping":
+      return 3;
+    case "arrived":
+      return 4;
+    default:
+      return 0;
+  }
+}
+
 const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
@@ -309,14 +343,14 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   useEffect(() => {
     const filterTableData = () => {
       setRows(
-        originalRows.filter((row) => row?.status?.toLowerCase() === filter.toLowerCase() || filter.toLowerCase() === "all")
+        originalRows.filter((row) => convertPhaseNumberToStatus(row)?.toLowerCase() === filter.toLowerCase() || filter.toLowerCase() === "all")
       );
     };
     filterTableData();
   }, [originalRows, filter]);
 
   function getStatusColor(row) {
-    switch (row?.status?.toLowerCase()) {
+    switch (convertPhaseNumberToStatus(row)?.toLowerCase()) {
       case "arrived":
         return "#EEBD5E";
       case "in shipping":
@@ -401,7 +435,8 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
               {visibleRows
                 ? visibleRows.map((row, index) => {
 
-                  const cityName = row?.pickupLocation?.shortAddress?.split(",");
+                  const cityName = row?.pickupLocation?.address?.split(",");
+                  
 
                   return (
                     <TableRow
@@ -418,12 +453,12 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                       </TableCell>
                       <TableCell align="left">{row.shipRoute}</TableCell>
                       <TableCell align="left">{row?.joinDate === undefined ? "N/A" : row?.joinDate}</TableCell>
-                      <TableCell align="left">{cityName?.length >= 2 ? cityName[0] : cityName}</TableCell>
+                      <TableCell align="left">{cityName?.length >= 2 ? cityName[cityName.length-3] : cityName}</TableCell>
                       <TableCell
                         align="left"
                         style={{ color: getStatusColor(row) }}
                       >
-                        {row?.status === undefined ? "unknown" : row?.status}
+                        {convertPhaseNumberToStatus(row)}
                       </TableCell>
                       <TableCell align="left">
                         <Button
