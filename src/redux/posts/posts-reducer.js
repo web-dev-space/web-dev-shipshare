@@ -7,8 +7,8 @@ const initialState = {
 }
 
 const templatePost = {
-    title: '',
-    body: '',
+    title: 'new post',
+    body: 'post body',
     userId: 1,
 }
 
@@ -33,10 +33,6 @@ const postsSlice = createSlice({
         },
         [createPostThunk.fulfilled]: (state, {payload}) => {
             state.loading = false;
-            const newPost = {
-                ...payload,
-                ...templatePost,
-            }
             state.posts.push(payload);
         },
         [updatePostThunk.fulfilled]: (state, {payload}) => {

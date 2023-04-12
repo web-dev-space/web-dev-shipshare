@@ -9,7 +9,7 @@ export function DiscoverRoute() {
             <Routes>
                 <Route path="/"    element={<Discover/>}/>
                 <Route path="/post/:id" element={<PostDetails />}/>
-                <Route path="/create-new-post" element={<CreatePost />}/>
+                <Route path="/posts/create-new-post" element={<CreatePost />}/>
             </Routes>
         </div>
     )

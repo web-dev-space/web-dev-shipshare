@@ -143,7 +143,7 @@ const Discover = () => {
                                     color="primary"
                                     startIcon={<AddIcon />}
                                     style={{height:44}}
-                                    onClick={() => {navigate('./create-new-post')}}
+                                    onClick={() => {navigate('./posts/create-new-post')}}
                                     >
                                 New Post
                             </Button>

@@ -17,15 +17,14 @@ export const findPostByIdThunk = createAsyncThunk(
 export const createPostThunk = createAsyncThunk(
   "posts/createPost",
   async (post) => {
-    const response = await service.createPost(post);
-    return response.data;
+    return await service.createPost(post);
   }
 );
 
 export const updatePostThunk = createAsyncThunk(
   "posts/updatePost",
-  async (post) => {
-    const response = await service.updatePost(post);
+  async (id) => {
+    const response = await service.updatePost(id);
     return response.data;
   }
 );
