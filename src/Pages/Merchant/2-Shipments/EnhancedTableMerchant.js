@@ -259,9 +259,9 @@ const EnhancedTable = ({ }) => {
   //TODO: remove this useEffect
   useEffect(() => {
     const debugVariableChange = () => {
-      console.debug("originalRows changed", originalRows);
-      console.debug("rows changed", rows);
-      console.debug("visibleRows changed", visibleRows);
+      
+      
+      
     };
     debugVariableChange();
   }, [originalRows, rows, visibleRows]);

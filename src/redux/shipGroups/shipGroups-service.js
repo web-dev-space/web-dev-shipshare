@@ -9,10 +9,10 @@ export const createShipGroup = async (shipGroup) => {
 }
 
 export const findAllShipGroups = async () => {
-    console.debug("SHIPGROUPS_API: ", SHIPGROUPS_API);
+    
     const response = await axios.get(SHIPGROUPS_API);
     const shipGroups = response.data;
-    console.debug("findAllShipGroups() response.data: ", response.data);
+    
     return shipGroups;
 }
 

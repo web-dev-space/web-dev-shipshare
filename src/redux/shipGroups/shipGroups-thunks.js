@@ -43,7 +43,7 @@ export const updateShipGroupThunk = createAsyncThunk(
     'shipGroups/updateShipGroup',
     async (shipGroup) => {
         const response = await service.updateShipGroup(shipGroup);
-        console.debug("updateShipGroupThunk response: ", response)
+        
         return response;
     }
 );

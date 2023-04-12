@@ -13,7 +13,7 @@ const ShipmentMainPage = () => {
   const [open, setOpen] = useState(false);
 
   const shipGroups = useSelector((state) => state.shipGroup.shipGroups);
-  console.debug("shipGroups", shipGroups);
+  
   const setShipGroups = (shipGroups) => {
     // TODO
   };

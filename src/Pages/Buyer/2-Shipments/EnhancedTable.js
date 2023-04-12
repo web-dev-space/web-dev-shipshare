@@ -436,7 +436,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                 ? visibleRows.map((row, index) => {
 
                   const cityName = row?.pickupLocation?.address?.split(",");
-                  console.debug("cityName", cityName);
+                  
 
                   return (
                     <TableRow
