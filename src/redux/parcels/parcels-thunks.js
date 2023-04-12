@@ -42,8 +42,6 @@ export const deleteParcelThunk = createAsyncThunk(
 export const updateParcelThunk = createAsyncThunk(
     'parcels/updateParcel',
     async (parcel) => {
-        const response = await service.updateParcel(parcel);
-        console.log(response);
-        return response;
+        return await service.updateParcel(parcel);
     }
 );

@@ -9,12 +9,13 @@ import { Badge, Avatar } from '@mui/material';
 const getCharAtName = (name) => name && name.charAt(0).toUpperCase();
 
 const getColorByName = (name) => {
-  if (['A', 'N', 'H', 'L', 'Q'].includes(getCharAtName(name))) return 'primary';
-  if (['F', 'G', 'T', 'I', 'J'].includes(getCharAtName(name))) return 'info';
-  if (['K', 'D', 'Y', 'B', 'O'].includes(getCharAtName(name))) return 'success';
-  if (['P', 'E', 'R', 'S', 'U'].includes(getCharAtName(name))) return 'warning';
-  if (['V', 'W', 'X', 'M', 'Z'].includes(getCharAtName(name))) return 'error';
-  return 'default';
+  return 'warning'
+  // if (['A', 'N', 'H', 'L', 'Q'].includes(getCharAtName(name))) return 'primary';
+  // if (['F', 'G', 'T', 'I', 'J'].includes(getCharAtName(name))) return 'info';
+  // if (['K', 'D', 'Y', 'B', 'O'].includes(getCharAtName(name))) return 'success';
+  // if (['P', 'E', 'R', 'S', 'U'].includes(getCharAtName(name))) return 'warning';
+  // if (['V', 'W', 'X', 'M', 'Z'].includes(getCharAtName(name))) return 'error';
+  // return 'default';
 };
 
 // ----------------------------------------------------------------------

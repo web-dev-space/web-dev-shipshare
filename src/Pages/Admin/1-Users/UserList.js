@@ -3,10 +3,8 @@ import {
     Box,
     Card,
     Container,
-    Tab,
     TableCell,
     TableRow,
-    Tabs,
     Typography,
     Stack,
     IconButton,
@@ -15,9 +13,8 @@ import {
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical";
 import Main from "../../../third-party/layouts/dashboard/Main";
 import SearchBar from "../../../components/searchBar";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import TableContainer from "@mui/material/TableContainer";
-import {users as defaultUsers} from "../../../sampleData/user";
 import Table from "@mui/material/Table";
 import {
     emptyRows, getComparator,
@@ -31,6 +28,8 @@ import TableBody from "@mui/material/TableBody";
 import Iconify from "../../../third-party/components/iconify";
 import MenuPopover from "../../../third-party/components/menu-popover";
 import Label from "../../../third-party/components/label";
+import {findAllUsersThunk} from "../../../redux/users/users-thunks";
+import {useDispatch, useSelector} from "react-redux";
 
 const STATUS_OPTIONS = ['all', 'active', 'banned'];
 const ROLE_OPTIONS = ['all', 'admin', 'buyer', 'merchant'];
@@ -42,6 +41,10 @@ const TABLE_HEAD = [
     { id: 'status', label: 'Status', align: 'left' },
     { id: '' },
 ];
+
+function isBanned(user, admin) {
+    return admin.blockList.find((blocker) => blocker === user.email);
+}
 
 export default function UserList() {
 
@@ -57,7 +60,17 @@ export default function UserList() {
         onChangeRowsPerPage,
     } = useTable();
 
-    const [users, setUsers] = useState(defaultUsers);
+    // fetch table data
+    const dispatch = useDispatch();
+    const { users, loading } = useSelector((state) => state.users);
+    const { currentUser } = useSelector((state) => state.auth);
+    useEffect(() => {
+        dispatch(findAllUsersThunk());
+    }, []);
+
+    useEffect(() => {
+        setIsNotFound(!users || users.length === 0);
+    }, [users]);
 
     // nav bar
     const [open, setOpen] = useState(false);
@@ -71,6 +84,8 @@ export default function UserList() {
     const [filterName, setFilterName] = useState('');
     const [filterRole, setFilterRole] = useState('all');
     const [filterStatus, setFilterStatus] = useState('all');
+    const [isNotFound, setIsNotFound] = useState(false);
+    const [userFiltered, setUserFiltered] = useState([]);
 
     const handleFilterStatus = (event) => {
         setPage(0);
@@ -87,13 +102,19 @@ export default function UserList() {
         setFilterName(event.target.value);
     };
 
-    const userFiltered = applyFilter({
-        inputData: users,
-        comparator: getComparator(order, orderBy),
-        filterName,
-        filterRole,
-        filterStatus,
-    });
+    useEffect(() => {
+        const userFiltered = applyFilter({
+            inputData: (users || []).map(user => ({
+                ...user,
+                status: isBanned(user, currentUser || {}) ? 'banned' : 'active',
+            })),
+            comparator: getComparator(order, orderBy),
+            filterName,
+            filterRole,
+            filterStatus,
+        });
+        setUserFiltered(userFiltered);
+    }, [filterName, filterRole, filterStatus, order, orderBy, users, currentUser]);
 
     // Table row
     const [openConfirm, setOpenConfirm] = useState(false);
@@ -117,8 +138,6 @@ export default function UserList() {
     };
 
     const denseHeight = dense ? 52 : 72;
-
-    const isNotFound = !users.length;
 
     return (
         <>
