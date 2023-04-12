@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem } from '@mui/material';
-// routes
-import { PATH_AUTH } from '../../../routes/paths';
 
 // components
 import { CustomAvatar } from '../../../components/custom-avatar';
@@ -13,6 +11,7 @@ import MenuPopover from '../../../components/menu-popover';
 import { IconButtonAnimate } from '../../../components/animate';
 import {useDispatch, useSelector} from "react-redux";
 import {logoutThunk} from "../../../../redux/users/users-thunks";
+import {getRandomAvatar} from "../../../../utils/getRandomAvatar";
 
 // ----------------------------------------------------------------------
 
@@ -94,7 +93,7 @@ export default function AccountPopover() {
             currentUser.avatar? (
                 <CustomAvatar src={currentUser.avatar} alt={currentUser.name} />
             ) : (
-                <CustomAvatar src="" alt={currentUser.name} name={currentUser.name} />
+                <CustomAvatar src={getRandomAvatar(currentUser.name)} name={currentUser.name} />
             )
         ) : (
           <CustomAvatar src="" alt="Anonymous" name="Anonymous" />
