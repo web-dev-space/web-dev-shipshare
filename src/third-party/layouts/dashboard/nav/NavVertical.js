@@ -37,7 +37,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
   }, [pathname]);
 
   const role = useSelector(state =>
-      (state.auth === null)? "buyer" : state.auth.currentUser.role);
+      (state.auth.currentUser === null)? "buyer" : state.auth.currentUser.role);
 
   const naviData = navConfig(role);
 
