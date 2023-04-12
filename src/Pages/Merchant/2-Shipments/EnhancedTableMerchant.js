@@ -259,12 +259,10 @@ const EnhancedTable = ({ }) => {
   //TODO: remove this useEffect
   useEffect(() => {
     const debugVariableChange = () => {
-      
-      
-      
+      console.debug("orderBy changed to: ", orderBy);
     };
     debugVariableChange();
-  }, [originalRows, rows, visibleRows]);
+  }, [orderBy]);
 
   const newStatus = convertPhaseNumberToStatus(rowBeingEdited);
   const setNewStatus = (status) => setRowBeingEdited({
@@ -299,6 +297,10 @@ const EnhancedTable = ({ }) => {
 
   const handleRequestSort = React.useCallback(
     (event, newOrderBy) => {
+      if (newOrderBy === "status") {
+        newOrderBy = "phaseNumber";
+      }
+
       const isAsc = orderBy === newOrderBy && order === "asc";
       const toggledOrder = isAsc ? "desc" : "asc";
       setOrder(toggledOrder);
