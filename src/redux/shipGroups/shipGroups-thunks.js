@@ -1,4 +1,4 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as service from "./shipGroups-service"
 
 // find -- all / by id / by tracking number
@@ -43,7 +43,7 @@ export const updateShipGroupThunk = createAsyncThunk(
     'shipGroups/updateShipGroup',
     async (shipGroup) => {
         const response = await service.updateShipGroup(shipGroup);
-        console.log(response);
+        console.debug("updateShipGroupThunk response: ", response)
         return response;
     }
 );

@@ -20,8 +20,6 @@ const ShipmentMainPage = () => {
 
   useEffect(() => {
     const initShipments = () => {
-
-      console.debug("here in initShipments")
       dispatch(findAllShipGroupsThunk());
     }
 
