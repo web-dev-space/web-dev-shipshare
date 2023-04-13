@@ -144,8 +144,9 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
 
         <Grid item xs={12} md={8}>
           <Card sx={{ p: 3 }}>
-            <RHFTextField name="newPassword" label="New Password" sx={{mb: 3, mt: 3}}/>
-            <RHFTextField name="confirmedPassword" label="Confirmed Password" sx={{mb:6}}/>
+            <RHFTextField name="currentPassword" label="Current Password" sx={{mb: 2}}/>
+            <RHFTextField name="newPassword" label="New Password" sx={{mb: 2}}/>
+            <RHFTextField name="confirmedPassword" label="Confirmed Password" sx={{mb:1}}/>
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <div>
                 <LoadingButton type="cancel" variant="outlined" style={{marginRight:10, width: 150}}>
