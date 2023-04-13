@@ -10,6 +10,8 @@ import FontSizes from 'styles/FontSizes';
 import { calculateDeliveryTime } from 'utils/calculateDeliveryTime';
 import { convertDateToString } from 'utils/convertDateToString';
 import React, { useMemo } from 'react';
+import {useEffect, useState} from "react";
+import {getParcelTracking} from "../redux/parcels/parcels-service";
 
 const FontFamily = {
 }
@@ -49,6 +51,22 @@ const ShipmentDetails = ({ ship, handleClose, isMerchant = false }) => {
 
   const shortAddressList = ship?.pickupLocation?.address.split(',');
   const cityArrival = shortAddressList?.[shortAddressList.length - 3];
+
+  const [detailDeliveryStatus, setDetailDeliveryStatus] = useState([]);
+
+  useEffect(() => {
+    const fetchedDeliveryStatus = async () => {
+      if (ship.phaseNumber >= 2) {
+        const deliveryStatus = await getParcelTracking(
+            {trackingNumber: ship.trackingNumber.replaceAll(' ', ''), courier: ship.courier});
+
+        setDetailDeliveryStatus(deliveryStatus?.origin_info?.trackinfo || []);
+      }
+    };
+    fetchedDeliveryStatus().catch((e) => {
+      console.log(e)
+    });
+  }, [ship]);
 
 
   return (
@@ -151,7 +169,7 @@ const ShipmentDetails = ({ ship, handleClose, isMerchant = false }) => {
             marginTop: 40,
             padding: 20,
           }}>
-            <DeliveryStatusCard deliveryStatus={deliveryStatus} />
+            <DeliveryStatusCard deliveryStatus={detailDeliveryStatus} />
             <></>
           </Box>
         }
