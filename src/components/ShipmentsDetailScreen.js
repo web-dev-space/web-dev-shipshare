@@ -10,8 +10,9 @@ import FontSizes from 'styles/FontSizes';
 import { calculateDeliveryTime } from 'utils/calculateDeliveryTime';
 import { convertDateToString } from 'utils/convertDateToString';
 import React, { useMemo } from 'react';
-import {useEffect, useState} from "react";
-import {getParcelTracking} from "../redux/parcels/parcels-service";
+import { useEffect, useState } from "react";
+import { getParcelTracking } from "../redux/parcels/parcels-service";
+import { useSelector } from 'react-redux';
 
 const FontFamily = {
 }
@@ -25,13 +26,13 @@ const hintText = [
 
 
 
-const ShipmentDetails = ({ ship, handleClose, isMerchant = false }) => {
+const ShipmentDetails = ({ ship, handleClose }) => {
 
   const shipEndDate = calculateDeliveryTime(ship, deliveryStatus);
   const startDate = convertDateToString(ship.shipEndDate);
 
-  //TODO: REMOVE THIS
-  isMerchant = true;
+  const role = useSelector((state) => state.auth.currentUser.role);
+  const isMerchant = role === 'merchant';
 
   const classifiedParcels = useMemo(() => {
     if (!isMerchant) {
@@ -58,7 +59,7 @@ const ShipmentDetails = ({ ship, handleClose, isMerchant = false }) => {
     const fetchedDeliveryStatus = async () => {
       if (ship.phaseNumber >= 2) {
         const deliveryStatus = await getParcelTracking(
-            {trackingNumber: ship.trackingNumber.replaceAll(' ', ''), courier: ship.courier});
+          { trackingNumber: ship.trackingNumber.replaceAll(' ', ''), courier: ship.courier });
 
         setDetailDeliveryStatus(deliveryStatus?.origin_info?.trackinfo || []);
       }
