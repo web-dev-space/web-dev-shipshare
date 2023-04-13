@@ -15,6 +15,7 @@ import {useState} from "react";
 import {useDispatch, useSelector} from 'react-redux';
 import { loginThunk } from '../../redux/users/users-thunks';
 import {current} from "@reduxjs/toolkit";
+import {Helmet} from "react-helmet";
 
 const LoginPage = () => {
 
@@ -68,7 +69,9 @@ const LoginPage = () => {
 
   return (
     <>
-
+        <Helmet>
+            <title>Sign In | ShipShare</title>
+        </Helmet>
       <Box
         sx={{
           display: 'flex',

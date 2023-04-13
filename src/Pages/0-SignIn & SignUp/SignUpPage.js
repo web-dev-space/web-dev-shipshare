@@ -14,6 +14,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {signupThunk} from "../../redux/users/users-thunks";
+import {Helmet} from "react-helmet";
 
 
 const SignUpPage = () => {
@@ -68,6 +69,9 @@ const SignUpPage = () => {
 
   return (
     <>
+        <Helmet>
+            <title>Sign Up | ShipShare</title>
+        </Helmet>
       <Box
         sx={{
           display: 'flex',
