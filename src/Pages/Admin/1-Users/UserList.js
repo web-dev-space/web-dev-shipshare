@@ -37,6 +37,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import DeleteDialog from "./DeleteDialog";
 import {use} from "i18next";
+import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 
 const STATUS_OPTIONS = ['all', 'active', 'banned'];
 const EDITABLE_STATUS_OPTIONS = ['active', 'banned'];
@@ -105,7 +106,9 @@ function UserRow({row, onEdit, onDelete, isEdit, setEditRow, dispatch, onActivat
             <TableRow hover>
                 <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={row.name} src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_1.jpg" />
+                        <Avatar alt={row.name}
+                                src={row.avatar? row.avatar : getRandomAvatar(row.name)}
+                        />
 
                         {
                             isEdit ? <TextField
