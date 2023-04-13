@@ -26,7 +26,7 @@ import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import FormProvider, {RHFSelect, RHFTextField, RHFUploadAvatar} from "../../../third-party/components/hook-form";
 import {fData} from "../../../third-party/utils/formatNumber";
 import Stack from "@mui/material/Stack";
-
+import {uploadImage} from "api/imageUpload";
 
 
 const ParcelMainPage = () => {
@@ -82,13 +82,13 @@ const ParcelMainPage = () => {
     }
 
     const dispatch = useDispatch();
-    const handleAddNewParcel = (props) => {
+    const handleAddNewParcel = async (props) => {
         const newParcel = {
             user: currentUser.email,
             name: props.name,
             trackingNumber: props.trackingNumber,
             courier: props.courier,
-            picture: props.picture? props.picture : null
+            picture: props.picture? await uploadImage(props.picture) : null,
         }
         dispatch(createParcelThunk(newParcel));
     }
