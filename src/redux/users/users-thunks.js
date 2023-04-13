@@ -63,6 +63,14 @@ export const logoutThunk = createAsyncThunk(
         return await service.logout();
 });
 
+// update parcel
+export const updateCurrentUserThunk = createAsyncThunk(
+    'users/updateCurrentUser',
+    async (user) => {
+        return await service.updateUser(user);
+    }
+);
+
 export const changePasswordThunk = createAsyncThunk(
     "users/changePassword", async (credentials) => {
         return await service.changePassword(credentials);

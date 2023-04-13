@@ -28,11 +28,21 @@ import TableBody from "@mui/material/TableBody";
 import Iconify from "../../../third-party/components/iconify";
 import MenuPopover from "../../../third-party/components/menu-popover";
 import Label from "../../../third-party/components/label";
-import {findAllUsersThunk} from "../../../redux/users/users-thunks";
+import {
+    deleteUserThunk,
+    findAllUsersThunk,
+    updateCurrentUserThunk,
+    updateUserThunk
+} from "../../../redux/users/users-thunks";
 import {useDispatch, useSelector} from "react-redux";
+import DeleteDialog from "./DeleteDialog";
+import {use} from "i18next";
+import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 
 const STATUS_OPTIONS = ['all', 'active', 'banned'];
+const EDITABLE_STATUS_OPTIONS = ['active', 'banned'];
 const ROLE_OPTIONS = ['all', 'admin', 'buyer', 'merchant'];
+const EDITABLE_ROLE_OPTIONS = ['buyer', 'merchant'];
 
 const TABLE_HEAD = [
     { id: 'name', label: 'Name', align: 'left' },
@@ -43,7 +53,242 @@ const TABLE_HEAD = [
 ];
 
 function isBanned(user, admin) {
-    return admin.blockList.find((blocker) => blocker === user.email);
+    if (user.email === "merchant4@test.com") {
+        console.log(admin);
+    }
+    return admin.blockList.find((blocker) => blocker === user._id);
+}
+
+function UserRow({row, onEdit, onDelete, isEdit, setEditRow, dispatch, onActivateUser, onBanUser}) {
+    const [openConfirm, setOpenConfirm] = useState(false);
+    const [openPopover, setOpenPopover] = useState(null);
+    const [editName, setEditName] = useState(row.name);
+    const [editEmail, setEditEmail] = useState(row.email);
+    const [editRole, setEditRole] = useState(row.role);
+    const [editStatus, setEditStatus] = useState(row.status);
+
+    const handleOpenConfirm = () => {
+        setOpenConfirm(true);
+    };
+
+    const handleCloseConfirm = () => {
+        setOpenConfirm(false);
+    };
+
+    const handleOpenPopover = (event) => {
+        setOpenPopover(event.currentTarget);
+    };
+
+    const handleClosePopover = () => {
+        setOpenPopover(null);
+    };
+
+    const onSubmitEdit = () => {
+        const newUser = {
+            ...row,
+            name: editName,
+            email: editEmail,
+            role: editRole
+        };
+        dispatch(updateUserThunk(newUser));
+        if (editStatus !== row.status) {
+            if (editStatus === 'active') {
+                onActivateUser(row);
+            } else {
+                onBanUser(row);
+            }
+        }
+        setEditRow(null);
+    }
+
+    return (
+        <>
+            <TableRow hover>
+                <TableCell>
+                    <Stack direction="row" alignItems="center" spacing={2}>
+                        <Avatar alt={row.name}
+                                src={row.avatar? row.avatar : getRandomAvatar(row.name)}
+                        />
+
+                        {
+                            isEdit ? <TextField
+                                fullWidth
+                                label="Name"
+                                name="name"
+                                size="small"
+                                type="text"
+                                value={editName}
+                                variant="outlined"
+                                onChange={(event) => setEditName(event.target.value)} /> :
+                                <Typography variant="subtitle2" noWrap>
+                                    {row.name}
+                                </Typography>
+                        }
+
+                    </Stack>
+                </TableCell>
+
+                <TableCell align="left">{
+                    isEdit ? <TextField
+                        fullWidth
+                        label="Email"
+                        name="email"
+                        size="small"
+                        type="text"
+                        value={editEmail}
+                        variant="outlined"
+                        onChange={(event) => setEditEmail(event.target.value)} /> :
+                        row.email}
+                </TableCell>
+
+                <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
+                    {
+                        isEdit && row.role !== 'admin' ? <TextField
+                            fullWidth
+                            select
+                            name="email"
+                            size="small"
+                            label="Status"
+                            value={editRole}
+                            onChange={(event) => setEditRole(event.target.value)}
+                            SelectProps={{
+                                MenuProps: {
+                                    PaperProps: {
+                                        sx: {
+                                            maxHeight: 260,
+                                        },
+                                    },
+                                },
+                            }}
+                            sx={{
+                                maxWidth: { sm: 240 },
+                                textTransform: 'capitalize',
+                            }}
+                        >
+                            {EDITABLE_ROLE_OPTIONS.map((option) => (
+                                <MenuItem
+                                    key={option}
+                                    value={option}
+                                    sx={{
+                                        mx: 1,
+                                        borderRadius: 0.75,
+                                        typography: 'body2',
+                                        textTransform: 'capitalize',
+                                    }}
+                                >
+                                    {option}
+                                </MenuItem>
+                            ))}
+                        </TextField> : <Label
+                            variant="soft"
+                            color={(row.role === 'buyer' ? 'primary' : row.role === 'merchant' ? 'info' : 'warning')}
+                            sx={{ textTransform: 'capitalize' }}
+                        >
+                            {row.role}
+                        </Label>
+                    }
+                </TableCell>
+
+                <TableCell align="left"> {
+                    isEdit && row.role !== 'admin' ? <TextField
+                        fullWidth
+                        select
+                        name="email"
+                        size="small"
+                        label="Status"
+                        value={editStatus}
+                        onChange={(event) => setEditStatus(event.target.value)}
+                        SelectProps={{
+                            MenuProps: {
+                                PaperProps: {
+                                    sx: {
+                                        maxHeight: 260,
+                                    },
+                                },
+                            },
+                        }}
+                        sx={{
+                            maxWidth: { sm: 240 },
+                            textTransform: 'capitalize',
+                        }}
+                    >
+                        {EDITABLE_STATUS_OPTIONS.map((option) => (
+                            <MenuItem
+                                key={option}
+                                value={option}
+                                sx={{
+                                    mx: 1,
+                                    borderRadius: 0.75,
+                                    typography: 'body2',
+                                    textTransform: 'capitalize',
+                                }}
+                            >
+                                {option}
+                            </MenuItem>
+                        ))}
+                    </TextField> : <Label
+                        variant="soft"
+                        color={(row.status === 'banned' && 'error') || 'success'}
+                        sx={{ textTransform: 'capitalize' }}
+                    >
+                        {row.status}
+                    </Label>
+                }
+                </TableCell>
+
+                {
+                    !isEdit && <TableCell align="right">
+                        <IconButton color={openPopover ? 'inherit' : 'default'} onClick={handleOpenPopover}>
+                            <Iconify icon="eva:more-vertical-fill" />
+                        </IconButton>
+                    </TableCell>
+                }
+                {
+                    isEdit && <TableCell align="right">
+                        <IconButton color={openPopover ? 'inherit' : 'default'} onClick={onSubmitEdit}>
+                            <Iconify icon="material-symbols:done" />
+                        </IconButton>
+                    </TableCell>
+                }
+
+            </TableRow>
+
+            <MenuPopover
+                open={openPopover}
+                onClose={handleClosePopover}
+                arrow="right-top"
+                sx={{ width: 140 }}
+            >
+                {
+                    row.role !== 'admin' &&
+                    <MenuItem
+                        onClick={() => {
+                            handleOpenConfirm();
+                            handleClosePopover();
+                        }}
+                        sx={{ color: 'error.main' }}
+                    >
+                        <Iconify icon="eva:trash-2-outline" />
+                        Delete
+                    </MenuItem>
+                }
+
+                <MenuItem
+                    onClick={() => {
+                        onEdit();
+                        handleClosePopover();
+                    }}
+                >
+                    <Iconify icon="eva:edit-fill" />
+                    Edit
+                </MenuItem>
+            </MenuPopover>
+            <DeleteDialog
+                open={openConfirm}
+                onClose={handleCloseConfirm}
+                onDelete={onDelete}
+            />
+        </>);
 }
 
 export default function UserList() {
@@ -81,11 +326,13 @@ export default function UserList() {
         setOpen(false);
     };
 
+    // filter
     const [filterName, setFilterName] = useState('');
     const [filterRole, setFilterRole] = useState('all');
     const [filterStatus, setFilterStatus] = useState('all');
     const [isNotFound, setIsNotFound] = useState(false);
     const [userFiltered, setUserFiltered] = useState([]);
+    const [editRow, setEditRow] = useState(null);
 
     const handleFilterStatus = (event) => {
         setPage(0);
@@ -93,7 +340,7 @@ export default function UserList() {
     };
 
     const handleFilterRole = (event) => {
-        setPage(0);
+        setPage(0)
         setFilterRole(event.target.value);
     };
 
@@ -103,6 +350,7 @@ export default function UserList() {
     };
 
     useEffect(() => {
+        console.log(currentUser);
         const userFiltered = applyFilter({
             inputData: (users || []).map(user => ({
                 ...user,
@@ -117,25 +365,39 @@ export default function UserList() {
     }, [filterName, filterRole, filterStatus, order, orderBy, users, currentUser]);
 
     // Table row
-    const [openConfirm, setOpenConfirm] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
 
-    const [openPopover, setOpenPopover] = useState(null);
 
-    const handleOpenConfirm = () => {
-        setOpenConfirm(true);
+    const handleClickDelete = (row) => {
+        dispatch(deleteUserThunk(row._id));
     };
 
-    const handleCloseConfirm = () => {
-        setOpenConfirm(false);
+    // c. edit
+    const handleClickEdit = (row) => {
+        setIsEdit(true);
+        setEditRow(row);
+        console.log('edit');
     };
 
-    const handleOpenPopover = (event) => {
-        setOpenPopover(event.currentTarget);
+    const handleActivateUser = (user) => {
+        const updatedBlockList =
+            currentUser.blockList.filter((email) => email !== user._id);
+        dispatch(updateCurrentUserThunk({
+            ...currentUser,
+            blockList: updatedBlockList,
+        }));
     };
 
-    const handleClosePopover = () => {
-        setOpenPopover(null);
+    const handleBanUser = (user) => {
+        dispatch(updateCurrentUserThunk({
+            ...currentUser,
+            blockList: [
+                ...currentUser.blockList,
+                user._id,
+            ],
+        }));
     };
+
 
     const denseHeight = dense ? 52 : 72;
 
@@ -262,76 +524,17 @@ export default function UserList() {
                                     <TableBody>
                                         {userFiltered
                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map((row) => (
-                                                <>
-                                                    <TableRow hover>
-                                                        <TableCell>
-                                                            <Stack direction="row" alignItems="center" spacing={2}>
-                                                                <Avatar alt={row.name} src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_1.jpg" />
-
-                                                                <Typography variant="subtitle2" noWrap>
-                                                                    {row.name}
-                                                                </Typography>
-                                                            </Stack>
-                                                        </TableCell>
-
-                                                        <TableCell align="left">{row.email}</TableCell>
-
-                                                        <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-                                                            <Label
-                                                                variant="soft"
-                                                                color={(row.role === 'buyer' ? 'primary' : row.role === 'merchant' ? 'info' : 'warning')}
-                                                                sx={{ textTransform: 'capitalize' }}
-                                                            >
-                                                                {row.role}
-                                                            </Label>
-                                                        </TableCell>
-
-                                                        <TableCell align="left">
-                                                            <Label
-                                                                variant="soft"
-                                                                color={(row.status === 'banned' && 'error') || 'success'}
-                                                                sx={{ textTransform: 'capitalize' }}
-                                                            >
-                                                                {row.status}
-                                                            </Label>
-                                                        </TableCell>
-
-                                                        <TableCell align="right">
-                                                            <IconButton color={openPopover ? 'inherit' : 'default'} onClick={handleOpenPopover}>
-                                                                <Iconify icon="eva:more-vertical-fill" />
-                                                            </IconButton>
-                                                        </TableCell>
-                                                    </TableRow>
-
-                                                    <MenuPopover
-                                                        open={openPopover}
-                                                        onClose={handleClosePopover}
-                                                        arrow="right-top"
-                                                        sx={{ width: 140 }}
-                                                    >
-                                                        <MenuItem
-                                                            onClick={() => {
-                                                                handleOpenConfirm();
-                                                                handleClosePopover();
-                                                            }}
-                                                            sx={{ color: 'error.main' }}
-                                                        >
-                                                            <Iconify icon="eva:trash-2-outline" />
-                                                            Delete
-                                                        </MenuItem>
-
-                                                        <MenuItem
-                                                            onClick={() => {
-                                                                handleClosePopover();
-                                                            }}
-                                                        >
-                                                            <Iconify icon="eva:edit-fill" />
-                                                            Edit
-                                                        </MenuItem>
-                                                    </MenuPopover>
-                                                </>
-                                            ))}
+                                            .map((row) => <UserRow
+                                                key={row._id}
+                                                row={row}
+                                                isEdit={editRow && (editRow._id === row._id)}
+                                                onEdit={() => handleClickEdit(row)}
+                                                setEditRow={setEditRow}
+                                                onDelete={() => handleClickDelete(row)}
+                                                onActivateUser={() => handleActivateUser(row)}
+                                                onBanUser={() => handleBanUser(row)}
+                                                dispatch={dispatch}
+                                            />)}
 
                                         <TableEmptyRows
                                             height={denseHeight}
