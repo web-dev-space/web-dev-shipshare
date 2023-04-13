@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
@@ -35,7 +35,7 @@ import {Link} from "react-router-dom";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import {visuallyHidden} from "@mui/utils";
 import {ALL_STATES, stateFullNameToAbbr} from "./allStates";
-import {useDispatch, useSelector} from "react-redux";
+import {shallowEqual, useDispatch, useSelector} from "react-redux";
 import {updateShipGroupThunk, findAllShipGroupsThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 
 
@@ -46,44 +46,39 @@ const DEFAULT_ROWS_PER_PAGE = 5;
 
 const headCells = [
   {id: 'name', numeric: false, disablePadding: true, label: 'Group Name', sortable: true},
-  {id: 'route', numeric: false, disablePadding: false, label: 'Route', sortable: true},
-  {id: 'endDate', numeric: false, disablePadding: false, label: 'End Date', sortable: true},
-  {id: 'pickUpAt', numeric: false, disablePadding: false, label: 'Pick Up At', sortable: true},
+  {id: 'shipRoute', numeric: false, disablePadding: false, label: 'Route', sortable: true},
+  {id: 'shipEndDate', numeric: false, disablePadding: false, label: 'End Date', sortable: true},
+  {id: 'pickupLocation', numeric: false, disablePadding: false, label: 'Pick Up At', sortable: true},
   {id: 'Distance', numeric: false, disablePadding: false, label: 'Distance', sortable: true},
   {id: 'actions', numeric: false, disablePadding: false, label: 'Action', sortable: false},
   {id: 'more', numeric: false, disablePadding: false, label: '', sortable: false},
 ];
 
 
-
 // ---------------------------------------Page-------------------------------------------------------
 const GroupMainPage = () => {
 
   const dispatch = useDispatch();
-  const shipGroups = useSelector((state) => state.shipGroup.shipGroups);
+  const shipGroups = useSelector((state) => {
+    console.log('useselector')
+    return state.shipGroup.shipGroups
+  });
   const setShipGroups = (shipGroups) => dispatch(setShipGroups(shipGroups));
+
 
   useEffect(() => {
     dispatch(findAllShipGroupsThunk());
   }, []);
 
   // table data
-  const originalData = shipments;
-
-  function createData(id, memberCount, name, route, endDate, pickUpAt) {
-    return {id, memberCount, name, route, endDate, pickUpAt};
-  }
+  const originalData = shipGroups;
 
   function getShortAddress(address) {
     const addressParts = address.split(', ');
-    const cityState = addressParts.slice(-3,-1);
+    const cityState = addressParts.slice(-3, -1);
     const shortAddress = cityState.join(', ');
     return shortAddress;
   }
-
-  const originalRows = originalData.map((shipment) => {
-    return createData(shipment._id, shipment.members.length, shipment.name, shipment.shipRoute, shipment.shipEndDate, getShortAddress(shipment.pickupLocation.address));
-  });
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -102,7 +97,7 @@ const GroupMainPage = () => {
 // chip filter
   useEffect(() => {
     const newFilteredRows = filteredData.filter(
-      (row) => focusChip === 'All' || focusChip.includes(row.route)
+      (row) => focusChip === 'All' || focusChip.includes(row.shipRoute)
     );
     setTableData(newFilteredRows);
   }, [focusChip]);
@@ -115,7 +110,6 @@ const GroupMainPage = () => {
   const handleCloseFilter = () => {
     setOpenFilter(false);
   };
-
 
 
   const [tableData, setTableData] = useState(shipGroups);
@@ -132,7 +126,7 @@ const GroupMainPage = () => {
   const [rows, setRows] = useState([]);
   const [visibleRows, setVisibleRows] = React.useState(null);
   const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
-  const [filteredData, setFilteredData] = useState(originalRows)
+  const [filteredData, setFilteredData] = useState(originalData)
 
 
   useEffect(() => {
@@ -140,16 +134,8 @@ const GroupMainPage = () => {
       tableData,
       getComparator(DEFAULT_ORDER, DEFAULT_ORDER_BY),
     );
-
-    // rowsOnMount = rowsOnMount.slice(
-    //   0 * DEFAULT_ROWS_PER_PAGE,
-    //   0 * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE,
-    // );
-
-    // console.log(rowsOnMount)
+    console.log("rowsOnmout")
     setTableData(rowsOnMount)
-    // console.log(tableData)
-    // setVisibleRows(rowsOnMount);
   }, []);
 
 
@@ -177,22 +163,22 @@ const GroupMainPage = () => {
 
   const handleFilter = () => {
     setFilteredData(
-      originalRows.filter((val) => {
+      originalData.filter((val) => {
 
         // const endDate = parseInt(val.endDate["$date"]["$numberLong"]);
-        const endDate = new Date(val.endDate);
+        const endDate = new Date(val.shipEndDate);
         const today = new Date();
         const diffInMs = endDate.getTime() - today.getTime();
         const diffInDays = Math.ceil(diffInMs / 86400000);
 
         if (filterState === "All" && filterEndIn === "All") {
-          setTableData(originalRows);
+          setTableData(originalData);
           return val;
         } else if (filterState !== "All" && filterEndIn !== 'All') {
-          return stateFullNameToAbbr[filterState] === val.pickUpAt.slice(-2) &&
+          return stateFullNameToAbbr[filterState] === getShortAddress(val.pickupLocation.address).slice(-2) &&
             (diffInDays <= filterEndIn && diffInDays > 0);
         } else if (filterState !== "All" && filterEndIn === "All") {
-          return stateFullNameToAbbr[filterState] === val.pickUpAt.slice(-2);
+          return stateFullNameToAbbr[filterState] === getShortAddress(val.pickupLocation.address).slice(-2);
         } else {
           return diffInDays <= filterEndIn && diffInDays > 0;
         }
@@ -206,8 +192,8 @@ const GroupMainPage = () => {
   const handleResetFilter = () => {
     setFilterState("All");
     setFilterEndIn("All");
-    setTableData(originalRows);
-    setFilteredData(originalRows);
+    setTableData(originalData);
+    setFilteredData(originalData);
     setFocusChip("All");
     handleCloseFilter();
   }
@@ -223,11 +209,11 @@ const GroupMainPage = () => {
   useEffect(() => {
     const filterTableData = () => {
       setRows(
-        originalRows.filter((row) => row.status === filter || filter === "All")
+        originalData.filter((row) => row.status === filter || filter === "All")
       );
     };
     filterTableData();
-  }, [originalRows, filter]);
+  }, [originalData, filter]);
 
   function formatDate(dateString) {
     if (!dateString) {
@@ -356,7 +342,7 @@ const GroupMainPage = () => {
                                 noWrap
                                 sx={{color: 'text.secondary'}}
                               >
-                                {row.memberCount} members
+                                {row.members.length} members
                               </Typography>
                             </Box>
                           </Box>
@@ -388,7 +374,7 @@ const GroupMainPage = () => {
                                 color: 'rgb(238, 189, 94)',
                               }}
                             >
-                              {row.route}
+                              {row.shipRoute}
                             </Typography>
                           </Box>
                         </TableCell>
@@ -396,14 +382,14 @@ const GroupMainPage = () => {
                           <Typography
                             variant="body"
                           >
-                            {formatDate(row.endDate)}
+                            {formatDate(row.shipEndDate)}
                           </Typography>
                         </TableCell>
                         <TableCell>
                           <Typography
                             variant="body"
                           >
-                            {row.pickUpAt}
+                            {getShortAddress(row.pickupLocation.address)}
                           </Typography>
                         </TableCell>
                         <TableCell>
@@ -545,7 +531,6 @@ const FilterDialog = ({
 };
 
 
-
 function MyTableHead(props) {
   const {order, orderBy, onRequestSort} = props;
   const createSortHandler = (newOrderBy) => (event) => {
@@ -600,8 +585,8 @@ function descendingComparator(a, b, orderBy) {
 
   switch (orderBy) {
     case 'endDate':
-      const dateA = new Date(a.endDate);
-      const dateB = new Date(b.endDate);
+      const dateA = new Date(a.shipEndDate);
+      const dateB = new Date(b.shipEndDate);
       return parseInt(dateB.getTime().toString()) - parseInt(dateA.getTime().toString());
 
     default:
@@ -620,7 +605,6 @@ function getComparator(order, orderBy) {
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
-
 
 
 export default GroupMainPage;

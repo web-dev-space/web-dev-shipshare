@@ -30,7 +30,7 @@ export default function FormGroupPage() {
 
   const handleBack = () => {
     if (activeStep === 0) {
-      navigate("/buyer/groups");
+      window.history.back();
       return;
     }
     setActiveStep((prevActiveStep) => prevActiveStep - 1);

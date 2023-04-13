@@ -17,6 +17,7 @@ const shipGroupsSlice = createSlice({
     extraReducers: {
         // find all
         [findAllShipGroupsThunk.pending]: (state) => {
+
             state.loading = true;
             state.shipGroups = [];
             
