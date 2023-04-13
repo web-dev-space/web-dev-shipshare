@@ -13,6 +13,8 @@ import ShipmentsMainMerchant from "./Merchant/2-Shipments/Shipment-MainMerchant"
 import GroupMainMerchant from "./Merchant/3-Groups/GroupMain-Merchant";
 import ChangeWarehouse from "./Merchant/4-Account/ChangeWarehouseAddress";
 import GroupDetailMerchant from "./Merchant/3-Groups/GroupDetail-Merchant";
+import Page404 from "./ErrorPages/Page404";
+import Page403 from "./ErrorPages/Page403";
 
 
 export function MainIndex() {
@@ -24,8 +26,13 @@ export function MainIndex() {
                 <Route path="/shipments" element={<ShipmentMainPage />} />
                 <Route path="/groups/*" element={<Group />} />
                 <Route path="/community/*" element={<Community />} />
-                <Route path="/account/*" element={<Account />} />
                 <Route path="/help/*" element={<Help />} />
+
+                <Route path="/userlist" element={<Page403 />} />
+                <Route path="/dashboard" element={<Page403 />} />
+                <Route path="/change-warehouse-address" element={<Page403 />} />
+                <Route path="/account/*" element={<Page403 />} />
+                <Route path="/*" element={<Page404 />} />
             </Routes>
         );
     else if (currentUser.role === "buyer")
@@ -37,6 +44,11 @@ export function MainIndex() {
                 <Route path="/community/*" element={<Community />} />
                 <Route path="/account/*" element={<Account />} />
                 <Route path="/help/*" element={<Help />} />
+
+                <Route path="/userlist" element={<Page403 />} />
+                <Route path="/dashboard" element={<Page403 />} />
+                <Route path="/change-warehouse-address" element={<Page403 />} />
+                <Route path="/*" element={<Page404 />} />
             </Routes>
     )
     else if (currentUser.role === "merchant")
@@ -52,6 +64,9 @@ export function MainIndex() {
                 <Route path="/account/*" element={<Account/>}/>
                 <Route path="/account/change-warehouse-address" element={<ChangeWarehouse/>}/>
                 <Route path="/help/*" element={<Help/>}/>
+
+                <Route path="/userlist" element={<Page403 />} />
+                <Route path="/*" element={<Page404 />} />
             </Routes>
         )
     else if (currentUser.role === "admin")
@@ -67,6 +82,7 @@ export function MainIndex() {
                 <Route path="/account/*" element={<Account />} />
                 <Route path="/change-warehouse-address" element={<ChangeWarehouse/>} />
                 <Route path="/help/*" element={<Help />} />
+                <Route path="/*" element={<Page404 />} />
             </Routes>
     )
 }
