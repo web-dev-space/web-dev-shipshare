@@ -23,6 +23,7 @@ import FormProvider, {
 	RHFTextField,
 	RHFUploadAvatar,
 } from '../../../third-party/components/hook-form';
+import { uploadImage } from "api/imageUpload.js";
 
 // ----------------------------------------------------------------------
 
@@ -86,7 +87,11 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 
 	const onSubmit = async (data) => {
 		try {
-			await new Promise((resolve) => setTimeout(resolve, 500));
+			// await new Promise((resolve) => setTimeout(resolve, 500));
+			const imageRemoteUrl = await uploadImage(data.avatarUrl)
+
+			console.log("imageRemoteUrl: " + imageRemoteUrl);
+
 			reset();
 			enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
 			navigate("./");
@@ -122,15 +127,15 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 									defaultValues.role === 'buyer'
 										? 'primary'
 										: defaultValues.role === 'merchant'
-										? 'secondary'
-										: 'warning'}
+											? 'secondary'
+											: 'warning'}
 								sx={{ textTransform: 'uppercase', position: 'absolute', top: 24, right: 24 }}
 							>
 								{defaultValues.role}
 							</Label>
 						)}
 
-						<Box sx={{ mb: 4 , mt:3}}>
+						<Box sx={{ mb: 4, mt: 3 }}>
 							<RHFUploadAvatar
 								name="avatarUrl"
 								maxSize={3145728}
@@ -168,19 +173,19 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 						{/*		sm: 'repeat(2, 1fr)',*/}
 						{/*	}}*/}
 						{/*>*/}
-							<RHFTextField name="name" label="Full Name" style={{marginBottom:20}}/>
-							<RHFTextField name="phoneNumber" label="Phone Number" style={{marginBottom:20}}/>
+						<RHFTextField name="name" label="Full Name" style={{ marginBottom: 20 }} />
+						<RHFTextField name="phoneNumber" label="Phone Number" style={{ marginBottom: 20 }} />
 
 
 						{/*<RHFTextField name="email" label="Email Address" style={{marginBottom:20}}/>*/}
-						<RHFTextField name="address" label="Address" style={{marginBottom:25}}/>
+						<RHFTextField name="address" label="Address" style={{ marginBottom: 25 }} />
 
 						<Stack alignItems="flex-end" sx={{ mt: 3 }}>
 							<div>
-								<LoadingButton type="cancel" variant="outlined" style={{marginRight:10, width: 150}}>
-									 Cancel
+								<LoadingButton type="cancel" variant="outlined" style={{ marginRight: 10, width: 150 }}>
+									Cancel
 								</LoadingButton>
-								<LoadingButton type="submit" variant="contained" loading={isSubmitting} style={{width:150}}>
+								<LoadingButton type="submit" variant="contained" loading={isSubmitting} style={{ width: 150 }}>
 									{!isEdit ? 'Create User' : 'Save Changes'}
 								</LoadingButton>
 							</div>
