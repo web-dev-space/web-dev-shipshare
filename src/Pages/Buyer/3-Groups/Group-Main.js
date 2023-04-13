@@ -232,6 +232,14 @@ const GroupMainPage = () => {
     navigate('./form-new-group');
   }
 
+  const handleClickJoinGroup=() => {
+    navigate('./checkout');
+  }
+
+  const handleClickGroupDetail=() => {
+    navigate('./group-details');
+  }
+
   return (
     <>
       <Header onOpenNav={handleOpen}/>
@@ -409,13 +417,15 @@ const GroupMainPage = () => {
                                     borderRadius: 5,
                                     backgroundColor: '80B213',
                                     height: 45,
-                                  }} href="./groups/checkout">
+                                  }}
+                                  onClick={handleClickJoinGroup}
+                          >
                             Join
                           </Button>
                         </TableCell>
                         <TableCell>
                           <Button
-                            href={"./groups/group-details"}
+                            onClick={handleClickGroupDetail}
                             sx={{borderRadius: 5, backgroundColor: 'white', height: 45,}}
                           >
                             <MoreHorizIcon/></Button>

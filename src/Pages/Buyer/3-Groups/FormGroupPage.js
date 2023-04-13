@@ -41,7 +41,6 @@ export default function FormGroupPage() {
   const handleNext = () => {
     console.log("buttonSelected: " + buttonSelected)
     if (activeStep === 2) {
-
       navigate("/groups");
       return;
     }
@@ -54,14 +53,12 @@ export default function FormGroupPage() {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       return;
     }
-
   };
 
   const handleButtonClick = (button) => {
     console.log("handlebuttonclick: " + button)
     setButtonSelected(button);
     setValue("shipRoute", button);
-
   };
 
   const handleDateChange = (date) => {
@@ -83,11 +80,13 @@ export default function FormGroupPage() {
 
   // ---------current user---------
   let currentUser = useSelector(state => state.auth.currentUser);
+  // console.log('currentUser',currentUser);
+
   if (currentUser === null) {
     currentUser = {
       role: "visitor",
-      name: 'testUser',
-      email: 'testEmail',
+      name: 'null',
+      email: 'null',
     }
   }
 
@@ -96,8 +95,7 @@ export default function FormGroupPage() {
     shipRoute: '',
     groupName: '',
     receiverName: '',
-    pickupLocation: null,
-    // pickupLocation:{ name: currentUser.email, address: '' },
+    pickupLocation: '',
     phoneNumber: '',
     endDate: null,
   };
@@ -107,10 +105,6 @@ export default function FormGroupPage() {
     groupName: Yup.string().required('Required'),
     receiverName: Yup.string().required('Required'),
     pickupLocation: Yup.string().required('Required'),
-    // pickupLocation: Yup.object().shape({
-    //   name: Yup.string().default(currentUser.email).required('Required'),
-    //   address: Yup.string().required('Required'),
-    // }),
     phoneNumber: Yup.string().required('Required'),
     endDate: Yup.date().required('Required'),
   });
