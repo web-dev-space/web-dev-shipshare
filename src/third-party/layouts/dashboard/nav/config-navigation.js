@@ -8,6 +8,7 @@ const icon = (name) => (
 );
 
 const ICONS = {
+  home: icon('nav_home'),
   parcel: icon('nav_parcel'),
   shipment: icon('nav_shipment'),
   group: icon('nav_groups'),
@@ -16,8 +17,6 @@ const ICONS = {
   profile: icon('nav_profile'),
   account: icon('nav_account'),
   help: icon('nav_help'),
-
-
   dashboard: icon('ic_dashboard'),
 };
 
@@ -30,7 +29,7 @@ function navConfig(role) {
       {
         subheader: 'Main',
         items: [
-          { title: 'Home', path: '/home', icon: ICONS.dashboard },
+          { title: 'Home', path: '/home', icon: ICONS.home },
           { title: 'Parcels', path: '/parcels', icon: ICONS.parcel },
           { title: 'Shipments', path: '/shipments', icon: ICONS.shipment },
           { title: 'Groups', path: '/groups', icon: ICONS.group },
