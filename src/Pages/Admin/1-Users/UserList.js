@@ -143,7 +143,7 @@ export default function UserList() {
 
                     <Container maxWidth={false}>
 
-                        <Container maxWidth={false} sx={{ display: 'flex', justifyContent: 'flex-start', mt: 1, mb: 1, gap: 2}}>
+                        <Container maxWidth={false} sx={{ display: 'flex', justifyContent: 'flex-start', mt: 1, mb: 1, ml: -3, gap: 2}}>
                             {/*---Search Bar---*/}
                             <SearchBar
                                 width={360}
