@@ -91,9 +91,10 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: "Destination",
+    disableSorting: true,
   },
   { id: "status", numeric: false, disablePadding: false, label: "Status" },
-  { id: "actions", numeric: false, disablePadding: false, label: "Actions" },
+  { id: "actions", numeric: false, disablePadding: false, label: "Actions", disableSorting: true },
 ];
 
 const DEFAULT_ORDER = "desc";
@@ -117,18 +118,22 @@ function MyTableHead(props) {
             sortDirection={orderBy === headCell.id ? order : false}
             style={{ backgroundColor: "white" }}
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+            {headCell.disableSorting ? (
+              <React.Fragment>{headCell.label}</React.Fragment>
+            ) : (
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : "asc"}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === "desc" ? "sorted descending" : "sorted ascending"}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            )}
           </TableCell>
         ))}
       </TableRow>
@@ -259,12 +264,10 @@ const EnhancedTable = ({ }) => {
   //TODO: remove this useEffect
   useEffect(() => {
     const debugVariableChange = () => {
-      
-      
-      
+      console.debug("orderBy changed to: ", orderBy);
     };
     debugVariableChange();
-  }, [originalRows, rows, visibleRows]);
+  }, [orderBy]);
 
   const newStatus = convertPhaseNumberToStatus(rowBeingEdited);
   const setNewStatus = (status) => setRowBeingEdited({
@@ -299,6 +302,10 @@ const EnhancedTable = ({ }) => {
 
   const handleRequestSort = React.useCallback(
     (event, newOrderBy) => {
+      if (newOrderBy === "status") {
+        newOrderBy = "phaseNumber";
+      }
+
       const isAsc = orderBy === newOrderBy && order === "asc";
       const toggledOrder = isAsc ? "desc" : "asc";
       setOrder(toggledOrder);

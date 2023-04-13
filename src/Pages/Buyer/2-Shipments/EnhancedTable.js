@@ -14,8 +14,8 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
-import React, {useEffect, useState} from "react";
-import {v4 as uuidv4} from "uuid";
+import React, { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import OrangeChipGroup from "../../../components/OrangeChipGroup";
 import ShippingDetailScreen from "../../../components/ShipmentsDetailScreen.js";
 import { status } from "nprogress";
@@ -67,9 +67,10 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: "Pickup At",
+    disableSorting: true,
   },
   { id: "status", numeric: false, disablePadding: false, label: "Status" },
-  { id: "actions", numeric: false, disablePadding: false, label: "Actions" },
+  { id: "actions", numeric: false, disablePadding: false, label: "Actions", disableSorting: true, },
 ];
 
 const DEFAULT_ORDER = "desc";
@@ -93,18 +94,22 @@ function MyTableHead(props) {
             sortDirection={orderBy === headCell.id ? order : false}
             style={{ backgroundColor: "white" }}
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+            {headCell.disableSorting ? (
+              <React.Fragment>{headCell.label}</React.Fragment>
+            ) : (
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : "asc"}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === "desc" ? "sorted descending" : "sorted ascending"}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            )}
           </TableCell>
         ))}
       </TableRow>
@@ -278,6 +283,10 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
 
   const handleRequestSort = React.useCallback(
     (event, newOrderBy) => {
+      if (newOrderBy === "status") {
+        newOrderBy = "phaseNumber";
+      }
+
       const isAsc = orderBy === newOrderBy && order === "asc";
       const toggledOrder = isAsc ? "desc" : "asc";
       setOrder(toggledOrder);
@@ -436,7 +445,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                 ? visibleRows.map((row, index) => {
 
                   const cityName = row?.pickupLocation?.address?.split(",");
-                  
+
 
                   return (
                     <TableRow
@@ -453,7 +462,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                       </TableCell>
                       <TableCell align="left">{row.shipRoute}</TableCell>
                       <TableCell align="left">{row?.joinDate === undefined ? "N/A" : row?.joinDate}</TableCell>
-                      <TableCell align="left">{cityName?.length >= 2 ? cityName[cityName.length-3] : cityName}</TableCell>
+                      <TableCell align="left">{cityName?.length >= 2 ? cityName[cityName.length - 3] : cityName}</TableCell>
                       <TableCell
                         align="left"
                         style={{ color: getStatusColor(row) }}
