@@ -38,6 +38,7 @@ import {useDispatch, useSelector} from "react-redux";
 import DeleteDialog from "./DeleteDialog";
 import {use} from "i18next";
 import {getRandomAvatar} from "../../../utils/getRandomAvatar";
+import {Helmet} from "react-helmet";
 
 const STATUS_OPTIONS = ['all', 'active', 'banned'];
 const EDITABLE_STATUS_OPTIONS = ['active', 'banned'];
@@ -350,7 +351,6 @@ export default function UserList() {
     };
 
     useEffect(() => {
-        console.log(currentUser);
         const userFiltered = applyFilter({
             inputData: (users || []).map(user => ({
                 ...user,
@@ -403,6 +403,10 @@ export default function UserList() {
 
     return (
         <>
+            <Helmet>
+                <title>User List | ShipShare</title>
+            </Helmet>
+
             <Header onOpenNav={handleOpen} />
             {/*-------Box is the layout of the whole page-----*/}
             <Box

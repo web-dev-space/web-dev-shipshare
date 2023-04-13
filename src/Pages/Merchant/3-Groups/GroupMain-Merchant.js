@@ -40,6 +40,7 @@ import ShippingDetailScreen from "../../../components/ShipmentsDetailScreen";
 import GroupDetailDrawerScreen from "./GroupDetailDrawerScreen";
 import {useDispatch, useSelector} from "react-redux";
 import {findAllShipGroupsThunk} from "../../../redux/shipGroups/shipGroups-thunks";
+import {Helmet} from "react-helmet";
 
 
 const DEFAULT_ORDER = 'asc';
@@ -252,6 +253,9 @@ const GroupMainMerchant = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Groups | ShipShare</title>
+      </Helmet>
       <Header onOpenNav={handleOpen}/>
       {/*-------Box is the layout of the whole page-----*/}
       <Box

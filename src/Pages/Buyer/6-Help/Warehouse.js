@@ -7,6 +7,7 @@ import { Container, Typography, Box, Card, Stack } from '@mui/material';
 import {useSnackbar} from "notistack";
 import useDoubleClick from '../../../third-party/hooks/useDoubleClick';
 import useCopyToClipboard from "../../../third-party/hooks/useCopyToClipboard";
+import {Helmet} from "react-helmet";
 
 
 const Warehouse = () => {
@@ -53,6 +54,10 @@ const Warehouse = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>Warehouse | ShipShare</title>
+			</Helmet>
+
 			<Header onOpenNav={handleOpen} />
 			{/*-------Box is the layout of the whole page-----*/}
 			<Box

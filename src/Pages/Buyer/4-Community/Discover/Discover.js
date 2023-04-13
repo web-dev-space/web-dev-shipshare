@@ -19,6 +19,7 @@ import {findAllPostsThunk} from "../../../../redux/posts/posts-thunks";
 
 // sample date
 import posts from "../../../../sampleData/posts";
+import {Helmet} from "react-helmet";
 const examplePosts = posts;
 
 const chipLabelsArray = ["Latest", "Popular"];
@@ -99,6 +100,9 @@ const Discover = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Discover | ShipShare</title>
+            </Helmet>
             <Header onOpenNav={handleOpen} />
             {/*-------Box is the layout of the whole page-----*/}
             <Box

@@ -11,6 +11,7 @@ import ChangePasswordForm from "./ChangePasswordForm.js";
 import {useParams} from "react-router-dom";
 import {_userList} from "../../../third-party/_mock/arrays";
 import {paramCase} from "change-case";
+import {Helmet} from "react-helmet";
 
 
 const ChangePassword = () => {
@@ -30,6 +31,9 @@ const ChangePassword = () => {
 
     return (
       <>
+          <Helmet>
+              <title>Change Password | ShipShare</title>
+          </Helmet>
           <Header onOpenNav={handleOpen} />
           {/*-------Box is the layout of the whole page-----*/}
           <Box
