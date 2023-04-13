@@ -54,7 +54,7 @@ const SignUpPage = () => {
       try {
           dispatch(signupThunk(data));
           enqueueSnackbar('Successfully created your account!');
-          navigate("../buyer");
+          navigate("../parcels");
       } catch (error) {
           console.log(error);
       }
