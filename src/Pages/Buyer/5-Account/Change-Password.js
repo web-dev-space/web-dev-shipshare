@@ -8,9 +8,16 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import ChangePasswordForm from "./ChangePasswordForm.js";
+import {useParams} from "react-router-dom";
+import {_userList} from "../../../third-party/_mock/arrays";
+import {paramCase} from "change-case";
 
 
 const ChangePassword = () => {
+    const { name } = useParams();
+
+    const currentUser = _userList?.find((user) => paramCase(user.name) === name);
+
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -60,7 +67,7 @@ const ChangePassword = () => {
                     {/*      <Button variant="contained" size="large" fullWidth={true}>Update</Button>*/}
                     {/*  </Stack>*/}
                     {/*</Card>*/}
-                    <ChangePasswordForm/>
+                    <ChangePasswordForm isEdit currentUser={currentUser}/>
                   </Container>
               </Main>
               {/*------------------------------------*/}
