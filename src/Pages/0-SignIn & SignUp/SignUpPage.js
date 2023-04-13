@@ -12,22 +12,23 @@ import FormProvider, {RHFTextField} from "../../third-party/components/hook-form
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {useState} from "react";
+import {useDispatch} from "react-redux";
+import {signupThunk} from "../../redux/users/users-thunks";
 
 
 const SignUpPage = () => {
 
   // ---- handle the new post object ---
   const defaultValues = {
-    nickname: '',
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
   };
 
-
   // validation schema
   const NewUserSchema = Yup.object().shape({
-    nickname: Yup.string().required('Please enter a valid nickname'),
+    name: Yup.string().required('Please enter a valid nickname'),
     email: Yup.string().required('Please enter a valid email'),
     password: Yup.string().required('Password is required'),
     confirmPassword: Yup.string().required('Please confirm your password'),
@@ -38,18 +39,29 @@ const SignUpPage = () => {
     defaultValues,
   });
 
+  // ---- handle the form submission ----
   const {handleSubmit, setValue} = methods;
 
   const {enqueueSnackbar} = useSnackbar();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const onSubmit = (data) => {
-    enqueueSnackbar('Welcome to ShipShare!');
-    navigate("/");
-    console.log(data);
+      data = {
+          ...data,
+          role: 'buyer'
+      };
+      try {
+          dispatch(signupThunk(data));
+          enqueueSnackbar('Successfully created your account!');
+          navigate("../buyer");
+      } catch (error) {
+          console.log(error);
+      }
   };
 
+  // ---- handle the password visibility ----
   const [passwordVisible, setPasswordVisible] = useState(false);
-
   const handleTogglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
@@ -100,7 +112,7 @@ const SignUpPage = () => {
                   Create Your Account
                 </Typography>
               </Box>
-              <RHFTextField fullWidth={true} name="nickname" variant="filled" id="nickname" placeholder="NICKNAME"
+              <RHFTextField fullWidth={true} name="name" variant="filled" id="name" placeholder="NICKNAME"
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position="start">
@@ -197,7 +209,6 @@ const SignUpPage = () => {
                 size="large"
                 sx={{height: 50}}
                 type={"submit"}
-                onClick={() => console.log('Button clicked')}
               >Sign Up</Button>
               <Box>
                 <Typography style={{textAlign: 'center'}}>

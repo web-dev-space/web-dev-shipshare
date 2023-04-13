@@ -48,12 +48,10 @@ const ParcelMainPage = () => {
         }
     }
 
-
     // ---------search bar---------
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSearch = () => {
-        console.log(tableData);
         setTableData(
             parcels.filter((val) => {
                 if (searchTerm === "") {

@@ -66,8 +66,8 @@ const Warehouse = () => {
 
 				{/*--------------Main Content----------------------*/}
 				<Main>
-					<Container maxWidth={false}>
-						<Typography variant="h4" component="h1" paragraph>
+					<Container maxWidth='md'>
+						<Typography variant="h3" component="h1" paragraph>
 							Warehouse Address
 						</Typography>
 
