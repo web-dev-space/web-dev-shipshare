@@ -40,8 +40,8 @@ const ParcelMainPage = () => {
         setOpen(false);
     };
 
-    // ---------user role---------
-    const role = useSelector(state => state.auth.currentUser.role);
+    // ---------current user---------
+    const currentUser = useSelector(state => state.auth.currentUser);
 
 
     // ---------search bar---------
@@ -81,7 +81,7 @@ const ParcelMainPage = () => {
     const dispatch = useDispatch();
     const handleAddNewParcel = (props) => {
         const newParcel = {
-            user: "test@test.com",
+            user: currentUser.email,
             name: props.name,
             trackingNumber: props.trackingNumber,
             courier: props.courier,
@@ -185,7 +185,7 @@ const ParcelMainPage = () => {
                         {/*---button group---*/}
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             {
-                                role === "buyer" ? <TwoSmallButtonGroup
+                                currentUser.role === "buyer" ? <TwoSmallButtonGroup
                                     leftText="Add New"
                                     rightText="Filter"
                                     onLeftClick={handleOpenAddParcel}
@@ -216,7 +216,7 @@ const ParcelMainPage = () => {
 
                     {/*---Table---*/}
                     <Container maxWidth={false}>
-                        { role === "buyer" ?
+                        { currentUser.role === "buyer" ?
                             <ParcelTable data={tableData} /> :
                             <MerchantParcelTable data={tableData}
                                                  handleUpdateParcel={handleUpdateParcel} />}
