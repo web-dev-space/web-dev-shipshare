@@ -13,9 +13,8 @@ import {Provider} from "react-redux";
 import store from "./redux/store";
 import LoginPage from "./Pages/0-SignIn & SignUp/SignInPage";
 import SignUpPage from "./Pages/0-SignIn & SignUp/SignUpPage";
-import Buyer from "./Pages/Buyer";
-import Merchant from "./Pages/Merchant";
-import Admin from "./Pages/Admin";
+import Home from "./Pages/home";
+import {MainIndex} from "./Pages";
 
 // ----------------------------------------------------------------------
 
@@ -33,10 +32,9 @@ export default function App() {
                 <SnackbarProvider>
                   {/*---------------Main Routers----------------*/}
                   <Routes>
-                    <Route path="/" element={<LoginPage/>}/>
-                    <Route path="/buyer/*" element={<Buyer/>}/>
-                    <Route path="/merchant/*" element={<Merchant/>}/>
-                    <Route path="/admin/*" element={<Admin/>}/>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/home" element={<Home/>}/>
+                    <Route path="/*" element={<MainIndex/>}/>
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/signup" element={<SignUpPage/>}/>
                   </Routes>
