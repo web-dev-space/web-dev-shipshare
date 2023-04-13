@@ -75,7 +75,7 @@ const GroupMainPage = () => {
 
   function getShortAddress(address) {
     const addressParts = address.split(', ');
-    const cityState = addressParts.slice(-3, -1);
+    const cityState = addressParts.slice(-3, -2);
     const shortAddress = cityState.join(', ');
     return shortAddress;
   }
@@ -124,7 +124,6 @@ const GroupMainPage = () => {
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
   const [rows, setRows] = useState([]);
-  const [visibleRows, setVisibleRows] = React.useState(null);
   const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
   const [filteredData, setFilteredData] = useState(originalData)
 

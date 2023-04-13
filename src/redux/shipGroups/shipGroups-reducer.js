@@ -42,6 +42,7 @@ const shipGroupsSlice = createSlice({
         // create
         [createShipGroupThunk.fulfilled]: (state, { payload }) => {
             state.loading = false;
+            console.log('group payload', payload)
             state.shipGroups.push(payload);
         },
 

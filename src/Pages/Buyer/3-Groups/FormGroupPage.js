@@ -19,6 +19,8 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useSnackbar} from "notistack";
 import {useNavigate} from "react-router-dom";
+import {createShipGroupThunk, findAllShipGroupsThunk} from "../../../redux/shipGroups/shipGroups-thunks";
+import {useDispatch, useSelector} from "react-redux";
 
 const steps = ['', '', ''];
 export default function FormGroupPage() {
@@ -30,7 +32,7 @@ export default function FormGroupPage() {
 
   const handleBack = () => {
     if (activeStep === 0) {
-      window.history.back();
+      navigate("/groups");
       return;
     }
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -38,13 +40,12 @@ export default function FormGroupPage() {
 
   const handleNext = () => {
     console.log("buttonSelected: " + buttonSelected)
-    console.log("activeStep: " + activeStep)
-    console.log('methods', methods)
-    console.log('methods.formState', methods.formState)
     if (activeStep === 2) {
-      navigate("/buyer/groups");
+
+      navigate("/groups");
       return;
-    };
+    }
+    ;
     if (activeStep === 0 && buttonSelected !== "") {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       return;
@@ -68,16 +69,35 @@ export default function FormGroupPage() {
     setValue("endDate", date);
   };
 
+
+  const handlePickupLocationChange = (d) => {
+    console.log("d", d);
+    const values = methods.getValues();
+    console.log("value", values)
+    setValue("pickupLocation", {...values.pickupLocation, address: d});
+  };
+
   const isButtonSelected = () => {
     return buttonSelected !== "";
   };
+
+  // ---------current user---------
+  let currentUser = useSelector(state => state.auth.currentUser);
+  if (currentUser === null) {
+    currentUser = {
+      role: "visitor",
+      name: 'testUser',
+      email: 'testEmail',
+    }
+  }
 
   // ---- handle the new group object ---
   const defaultValues = {
     shipRoute: '',
     groupName: '',
     receiverName: '',
-    pickupLocation: '',
+    pickupLocation: null,
+    // pickupLocation:{ name: currentUser.email, address: '' },
     phoneNumber: '',
     endDate: null,
   };
@@ -87,6 +107,10 @@ export default function FormGroupPage() {
     groupName: Yup.string().required('Required'),
     receiverName: Yup.string().required('Required'),
     pickupLocation: Yup.string().required('Required'),
+    // pickupLocation: Yup.object().shape({
+    //   name: Yup.string().default(currentUser.email).required('Required'),
+    //   address: Yup.string().required('Required'),
+    // }),
     phoneNumber: Yup.string().required('Required'),
     endDate: Yup.date().required('Required'),
   });
@@ -99,18 +123,45 @@ export default function FormGroupPage() {
   const {enqueueSnackbar} = useSnackbar();
 
   const onSubmit = (data) => {
+    handleAddNewShipGroup(data)
     enqueueSnackbar('Group Created!');
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     console.log('data', data);
   };
 
 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(findAllShipGroupsThunk());
+  }, []);
+
+  const handleAddNewShipGroup = (prop) => {
+    console.log('create new group')
+    const newShipGroup = {
+      name: prop.groupName,
+      leader: currentUser.email,
+      pickupLocation: {
+        name: currentUser.name,
+        address: prop.pickupLocation
+      },
+      phoneNumber: prop.phoneNumber,
+      shipRoute: prop.shipRoute,
+      shipEndDate: prop.endDate,
+      members: [currentUser.email],
+
+    }
+    console.log('newShipGroup', newShipGroup);
+    dispatch(createShipGroupThunk(newShipGroup))
+  }
+
   const getPageContent = () => {
     switch (activeStep) {
       case 0:
         return <FormGroupStepOne onButtonClick={handleButtonClick}/>;
       case 1:
-        return <FormGroupStepTwo onDateChange={handleDateChange}/>;
+        return <FormGroupStepTwo
+          onDateChange={handleDateChange}
+          onPickupLocationChange={handlePickupLocationChange}/>;
       case 2:
         return <FormGroupStepThree/>;
       default:
