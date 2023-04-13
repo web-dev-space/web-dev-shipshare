@@ -24,6 +24,8 @@ import FormProvider, {
 	RHFUploadAvatar,
 } from '../../../third-party/components/hook-form';
 import { uploadImage } from "api/imageUpload.js";
+import {updateCurrentUserThunk, updateUserThunk} from "../../../redux/users/users-thunks";
+import {useDispatch} from "react-redux";
 
 // ----------------------------------------------------------------------
 
@@ -84,12 +86,14 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isEdit, currentUser]);
+	const dispatch = useDispatch();
 
 	const onSubmit = async (data) => {
 		// console.log("current user is "+ currentUser);
 		try {
 			// await new Promise((resolve) => setTimeout(resolve, 500));
-			const imageRemoteUrl = await uploadImage(data.avatarUrl)
+			const imageRemoteUrl = await uploadImage(data.avatar);
+			const currentUser = await dispatch(updateCurrentUserThunk(data));
 
 			console.log("imageRemoteUrl: " + imageRemoteUrl);
 
