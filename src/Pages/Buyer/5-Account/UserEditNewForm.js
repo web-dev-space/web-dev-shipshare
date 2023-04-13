@@ -50,9 +50,9 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 		() => ({
 			name: currentUser?.name || '',
 			email: currentUser?.email || '',
-			phoneNumber: currentUser?.phoneNumber || '',
+			phone: currentUser?.phone || '',
 			address: currentUser?.address || '',
-			avatarUrl: currentUser?.avatarUrl || null,
+			avatar: currentUser?.avatar || null,
 			role: currentUser?.role || 'Buyer',
 		}),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,6 +86,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 	}, [isEdit, currentUser]);
 
 	const onSubmit = async (data) => {
+		// console.log("current user is "+ currentUser);
 		try {
 			// await new Promise((resolve) => setTimeout(resolve, 500));
 			const imageRemoteUrl = await uploadImage(data.avatarUrl)
@@ -163,21 +164,8 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 
 				<Grid item xs={12} md={8}>
 					<Card sx={{ p: 3 }}>
-						{/*<Box*/}
-						{/*	style={{marginBottom:20}}*/}
-						{/*	rowGap={3}*/}
-						{/*	columnGap={2}*/}
-						{/*	display="grid"*/}
-						{/*	gridTemplateColumns={{*/}
-						{/*		xs: 'repeat(1, 1fr)',*/}
-						{/*		sm: 'repeat(2, 1fr)',*/}
-						{/*	}}*/}
-						{/*>*/}
 						<RHFTextField name="name" label="Full Name" style={{ marginBottom: 20 }} />
-						<RHFTextField name="phoneNumber" label="Phone Number" style={{ marginBottom: 20 }} />
-
-
-						{/*<RHFTextField name="email" label="Email Address" style={{marginBottom:20}}/>*/}
+						<RHFTextField name="phone" label="Phone Number" style={{ marginBottom: 20 }} />
 						<RHFTextField name="address" label="Address" style={{ marginBottom: 25 }} />
 
 						<Stack alignItems="flex-end" sx={{ mt: 3 }}>
