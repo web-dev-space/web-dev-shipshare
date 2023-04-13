@@ -4,8 +4,24 @@ import DeliveryStatusCard from '../../../../components/DeliveryStatusCard';
 import deliveryStatus from '../../../../sampleData/deliveryStatus';
 import Colors from '../../../../styles/Colors';
 import FontSizes from '../../../../styles/FontSizes';
+import {useEffect, useState} from "react";
+import {getParcelTracking} from "../../../../redux/parcels/parcels-service";
 
 const ParcelDetails = ({ parcel, handleClose }) => {
+
+    const [detailDeliveryStatus, setDetailDeliveryStatus] = useState([]);
+
+    useEffect(() => {
+        const fetchedDeliveryStatus = async () => {
+            const deliveryStatus = await getParcelTracking(
+                {trackingNumber: parcel.trackingNumber.replaceAll(' ', ''), courier: parcel.courier});
+
+            setDetailDeliveryStatus(deliveryStatus?.origin_info?.trackinfo || []);
+        };
+        fetchedDeliveryStatus().catch((e) => {
+            console.log(e)
+        });
+    }, [parcel]);
 
     return (
         <div>
@@ -51,7 +67,7 @@ const ParcelDetails = ({ parcel, handleClose }) => {
                     marginTop: 40,
                     padding: 20,
                 }}>
-                    <DeliveryStatusCard deliveryStatus={deliveryStatus} />
+                    <DeliveryStatusCard deliveryStatus={detailDeliveryStatus} />
                 </Box>
             </div>
 

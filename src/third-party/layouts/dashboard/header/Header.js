@@ -15,6 +15,9 @@ import Iconify from '../../../components/iconify';
 import { useSettingsContext } from '../../../components/settings';
 //
 import AccountPopover from './AccountPopover';
+import {useSelector} from "react-redux";
+import { Button } from '@mui/material';
+import {useNavigate} from "react-router-dom";
 
 // ----------------------------------------------------------------------
 
@@ -34,6 +37,9 @@ export default function Header({ onOpenNav }) {
   const isDesktop = useResponsive('up', 'lg');
 
   const isOffset = useOffSetTop(HEADER.H_DASHBOARD_DESKTOP) && !isNavHorizontal;
+
+  const currentUser = useSelector(state => state.auth.currentUser);
+  const navigate = useNavigate();
 
   const renderContent = (
     <>
@@ -56,7 +62,12 @@ export default function Header({ onOpenNav }) {
         spacing={{ xs: 0.5, sm: 1.5 }}
       >
         {/* <NotificationsPopover /> */}
-        <AccountPopover />
+        {currentUser === null?
+            <Button variant="contained" color="primary"
+                    onClick={() => navigate("/login")}>
+                Log in
+            </Button>
+            : <AccountPopover />}
       </Stack>
     </>
   );

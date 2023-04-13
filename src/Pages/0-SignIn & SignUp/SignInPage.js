@@ -46,13 +46,13 @@ const LoginPage = () => {
         enqueueSnackbar('Welcome to ShipShare!');
         const role = currentUser.payload.role;
         if (role === 'admin') {
-            navigate('/admin');
+            navigate('/dashboard');
         }
         else if (role === 'buyer') {
-            navigate('/buyer');
+            navigate('/parcels');
         }
         else if (role === 'merchant') {
-            navigate('/merchant');
+            navigate('/dashboard');
         }
     } catch (e) {
         alert(e);

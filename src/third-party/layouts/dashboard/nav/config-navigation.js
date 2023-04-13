@@ -24,24 +24,59 @@ const ICONS = {
 // ----------------------------------------------------------------------
 
 function navConfig(role) {
-  // get the role, to set the nav paths
-  const rootPath = "/"+role;
+  if (role === 'visitor') {
+    return ([
+      // Main Menu
+      {
+        subheader: 'Main',
+        items: [
+          { title: 'Home', path: '/home', icon: ICONS.dashboard },
+          { title: 'Parcels', path: '/parcels', icon: ICONS.parcel },
+          { title: 'Shipments', path: '/shipments', icon: ICONS.shipment },
+          { title: 'Groups', path: '/groups', icon: ICONS.group },
+        ],
+      },
 
+      // COMMUNITY
+      {
+        subheader: 'Community',
+        items: [
+          { title: 'Discover', path: '/community/discover', icon: ICONS.discover },
+        ]
+      },
 
+      // More
+      {
+        subheader: 'More',
+        items: [
+          {
+            title: 'Help',
+            path:  '/help/',
+            icon: ICONS.help,
+            children: [
+              {title: 'Tutorials', path: '/help/tutorials'},
+              {title: 'Time & Costs', path: '/help/time-costs'},
+              {title: 'Calculate Fees', path: '/help/calculate-fees'},
+            ],
+          }
+        ]
+      }
+    ]);
+  }
   return ([
       // Main Menu
       {
         subheader: 'Main',
         items: [
           role === 'admin' || role === "merchant"
-              ? { title: 'Dashboard', path: rootPath + '/dashboard', icon: ICONS.dashboard }
+              ? { title: 'Dashboard', path: '/dashboard', icon: ICONS.dashboard }
               : null,
           role === 'admin'
-              ? { title: 'User List', path: rootPath + '/userlist', icon: ICONS.profile }
+              ? { title: 'User List', path: '/userlist', icon: ICONS.profile }
               : null,
-          { title: 'Parcels', path: rootPath + '/parcels', icon: ICONS.parcel },
-          { title: 'Shipments', path: rootPath + '/shipments', icon: ICONS.shipment },
-          { title: 'Groups', path: rootPath + '/groups', icon: ICONS.group },
+          { title: 'Parcels', path: '/parcels', icon: ICONS.parcel },
+          { title: 'Shipments', path: '/shipments', icon: ICONS.shipment },
+          { title: 'Groups', path: '/groups', icon: ICONS.group },
         ].filter(Boolean), // filter null values
       },
 
@@ -49,10 +84,10 @@ function navConfig(role) {
       {
         subheader: 'Community',
         items: [
-          { title: 'Discover', path: rootPath + '/community/discover', icon: ICONS.discover },
+          { title: 'Discover', path: '/community/discover', icon: ICONS.discover },
           role === "merchant" || role === "admin"
             ? null
-            :{ title: 'My Profile', path: rootPath + '/community/profile', icon: ICONS.profile },
+            :{ title: 'My Profile', path: '/community/profile', icon: ICONS.profile },
         ].filter(Boolean) // filter null values
       },
 
@@ -62,25 +97,25 @@ function navConfig(role) {
         items: [
           {
             title: 'Account',
-            path: rootPath + '/account/',
+            path: '/account/',
             icon: ICONS.account,
             children: [
-              {title: 'Account Info', path: rootPath+'/account/account-info'},
-              {title: 'Change Password', path: rootPath+'/account/change-password'},
+              {title: 'Account Info', path: '/account/account-info'},
+              {title: 'Change Password', path: '/account/change-password'},
               role === 'merchant' || role === 'admin'
-                  ? {title: 'Change Warehouse Address', path: rootPath+'/account/change-warehouse-address'}
+                  ? {title: 'Change Warehouse Address', path: '/account/change-warehouse-address'}
                   : null,
             ].filter(Boolean), // filter null values
           },
           {
             title: 'Help',
-            path: rootPath + '/help/',
+            path:  '/help/',
             icon: ICONS.help,
             children: [
-              {title: 'Tutorials', path: rootPath+'/help/tutorials'},
-              {title: 'Warehouse Address', path: rootPath+'/help/warehouse-address'},
-              {title: 'Time & Costs', path: rootPath+'/help/time-costs'},
-              {title: 'Calculate Fees', path: rootPath+'/help/calculate-fees'},
+              {title: 'Tutorials', path: '/help/tutorials'},
+              {title: 'Warehouse Address', path: '/help/warehouse-address'},
+              {title: 'Time & Costs', path: '/help/time-costs'},
+              {title: 'Calculate Fees', path: '/help/calculate-fees'},
             ],
           }
         ]

@@ -21,12 +21,12 @@ const OPTIONS = [
     linkTo: '/',
   },
   {
-    label: 'Profile',
-    linkTo: '/',
+    label: 'Account',
+    linkTo: '/account',
   },
   {
-    label: 'Account',
-    linkTo: '/',
+    label: 'Help',
+    linkTo: '/help/tutorials',
   },
 ];
 
