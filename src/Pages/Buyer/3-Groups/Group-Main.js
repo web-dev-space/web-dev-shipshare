@@ -82,7 +82,6 @@ const GroupMainPage = () => {
   }
 
   const originalRows = originalData.map((shipment) => {
-    console.log(shipment.shipEndDate)
     return createData(shipment._id, shipment.members.length, shipment.name, shipment.shipRoute, shipment.shipEndDate, getShortAddress(shipment.pickupLocation.address));
   });
 
@@ -180,10 +179,11 @@ const GroupMainPage = () => {
     setFilteredData(
       originalRows.filter((val) => {
 
-        const endDate = parseInt(val.endDate["$date"]["$numberLong"]);
-        const today = parseInt((new Date()).getTime());
-        const oneDay = 24 * 60 * 60 * 1000;
-        const diffInDays = Math.round((endDate - today) / oneDay);
+        // const endDate = parseInt(val.endDate["$date"]["$numberLong"]);
+        const endDate = new Date(val.endDate);
+        const today = new Date();
+        const diffInMs = endDate.getTime() - today.getTime();
+        const diffInDays = Math.ceil(diffInMs / 86400000);
 
         if (filterState === "All" && filterEndIn === "All") {
           setTableData(originalRows);
@@ -600,7 +600,10 @@ function descendingComparator(a, b, orderBy) {
 
   switch (orderBy) {
     case 'endDate':
-      return parseInt(b[orderBy].$date.$numberLong) - parseInt(a[orderBy].$date.$numberLong);
+      const dateA = new Date(a.endDate);
+      const dateB = new Date(b.endDate);
+      return parseInt(dateB.getTime().toString()) - parseInt(dateA.getTime().toString());
+
     default:
       if (b[orderBy] < a[orderBy]) {
         return -1;

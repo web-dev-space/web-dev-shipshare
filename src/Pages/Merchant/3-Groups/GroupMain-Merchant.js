@@ -68,14 +68,21 @@ const GroupMainMerchant = () => {
   }, []);
 
   // table data
-  const originalData = shipGroups;
+  const originalData = shipments;
 
   function createData(id, memberCount, name, route, endDate, pickUpAt) {
     return {id, memberCount, name, route, endDate, pickUpAt};
   }
 
+  function getShortAddress(address) {
+    const addressParts = address.split(', ');
+    const cityState = addressParts.slice(-3,-1);
+    const shortAddress = cityState.join(', ');
+    return shortAddress;
+  }
+
   const originalRows = originalData.map((shipment) => {
-    return createData(shipment.id, shipment.members.length, shipment.name, shipment.shipRoute, shipment.shipEndDate, shipment.pickupLocation.shortAddress);
+    return createData(shipment._id, shipment.members.length, shipment.name, shipment.shipRoute, shipment.shipEndDate, getShortAddress(shipment.pickupLocation.address));
   });
 
   const [open, setOpen] = useState(false);
@@ -168,13 +175,14 @@ const GroupMainMerchant = () => {
 
 
   const handleFilter = () => {
-
     setFilteredData(
       originalRows.filter((val) => {
-        const endDate = parseInt(val.endDate["$date"]["$numberLong"]);
-        const today = parseInt((new Date()).getTime());
-        const oneDay = 24 * 60 * 60 * 1000;
-        const diffInDays = Math.round((endDate - today) / oneDay);
+
+        // const endDate = parseInt(val.endDate["$date"]["$numberLong"]);
+        const endDate = new Date(val.endDate);
+        const today = new Date();
+        const diffInMs = endDate.getTime() - today.getTime();
+        const diffInDays = Math.ceil(diffInMs / 86400000);
 
         if (filterState === "All" && filterEndIn === "All") {
           setTableData(originalRows);
@@ -187,7 +195,6 @@ const GroupMainMerchant = () => {
         } else {
           return diffInDays <= filterEndIn && diffInDays > 0;
         }
-
       })
     )
     setFocusChip("All");
@@ -225,7 +232,7 @@ const GroupMainMerchant = () => {
     if (!dateString) {
       return null;
     }
-    const date = new Date(parseInt(dateString.$date.$numberLong));
+    const date = new Date(dateString);
     const formattedDate = date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -611,9 +618,13 @@ function stableSort(array, comparator) {
 }
 
 function descendingComparator(a, b, orderBy) {
+
   switch (orderBy) {
     case 'endDate':
-      return parseInt(b[orderBy].$date.$numberLong) - parseInt(a[orderBy].$date.$numberLong);
+      const dateA = new Date(a.endDate);
+      const dateB = new Date(b.endDate);
+      return parseInt(dateB.getTime().toString()) - parseInt(dateA.getTime().toString());
+
     default:
       if (b[orderBy] < a[orderBy]) {
         return -1;
