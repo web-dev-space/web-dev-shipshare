@@ -68,14 +68,22 @@ const GroupMainPage = () => {
   }, []);
 
   // table data
-  const originalData = shipGroups;
+  const originalData = shipments;
 
   function createData(id, memberCount, name, route, endDate, pickUpAt) {
     return {id, memberCount, name, route, endDate, pickUpAt};
   }
 
+  function getShortAddress(address) {
+    const addressParts = address.split(', ');
+    const cityState = addressParts.slice(-3,-1);
+    const shortAddress = cityState.join(', ');
+    return shortAddress;
+  }
+
   const originalRows = originalData.map((shipment) => {
-    return createData(shipment.id, shipment.members.length, shipment.name, shipment.shipRoute, shipment.shipEndDate, shipment.pickupLocation.shortAddress);
+    console.log(shipment.shipEndDate)
+    return createData(shipment._id, shipment.members.length, shipment.name, shipment.shipRoute, shipment.shipEndDate, getShortAddress(shipment.pickupLocation.address));
   });
 
   const [open, setOpen] = useState(false);
@@ -225,7 +233,7 @@ const GroupMainPage = () => {
     if (!dateString) {
       return null;
     }
-    const date = new Date(parseInt(dateString.$date.$numberLong));
+    const date = new Date(dateString);
     const formattedDate = date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',

@@ -11,9 +11,10 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useSnackbar} from "notistack";
 import {useNavigate} from "react-router-dom";
-import FormProvider, {RHFTextField} from "../../../third-party/components/hook-form";
+import FormProvider, {RHFAutocomplete, RHFTextField} from "../../../third-party/components/hook-form";
 import {useEffect, useState} from "react";
 import dayjs from "dayjs";
+import RHFGooglePlacesAutocomplete from "./RHFGooglePlacesAutocomplete";
 
 export default function FormGroupStepTwo({onDateChange}) {
 

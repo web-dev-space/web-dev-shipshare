@@ -1,4 +1,4 @@
-[
+export const shipments =[
   {
     "_id": "643647bc4ff205ed01e7401f",
     "name": "Dress",
