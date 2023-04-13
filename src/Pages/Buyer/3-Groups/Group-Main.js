@@ -31,7 +31,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import OrangeChipGroup from "../../../components/OrangeChipGroup";
 import {shipments} from "../../../sampleData/shipments";
 import Checkout from "./Checkout";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import {visuallyHidden} from "@mui/utils";
 import {ALL_STATES, stateFullNameToAbbr} from "./allStates";
@@ -48,7 +48,7 @@ const headCells = [
   {id: 'name', numeric: false, disablePadding: true, label: 'Group Name', sortable: true},
   {id: 'shipRoute', numeric: false, disablePadding: false, label: 'Route', sortable: true},
   {id: 'shipEndDate', numeric: false, disablePadding: false, label: 'End Date', sortable: true},
-  {id: 'pickupLocation', numeric: false, disablePadding: false, label: 'Pick Up At', sortable: true},
+  {id: 'pickupLocation', numeric: false, disablePadding: false, label: 'Pick Up At', sortable: false},
   {id: 'Distance', numeric: false, disablePadding: false, label: 'Distance', sortable: true},
   {id: 'actions', numeric: false, disablePadding: false, label: 'Action', sortable: false},
   {id: 'more', numeric: false, disablePadding: false, label: '', sortable: false},
@@ -227,6 +227,10 @@ const GroupMainPage = () => {
     return formattedDate;
   }
 
+  const navigate = useNavigate();
+  const handleFormNewGroup=() => {
+    navigate('./form-new-group');
+  }
 
   return (
     <>
@@ -270,7 +274,7 @@ const GroupMainPage = () => {
                   size="large"
                   color='primary'
                   startIcon={<Iconify icon="eva:plus-fill"/>}
-                  href="./groups/form-new-group"
+                  onClick={handleFormNewGroup}
                 >
                   Form New
                 </Button>
@@ -580,7 +584,14 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+
 function descendingComparator(a, b, orderBy) {
+  function getShortAddress(address) {
+    const addressParts = address.split(', ');
+    const cityState = addressParts.slice(-3, -2);
+    const shortAddress = cityState.join(', ');
+    return shortAddress;
+  }
 
   switch (orderBy) {
     case 'endDate':
