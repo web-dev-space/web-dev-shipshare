@@ -13,8 +13,10 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 
 
 const RouteTableItem = ({ index, type, time, price, factor, parcelWeight, parcelLength, parcelWidth, parcelHeight }) => {
-	const actualFactor = parseFloat(parcelWeight) > Math.ceil(parseFloat(parcelHeight) * parseFloat(parcelLength) * parseFloat(parcelWidth) / 5000) ? parseFloat(parcelWeight) : Math.ceil(parseFloat(parcelHeight) * parseFloat(parcelHeight) * parseFloat(parcelWeight) / 5000);
-// console.log("factor is " +factor);
+
+	const volume = parseFloat(parcelHeight) * parseFloat(parcelLength) * parseFloat(parcelWidth);
+	const actualFactor = parcelWeight > Math.ceil(volume / 5000)? parcelWeight : Math.ceil(volume / 5000);
+
 	return (
 		<Box sx={{ display: 'flex', alignItems: 'center', border: '1px solid #E2E8F0', borderRadius: '8px', p: 2 , marginBottom:2}}>
 			{/* left photo */}
