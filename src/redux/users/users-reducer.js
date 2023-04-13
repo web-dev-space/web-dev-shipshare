@@ -26,8 +26,9 @@ const usersSlice = createSlice({
             state.loading = false;
         },
         [deleteUserThunk.fulfilled]: (state, action) => {
+            console.log(action.payload);
             state.users = state.users.filter(
-                user => user._id !== action.payload
+                user => user._id !== action.payload._id
             );
         },
         [updateUserThunk.fulfilled]: (state, action) => {
