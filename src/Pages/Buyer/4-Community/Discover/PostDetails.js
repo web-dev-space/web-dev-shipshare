@@ -12,6 +12,7 @@ import {useNavigate, useParams} from "react-router-dom";
 // sample data
 import posts from "../../../../sampleData/posts";
 import {deletePostThunk, findAllPostsThunk, findPostByIdThunk} from "../../../../redux/posts/posts-thunks";
+import {Helmet} from "react-helmet";
 
 const post = posts[0];
 const COMMENT_PER_PAGE = 5;
@@ -100,6 +101,9 @@ const PostDetails = () => {
 
     return (
         <>
+            <Helmet>
+                <title>{post.title} | ShipShare</title>
+            </Helmet>
             <Header onOpenNav={handleOpen} />
             {/*-------Box is the layout of the whole page-----*/}
             <Box

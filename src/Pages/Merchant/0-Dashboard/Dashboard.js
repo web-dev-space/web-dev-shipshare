@@ -17,6 +17,7 @@ import {
   EcommerceYearlySales
 } from '../../../third-party/e-commerce';
 import { FileGeneralDataActivity } from '../../../third-party/file';
+import {Helmet} from "react-helmet";
 
 
 
@@ -42,6 +43,10 @@ const Dashboard = () => {
 
     return (
         <>
+            <Helmet>
+                <title>DashBoard | ShipShare</title>
+            </Helmet>
+            {/*--------------Header------------------*/}
             <Header onOpenNav={handleOpen} />
             {/*-------Box is the layout of the whole page-----*/}
             <Box

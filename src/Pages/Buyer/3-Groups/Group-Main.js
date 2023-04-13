@@ -37,6 +37,7 @@ import {visuallyHidden} from "@mui/utils";
 import {ALL_STATES, stateFullNameToAbbr} from "./allStates";
 import {useDispatch, useSelector} from "react-redux";
 import {updateShipGroupThunk, findAllShipGroupsThunk} from "../../../redux/shipGroups/shipGroups-thunks";
+import {Helmet} from "react-helmet";
 
 
 const DEFAULT_ORDER = 'asc';
@@ -245,6 +246,9 @@ const GroupMainPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Groups | ShipShare</title>
+      </Helmet>
       <Header onOpenNav={handleOpen}/>
       {/*-------Box is the layout of the whole page-----*/}
       <Box

@@ -4,6 +4,7 @@ import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
 import { Container, Typography, Box} from '@mui/material';
 import WarehouseAddressForm from "./WarehouseAddressForm";
+import {Helmet} from "react-helmet";
 
 
 const ChangeWarehouse = () => {
@@ -27,6 +28,9 @@ const ChangeWarehouse = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Warehouse Address | ShipShare</title>
+            </Helmet>
             <Header onOpenNav={handleOpen} />
             {/*-------Box is the layout of the whole page-----*/}
             <Box

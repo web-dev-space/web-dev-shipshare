@@ -27,6 +27,8 @@ import FormProvider, {RHFSelect, RHFTextField, RHFUploadAvatar} from "../../../t
 import {fData} from "../../../third-party/utils/formatNumber";
 import Stack from "@mui/material/Stack";
 import {uploadImage} from "api/imageUpload";
+import {Helmet} from "react-helmet";
+
 
 
 const ParcelMainPage = () => {
@@ -153,6 +155,10 @@ const ParcelMainPage = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Parcels | ShipShare</title>
+            </Helmet>
+            {/*--------------Header------------------*/}
             <Header onOpenNav={handleOpen} />
             {/*-------Box is the layout of the whole page-----*/}
             <Box

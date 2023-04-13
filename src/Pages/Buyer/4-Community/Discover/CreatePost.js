@@ -16,6 +16,7 @@ import {useNavigate} from "react-router-dom";
 import {LoadingButton} from "@mui/lab";
 import {createPostThunk} from "../../../../redux/posts/posts-thunks";
 import {useDispatch} from "react-redux";
+import {Helmet} from "react-helmet";
 
 const CreatePost = () => {
     // ---- handle the nav bar ---
@@ -119,6 +120,9 @@ const CreatePost = () => {
 
     return (
         <>
+            <Helmet>
+                <title>New Post | ShipShare</title>
+            </Helmet>
             <Header onOpenNav={handleOpen} />
             {/*-------Box is the layout of the whole page-----*/}
             <Box

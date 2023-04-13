@@ -12,8 +12,10 @@ import CustomBreadcrumbs from '../../../third-party/components/custom-breadcrumb
 import UserNewEditForm from './UserEditNewForm';
 import Header from "../../../third-party/layouts/dashboard/header";
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Main from "../../../third-party/layouts/dashboard/Main"
+import {useDispatch, useSelector} from "react-redux";
+import {findUserById} from "../../../redux/users/users-service";
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +24,7 @@ export default function UserEditPage() {
 
 	const { name } = useParams();
 
-	const currentUser = _userList?.find((user) => paramCase(user.name) === name);
+	// const currentUser = _userList?.find((user) => paramCase(user.name) === name);
 
 	const [open, setOpen] = useState(false);
 
@@ -34,8 +36,15 @@ export default function UserEditPage() {
 		setOpen(false);
 	};
 
+	const dispatch = useDispatch();
+	const currentUser = useSelector((state) => state.auth.currentUser);
+
+
 	return (
 		<>
+			<Helmet>
+				<title>Account | ShipShare</title>
+			</Helmet>
 			<Header onOpenNav={handleOpen} />
 			{/*-------Box is the layout of the whole page-----*/}
 			<Box

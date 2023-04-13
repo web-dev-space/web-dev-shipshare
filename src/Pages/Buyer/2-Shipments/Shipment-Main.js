@@ -6,6 +6,7 @@ import Header from "../../../third-party/layouts/dashboard/header";
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical.js";
 import EnhancedTable from "./EnhancedTable.js";
 import { updateShipGroupThunk, findAllShipGroupsThunk } from "redux/shipGroups/shipGroups-thunks.js";
+import {Helmet} from "react-helmet";
 
 const ShipmentMainPage = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,9 @@ const ShipmentMainPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Shipments | ShipShare</title>
+      </Helmet>
       <Header onOpenNav={handleOpen} />
       {/*-------Box is the layout of the whole page-----*/}
       <Box
