@@ -28,6 +28,8 @@ import {fData} from "../../../third-party/utils/formatNumber";
 import Stack from "@mui/material/Stack";
 import {uploadImage} from "api/imageUpload";
 import {Helmet} from "react-helmet";
+import {parcelData} from "../../../sampleData/parcels";
+import {Link} from "react-router-dom";
 
 
 
@@ -43,12 +45,7 @@ const ParcelMainPage = () => {
     };
 
     // ---------current user---------
-    let currentUser = useSelector(state => state.auth.currentUser);
-    if (currentUser === null) {
-        currentUser = {
-            role: "visitor"
-        }
-    }
+    const currentUser = useSelector(state => state.auth.currentUser || {role: "visitor"});
 
     // ---------search bar---------
     const [searchTerm, setSearchTerm] = useState('');
@@ -117,16 +114,21 @@ const ParcelMainPage = () => {
         return state.parcels
     });
 
-    useEffect(() => {
-        dispatch(findAllParcelsThunk());
-    }, [])
-
     // Table data
     const [tableData, setTableData] = useState(parcels);
     useEffect(() => {
+        if (currentUser && currentUser.role !== "visitor") {
+            dispatch(findAllParcelsThunk());
+        } else {
+            setTableData(parcelData.slice(0, 5));
+        }
+    }, [currentUser])
+    useEffect(() => {
         if (parcels) {
             setTableData(
-                parcels.filter((val) => {
+                parcels
+                    .filter((val) => val.user === currentUser.email)
+                    .filter((val) => {
                     return filterCourier === "all" || val.courier === filterCourier;
                 })
                 .filter((val) => {
@@ -143,7 +145,7 @@ const ParcelMainPage = () => {
                 })
             )
         }
-    }, [parcels, filterCourier, filterStatus])
+    }, [parcels, filterCourier, filterStatus, currentUser])
 
     // ---------Update parcel---------
     const handleUpdateParcel = (props) => {
@@ -173,7 +175,20 @@ const ParcelMainPage = () => {
                 <NavVertical openNav={open} onCloseNav={handleClose} />
 
                 {/*--------------Main Content----------------------*/}
-                <Main>
+                {
+                    currentUser.role === "visitor" &&
+                    <Typography variant="h5" style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "60%",
+                        transform: "translate(-50%, -50%)",
+                        textAlign: "center",
+                        zIndex: "1000"
+                    }}>
+                        Unfortunately, the parcel feature is currently unavailable while you are in visitor mode. Please <Link to="/login" style={{ color: '#80B213' }}>log in</Link> or <Link to="/signup" style={{ color: '#80B213' }}>sign up</Link> to unlock all the features of our website.
+                    </Typography>
+                }
+                <Main className={currentUser.role === "visitor" ? "visitor-mode" : ""}>
                     <Container maxWidth={false}>
                         <Typography variant="h4" component="h1" paragraph>
                             My Parcels
