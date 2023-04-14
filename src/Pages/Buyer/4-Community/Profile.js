@@ -22,6 +22,7 @@ import GreenChipGroup from "../../../components/GreenChipGroup";
 import GroupCardsPage from "./ProfileComponents/GroupCardsPage";
 import PostCard from "./Discover/post-components/PostCard";
 import {Pagination} from "@mui/lab";
+import {useSelector} from "react-redux";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -112,6 +113,8 @@ const Profile = () => {
       repostsNumber: 7460,
     }];
 
+    const currentUser = useSelector((state) => state.auth.currentUser);
+
     const [follow, setFollow] = useState(false);
     const handleFollow = () => {
       setFollow(!follow);
@@ -174,7 +177,7 @@ const Profile = () => {
                           }}>
                               <Avatar
                                 alt="Remy Sharp"
-                                src="https://source.unsplash.com/random"
+                                src={currentUser.avatar}
                                 sx={{
                                     mx: 'auto',
                                     borderWidth: 2,
@@ -197,12 +200,12 @@ const Profile = () => {
                                     top: -50,
                                 }}>
                                   <Typography variant="h3" align="center">
-                                      Rae
+                                    {currentUser.name}
                                   </Typography>
                                   <Typography align="center" style={{marginTop:8, marginBottom:4}}>
                                       <strong>976</strong>{' '}
                                       <span style={{ color: 'grey', marginRight:10}}>followers</span>{' '}
-                                      <strong>4587</strong>{' '}
+                                      <strong>{currentUser.following.length}</strong>{' '}
                                       <span style={{ color: 'grey' }}>following</span>{' '}
                                   </Typography>
 

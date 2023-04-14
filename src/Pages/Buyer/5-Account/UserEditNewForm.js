@@ -89,11 +89,11 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 	const dispatch = useDispatch();
 
 	const onSubmit = async (data) => {
-		// console.log("current user is "+ currentUser);
+		console.log("current user is "+ currentUser);
 		try {
 			// await new Promise((resolve) => setTimeout(resolve, 500));
 			const imageRemoteUrl = await uploadImage(data.avatar);
-			const currentUser = await dispatch(updateUserThunk(data));
+			const currentUser = await dispatch(updateCurrentUserThunk(data));
 
 			console.log("imageRemoteUrl: " + imageRemoteUrl);
 
