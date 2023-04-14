@@ -1,10 +1,12 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
-import { Container, Typography, Box} from '@mui/material';
+import {Box, Container, Typography} from '@mui/material';
 import WarehouseAddressForm from "./WarehouseAddressForm";
 import {Helmet} from "react-helmet";
+import {useSelector} from "react-redux";
+import {findWarehouseByCompany} from "../../../redux/warehouse/warehouse-service";
 
 
 const ChangeWarehouse = () => {
@@ -18,29 +20,54 @@ const ChangeWarehouse = () => {
         setOpen(false);
     };
 
-    let currentAddress = {
-        receiver: "John",
-        street: "1234 Main St",
-        city: "Guangzhou",
-        province: "Guangdong",
-        phoneNumber: "13800001234",
-    };
+    // const currentWarehouse = {
+    //     receiver: "Warehouse 1",
+    //     phoneNumber:"1234567890",
+    //     street: "1234 Main St",
+    //     city: "San Francisco",
+    //     province: "CA",
+    //     country: "USA",
+    //     company: "ShipShare"
+    // }
+
+    // fetch current warehouse address (by user company)
+    const [currentWarehouse, setCurrentWarehouse] = useState(null);
+    const currentUser = useSelector((state) => state.auth.currentUser);
+    let company = "";
+    if (!currentUser.role === "admin") {
+        company = "ShipShare";
+    }
+    else {
+        company = currentUser.company;
+    }
+
+    useEffect(() => {
+        const fetchWarehouse = async () => {
+            try {
+                const warehouses = await findWarehouseByCompany(company);
+                setCurrentWarehouse(warehouses[0]);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchWarehouse().then(r => r);
+    }, [company]);
 
     return (
         <>
             <Helmet>
                 <title>Warehouse Address | ShipShare</title>
             </Helmet>
-            <Header onOpenNav={handleOpen} />
+            <Header onOpenNav={handleOpen}/>
             {/*-------Box is the layout of the whole page-----*/}
             <Box
                 sx={{
-                    display: { lg: 'flex' },
-                    minHeight: { lg: 1 },
+                    display: {lg: 'flex'},
+                    minHeight: {lg: 1},
                 }}
             >
                 {/*--------------Navigation bar------------------*/}
-                <NavVertical openNav={open} onCloseNav={handleClose} />
+                <NavVertical openNav={open} onCloseNav={handleClose}/>
 
                 {/*--------------Main Content----------------------*/}
                 <Main>
@@ -48,8 +75,9 @@ const ChangeWarehouse = () => {
                         <Typography variant="h4" paragraph>
                             Change Warehouse Address
                         </Typography>
-
-                        <WarehouseAddressForm currentAddress={currentAddress} />
+                        {currentWarehouse && (
+                        <WarehouseAddressForm currentAddress={currentWarehouse}/>
+                        )}
                     </Container>
                 </Main>
                 {/*------------------------------------*/}

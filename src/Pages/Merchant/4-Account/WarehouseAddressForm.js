@@ -6,10 +6,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
 import { Box, Card, Grid, Stack } from '@mui/material';
-import { useSnackbar } from '../../../third-party/components/snackbar';
+import { useSnackbar } from 'notistack';
 import FormProvider, {
     RHFTextField,
 } from '../../../third-party/components/hook-form';
+import {useDispatch} from "react-redux";
+import {updateWarehouseThunk} from "../../../redux/warehouse/warehouse-thunks";
 
 // ----------------------------------------------------------------------
 
@@ -28,6 +30,7 @@ export default function WarehouseAddressForm({currentAddress} ) {
 
 
     const defaultValues = {
+        _id: currentAddress?._id || '',
         receiver: currentAddress?.receiver || '',
         phoneNumber: currentAddress?.phoneNumber || '',
         street: currentAddress?.street || '',
@@ -47,13 +50,14 @@ export default function WarehouseAddressForm({currentAddress} ) {
     } = methods;
 
 
+    const dispatch = useDispatch();
     const onSubmit = async (data) => {
         try {
+            console.log('DATA', data);
             await new Promise((resolve) => setTimeout(resolve, 500));
-            reset();
+            await dispatch(updateWarehouseThunk(data));
             enqueueSnackbar('Update success!');
             navigate("./");
-            console.log('DATA', data);
         } catch (error) {
             console.error(error);
         }
