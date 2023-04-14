@@ -20,22 +20,13 @@ const ChangeWarehouse = () => {
         setOpen(false);
     };
 
-    // const currentWarehouse = {
-    //     receiver: "Warehouse 1",
-    //     phoneNumber:"1234567890",
-    //     street: "1234 Main St",
-    //     city: "San Francisco",
-    //     province: "CA",
-    //     country: "USA",
-    //     company: "ShipShare"
-    // }
 
     // fetch current warehouse address (by user company)
     const [currentWarehouse, setCurrentWarehouse] = useState(null);
     const currentUser = useSelector((state) => state.auth.currentUser);
     let company = "";
-    if (!currentUser.role === "admin") {
-        company = "ShipShare";
+    if (currentUser.role === "admin") {
+        company = "ShipShare Official";
     }
     else {
         company = currentUser.company;
