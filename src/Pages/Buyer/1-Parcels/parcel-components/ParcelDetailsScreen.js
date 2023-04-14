@@ -23,7 +23,7 @@ const ParcelDetails = ({ parcel, handleClose }) => {
     useEffect(() => {
         const fetchedDeliveryStatus = async () => {
             
-            if (parcelTrackingInfo === undefined) {
+            if (parcelTrackingInfo === undefined || parcelTrackingInfo.length === 0) {
                 dispatch(getParcelTrackingThunk(
                     { trackingNumber: parcel.trackingNumber.replaceAll(' ', ''), courier: parcel.courier }));
             }
