@@ -12,13 +12,6 @@ import {
   Tooltip,
   IconButton, TableBody, TableRow, TableCell, Avatar, TableHead, Table, Stack, Chip, Paper
 } from '@mui/material';
-import Iconify from "../../../third-party/components/iconify";
-import Scrollbar from "../../../third-party/components/scrollbar";
-import {Icon} from "@iconify/react";
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import {Pagination} from "@mui/lab";
-import TuneIcon from '@mui/icons-material/Tune';
-import OrangeChipGroup from "../../../components/OrangeChipGroup";
 import Image from 'mui-image'
 import backgroundImg from './background.jpg';
 import {styled} from "@mui/material/styles";
@@ -33,7 +26,7 @@ const Item = styled(Paper)(({theme}) => ({
   color: theme.palette.text.secondary,
 }));
 
-const GroupDetailPage = () => {
+const GroupDetailPage = (props) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -48,6 +41,9 @@ const GroupDetailPage = () => {
   const [filter, setFilter] = useState('All');
   const [focusChip, setFocusChip] = useState('All');
   const chipLabelsArray = ["All", "Air Standard", "Air Sensitive", "Sea Standard", "Sea Sensitive"];
+
+  const groupInfo = props;
+console.log("groupinfo", groupInfo)
 
   return (
     <>
