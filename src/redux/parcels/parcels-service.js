@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {API_BASE, TRACKTRY_API_KEY} from '../API_BASE';
+import { API_BASE, TRACKTRY_API_KEY } from '../API_BASE';
 const PARCELS_API = `${API_BASE}/parcels`;
 
 export const createParcel = async (parcel) => {
@@ -37,7 +37,7 @@ export const updateParcel = async (parcel) => {
     return response.data;
 }
 
-export const getParcelTracking = async ({trackingNumber, courier}) => {
+export const getParcelTracking = async ({ trackingNumber, courier }) => {
     try {
         const options = {
             method: 'GET',
@@ -50,8 +50,9 @@ export const getParcelTracking = async ({trackingNumber, courier}) => {
 
         const response = await axios.request(options);
 
-        return response.data.data[0];
+        return { trackingNumber, trackingDetail: response.data.data[0] };
     } catch (error) {
         console.error("error in getParcelTracking", error, error?.response?.data);
+        throw error;
     }
 }

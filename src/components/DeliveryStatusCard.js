@@ -2,13 +2,14 @@ import React from "react";
 import Colors from 'styles/Colors';
 import FontSizes from 'styles/FontSizes';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import { Typography } from "@mui/material";
 
 const FontFamily = {
 }
 
 const DeliveryStatusCard = ({ deliveryStatus }) => {
   const getLocationFromDetails = (details) => {
-    const locationArray = details.replaceAll(',', '').split(' ');
+    const locationArray = details?.replaceAll(',', '').split(' ');
     return locationArray[0] + ' ' + locationArray[1];
   };
 
@@ -21,9 +22,11 @@ const DeliveryStatusCard = ({ deliveryStatus }) => {
         <div style={styles.deliveryBarText}>Delivery status</div>
       </div>
 
+
       {/*Delivery status*/}
       <div style={{ height: 8 }}></div>
-      {deliveryStatus.map((item, index) =>
+
+      {deliveryStatus !== undefined && deliveryStatus !== null && deliveryStatus.length !== 0 ? deliveryStatus.map((item, index) =>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
 
           <div style={{ marginLeft: 28, flexShrink: 1, paddingBottom: 12, width: '100%', position: 'relative' }}>
@@ -52,15 +55,17 @@ const DeliveryStatusCard = ({ deliveryStatus }) => {
 
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'absolute' }}>
 
-
-
           </div>
 
-
         </div>
-      )}
 
-    </div>
+      )
+
+        :
+        <div style={{ ...styles.deliveryBarText, marginLeft: 28, marginTop: -8 }}>Loading ...</div>
+      }
+
+    </div >
   )
 }
 
