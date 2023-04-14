@@ -58,13 +58,13 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
   );
 
   const NewUserSchema = Yup.object().shape({
-    currentPassword: Yup.string()
+    oldPassword: Yup.string()
       .required('Please enter your current password'),
       // .oneOf([currentUser.password], 'Current password does not match'),
     newPassword: Yup.string()
       .required('Password is required')
       .notOneOf(
-        [Yup.ref('currentPassword'), null],
+        [Yup.ref('oldPassword'), null],
         'New password must be different from current password'
       ),
     confirmedPassword: Yup.string()
@@ -156,7 +156,7 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
 
         <Grid item xs={12} md={8}>
           <Card sx={{ p: 3 }}>
-            <RHFTextField name="currentPassword" label="Current Password" id="currentPassword" sx={{mb: 2}}/>
+            <RHFTextField name="oldPassword" label="Current Password" id="oldPassword" sx={{mb: 2}}/>
             <RHFTextField name="newPassword" label="New Password" id="newPassword" sx={{mb: 2}}/>
             <RHFTextField name="confirmedPassword" label="Confirmed Password" id="confirmedPassword" sx={{mb:1}}/>
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>

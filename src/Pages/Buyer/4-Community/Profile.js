@@ -24,6 +24,8 @@ import PostCard from "./Discover/post-components/PostCard";
 import {Pagination} from "@mui/lab";
 import {useDispatch, useSelector} from "react-redux";
 import {findAllUsersThunk} from "../../../redux/users/users-thunks";
+import {CustomAvatar} from "../../../third-party/components/custom-avatar";
+import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -66,46 +68,6 @@ const Profile = (viewUser = '') => {
 
 
     const examplePosts = [{
-      title: "ShipShare is the Best Shipping Platform!",
-      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-      author: "Joe Doe",
-      date: new Date("2021-08-01"),
-      image: "https://source.unsplash.com/random",
-      commentsNumber: 1910,
-      viewsNumber: 8820,
-      repostsNumber: 7460,
-    },
-    {
-      title: "ShipShare is the Best Shipping Platform!",
-      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-      author: "Joe Doe",
-      date: new Date("2021-08-01"),
-      image: "https://source.unsplash.com/random",
-      commentsNumber: 1910,
-      viewsNumber: 8820,
-      repostsNumber: 7460,
-    },
-    {
-      title: "ShipShare is the Best Shipping Platform!",
-      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-      author: "Joe Doe",
-      date: new Date("2021-08-01"),
-      image: "https://source.unsplash.com/random",
-      commentsNumber: 1910,
-      viewsNumber: 8820,
-      repostsNumber: 7460,
-    },
-    {
-      title: "ShipShare is the Best Shipping Platform!",
-      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-      author: "Joe Doe",
-      date: new Date("2021-08-01"),
-      image: "https://source.unsplash.com/random",
-      commentsNumber: 1910,
-      viewsNumber: 8820,
-      repostsNumber: 7460,
-    },
-    {
       title: "ShipShare is the Best Shipping Platform!",
       post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
       author: "Joe Doe",
@@ -186,20 +148,43 @@ const Profile = (viewUser = '') => {
                               alignItems: 'center',
                               flexDirection: 'column'
                           }}>
-                              <Avatar
-                                alt="Remy Sharp"
-                                src={currentUser.avatar}
-                                sx={{
-                                    mx: 'auto',
-                                    borderWidth: 2,
-                                    borderStyle: 'solid',
-                                    borderColor: 'common.white',
-                                    top: -64,
-                                    zIndex: 2,
-                                    width: {xs: 80, md: 128},
-                                    height: {xs: 80, md: 128},
-                                }}
-                              />
+                              {/*<Avatar*/}
+                              {/*  alt="Remy Sharp"*/}
+                              {/*  src={currentUser.avatar}*/}
+                              {/*  sx={{*/}
+                              {/*      mx: 'auto',*/}
+                              {/*      borderWidth: 2,*/}
+                              {/*      borderStyle: 'solid',*/}
+                              {/*      borderColor: 'common.white',*/}
+                              {/*      top: -64,*/}
+                              {/*      zIndex: 2,*/}
+                              {/*      width: {xs: 80, md: 128},*/}
+                              {/*      height: {xs: 80, md: 128},*/}
+                              {/*  }}*/}
+                              {/*/>*/}
+                            {currentUser.avatar? (
+                            <CustomAvatar src={currentUser.avatar} alt={currentUser.name} sx={{
+                              mx: 'auto',
+                              borderWidth: 2,
+                              borderStyle: 'solid',
+                              borderColor: 'common.white',
+                              top: -64,
+                              zIndex: 2,
+                              width: {xs: 80, md: 128},
+                              height: {xs: 80, md: 128},
+                            }}/>
+                            ) : (
+                            <CustomAvatar src={getRandomAvatar(currentUser.name)} name={currentUser.name} sx={{
+                              mx: 'auto',
+                              borderWidth: 2,
+                              borderStyle: 'solid',
+                              borderColor: 'common.white',
+                              top: -64,
+                              zIndex: 2,
+                              width: {xs: 80, md: 128},
+                              height: {xs: 80, md: 128},
+                            }}/>
+                            )}
 
                               <Box
                                 sx={{
