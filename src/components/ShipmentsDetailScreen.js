@@ -34,7 +34,9 @@ const ShipmentDetails = ({ ship, handleClose }) => {
   const shipEndDate = calculateDeliveryTime(ship, deliveryStatus);
   const startDate = convertDateToString(ship.shipEndDate);
 
-  const role = useSelector((state) => state.auth.currentUser.role);
+  const role = useSelector(state =>
+    (state.auth.currentUser === null) ? "visitor" : state.auth.currentUser.role);
+
   const isMerchant = role === 'merchant';
 
   const classifiedParcels = useMemo(() => {
@@ -58,7 +60,7 @@ const ShipmentDetails = ({ ship, handleClose }) => {
 
   // const [detailDeliveryStatus, setDetailDeliveryStatus] = useState([]);
 
-  const trackingInfo = useSelector((state) => state.shipGroup.trackings[ship.trackingNumber.replaceAll(' ', '')]);
+  const trackingInfo = useSelector((state) => state.shipGroup.trackings[ship.trackingNumber?.replaceAll(' ', '')]);
 
   const detailDeliveryStatus = useMemo(() => {
     return trackingInfo?.origin_info?.trackinfo || [];
@@ -67,7 +69,7 @@ const ShipmentDetails = ({ ship, handleClose }) => {
   useEffect(() => {
     const fetchedDeliveryStatus = async () => {
       if (ship.phaseNumber >= 2 && trackingInfo === undefined) {
-        
+
         dispatch(getShipmentTrackingThunk(
           { trackingNumber: ship.trackingNumber.replaceAll(' ', ''), courier: ship.courier }
         ));

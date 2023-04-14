@@ -14,7 +14,7 @@ const ParcelDetails = ({ parcel, handleClose }) => {
     const dispatch = useDispatch();
 
     // const [detailDeliveryStatus, setDetailDeliveryStatus] = useState([]);
-    const parcelTrackingInfo = useSelector(state => state?.parcels?.trackings[parcel.trackingNumber.replaceAll(' ', '')] || []);
+    const parcelTrackingInfo = useSelector(state => state?.parcels?.trackings[parcel.trackingNumber?.replaceAll(' ', '')] || []);
     const detailDeliveryStatus = useMemo(
         () => parcelTrackingInfo?.origin_info?.trackinfo || [],
         [parcelTrackingInfo]
