@@ -41,11 +41,9 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 
 	const NewUserSchema = Yup.object().shape({
 		name: Yup.string().required('Name is required'),
-		email: Yup.string().required('Email is required').email('Email must be a valid email address'),
 		phoneNumber: Yup.string().required('Phone number is required'),
 		address: Yup.string().required('Address is required'),
-		role: Yup.string().required('Role is required'),
-		avatarUrl: Yup.mixed().required('Avatar is required'),
+		avatarUrl: Yup.string().required('Avatar is required'),
 	});
 
 	const defaultValues = useMemo(
@@ -86,14 +84,15 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isEdit, currentUser]);
-	const dispatch = useDispatch();
 
-	const onSubmit = async (data) => {
+	const dispatch = useDispatch();
+	const onSubmit = (data) => {
+		console.log("data is "+ data);
 		console.log("current user is "+ currentUser);
 		try {
 			// await new Promise((resolve) => setTimeout(resolve, 500));
-			const imageRemoteUrl = await uploadImage(data.avatar);
-			const currentUser = await dispatch(updateCurrentUserThunk(data));
+			const imageRemoteUrl = uploadImage(data.avatar);
+			dispatch(updateCurrentUserThunk(data));
 
 			console.log("imageRemoteUrl: " + imageRemoteUrl);
 
@@ -173,9 +172,9 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 
 				<Grid item xs={12} md={8}>
 					<Card sx={{ p: 3 }}>
-						<RHFTextField name="name" label="Full Name" style={{ marginBottom: 20 }} />
-						<RHFTextField name="phone" label="Phone Number" style={{ marginBottom: 20 }} />
-						<RHFTextField name="address" label="Address" style={{ marginBottom: 25 }} />
+						<RHFTextField name="name" label="Full Name" id="name" style={{ marginBottom: 20 }} />
+						<RHFTextField name="phone" label="Phone Number" id="phone" style={{ marginBottom: 20 }} />
+						<RHFTextField name="address" label="Address" id="address" style={{ marginBottom: 25 }} />
 
 						<Stack alignItems="flex-end" sx={{ mt: 3 }}>
 							<div>
