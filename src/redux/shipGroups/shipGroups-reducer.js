@@ -3,12 +3,14 @@ import {
     findAllShipGroupsThunk,
     createShipGroupThunk,
     updateShipGroupThunk,
-    deleteShipGroupThunk
+    deleteShipGroupThunk,
+    getShipmentTrackingThunk,
 } from "./shipGroups-thunks";
 
 const initialState = {
     shipGroups: [],
     loading: false,
+    trackings: {},
 };
 
 const shipGroupsSlice = createSlice({
@@ -20,17 +22,17 @@ const shipGroupsSlice = createSlice({
 
             state.loading = true;
             state.shipGroups = [];
-            
+
         },
         [findAllShipGroupsThunk.fulfilled]: (state, { payload }) => {
             state.loading = false;
             state.shipGroups = payload;
-            
+
         },
         [findAllShipGroupsThunk.rejected]: (state, action) => {
             state.loading = false;
             state.error = action.error;
-            
+
         },
 
         // delete
@@ -55,12 +57,22 @@ const shipGroupsSlice = createSlice({
                         ? { ...shipGroup, ...payload }
                         : shipGroup
                 );
-            
+
         },
         [updateShipGroupThunk.rejected]: (state, action) => {
             state.loading = false;
             state.error = action.error;
-            
+
+        },
+        [getShipmentTrackingThunk.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.error;
+        },
+        [getShipmentTrackingThunk.fulfilled]: (state, { payload }) => {
+            state.trackings = {
+                ...state.trackings,
+                [payload.trackingNumber]: payload.trackingDetail
+            }
         },
     },
     reducers: {}
