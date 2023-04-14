@@ -193,6 +193,7 @@ const LoginPage = () => {
         <Box
           sx={{
             width: '40%',
+            height:"100%",
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -206,6 +207,7 @@ const LoginPage = () => {
               height: '100%',
               width: '100%',
               boxShadow: 1,
+              height: '100%',
             }}
           />
         </Box>
