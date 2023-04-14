@@ -24,7 +24,12 @@ import FormProvider, {
   RHFUploadAvatar,
 } from '../../../third-party/components/hook-form';
 import { Avatar } from '@mui/material';
-import {signupThunk, updateCurrentUserThunk, updateUserThunk} from "../../../redux/users/users-thunks";
+import {
+  changePasswordThunk,
+  signupThunk,
+  updateCurrentUserThunk,
+  updateUserThunk
+} from "../../../redux/users/users-thunks";
 import {useDispatch} from "react-redux";
 
 // ----------------------------------------------------------------------
@@ -95,16 +100,16 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
 
   const dispatch = useDispatch();
   const onSubmit = (data) => {
+    console.log("password is " + currentUser.password);
       data = {
         ...data,
-        role: 'buyer',
         _id: currentUser._id,
-        // password: data.newPassword,
+        password: data.confirmedPassword,
       };
       try {
         console.log(data);
-        console.log("password is " + currentUser.password);
-        dispatch(updateCurrentUserThunk(data));
+        console.log("after password is " + currentUser.password);
+        dispatch(changePasswordThunk(data));
         reset();
         enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
         navigate("./");
