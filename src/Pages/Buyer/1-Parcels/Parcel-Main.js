@@ -124,7 +124,9 @@ const ParcelMainPage = () => {
     useEffect(() => {
         if (parcels) {
             setTableData(
-                parcels.filter((val) => {
+                parcels
+                    .filter((val) => val.user === currentUser.email)
+                    .filter((val) => {
                     return filterCourier === "all" || val.courier === filterCourier;
                 })
                 .filter((val) => {
@@ -141,7 +143,7 @@ const ParcelMainPage = () => {
                 })
             )
         }
-    }, [parcels, filterCourier, filterStatus])
+    }, [parcels, filterCourier, filterStatus, currentUser])
 
     // ---------Update parcel---------
     const handleUpdateParcel = (props) => {
