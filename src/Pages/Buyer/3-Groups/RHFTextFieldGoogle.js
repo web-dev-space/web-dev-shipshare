@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
 import { TextField } from '@mui/material';
 
-function RHFTextFieldGoogle({ name, label, ...other }) {
+function RHFTextFieldGoogle({ name, label,apiKey, ...other }) {
   const { control, setValue } = useFormContext();
   const [autocomplete, setAutocomplete] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
-  const autocompleteService = new window.google.maps.places.AutocompleteService();
+  const autocompleteService = new window.google.maps.places.AutocompleteService({apiKey: apiKey,});
 
   const handleInputChange = (event) => {
     const query = event.target.value;
@@ -68,6 +68,7 @@ function RHFTextFieldGoogle({ name, label, ...other }) {
 RHFTextFieldGoogle.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  apiKey: PropTypes.string.isRequired,
 };
 
 export default RHFTextFieldGoogle;
