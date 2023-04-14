@@ -4,9 +4,9 @@ import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Button, Typography, Box } from '@mui/material';
 // components
-import { MotionContainer, varBounce } from '../../third-party/components/animate';
+import { MotionContainer, varBounce } from '../components/animate';
 // assets
-import { ForbiddenIllustration } from '../../third-party/assets/illustrations';
+import { ForbiddenIllustration } from '../assets/illustrations';
 
 // ----------------------------------------------------------------------
 
@@ -22,9 +22,9 @@ export default function Page403() {
 
         <m.div variants={varBounce().in}>
           <Typography sx={{ color: 'text.secondary' }}>
-            The page you&apos;re trying access has restricted access.
+            You don&apos;t have permission to access this page.
             <br />
-            Please refer to your system administrator
+            Please refer to our website administrator for more information.
           </Typography>
         </m.div>
 

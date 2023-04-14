@@ -42,6 +42,9 @@ export default function UserEditPage() {
 
 	return (
 		<>
+			<Helmet>
+				<title>Account | ShipShare</title>
+			</Helmet>
 			<Header onOpenNav={handleOpen} />
 			{/*-------Box is the layout of the whole page-----*/}
 			<Box

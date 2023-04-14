@@ -1,0 +1,4 @@
+.visitor-mode {
+    filter: blur(5px);
+    pointer-events: none;
+}

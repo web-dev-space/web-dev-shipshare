@@ -13,8 +13,8 @@ import ShipmentsMainMerchant from "./Merchant/2-Shipments/Shipment-MainMerchant"
 import GroupMainMerchant from "./Merchant/3-Groups/GroupMain-Merchant";
 import ChangeWarehouse from "./Merchant/4-Account/ChangeWarehouseAddress";
 import GroupDetailMerchant from "./Merchant/3-Groups/GroupDetail-Merchant";
-import Page404 from "./ErrorPages/Page404";
-import Page403 from "./ErrorPages/Page403";
+import Page404 from "../third-party/ErrorPages/Page404";
+import Page403 from "../third-party/ErrorPages/Page403";
 
 
 export function MainIndex() {

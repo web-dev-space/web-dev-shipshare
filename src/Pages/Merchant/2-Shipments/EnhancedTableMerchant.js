@@ -261,14 +261,6 @@ const EnhancedTable = ({ }) => {
 
   const [detailedShip, setDetailedShip] = useState({});
 
-  //TODO: remove this useEffect
-  useEffect(() => {
-    const debugVariableChange = () => {
-      console.debug("orderBy changed to: ", orderBy);
-    };
-    debugVariableChange();
-  }, [orderBy]);
-
   const newStatus = convertPhaseNumberToStatus(rowBeingEdited);
   const setNewStatus = (status) => setRowBeingEdited({
     ...rowBeingEdited,
