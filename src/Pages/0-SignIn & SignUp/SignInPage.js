@@ -30,7 +30,6 @@ const LoginPage = () => {
   useEffect(() => {
     if (currentUser) {
         enqueueSnackbar('Welcome to ShipShare!');
-        console.log(currentUser);
         const role = currentUser.role;
         if (role === 'admin') {
             navigate('/dashboard');

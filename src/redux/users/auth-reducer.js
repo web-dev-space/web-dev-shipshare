@@ -16,6 +16,11 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     extraReducers:{
+        [signupThunk.rejected]: (state, action) => {
+            state.currentUser = null;
+            console.log(action.response);
+            state.error = action.error;
+        },
         [signupThunk.fulfilled]: (state, { payload }) => {
             state.currentUser = {...payload, role: "buyer"};
         },

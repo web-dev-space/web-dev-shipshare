@@ -11,11 +11,10 @@ import {useNavigate} from "react-router-dom";
 import FormProvider, {RHFTextField} from "../../third-party/components/hook-form";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useState, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {signupThunk} from "../../redux/users/users-thunks";
 import {Helmet} from "react-helmet";
-
 
 const SignUpPage = () => {
 
@@ -47,18 +46,24 @@ const SignUpPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const {currentUser, error} = useSelector((state) => state.auth);
+
+    useEffect(() => {
+        if (currentUser) {
+            enqueueSnackbar('Successfully created your account!');
+            navigate("../parcels");
+        }
+        if (error && error.message === "Request failed with status code 409") {
+            alert("User with same email already exists, please use another email address");
+        }
+    }, [currentUser, error]);
+
   const onSubmit = (data) => {
       data = {
           ...data,
           role: 'buyer'
       };
-      try {
-          dispatch(signupThunk(data));
-          enqueueSnackbar('Successfully created your account!');
-          navigate("../parcels");
-      } catch (error) {
-          console.log(error);
-      }
+      dispatch(signupThunk(data));
   };
 
   // ---- handle the password visibility ----
