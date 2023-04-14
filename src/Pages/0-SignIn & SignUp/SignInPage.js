@@ -185,13 +185,14 @@ const LoginPage = () => {
 
         {/*----------------- right -----------------*/}
         <Box
-          sx={{width: '40%'}}
+          sx={{ height:"100%"}}
         >
           <Image
             src={welcomeImg}
             alt="welcome"
             sx={{
               boxShadow: 1,
+              height: '100%',
             }}
           />
         </Box>

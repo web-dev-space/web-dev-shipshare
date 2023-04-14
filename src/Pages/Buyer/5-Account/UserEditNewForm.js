@@ -106,6 +106,10 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 		}
 	};
 
+	const onCancel = () => {
+		reset();
+	}
+
 	const handleDrop = useCallback(
 		(acceptedFiles) => {
 			const file = acceptedFiles[0];
@@ -175,7 +179,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 
 						<Stack alignItems="flex-end" sx={{ mt: 3 }}>
 							<div>
-								<LoadingButton type="cancel" variant="outlined" style={{ marginRight: 10, width: 150 }}>
+								<LoadingButton type="cancel" variant="outlined" style={{ marginRight: 10, width: 150 }} onClick={onCancel}>
 									Cancel
 								</LoadingButton>
 								<LoadingButton type="submit" variant="contained" loading={isSubmitting} style={{ width: 150 }}>
