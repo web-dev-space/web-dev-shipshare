@@ -411,8 +411,10 @@ const GroupMainMerchant = () => {
                           </Typography>
                         </TableCell>
                         <TableCell>
-                          <Link to="./group-details" style={{ textDecoration: 'none' }}>
-                            <Button variant="contained" sx={{
+                            <Button
+                              onClick={handleClickGroupDetail}
+                              variant="contained"
+                              sx={{
                               color: 'white',
                               borderRadius: 1,
                               backgroundColor: '80B213',
@@ -420,16 +422,12 @@ const GroupMainMerchant = () => {
                             }}>
                               Group Page
                             </Button>
-                          </Link>
                         </TableCell>
                         <TableCell>
                           <Button
                             variant="outlined"
-                            // href={"/groups/group-details"}
                             sx={{ borderRadius: 1, height: 45, }}
-                            onClick={() => {
-                              handleOpenDrawer();
-                            }}
+                            onClick={handleOpenDrawer}
                           >Details</Button>
                         </TableCell>
                       </TableRow>

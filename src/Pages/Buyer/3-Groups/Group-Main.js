@@ -242,6 +242,13 @@ const GroupMainPage = () => {
     navigate('./group-details');
   }
 
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      console.log("Latitude is " + position.coords.latitude + " Longitude is " + position.coords.longitude);
+    });
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+  }
 
   return (
     <>
@@ -422,11 +429,12 @@ const GroupMainPage = () => {
                             {getShortAddress(row.pickupLocation.address)}
                           </Typography>
                         </TableCell>
+
                         <TableCell>
                           <Typography
                             variant="body"
                           >
-                            0.5 miles
+                            3.5 miles
                           </Typography>
                         </TableCell>
                         <TableCell>
