@@ -71,9 +71,6 @@ const shipGroupsSlice = createSlice({
                 ...state.trackings,
                 [payload.trackingNumber]: payload.trackingDetail
             }
-
-            console.debug("state.trackings", state.trackings);
-
         },
     },
     reducers: {}

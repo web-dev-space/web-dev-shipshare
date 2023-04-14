@@ -1,4 +1,4 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as service from "./parcels-service"
 
 // find -- all / by id / by tracking number
@@ -43,5 +43,12 @@ export const updateParcelThunk = createAsyncThunk(
     'parcels/updateParcel',
     async (parcel) => {
         return await service.updateParcel(parcel);
+    }
+);
+
+export const getParcelTrackingThunk = createAsyncThunk(
+    'parcels/getParcelTracking',
+    async ({ trackingNumber, courier }) => {
+        return await service.getParcelTracking({ trackingNumber, courier });
     }
 );

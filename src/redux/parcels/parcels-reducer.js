@@ -3,24 +3,26 @@ import {
     findAllParcelsThunk,
     createParcelThunk,
     updateParcelThunk,
-    deleteParcelThunk
+    deleteParcelThunk,
+    getParcelTrackingThunk,
 } from "./parcels-thunks";
 
 const initialState = {
     parcels: [],
     loading: false,
+    trackings: {},
 };
 
 const parcelsSlice = createSlice({
     name: "parcels",
     initialState,
-    extraReducers:{
+    extraReducers: {
         // find all
         [findAllParcelsThunk.pending]: (state) => {
             state.loading = true;
             state.parcels = [];
         },
-        [findAllParcelsThunk.fulfilled]: (state, {payload}) => {
+        [findAllParcelsThunk.fulfilled]: (state, { payload }) => {
             state.loading = false;
             state.parcels = payload;
         },
@@ -30,28 +32,39 @@ const parcelsSlice = createSlice({
         },
 
         // delete
-        [deleteParcelThunk.fulfilled]: (state, {payload}) => {
+        [deleteParcelThunk.fulfilled]: (state, { payload }) => {
             state.loading = false;
             state.parcels = state.parcels.filter(parcel => parcel.id !== payload.id);
         },
 
         // create
-        [createParcelThunk.fulfilled]: (state, {payload}) => {
+        [createParcelThunk.fulfilled]: (state, { payload }) => {
             state.loading = false;
             state.parcels.push(payload);
         },
 
         // update
-        [updateParcelThunk.fulfilled]: (state, {payload}) => {
+        [updateParcelThunk.fulfilled]: (state, { payload }) => {
             state.loading = false;
             console.log(payload)
             state.parcels = state.parcels.map
                 (parcel =>
                     parcel._id === payload._id
-                        ? {...parcel, ...payload}
+                        ? { ...parcel, ...payload }
                         : parcel
                 );
             console.log(state.parcels)
+        },
+
+        // get parcel tracking
+        [getParcelTrackingThunk.rejected]: (state, action) => {
+            state.error = action.error;
+        },
+        [getParcelTrackingThunk.fulfilled]: (state, { payload }) => {
+            state.trackings = {
+                ...state.trackings,
+                [payload.trackingNumber]: payload.trackingDetail
+            }
         },
     },
     reducers: {}

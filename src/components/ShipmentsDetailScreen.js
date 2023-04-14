@@ -58,7 +58,7 @@ const ShipmentDetails = ({ ship, handleClose }) => {
 
   // const [detailDeliveryStatus, setDetailDeliveryStatus] = useState([]);
 
-  const trackingInfo = useSelector((state) => state.shipGroup.trackings[ship.trackingNumber]);
+  const trackingInfo = useSelector((state) => state.shipGroup.trackings[ship.trackingNumber.replaceAll(' ', '')]);
 
   const detailDeliveryStatus = useMemo(() => {
     return trackingInfo?.origin_info?.trackinfo || [];

@@ -4,24 +4,36 @@ import DeliveryStatusCard from '../../../../components/DeliveryStatusCard';
 import deliveryStatus from '../../../../sampleData/deliveryStatus';
 import Colors from '../../../../styles/Colors';
 import FontSizes from '../../../../styles/FontSizes';
-import {useEffect, useState} from "react";
-import {getParcelTracking} from "../../../../redux/parcels/parcels-service";
+import { useEffect, useState } from "react";
+import { getParcelTracking } from "../../../../redux/parcels/parcels-service";
+import { useDispatch, useSelector } from "react-redux";
+import { useMemo } from 'react';
+import { getParcelTrackingThunk } from "redux/parcels/parcels-thunks";
 
 const ParcelDetails = ({ parcel, handleClose }) => {
+    const dispatch = useDispatch();
 
-    const [detailDeliveryStatus, setDetailDeliveryStatus] = useState([]);
+    // const [detailDeliveryStatus, setDetailDeliveryStatus] = useState([]);
+    const parcelTrackingInfo = useSelector(state => state?.parcels?.trackings[parcel.trackingNumber.replaceAll(' ', '')] || []);
+    const detailDeliveryStatus = useMemo(
+        () => parcelTrackingInfo?.origin_info?.trackinfo || [],
+        [parcelTrackingInfo]
+    );
 
     useEffect(() => {
         const fetchedDeliveryStatus = async () => {
-            const deliveryStatus = await getParcelTracking(
-                {trackingNumber: parcel.trackingNumber.replaceAll(' ', ''), courier: parcel.courier});
+            
+            if (parcelTrackingInfo === undefined) {
+                dispatch(getParcelTrackingThunk(
+                    { trackingNumber: parcel.trackingNumber.replaceAll(' ', ''), courier: parcel.courier }));
+            }
 
-            setDetailDeliveryStatus(deliveryStatus?.origin_info?.trackinfo || []);
+            // setDetailDeliveryStatus(deliveryStatus?.origin_info?.trackinfo || []);
         };
         fetchedDeliveryStatus().catch((e) => {
             console.log(e)
         });
-    }, [parcel]);
+    }, [parcel, parcelTrackingInfo]);
 
     return (
         <div>
