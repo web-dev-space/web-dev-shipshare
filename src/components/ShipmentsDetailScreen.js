@@ -67,8 +67,7 @@ const ShipmentDetails = ({ ship, handleClose }) => {
   useEffect(() => {
     const fetchedDeliveryStatus = async () => {
       if (ship.phaseNumber >= 2 && trackingInfo === undefined) {
-        console.debug("ship", ship);
-
+        
         dispatch(getShipmentTrackingThunk(
           { trackingNumber: ship.trackingNumber.replaceAll(' ', ''), courier: ship.courier }
         ));
