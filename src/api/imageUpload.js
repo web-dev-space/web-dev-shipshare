@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_BASE = process.env.REACT_APP_WEB_SEVER_API;
 const IMAGE_URL = `${API_BASE}/upload_image`;
 
-const urlToFile = async (url, filename) => {
+export const urlToFile = async (url, filename) => {
   const response = await fetch(url);
   const data = await response.blob();
   const metadata = {
@@ -14,6 +14,7 @@ const urlToFile = async (url, filename) => {
 }
 
 export const uploadImage = async (imageFile) => {
+  console.log("imageFile: " + imageFile);
   try {
     const formData = new FormData();
     formData.append('image', imageFile);

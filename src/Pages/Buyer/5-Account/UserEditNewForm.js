@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import { useCallback, useEffect, useMemo } from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 // form
 import { useForm, Controller } from 'react-hook-form';
@@ -23,7 +23,7 @@ import FormProvider, {
 	RHFTextField,
 	RHFUploadAvatar,
 } from '../../../third-party/components/hook-form';
-import { uploadImage } from "api/imageUpload.js";
+import {uploadImage, urlToFile} from "api/imageUpload.js";
 import {updateCurrentUserThunk, updateUserThunk} from "../../../redux/users/users-thunks";
 import {useDispatch} from "react-redux";
 
@@ -41,7 +41,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 
 	const NewUserSchema = Yup.object().shape({
 		name: Yup.string().required('Name is required'),
-		// phone: Yup.string().required('Phone number is required'),
+		phone: Yup.string().required('Phone number is required'),
 		address: Yup.string().required('Address is required'),
 		avatar: Yup.string().required('Avatar is required'),
 	});
@@ -74,6 +74,10 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 		formState: { isSubmitting },
 	} = methods;
 
+	const [newFile, setNewFile] = useState({
+		preview: defaultValues.avatar,
+	});
+
 	const values = watch();
 
 	useEffect(() => {
@@ -95,7 +99,12 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 		console.log("data: ", data);
 		try {
 			// await new Promise((resolve) => setTimeout(resolve, 500));
-			const imageRemoteUrl = uploadImage(data.avatar);
+			const file = urlToFile(newFile);
+			const imageRemoteUrl = uploadImage(file);
+			data = {
+				...data,
+				avatar: imageRemoteUrl,
+			}
 			dispatch(updateCurrentUserThunk(data));
 
 			console.log("imageRemoteUrl: " + imageRemoteUrl);
@@ -116,13 +125,16 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 	const handleDrop = useCallback(
 		(acceptedFiles) => {
 			const file = acceptedFiles[0];
-
+			console.log("file: ", file);
 			const newFile = Object.assign(file, {
 				preview: URL.createObjectURL(file),
 			});
+			console.log("newFile: ", newFile);
 
 			if (file) {
-				setValue('avatar', newFile, { shouldValidate: true });
+				setValue('avatar', newFile.preview, { shouldValidate: true });
+				console.log("new file preview URL: ", newFile.preview);
+				setNewFile(newFile.preview);
 			}
 		},
 		[setValue]
@@ -151,8 +163,8 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 							<RHFUploadAvatar
 								name="avatar"
 								maxSize={3145728}
+								// file={defaultValues.avatar}
 								onDrop={handleDrop}
-								file={defaultValues.avatar}
 								helperText={
 									<Typography
 										variant="caption"

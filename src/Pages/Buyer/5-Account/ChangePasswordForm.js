@@ -97,7 +97,9 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
   const onSubmit = (data) => {
       data = {
         ...data,
-        role: 'buyer'
+        role: 'buyer',
+        _id: currentUser._id,
+        // password: data.newPassword,
       };
       try {
         console.log(data);
