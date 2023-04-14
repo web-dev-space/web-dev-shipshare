@@ -58,7 +58,7 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
   );
 
   const NewUserSchema = Yup.object().shape({
-    currentPassword: Yup.string()
+    oldPassword: Yup.string()
       .required('Please enter your current password'),
       // .oneOf([currentUser.password], 'Current password does not match'),
     newPassword: Yup.string()
@@ -101,11 +101,6 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
   const dispatch = useDispatch();
   const onSubmit = (data) => {
     console.log("password is " + currentUser.password);
-      data = {
-        ...data,
-        _id: currentUser._id,
-        password: data.confirmedPassword,
-      };
       try {
         console.log(data);
         console.log("after password is " + currentUser.password);
