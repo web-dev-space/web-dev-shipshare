@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
@@ -22,7 +22,8 @@ import GreenChipGroup from "../../../components/GreenChipGroup";
 import GroupCardsPage from "./ProfileComponents/GroupCardsPage";
 import PostCard from "./Discover/post-components/PostCard";
 import {Pagination} from "@mui/lab";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -33,7 +34,7 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-const Profile = () => {
+const Profile = (viewUser = '') => {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -43,6 +44,8 @@ const Profile = () => {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const dispatch = useDispatch();
 
     // chip controller
     const [selected, setSelected] = useState(null);
@@ -120,6 +123,14 @@ const Profile = () => {
       setFollow(!follow);
     };
 
+
+    const {users} = useSelector((state) => state.users);
+    useEffect(() => {
+      dispatch(findAllUsersThunk());
+    }, []);
+
+    // count followers
+    const countFollowed = users.map(item => item.following).flat().filter(item => item === currentUser._id).length;
 
     const handlePaginationChange = (event, page) => {
       console.log(page);
@@ -203,20 +214,21 @@ const Profile = () => {
                                     {currentUser.name}
                                   </Typography>
                                   <Typography align="center" style={{marginTop:8, marginBottom:4}}>
-                                      <strong>976</strong>{' '}
+                                      <strong>{countFollowed}</strong>{' '}
                                       <span style={{ color: 'grey', marginRight:10}}>followers</span>{' '}
                                       <strong>{currentUser.following.length}</strong>{' '}
                                       <span style={{ color: 'grey' }}>following</span>{' '}
                                   </Typography>
 
-                                {!follow && (
+
+                                {!viewUser && !follow && (
                                   <Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
                                       <IconButton edge="start" color="inherit" aria-label="menu">
                                           <PersonAddIcon />
                                       </IconButton>
                                       Follow
                                   </Button> )}
-                                {follow && (
+                                {!viewUser && follow && (
                                   <Button variant="outlined" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
                                       <IconButton edge="start" color="inherit" aria-label="menu">
                                           <PersonAddIcon />
