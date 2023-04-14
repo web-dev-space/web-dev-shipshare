@@ -41,9 +41,9 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 
 	const NewUserSchema = Yup.object().shape({
 		name: Yup.string().required('Name is required'),
-		phoneNumber: Yup.string().required('Phone number is required'),
+		// phone: Yup.string().required('Phone number is required'),
 		address: Yup.string().required('Address is required'),
-		avatarUrl: Yup.string().required('Avatar is required'),
+		avatar: Yup.string().required('Avatar is required'),
 	});
 
 	const defaultValues = useMemo(
@@ -54,6 +54,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 			address: currentUser?.address || '',
 			avatar: currentUser?.avatar || null,
 			role: currentUser?.role || 'Buyer',
+			_id: currentUser?._id || '',
 		}),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[currentUser]
@@ -87,8 +88,11 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 
 	const dispatch = useDispatch();
 	const onSubmit = (data) => {
-		console.log("data is "+ data);
-		console.log("current user is "+ currentUser);
+		data ={
+			...data,
+			_id: currentUser?._id,
+		}
+		console.log("data: ", data);
 		try {
 			// await new Promise((resolve) => setTimeout(resolve, 500));
 			const imageRemoteUrl = uploadImage(data.avatar);
@@ -118,7 +122,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 			});
 
 			if (file) {
-				setValue('avatarUrl', newFile, { shouldValidate: true });
+				setValue('avatar', newFile, { shouldValidate: true });
 			}
 		},
 		[setValue]
@@ -145,7 +149,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 
 						<Box sx={{ mb: 4, mt: 3 }}>
 							<RHFUploadAvatar
-								name="avatarUrl"
+								name="avatar"
 								maxSize={3145728}
 								onDrop={handleDrop}
 								file={defaultValues.avatar}
