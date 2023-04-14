@@ -145,6 +145,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 								name="avatarUrl"
 								maxSize={3145728}
 								onDrop={handleDrop}
+								file={defaultValues.avatar}
 								helperText={
 									<Typography
 										variant="caption"
