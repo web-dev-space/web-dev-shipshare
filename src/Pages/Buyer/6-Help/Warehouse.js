@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useMemo, useState} from "react";
 import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
@@ -7,6 +7,7 @@ import { Container, Typography, Box, Card, Stack } from '@mui/material';
 import {useSnackbar} from "notistack";
 import useDoubleClick from '../../../third-party/hooks/useDoubleClick';
 import useCopyToClipboard from "../../../third-party/hooks/useCopyToClipboard";
+import {useSelector} from "react-redux";
 
 
 const Warehouse = () => {
@@ -20,25 +21,30 @@ const Warehouse = () => {
 		setOpen(false);
 	};
 
+	const currentUser = useSelector((state) => state.auth.currentUser);
+	console.log("current userId is " + currentUser._id);
+	console.log("current address is "+ currentUser.warehouseAddress);
+
+
 	// handle copy to clipboard
 	const { enqueueSnackbar } = useSnackbar();
 
 	const { copy } = useCopyToClipboard();
 
 	// handle text
-	let currentAddress = {
-		receiver: "John",
-		street: "1234 Main St",
-		city: "Guangzhou",
-		province: "Guangdong",
-		phoneNumber: "13800001234",
-	};
-
-	const fullAddress = `${currentAddress.street}, ${currentAddress.city}, ${currentAddress.province}`;
-	const textOnClick =
-		`Receiver: ${currentAddress.receiver}` + "\n" +
-		`Phone Number: ${currentAddress.phoneNumber}` + "\n" +
-		`Address: ${fullAddress}`;
+	// let currentAddress = {
+	// 	receiver: "John",
+	// 	street: "1234 Main St",
+	// 	city: "Guangzhou",
+	// 	province: "Guangdong",
+	// 	phoneNumber: "13800001234",
+	// };
+	//
+	// const fullAddress = `${currentAddress.street}, ${currentAddress.city}, ${currentAddress.province}`;
+	// const textOnClick =
+	// 	`Receiver: ${currentAddress.receiver}` + "\n" +
+	// 	`Phone Number: ${currentAddress.phoneNumber}` + "\n" +
+	// 	`Address: ${fullAddress}`;
 
 	const onCopy = (text) => {
 		if (text) {
@@ -50,6 +56,13 @@ const Warehouse = () => {
 	const handleClick = useDoubleClick({
 		doubleClick: () => onCopy(textOnClick),
 	});
+
+
+
+	const textOnClick =
+		`Receiver: ${currentUser.warehouseReceiver}` + "\n" +
+		`Phone Number: ${currentUser.warehousePhone}` + "\n" +
+		`Address: ${currentUser.warehouseAddress}`;
 
 	return (
 		<>
@@ -74,15 +87,15 @@ const Warehouse = () => {
 						<Card onClick={handleClick} sx={{ p: 3 }}>
 							<Stack direction="row" spacing={1}>
 								<Typography paragraph style={{fontSize: 18, fontWeight: 'bold'}}>Receiver: </Typography>
-								<Typography paragraph style={{fontSize: 18}}>{currentAddress.receiver}</Typography>
+								<Typography paragraph style={{fontSize: 18}}>{currentUser.warehouseReceiver}</Typography>
 							</Stack>
 							<Stack direction="row" spacing={1}>
 								<Typography paragraph style={{fontSize: 18, fontWeight: 'bold'}}>Phone Number: </Typography>
-								<Typography paragraph style={{fontSize: 18}}>{currentAddress.phoneNumber}</Typography>
+								<Typography paragraph style={{fontSize: 18}}>{currentUser.warehousePhone}</Typography>
 							</Stack>
 							<Stack direction="row" spacing={1}>
 								<Typography paragraph style={{fontSize: 18, fontWeight: 'bold'}}>Address: </Typography>
-								<Typography paragraph style={{fontSize: 18}}>{fullAddress}</Typography>
+								<Typography paragraph style={{fontSize: 18}}>{currentUser.warehouseAddress}</Typography>
 							</Stack>
 						</Card>
 
