@@ -14,8 +14,6 @@ import {useNavigate} from "react-router-dom";
 import FormProvider, {RHFAutocomplete, RHFTextField} from "../../../third-party/components/hook-form";
 import {useEffect, useState} from "react";
 import dayjs from "dayjs";
-// import RHFGooglePlacesAutocomplete from "./RHFGooglePlacesAutocomplete";
-// import AutocompleteAddress from "./AutocompleteAddress";
 import {useSelector} from "react-redux";
 import RHFTextFieldGoogle from "./RHFTextFieldGoogle";
 
@@ -48,7 +46,6 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
     //   name: Yup.string().default(currentUser.email).required('Required'),
     //   address: Yup.string().required('Required'),
     // }),
-
     phoneNumber: Yup.string().required('Required'),
     endDate: Yup.string().required('Required'),
   });
