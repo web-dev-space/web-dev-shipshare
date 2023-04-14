@@ -8,12 +8,8 @@ export const parcelData = [
         "isShipped": true,
         "isWeighted": true,
         "weight": 4.5,
-        "created": {
-            "$date": "2023-03-14T00:20:42.245Z"
-        },
-        "modified": {
-            "$date": "2023-03-16T07:23:27.523Z"
-        },
+        "created": "2023-03-14T00:20:42.245Z",
+        "modified": "2023-03-16T07:23:27.523Z",
         "picture": "https://static.zara.net/photos///2023/V/0/1/p/2295/001/712/2/w/2156/2295001712_1_1_1.jpg?ts=1673528443027",
         "name": "Hoodie Sweatshirt",
         "courier": "yto",
@@ -30,12 +26,8 @@ export const parcelData = [
         "isShipped": true,
         "isWeighted": true,
         "weight": 5,
-        "created": {
-            "$date": "2023-03-14T00:20:48.891Z"
-        },
-        "modified": {
-            "$date": "2023-03-14T00:20:48.891Z"
-        },
+        "created": "2023-03-14T00:20:48.891Z",
+        "modified": "2023-03-14T00:20:48.891Z",
         "name": "Contrasting Sweatshirt",
         "picture": "https://static.zara.net/photos///2023/V/0/1/p/1165/154/251/2/w/1024/1165154251_6_1_1.jpg?ts=1675272061978",
         "courier": "yto",
@@ -51,12 +43,8 @@ export const parcelData = [
         "isShipped": false,
         "isWeighted": true,
         "weight": 1.5,
-        "created": {
-            "$date": "2023-03-14T00:20:54.017Z"
-        },
-        "modified": {
-            "$date": "2023-04-03T03:14:43.889Z"
-        },
+        "created": "2023-03-14T00:20:54.017Z",
+        "modified": "2023-04-03T03:14:43.889Z",
         "name": "Zip Collar Sweatshirt",
         "picture": "https://static.zara.net/photos///2023/V/0/2/p/6462/350/251/2/w/1024/6462350251_1_1_1.jpg?ts=1675677581801",
         "courier": "yto"
@@ -69,12 +57,8 @@ export const parcelData = [
         "isShipped": false,
         "isWeighted": true,
         "weight": 3.2,
-        "created": {
-            "$date": "2023-03-14T01:09:09.013Z"
-        },
-        "modified": {
-            "$date": "2023-04-03T03:30:56.577Z"
-        },
+        "created": "2023-03-14T01:09:09.013Z",
+        "modified": "2023-04-03T03:30:56.577Z",
         "name": "Embroidered Collared Sweatshirt",
         "picture": "https://static.zara.net/photos///2023/V/0/2/p/3037/450/922/2/w/1024/3037450922_2_1_1.jpg?ts=1675874062806",
         "courier": "yunda"
@@ -88,12 +72,8 @@ export const parcelData = [
         "user": "test@test.com",
         "isShipped": false,
         "isWeighted": false,
-        "created": {
-            "$date": "2023-03-14T23:50:18.618Z"
-        },
-        "modified": {
-            "$date": "2023-03-14T23:50:18.618Z"
-        },
+        "created": "2023-03-14T23:50:18.618Z",
+        "modified": "2023-03-14T23:50:18.618Z",
         "picture": "https://static.zara.net/photos///2023/V/0/1/p/6771/024/104/2/w/850/6771024104_6_1_1.jpg?ts=1674752008165"
     },{
         "_id": {
@@ -105,12 +85,8 @@ export const parcelData = [
         "user": "test@test.com",
         "isShipped": true,
         "isWeighted": true,
-        "created": {
-            "$date": "2023-03-14T23:54:07.689Z"
-        },
-        "modified": {
-            "$date": "2023-03-14T23:54:07.689Z"
-        },
+        "created": "2023-03-14T23:54:07.689Z",
+        "modified": "2023-03-14T23:54:07.689Z",
         "picture": "https://www.jellycat.com/images/products/medium/JOL3PU.jpg",
         "weight": 1.7,
         "shipGroup": {
@@ -126,12 +102,8 @@ export const parcelData = [
         "user": "test@test.com",
         "isShipped": true,
         "isWeighted": true,
-        "created": {
-            "$date": "2023-03-15T00:06:16.436Z"
-        },
-        "modified": {
-            "$date": "2023-03-15T00:06:16.436Z"
-        },
+        "created": "2023-03-15T00:06:16.436Z",
+        "modified": "2023-03-15T00:06:16.436Z",
         "shipGroup": {
             "$oid": "6411436c04c6777b3e65ca93"
         },
@@ -147,12 +119,8 @@ export const parcelData = [
         "user": "test@test.com",
         "isShipped": false,
         "isWeighted": false,
-        "created": {
-            "$date": "2023-03-15T00:31:56.592Z"
-        },
-        "modified": {
-            "$date": "2023-03-15T00:31:56.592Z"
-        },
+        "created": "2023-03-15T00:31:56.592Z",
+        "modified": "2023-03-15T00:31:56.592Z",
         "picture": "https://cdnsc1.melaleuca.com/cdn-cgi/image/width=500height=500,quality=85/global/products/70042h-02-enus.png"
     },{
         "_id": {
@@ -164,12 +132,8 @@ export const parcelData = [
         "user": "test@test.com",
         "isShipped": false,
         "isWeighted": false,
-        "created": {
-            "$date": "2023-03-15T00:34:16.475Z"
-        },
-        "modified": {
-            "$date": "2023-03-15T00:34:16.475Z"
-        }
+        "created": "2023-03-15T00:34:16.475Z",
+        "modified": "2023-03-15T00:34:16.475Z",
     },{
         "_id": {
             "$oid": "64111325f2f933ee8063e375"
@@ -180,12 +144,8 @@ export const parcelData = [
         "user": "test@test.com",
         "isShipped": false,
         "isWeighted": false,
-        "created": {
-            "$date": "2023-03-15T00:36:53.186Z"
-        },
-        "modified": {
-            "$date": "2023-03-15T00:36:53.186Z"
-        },
+        "created": "2023-03-15T00:36:53.186Z",
+        "modified": "2023-03-15T00:36:53.186Z",
         "picture": "https://www.jellycat.com/images/products/large/HUD2S.jpg"
     },{
         "_id": {
@@ -197,12 +157,8 @@ export const parcelData = [
         "user": "test@test.com",
         "isShipped": false,
         "isWeighted": false,
-        "created": {
-            "$date": "2023-03-15T00:38:22.268Z"
-        },
-        "modified": {
-            "$date": "2023-03-15T00:38:22.268Z"
-        },
+        "created": "2023-03-15T00:38:22.268Z",
+        "modified": "2023-03-15T00:38:22.268Z",
         "picture": "https://www.jellycat.com/images/products/medium/NEST3B.jpg"
     },{
         "_id": {
@@ -214,12 +170,8 @@ export const parcelData = [
         "user": "test@test.com",
         "isShipped": false,
         "isWeighted": true,
-        "created": {
-            "$date": "2023-03-15T00:39:34.867Z"
-        },
-        "modified": {
-            "$date": "2023-04-03T06:10:01.571Z"
-        },
+        "created": "2023-03-15T00:39:34.867Z",
+        "modified": "2023-04-03T06:10:01.571Z",
         "picture": "https://www.jellycat.com/images/products/medium/YUM6DK.jpg",
         "weight": 2.3
     },{
@@ -232,12 +184,8 @@ export const parcelData = [
         "user": "test@test.com",
         "isShipped": true,
         "isWeighted": true,
-        "created": {
-            "$date": "2023-03-15T00:40:49.901Z"
-        },
-        "modified": {
-            "$date": "2023-03-15T00:40:49.901Z"
-        },
+        "created": "2023-03-15T00:40:49.901Z",
+        "modified": "2023-03-15T00:40:49.901Z",
         "picture": "https://www.jellycat.com/images/products/medium/A2BC.jpg",
         "weight": 2.8,
         "shipGroup": {
@@ -253,12 +201,8 @@ export const parcelData = [
         "user": "test@test.com",
         "isShipped": true,
         "isWeighted": true,
-        "created": {
-            "$date": "2023-03-15T00:44:29.368Z"
-        },
-        "modified": {
-            "$date": "2023-03-15T00:44:29.368Z"
-        },
+        "created": "2023-03-15T00:44:29.368Z",
+        "modified": "2023-03-15T00:44:29.368Z",
         "picture": "https://www.jellycat.com/images/products/medium/PNM3PN.jpg",
         "shipGroup": {
             "$oid": "64129c5a2d97dfd382bc4d57"
@@ -275,12 +219,8 @@ export const parcelData = [
         "picture": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSNXME8KkDf10aw4S41c_6UpZfn1m-Xysweia4IBO9uYAeSf0QbwaF2mmcXRJlEIAkwc5vO89Ar",
         "isShipped": false,
         "isWeighted": false,
-        "created": {
-            "$date": "2023-03-17T00:30:06.271Z"
-        },
-        "modified": {
-            "$date": "2023-03-17T00:30:06.271Z"
-        }
+        "created": "2023-03-17T00:30:06.271Z",
+        "modified": "2023-03-17T00:30:06.271Z",
     },{
         "_id": {
             "$oid": "6414f5a837d1dbabfbd1516b"
@@ -292,12 +232,8 @@ export const parcelData = [
         "picture": "https://res.cloudinary.com/dub3oxwts/image/upload/18c9033a4ef84aa7b559b2a9fad9d7c8",
         "isShipped": false,
         "isWeighted": false,
-        "created": {
-            "$date": "2023-03-17T23:20:08.098Z"
-        },
-        "modified": {
-            "$date": "2023-03-17T23:20:08.098Z"
-        }
+        "created": "2023-03-17T23:20:08.098Z",
+        "modified": "2023-03-17T23:20:08.098Z",
     },{
         "_id": {
             "$oid": "642901f20938edd3f5e70b62"
@@ -308,12 +244,8 @@ export const parcelData = [
         "user": "unittest@unittest.com",
         "isShipped": false,
         "isWeighted": false,
-        "created": {
-            "$date": "2023-04-02T04:17:54.154Z"
-        },
-        "modified": {
-            "$date": "2023-04-02T04:17:54.154Z"
-        }
+        "created": "2023-04-02T04:17:54.154Z",
+        "modified": "2023-04-02T04:17:54.154Z",
     },{
         "_id": {
             "$oid": "642914cf0938edd3f5e70b64"
@@ -325,12 +257,8 @@ export const parcelData = [
         "picture": "https://static.zara.net/photos///2023/V/0/7/p/9000/900/800/2/w/1500/9000900800_6_1_1.jpg?ts=1675857107297",
         "isShipped": false,
         "isWeighted": false,
-        "created": {
-            "$date": "2023-04-02T05:38:23.183Z"
-        },
-        "modified": {
-            "$date": "2023-04-02T05:38:23.183Z"
-        }
+        "created": "2023-04-02T05:38:23.183Z",
+        "modified": "2023-04-02T05:38:23.183Z",
     },{
         "_id": {
             "$oid": "64291534cb820ee99e5da51c"
@@ -342,12 +270,8 @@ export const parcelData = [
         "picture": "https://res.cloudinary.com/dub3oxwts/image/upload/580880cbca604b429bb65e6620e0639c",
         "isShipped": false,
         "isWeighted": false,
-        "created": {
-            "$date": "2023-04-02T05:40:04.974Z"
-        },
-        "modified": {
-            "$date": "2023-04-02T05:40:04.974Z"
-        }
+        "created": "2023-04-02T05:40:04.974Z",
+        "modified": "2023-04-02T05:40:04.974Z",
     },{
         "_id": {
             "$oid": "642915edcb820ee99e5da51d"
@@ -358,12 +282,8 @@ export const parcelData = [
         "user": "test@test.com",
         "isShipped": false,
         "isWeighted": false,
-        "created": {
-            "$date": "2023-04-02T05:43:09.766Z"
-        },
-        "modified": {
-            "$date": "2023-04-02T05:43:09.766Z"
-        }
+        "created": "2023-04-02T05:43:09.766Z",
+        "modified": "2023-04-02T05:43:09.766Z",
     },{
         "_id": {
             "$oid": "6429ea49d9cee35dbdc12d8e"
@@ -375,11 +295,7 @@ export const parcelData = [
         "picture": "https://res.cloudinary.com/dub3oxwts/image/upload/c85fc409921b43028698b5ea3fa16db3",
         "isShipped": false,
         "isWeighted": false,
-        "created": {
-            "$date": "2023-04-02T20:49:13.442Z"
-        },
-        "modified": {
-            "$date": "2023-04-02T20:49:13.442Z"
-        }
+        "created": "2023-04-02T20:49:13.442Z",
+        "modified": "2023-04-02T20:49:13.442Z",
     }];
 

@@ -10,6 +10,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import RouteTableItem from "./RouteTableItem";
+import {Helmet} from "react-helmet";
 
 
 
@@ -48,6 +49,9 @@ const TimeCost = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>Time & Cost | ShipShare</title>
+			</Helmet>
 			<Header onOpenNav={handleOpen} />
 			{/*-------Box is the layout of the whole page-----*/}
 			<Box

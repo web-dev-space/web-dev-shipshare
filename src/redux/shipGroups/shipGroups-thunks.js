@@ -47,3 +47,10 @@ export const updateShipGroupThunk = createAsyncThunk(
         return response;
     }
 );
+
+export const getShipmentTrackingThunk = createAsyncThunk(
+    'shipGroups/getShipmentTracking',
+    async ({ trackingNumber, courier }) => {
+        return await service.getShipmentTracking({ trackingNumber, courier });
+    }
+);

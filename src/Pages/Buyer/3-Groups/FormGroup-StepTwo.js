@@ -14,32 +14,44 @@ import {useNavigate} from "react-router-dom";
 import FormProvider, {RHFAutocomplete, RHFTextField} from "../../../third-party/components/hook-form";
 import {useEffect, useState} from "react";
 import dayjs from "dayjs";
-import RHFGooglePlacesAutocomplete from "./RHFGooglePlacesAutocomplete";
+import {useSelector} from "react-redux";
+import RHFTextFieldGoogle from "./RHFTextFieldGoogle";
 
-export default function FormGroupStepTwo({onDateChange}) {
+export default function FormGroupStepTwo({onDateChange, onPickupLocationChange}) {
 
+  // ---------current user---------
+  let currentUser = useSelector(state => state.auth.currentUser);
+  if (currentUser === null) {
+    currentUser = {
+      role: "visitor"
+    }
+  }
 
   // ---- handle the new group object ---
   const defaultValues = {
     groupName: '',
     receiverName: '',
-    pickupLocation: '',
+    pickupLocation: null,
     phoneNumber: '',
     endDate: '',
   };
 
 
   // validation schema
-  const NewUserSchema = Yup.object().shape({
+  const NewGroupSchema = Yup.object().shape({
     groupName: Yup.string().required('Required'),
     receiverName: Yup.string().required('Required'),
-    pickupLocation: Yup.string().required('Required'),
+    // pickupLocation: Yup.string().required('Required'),
+    // pickupLocation: Yup.object().shape({
+    //   name: Yup.string().default(currentUser.email).required('Required'),
+    //   address: Yup.string().required('Required'),
+    // }),
     phoneNumber: Yup.string().required('Required'),
     endDate: Yup.string().required('Required'),
   });
 
   const methods = useForm({
-    resolver: yupResolver(NewUserSchema), defaultValues,
+    resolver: yupResolver(NewGroupSchema), defaultValues,
   });
 
 
@@ -47,6 +59,15 @@ export default function FormGroupStepTwo({onDateChange}) {
   const handleDateChange = (date) => {
     setSelectedDate(date);
     onDateChange(date);
+  };
+
+  const {handleSubmit, setValue} = methods;
+  const [inputPickupLocation, setInputPickupLocation] = useState('');
+  const handlePickupLocationChange = (d) => {
+    // setInputPickupLocation(d)
+    const values = methods.getValues();
+    setValue("pickupLocation", { ...values.pickupLocation, address: d });
+    onPickupLocationChange(d);
   };
 
 
@@ -100,13 +121,15 @@ export default function FormGroupStepTwo({onDateChange}) {
             label="Receiver's Name"
             placeholder={'e.g. Mary Smith'}
           />
-          <RHFTextField
+          <RHFTextFieldGoogle
             required
             fullWidth={true}
             name="pickupLocation"
             id="outlined-required"
             label="Pickup Location"
             placeholder={'e.g. 123 Main Street, New York, NY 10001'}
+            onChange={(location) => handlePickupLocationChange(location)}
+            apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
           />
           <Stack
             direction={{sm: 'column', md: 'row'}}

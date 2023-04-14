@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {API_BASE} from '../API_BASE';
+import { API_BASE, TRACKTRY_API_KEY } from '../API_BASE';
 const SHIPGROUPS_API = `${API_BASE}/shipGroups`;
 
 export const createShipGroup = async (shipGroup) => {
@@ -9,10 +9,10 @@ export const createShipGroup = async (shipGroup) => {
 }
 
 export const findAllShipGroups = async () => {
-    
+
     const response = await axios.get(SHIPGROUPS_API);
     const shipGroups = response.data;
-    
+
     return shipGroups;
 }
 
@@ -37,4 +37,28 @@ export const updateShipGroup = async (shipGroup) => {
     const id = shipGroup._id;
     const response = await axios.put(`${SHIPGROUPS_API}/${id}`, shipGroup);
     return response.data;
+}
+
+export const getShipmentTracking = async ({ trackingNumber, courier = 'dhl' }) => {
+    try {
+        if (!trackingNumber) {
+            console.error("getShipmentTracking: missing trackingNumber");
+        }
+
+        const options = {
+            method: 'GET',
+            url: `${API_BASE}/tracking/trackings/${courier}/${trackingNumber}`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Tracktry-Api-Key': TRACKTRY_API_KEY
+            }
+        };
+
+        const response = await axios.request(options);
+
+        return { trackingNumber, trackingDetail: response.data.data[0] };
+    } catch (error) {
+        console.error("error in getParcelTracking", error, error?.response?.data);
+        throw error;
+    }
 }

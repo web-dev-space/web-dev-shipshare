@@ -1,4 +1,4 @@
-import {Box, Link, Stack, Typography} from "@mui/material";
+import {Box, Container, FormControl, Link, Stack, Typography} from "@mui/material";
 import Button from '@mui/material/Button';
 import welcomeImg from "./welcome.png";
 import Image from "mui-image";
@@ -11,11 +11,13 @@ import {useNavigate} from "react-router-dom";
 import FormProvider, {RHFTextField} from "../../third-party/components/hook-form";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from 'react-redux';
 import { loginThunk } from '../../redux/users/users-thunks';
 import {current} from "@reduxjs/toolkit";
-
+import {Helmet} from "react-helmet";
+import LockIcon from '@mui/icons-material/Lock';
+import "./signIn.css"
 const LoginPage = () => {
 
   // ---- handle the new user object ---
@@ -23,6 +25,27 @@ const LoginPage = () => {
     email: '',
     password: '',
   };
+
+  const {currentUser, error} = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (currentUser) {
+        enqueueSnackbar('Welcome to ShipShare!');
+        const role = currentUser.role;
+        if (role === 'admin') {
+            navigate('/dashboard');
+        }
+        else if (role === 'buyer') {
+            navigate('/parcels');
+        }
+        else if (role === 'merchant') {
+            navigate('/dashboard');
+        }
+    }
+    if (error && error.code === "ERR_BAD_REQUEST") {
+        alert("Invalid email or password");
+    }
+  }, [currentUser, error]);
 
   // validation schema
   const NewUserSchema = Yup.object().shape({
@@ -40,24 +63,9 @@ const LoginPage = () => {
     const {enqueueSnackbar} = useSnackbar();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const onSubmit = async (data) => {
-    try{
-        const currentUser = await dispatch(loginThunk(data));
-        enqueueSnackbar('Welcome to ShipShare!');
-        const role = currentUser.payload.role;
-        if (role === 'admin') {
-            navigate('/dashboard');
-        }
-        else if (role === 'buyer') {
-            navigate('/parcels');
-        }
-        else if (role === 'merchant') {
-            navigate('/dashboard');
-        }
-    } catch (e) {
-        alert(e);
-    }
-  };
+    const onSubmit = (data) => {
+        dispatch(loginThunk(data))
+    };
 
   const [passwordVisible, setPasswordVisible] = useState(false);
 
@@ -68,7 +76,9 @@ const LoginPage = () => {
 
   return (
     <>
-
+        <Helmet>
+            <title>Sign In | ShipShare</title>
+        </Helmet>
       <Box
         sx={{
           display: 'flex',
@@ -80,6 +90,7 @@ const LoginPage = () => {
           left: 0,
           zIndex: 1,
           width: '100%',
+          height:'100%',
         }}
       >
         {/*----------------- left -----------------*/}
@@ -129,6 +140,7 @@ const LoginPage = () => {
                               )
                             }}
               />
+
               <RHFTextField type={passwordVisible ? "text" : "password"} fullWidth={true} name="password" variant="filled" id="password"
                             placeholder="PASSWORD"
                             InputProps={{
@@ -153,23 +165,17 @@ const LoginPage = () => {
                                     <VisibilityIcon onClick={handleTogglePasswordVisibility} />
                                   )}
                                 </InputAdornment>
-                              )
+                              ),
+                              style: { display: 'flex', alignItems: 'center' },
                             }}/>
 
 
-              <Box>
-                {/*<Typography style={{textAlign: 'right'}}*/}
-                {/*            color='primary'*/}
-                {/*>*/}
-                {/*  <Link href="../login" underline="hover">Forget Password?</Link>*/}
-                {/*</Typography>*/}
-              </Box>
               <Button
                 variant="contained"
                 color="primary"
                 fullWidth={true}
                 size="large"
-                sx={{height: 50}}
+                sx={{height: 55}}
                 type={"submit"}
               >Sign In</Button>
               <Box>
@@ -185,12 +191,21 @@ const LoginPage = () => {
 
         {/*----------------- right -----------------*/}
         <Box
-          sx={{ height:"100%"}}
+          sx={{
+            width: '40%',
+            height:"100%",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
         >
           <Image
             src={welcomeImg}
             alt="welcome"
             sx={{
+              objectFit: 'cover',
+              height: '100%',
+              width: '100%',
               boxShadow: 1,
               height: '100%',
             }}

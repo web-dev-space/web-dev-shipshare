@@ -8,6 +8,7 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import RouteTableItem from "./RouteTableItem";
+import {Helmet} from "react-helmet";
 
 const items = [
 	{
@@ -59,6 +60,9 @@ const CalculateFees = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>Calculate Fees | ShipShare</title>
+			</Helmet>
 			<Header onOpenNav={handleOpen} />
 			{/*-------Box is the layout of the whole page-----*/}
 			<Box
