@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
+import {Helmet} from "react-helmet";
 
 const steps = ['', '', '', '', '', ''];
 const content = [
@@ -64,7 +65,7 @@ const TutorialPages = () => {
   const pageCount = 6;
   const handleNextPageClick = () => {
     if(screenNumber === 5) {
-      navigate("/buyer/parcels");
+      navigate("/");
     }
     if (screenNumber < pageCount) {
       setScreenNumber(screenNumber + 1);
@@ -78,6 +79,10 @@ const TutorialPages = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Tutorials | ShipShare</title>
+      </Helmet>
+
       <Header onOpenNav={handleOpen} />
       {/*-------Box is the layout of the whole page-----*/}
       <Box
@@ -153,7 +158,7 @@ const TutorialPages = () => {
               type='submit'
               onClick={handleNextPageClick}
             >
-              {screenNumber === steps.length - 1 ? 'Back to parcel page' : 'Next'}
+              {screenNumber === steps.length - 1 ? 'Go Back Home' : 'Next'}
             </Button>
           </Box>
 

@@ -3,6 +3,7 @@ import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
 import { Container, Typography, Box, Button } from '@mui/material';
+import {Helmet} from "react-helmet";
 
 const content =
   {
@@ -25,6 +26,10 @@ const Tutorials = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Tutorials | ShipShare</title>
+      </Helmet>
+
       <Header onOpenNav={handleOpen} />
       {/*-------Box is the layout of the whole page-----*/}
       <Box

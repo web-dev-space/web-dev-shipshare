@@ -4,9 +4,9 @@ import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Button, Typography, Box } from '@mui/material';
 // components
-import { MotionContainer, varBounce } from '../../third-party/components/animate';
+import { MotionContainer, varBounce } from '../components/animate';
 // assets
-import { PageNotFoundIllustration } from '../../third-party/assets/illustrations';
+import { PageNotFoundIllustration } from '../assets/illustrations';
 
 // ----------------------------------------------------------------------
 

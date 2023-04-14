@@ -26,6 +26,7 @@ import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import FormProvider, {RHFSelect, RHFTextField, RHFUploadAvatar} from "../../../third-party/components/hook-form";
 import {fData} from "../../../third-party/utils/formatNumber";
 import Stack from "@mui/material/Stack";
+import {Helmet} from "react-helmet";
 
 
 
@@ -155,6 +156,10 @@ const ParcelMainPage = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Parcels | ShipShare</title>
+            </Helmet>
+            {/*--------------Header------------------*/}
             <Header onOpenNav={handleOpen} />
             {/*-------Box is the layout of the whole page-----*/}
             <Box

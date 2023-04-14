@@ -8,6 +8,7 @@ import {
     Box,
 } from '@mui/material';
 import {useSelector} from "react-redux";
+import {Helmet} from "react-helmet";
 
 
 const Home = () => {
@@ -31,6 +32,9 @@ const Home = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Welcome to ShipShare</title>
+            </Helmet>
             <Header onOpenNav={handleOpen} />
             {/*-------Box is the layout of the whole page-----*/}
             <Box
