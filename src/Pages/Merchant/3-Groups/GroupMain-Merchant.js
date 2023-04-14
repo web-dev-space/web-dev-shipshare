@@ -32,7 +32,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import OrangeChipGroup from "../../../components/OrangeChipGroup";
 import {shipments} from "../../../sampleData/shipments";
 import Checkout from "../../Buyer/3-Groups/Checkout";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import {visuallyHidden} from "@mui/utils";
 import {ALL_STATES, stateFullNameToAbbr} from "../../Buyer/3-Groups/allStates";
@@ -51,7 +51,7 @@ const headCells = [
   {id: 'name', numeric: false, disablePadding: true, label: 'Group Name', sortable: true},
   {id: 'shipRoute', numeric: false, disablePadding: false, label: 'Route', sortable: true},
   {id: 'shipEndDate', numeric: false, disablePadding: false, label: 'End Date', sortable: true},
-  {id: 'pickupLocation', numeric: false, disablePadding: false, label: 'Pick Up At', sortable: true},
+  {id: 'pickupLocation', numeric: false, disablePadding: false, label: 'Pick Up At', sortable: false},
   {id: 'actions', numeric: false, disablePadding: false, label: 'Action', sortable: false},
   {id: 'more', numeric: false, disablePadding: false, label: '', sortable: false},
 
@@ -73,9 +73,9 @@ const GroupMainMerchant = () => {
 
   function getShortAddress(address) {
     const addressParts = address.split(', ');
-    const cityState = addressParts.slice(-3,-1);
-    const shortAddress = cityState.join(', ');
-    return shortAddress;
+    const cityState = addressParts.slice(-3, -1);
+    const state = cityState[1].substring(0, 2);
+    return `${cityState[0]}, ${state}`;
   }
 
 
@@ -235,6 +235,11 @@ const GroupMainMerchant = () => {
     setOpenDrawer(false);
   }
 
+  const navigate = useNavigate();
+  const handleClickGroupDetail=() => {
+    navigate('./group-details');
+  }
+
   return (
     <>
       <Header onOpenNav={handleOpen}/>
@@ -338,7 +343,7 @@ const GroupMainMerchant = () => {
                                 noWrap
                                 sx={{color: 'text.secondary'}}
                               >
-                                {row.memberCount} members
+                                {row.members.length} members
                               </Typography>
                             </Box>
                           </Box>
@@ -370,7 +375,7 @@ const GroupMainMerchant = () => {
                                 color: 'rgb(238, 189, 94)',
                               }}
                             >
-                              {row.route}
+                              {row.shipRoute}
                             </Typography>
                           </Box>
                         </TableCell>
@@ -378,14 +383,14 @@ const GroupMainMerchant = () => {
                           <Typography
                             variant="body"
                           >
-                            {formatDate(row.endDate)}
+                            {formatDate(row.shipEndDate)}
                           </Typography>
                         </TableCell>
                         <TableCell>
                           <Typography
                             variant="body"
                           >
-                            {row.pickUpAt}
+                            {getShortAddress(row.pickupLocation.address)}
                           </Typography>
                         </TableCell>
                         <TableCell>

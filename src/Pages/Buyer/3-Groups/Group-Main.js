@@ -75,10 +75,11 @@ const GroupMainPage = () => {
 
   function getShortAddress(address) {
     const addressParts = address.split(', ');
-    const cityState = addressParts.slice(-3, -2);
-    const shortAddress = cityState.join(', ');
-    return shortAddress;
+    const cityState = addressParts.slice(-3, -1);
+    const state = cityState[1].substring(0, 2);
+    return `${cityState[0]}, ${state}`;
   }
+
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
