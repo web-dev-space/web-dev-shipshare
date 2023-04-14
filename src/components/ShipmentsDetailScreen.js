@@ -13,6 +13,8 @@ import React, { useMemo } from 'react';
 import { useEffect, useState } from "react";
 import { getParcelTracking } from "../redux/parcels/parcels-service";
 import { useSelector } from 'react-redux';
+import { getShipmentTrackingThunk } from "../redux/shipGroups/shipGroups-thunks";
+import { useDispatch } from 'react-redux';
 
 const FontFamily = {
 }
@@ -27,6 +29,7 @@ const hintText = [
 
 
 const ShipmentDetails = ({ ship, handleClose }) => {
+  const dispatch = useDispatch();
 
   const shipEndDate = calculateDeliveryTime(ship, deliveryStatus);
   const startDate = convertDateToString(ship.shipEndDate);
@@ -53,15 +56,24 @@ const ShipmentDetails = ({ ship, handleClose }) => {
   const shortAddressList = ship?.pickupLocation?.address.split(',');
   const cityArrival = shortAddressList?.[shortAddressList.length - 3];
 
-  const [detailDeliveryStatus, setDetailDeliveryStatus] = useState([]);
+  // const [detailDeliveryStatus, setDetailDeliveryStatus] = useState([]);
+
+  const trackingInfo = useSelector((state) => state.shipGroup.trackings[ship.trackingNumber]);
+
+  const detailDeliveryStatus = useMemo(() => {
+    return trackingInfo?.origin_info?.trackinfo || [];
+  }, [trackingInfo]);
 
   useEffect(() => {
     const fetchedDeliveryStatus = async () => {
-      if (ship.phaseNumber >= 2) {
-        const deliveryStatus = await getParcelTracking(
-          { trackingNumber: ship.trackingNumber.replaceAll(' ', ''), courier: ship.courier });
+      if (ship.phaseNumber >= 2 && trackingInfo === undefined) {
+        console.debug("ship", ship);
 
-        setDetailDeliveryStatus(deliveryStatus?.origin_info?.trackinfo || []);
+        dispatch(getShipmentTrackingThunk(
+          { trackingNumber: ship.trackingNumber.replaceAll(' ', ''), courier: ship.courier }
+        ));
+
+        // setDetailDeliveryStatus(deliveryStatus?.origin_info?.trackinfo || []);
       }
     };
     fetchedDeliveryStatus().catch((e) => {
