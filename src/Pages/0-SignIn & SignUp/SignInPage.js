@@ -158,11 +158,11 @@ const LoginPage = () => {
 
 
               <Box>
-                <Typography style={{textAlign: 'right'}}
-                            color='primary'
-                >
-                  <Link href="../login" underline="hover">Forget Password?</Link>
-                </Typography>
+                {/*<Typography style={{textAlign: 'right'}}*/}
+                {/*            color='primary'*/}
+                {/*>*/}
+                {/*  <Link href="../login" underline="hover">Forget Password?</Link>*/}
+                {/*</Typography>*/}
               </Box>
               <Button
                 variant="contained"
