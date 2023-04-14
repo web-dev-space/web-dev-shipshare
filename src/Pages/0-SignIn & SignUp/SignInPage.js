@@ -11,7 +11,7 @@ import {useNavigate} from "react-router-dom";
 import FormProvider, {RHFTextField} from "../../third-party/components/hook-form";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from 'react-redux';
 import { loginThunk } from '../../redux/users/users-thunks';
 import {current} from "@reduxjs/toolkit";
@@ -24,6 +24,28 @@ const LoginPage = () => {
     email: '',
     password: '',
   };
+
+  const {currentUser, error} = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (currentUser) {
+        enqueueSnackbar('Welcome to ShipShare!');
+        console.log(currentUser);
+        const role = currentUser.role;
+        if (role === 'admin') {
+            navigate('/dashboard');
+        }
+        else if (role === 'buyer') {
+            navigate('/parcels');
+        }
+        else if (role === 'merchant') {
+            navigate('/dashboard');
+        }
+    }
+    if (error && error.code === "ERR_BAD_REQUEST") {
+        alert("Invalid email or password");
+    }
+  }, [currentUser, error]);
 
   // validation schema
   const NewUserSchema = Yup.object().shape({
@@ -41,24 +63,9 @@ const LoginPage = () => {
     const {enqueueSnackbar} = useSnackbar();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const onSubmit = async (data) => {
-    try{
-        const currentUser = await dispatch(loginThunk(data));
-        enqueueSnackbar('Welcome to ShipShare!');
-        const role = currentUser.payload.role;
-        if (role === 'admin') {
-            navigate('/dashboard');
-        }
-        else if (role === 'buyer') {
-            navigate('/parcels');
-        }
-        else if (role === 'merchant') {
-            navigate('/dashboard');
-        }
-    } catch (e) {
-        alert(e);
-    }
-  };
+    const onSubmit = (data) => {
+        dispatch(loginThunk(data))
+    };
 
   const [passwordVisible, setPasswordVisible] = useState(false);
 

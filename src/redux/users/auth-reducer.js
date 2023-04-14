@@ -19,6 +19,10 @@ const authSlice = createSlice({
         [signupThunk.fulfilled]: (state, { payload }) => {
             state.currentUser = {...payload, role: "buyer"};
         },
+        [loginThunk.rejected]: (state, { error }) => {
+            state.currentUser = null;
+            state.error = error;
+        },
         [loginThunk.fulfilled]: (state, { payload }) => {
             state.currentUser = payload;
         },
