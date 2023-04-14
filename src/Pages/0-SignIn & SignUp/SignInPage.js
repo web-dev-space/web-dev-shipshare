@@ -1,4 +1,4 @@
-import {Box, Link, Stack, Typography} from "@mui/material";
+import {Box, Container, FormControl, Link, Stack, Typography} from "@mui/material";
 import Button from '@mui/material/Button';
 import welcomeImg from "./welcome.png";
 import Image from "mui-image";
@@ -16,7 +16,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import { loginThunk } from '../../redux/users/users-thunks';
 import {current} from "@reduxjs/toolkit";
 import {Helmet} from "react-helmet";
-
+import LockIcon from '@mui/icons-material/Lock';
+import "./signIn.css"
 const LoginPage = () => {
 
   // ---- handle the new user object ---
@@ -89,6 +90,7 @@ const LoginPage = () => {
           left: 0,
           zIndex: 1,
           width: '100%',
+          height:'100%',
         }}
       >
         {/*----------------- left -----------------*/}
@@ -138,6 +140,7 @@ const LoginPage = () => {
                               )
                             }}
               />
+
               <RHFTextField type={passwordVisible ? "text" : "password"} fullWidth={true} name="password" variant="filled" id="password"
                             placeholder="PASSWORD"
                             InputProps={{
@@ -162,23 +165,17 @@ const LoginPage = () => {
                                     <VisibilityIcon onClick={handleTogglePasswordVisibility} />
                                   )}
                                 </InputAdornment>
-                              )
+                              ),
+                              style: { display: 'flex', alignItems: 'center' },
                             }}/>
 
 
-              <Box>
-                <Typography style={{textAlign: 'right'}}
-                            color='primary'
-                >
-                  <Link href="../login" underline="hover">Forget Password?</Link>
-                </Typography>
-              </Box>
               <Button
                 variant="contained"
                 color="primary"
                 fullWidth={true}
                 size="large"
-                sx={{height: 50}}
+                sx={{height: 55}}
                 type={"submit"}
               >Sign In</Button>
               <Box>
@@ -194,12 +191,20 @@ const LoginPage = () => {
 
         {/*----------------- right -----------------*/}
         <Box
-          sx={{width: '40%'}}
+          sx={{
+            width: '40%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
         >
           <Image
             src={welcomeImg}
             alt="welcome"
             sx={{
+              objectFit: 'cover',
+              height: '100%',
+              width: '100%',
               boxShadow: 1,
             }}
           />

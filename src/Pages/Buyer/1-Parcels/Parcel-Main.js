@@ -110,7 +110,9 @@ const ParcelMainPage = () => {
 
 
     // Link to DB
-    const { parcels, loading } = useSelector((state) => state.parcels);
+    const { parcels, loading } = useSelector((state) => {
+        return state.parcels
+    });
 
     // Table data
     const [tableData, setTableData] = useState(parcels);

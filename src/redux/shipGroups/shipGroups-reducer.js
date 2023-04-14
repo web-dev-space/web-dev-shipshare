@@ -19,6 +19,7 @@ const shipGroupsSlice = createSlice({
     extraReducers: {
         // find all
         [findAllShipGroupsThunk.pending]: (state) => {
+
             state.loading = true;
             state.shipGroups = [];
 
@@ -43,6 +44,7 @@ const shipGroupsSlice = createSlice({
         // create
         [createShipGroupThunk.fulfilled]: (state, { payload }) => {
             state.loading = false;
+            console.log('group payload', payload)
             state.shipGroups.push(payload);
         },
 

@@ -1,0 +1,14 @@
+.RHFTextField-root {
+    border-radius: 0;
+    border: 1px solid gray;
+    height: 40px;
+    padding: 0 10px;
+}
+
+.RHFTextField-root:hover {
+    border-color: blue;
+}
+
+.RHFTextField-root:focus-within {
+    border-color: green;
+}
