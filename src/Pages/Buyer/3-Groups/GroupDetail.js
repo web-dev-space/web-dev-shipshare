@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
@@ -14,11 +14,11 @@ import {
 } from '@mui/material';
 import Image from 'mui-image'
 import backgroundImg from './background.jpg';
-import {styled} from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 
-const Item = styled(Paper)(({theme}) => ({
+const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -43,40 +43,40 @@ const GroupDetailPage = (props) => {
   const chipLabelsArray = ["All", "Air Standard", "Air Sensitive", "Sea Standard", "Sea Sensitive"];
 
   const groupInfo = props;
-console.log("groupinfo", groupInfo)
+  console.log("groupinfo", groupInfo)
 
   return (
     <>
-      <Header onOpenNav={handleOpen}/>
+      <Header onOpenNav={handleOpen} />
       {/*-------Box is the layout of the whole page-----*/}
       <Box
         sx={{
-          display: {lg: 'flex'},
-          minHeight: {lg: 1},
+          display: { lg: 'flex' },
+          minHeight: { lg: 1 },
         }}
       >
         {/*--------------Navigation bar------------------*/}
-        <NavVertical openNav={open} onCloseNav={handleClose}/>
+        <NavVertical openNav={open} onCloseNav={handleClose} />
 
         {/*--------------Main Content----------------------*/}
         <Main>
 
-          <Container maxWidth="xl" style={{position: 'relative'}}>
+          <Container maxWidth="xl" style={{ position: 'relative' }}>
             <IconButton aria-label="delete" size="small"
-                        style={{position: 'absolute', zIndex: 99, top: '20px', left: '40px', backgroundColor: 'white'}}
-                        onClick={() => {
-                          window.history.back();
-                        }}
+              style={{ position: 'absolute', zIndex: 99, top: '20px', left: '40px', backgroundColor: 'white' }}
+              onClick={() => {
+                window.history.back();
+              }}
             >
-              <ArrowBackIosNewIcon/>
+              <ArrowBackIosNewIcon />
             </IconButton>
             {/*backgroundImg & join button*/}
             <Box
-              sx={{height: 300, position: 'relative'}}
+              sx={{ height: 300, position: 'relative' }}
             >
               <Image
                 src={backgroundImg}
-                style={{borderRadius: 20}}
+                style={{ borderRadius: 20 }}
                 sx={{
                   width: '100%',
                   zIndex: 1,
@@ -127,8 +127,8 @@ console.log("groupinfo", groupInfo)
                     top: -64,
                     zIndex: 2,
                     ml: 4,
-                    width: {xs: 80, md: 128},
-                    height: {xs: 80, md: 128},
+                    width: { xs: 80, md: 128 },
+                    height: { xs: 80, md: 128 },
                   }}
                 />
                 <Box
@@ -178,7 +178,7 @@ console.log("groupinfo", groupInfo)
                   }}
                 >
                   <Typography variant="h6">About</Typography>
-                  <hr style={{borderTop: "1px solid #F6F7FB", marginTop: "0.5rem"}}/>
+                  <hr style={{ borderTop: "1px solid #F6F7FB", marginTop: "0.5rem" }} />
                 </Box>
                 {/*group details*/}
                 <Stack spacing={2}>
@@ -316,7 +316,7 @@ console.log("groupinfo", groupInfo)
                   }}
                 >
                   <Typography variant="h6">Activity</Typography>
-                  <hr style={{borderTop: "1px solid #F6F7FB", marginTop: "0.5rem"}}/>
+                  <hr style={{ borderTop: "1px solid #F6F7FB", marginTop: "0.5rem" }} />
                 </Box>
                 {/*activity details*/}
                 <Stack spacing={2}>
@@ -330,7 +330,7 @@ console.log("groupinfo", groupInfo)
                     }}
                   >
                     <Box
-                      sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}
+                      sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
                     >
                       <Avatar
                         alt="Remy Sharp"
@@ -366,7 +366,7 @@ console.log("groupinfo", groupInfo)
                     }}
                   >
                     <Box
-                      sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}
+                      sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
                     >
                       <Avatar
                         alt="Remy Sharp"
