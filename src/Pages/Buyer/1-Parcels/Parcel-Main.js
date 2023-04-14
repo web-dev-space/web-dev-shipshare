@@ -113,7 +113,9 @@ const ParcelMainPage = () => {
 
 
     // Link to DB
-    const { parcels, loading } = useSelector((state) => state.parcels);
+    const { parcels, loading } = useSelector((state) => {
+        return state.parcels
+    });
 
     useEffect(() => {
         dispatch(findAllParcelsThunk());
