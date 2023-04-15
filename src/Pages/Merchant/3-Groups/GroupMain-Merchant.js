@@ -449,7 +449,7 @@ const GroupMainMerchant = () => {
               setPage(value)
             }}
             onNext={handleNextPageClick}
-            size='large'
+            size='medium'
             showFirstButton
             showLastButton
             sx={{

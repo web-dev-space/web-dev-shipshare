@@ -534,7 +534,7 @@ const GroupMainPage = () => {
               setPage(value)
             }}
             onNext={handleNextPageClick}
-            size='large'
+            size='medium'
             showFirstButton
             showLastButton
             sx={{
