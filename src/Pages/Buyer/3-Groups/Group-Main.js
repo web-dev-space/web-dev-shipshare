@@ -514,11 +514,13 @@ const GroupMainPage = () => {
                         </TableCell>
                         {/*--------  distance cell  --------*/}
                         <TableCell>
-                          <Typography
-                            variant="body"
-                          >
-                            {row.distance} Mi
-                          </Typography>
+                          {row.distance ? (
+                            <Typography variant="body">
+                              {row.distance} Mi
+                            </Typography>
+                          ) : (
+                            <Typography variant="body">Loading...</Typography>
+                          )}
                         </TableCell>
 
                         <TableCell>
