@@ -41,8 +41,7 @@ const LoginPage = () => {
         else if (role === 'merchant') {
             navigate('/dashboard');
         }
-    }
-    if (error && error.code === "ERR_BAD_REQUEST") {
+    } else if (error && error.code === "ERR_BAD_REQUEST") {
         alert("Invalid email or password");
     }
   }, [currentUser, error]);

@@ -10,22 +10,17 @@ import { LoadingButton } from '@mui/lab';
 import { Box, Card, Grid, Stack, Switch, Typography, FormControlLabel } from '@mui/material';
 // utils
 import { fData } from '../../../third-party/utils/formatNumber';
-// routes
-import { PATH_DASHBOARD } from '../../../third-party/routes/paths';
-// assets
-import { countries } from '../../../third-party/assets/data';
 // components
 import Label from '../../../third-party/components/label';
-import { useSnackbar } from '../../../third-party/components/snackbar';
+import { useSnackbar } from 'notistack';
 import FormProvider, {
-	RHFSelect,
-	RHFSwitch,
 	RHFTextField,
 	RHFUploadAvatar,
 } from '../../../third-party/components/hook-form';
 import {uploadImage, urlToFile} from "api/imageUpload.js";
 import {updateCurrentUserThunk, updateUserThunk} from "../../../redux/users/users-thunks";
 import {useDispatch} from "react-redux";
+import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 
 // ----------------------------------------------------------------------
 
@@ -52,7 +47,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 			email: currentUser?.email || '',
 			phone: currentUser?.phone || '',
 			address: currentUser?.address || '',
-			avatar: currentUser?.avatar || null,
+			avatar: currentUser?.avatar || getRandomAvatar(currentUser?.name || ''),
 			role: currentUser?.role || 'Buyer',
 			_id: currentUser?._id || '',
 		}),
@@ -91,8 +86,8 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 	}, [isEdit, currentUser]);
 
 	const dispatch = useDispatch();
-	const onSubmit = (data) => {
-		data ={
+	const onSubmit = async (data) => {
+		data = {
 			...data,
 			_id: currentUser?._id,
 		}
@@ -100,7 +95,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 		try {
 			// await new Promise((resolve) => setTimeout(resolve, 500));
 			const file = urlToFile(newFile);
-			const imageRemoteUrl = uploadImage(file);
+			const imageRemoteUrl = await uploadImage(file);
 			data = {
 				...data,
 				avatar: imageRemoteUrl,
@@ -112,7 +107,6 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 			reset();
 			enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
 			navigate("./");
-			console.log('DATA', data);
 		} catch (error) {
 			console.error(error);
 		}
@@ -125,15 +119,12 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 	const handleDrop = useCallback(
 		(acceptedFiles) => {
 			const file = acceptedFiles[0];
-			console.log("file: ", file);
 			const newFile = Object.assign(file, {
 				preview: URL.createObjectURL(file),
 			});
-			console.log("newFile: ", newFile);
 
 			if (file) {
 				setValue('avatar', newFile.preview, { shouldValidate: true });
-				console.log("new file preview URL: ", newFile.preview);
 				setNewFile(newFile.preview);
 			}
 		},
