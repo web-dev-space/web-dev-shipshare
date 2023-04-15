@@ -4,11 +4,12 @@ import {
     createShipGroupThunk,
     updateShipGroupThunk,
     deleteShipGroupThunk,
-    getShipmentTrackingThunk,
+    getShipmentTrackingThunk, findShipGroupByIdThunk,
 } from "./shipGroups-thunks";
 
 const initialState = {
     shipGroups: [],
+    currentGroup: null,
     loading: false,
     trackings: {},
 };
@@ -30,6 +31,22 @@ const shipGroupsSlice = createSlice({
 
         },
         [findAllShipGroupsThunk.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.error;
+
+        },
+        [findShipGroupByIdThunk.pending]: (state) => {
+
+            state.loading = true;
+            state.currentGroup = null;
+
+        },
+        [findShipGroupByIdThunk.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.currentGroup = payload;
+
+        },
+        [findShipGroupByIdThunk.rejected]: (state, action) => {
             state.loading = false;
             state.error = action.error;
 

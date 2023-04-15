@@ -73,7 +73,6 @@ export const updateCurrentUserThunk = createAsyncThunk(
 
 export const changePasswordThunk = createAsyncThunk(
     "users/changePassword", async (credentials) => {
-        console.log(credentials);
         return await service.changePassword(credentials);
     }
 )
