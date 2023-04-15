@@ -75,6 +75,73 @@ const GroupMainPage = () => {
   // table data
   const [originalData, setOriginalData] = useState(shipGroups);
 
+  // get user distance
+  const [userLocation, setUserLocation] = useState(null);
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        let userLocation = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        };
+        setUserLocation(userLocation);
+      });
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }, []);
+
+  function toRad(value) {
+    return value * Math.PI / 180;
+  }
+
+  function calculateDistance(userLocation, destinationAddress) {
+    return new Promise((resolve, reject) => {
+      let geocoder = new window.google.maps.Geocoder();
+      geocoder.geocode({address: destinationAddress}, function (results, status) {
+        if (status === window.google.maps.GeocoderStatus.OK) {
+          console.log("success call google map" + status + "," + results)
+          let destinationLocation = {
+            latitude: results[0].geometry.location.lat(),
+            longitude: results[0].geometry.location.lng()
+          };
+
+          let earthRadius = 6371;
+          let latDistance = toRad(destinationLocation.latitude - userLocation.latitude);
+          let lngDistance = toRad(destinationLocation.longitude - userLocation.longitude);
+          let a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+            + Math.cos(toRad(userLocation.latitude)) * Math.cos(toRad(destinationLocation.latitude))
+            * Math.sin(lngDistance / 2) * Math.sin(lngDistance / 2);
+          let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+          let distance = earthRadius * c;
+          distance = distance.toFixed(1);
+          resolve(distance);
+        } else {
+          console.log("error call google map" + status)
+          reject("Geocode was not successful for the following reason: " + status);
+        }
+      });
+    });
+  }
+
+  useEffect(() => {
+    const calculateDistances = async () => {
+      const newData = await Promise.all(shipGroups.map(async obj => {
+        const distance = await calculateDistance(userLocation, obj.pickupLocation.address);
+        return {...obj, distance};
+      }));
+      setOriginalData(newData)
+      setTableData(newData);
+      console.log('ttttt', tableData)
+      console.log("originData", originalData)
+    };
+
+    if (userLocation) {
+      calculateDistances();
+    }
+  }, [shipGroups, userLocation]);
+
+
   function getShortAddress(address) {
     const addressParts = address.split(', ');
     const cityState = addressParts.slice(-3, -1);
@@ -208,6 +275,7 @@ const GroupMainPage = () => {
     setTableData(filteredData);
   }, [filteredData]);
 
+
   useEffect(() => {
     const filterTableData = () => {
       setRows(
@@ -242,69 +310,6 @@ const GroupMainPage = () => {
   const handleClickGroupDetail = () => {
     navigate('./group-details');
   }
-
-  // get user distance
-  const [userLocation, setUserLocation] = useState(null);
-  useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        let userLocation = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        };
-        setUserLocation(userLocation);
-      });
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    }
-  }, []);
-
-  function toRad(value) {
-    return value * Math.PI / 180;
-  }
-
-  function calculateDistance(userLocation, destinationAddress) {
-    return new Promise((resolve, reject) => {
-      let geocoder = new window.google.maps.Geocoder();
-      geocoder.geocode({address: destinationAddress}, function (results, status) {
-        if (status === window.google.maps.GeocoderStatus.OK) {
-          let destinationLocation = {
-            latitude: results[0].geometry.location.lat(),
-            longitude: results[0].geometry.location.lng()
-          };
-
-          let earthRadius = 6371;
-          let latDistance = toRad(destinationLocation.latitude - userLocation.latitude);
-          let lngDistance = toRad(destinationLocation.longitude - userLocation.longitude);
-          let a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-            + Math.cos(toRad(userLocation.latitude)) * Math.cos(toRad(destinationLocation.latitude))
-            * Math.sin(lngDistance / 2) * Math.sin(lngDistance / 2);
-          let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-          let distance = earthRadius * c;
-          distance = distance.toFixed(1);
-          resolve(distance);
-        } else {
-          reject("Geocode was not successful for the following reason: " + status);
-        }
-      });
-    });
-  }
-
-  useEffect(() => {
-    const calculateDistances = async () => {
-      const newData = await Promise.all(shipGroups.map(async obj => {
-        const distance = await calculateDistance(userLocation, obj.pickupLocation.address);
-        return {...obj, distance};
-      }));
-      setOriginalData(newData)
-      setTableData(newData);
-      console.log('ttttt', tableData)
-    };
-
-    if (userLocation) {
-      calculateDistances();
-    }
-  }, [shipGroups, userLocation]);
 
 
   return (
