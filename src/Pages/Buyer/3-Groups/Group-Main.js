@@ -96,7 +96,7 @@ const GroupMainPage = () => {
   }
 
   function calculateDistance(userLocation, destinationAddress) {
-    return new Promise((resolve, reject) => {
+    return Promise.race([new Promise((resolve, reject) => {
       let geocoder = new window.google.maps.Geocoder();
       geocoder.geocode({address: destinationAddress}, function (results, status) {
         if (status === window.google.maps.GeocoderStatus.OK) {
@@ -121,7 +121,9 @@ const GroupMainPage = () => {
           reject("Geocode was not successful for the following reason: " + status);
         }
       });
-    });
+    }),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('geocode request timed out')), 5000))
+    ]);
   }
 
   useEffect(() => {
