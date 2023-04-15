@@ -52,7 +52,7 @@ const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Group Name', sortable: true },
   { id: 'shipRoute', numeric: false, disablePadding: false, label: 'Route', sortable: true },
   { id: 'shipEndDate', numeric: false, disablePadding: false, label: 'End Date', sortable: true },
-  { id: 'pickupLocation', numeric: false, disablePadding: false, label: 'Pick Up At', sortable: false },
+  { id: 'pickupLocation', numeric: false, disablePadding: false, label: 'Pick Up At', sortable: true },
   { id: 'actions', numeric: false, disablePadding: false, label: 'Action', sortable: false },
   { id: 'more', numeric: false, disablePadding: false, label: '', sortable: false },
 
@@ -623,12 +623,21 @@ function stableSort(array, comparator) {
 }
 
 function descendingComparator(a, b, orderBy) {
-
+  function getShortAddress(address) {
+    const addressParts = address.split(', ');
+    const cityState = addressParts.slice(-3, -2);
+    const shortAddress = cityState.join(', ');
+    return shortAddress;
+  }
   switch (orderBy) {
     case 'endDate':
       const dateA = new Date(a.endDate);
       const dateB = new Date(b.endDate);
       return parseInt(dateB.getTime().toString()) - parseInt(dateA.getTime().toString());
+    case "pickupLocation":
+      return (getShortAddress(b.pickupLocation.address)).localeCompare(getShortAddress(a.pickupLocation.address))
+    case "name":
+      return (b.name).localeCompare(a.name)
 
     default:
       if (b[orderBy] < a[orderBy]) {

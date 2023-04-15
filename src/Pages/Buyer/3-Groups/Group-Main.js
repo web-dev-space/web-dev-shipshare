@@ -243,8 +243,8 @@ const GroupMainPage = () => {
     navigate('./group-details');
   }
 
+  // get user distance
   const [userLocation, setUserLocation] = useState(null);
-
   useEffect(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function(position) {
@@ -306,28 +306,6 @@ const GroupMainPage = () => {
     }
   }, [shipGroups, userLocation]);
 
-  // const [distances, setDistances] = useState({});
-  //
-  // useEffect(() => {
-  //   async function fetchDistances() {
-  //     const newDistances = {};
-  //     for (const row of tableData) {
-  //       try {
-  //         const distance = await calculateDistance(userLocation, row.pickupLocation.address);
-  //         newDistances[row._id] = distance.toFixed(1);
-  //       } catch (error) {
-  //         console.error(error);
-  //         newDistances[row._id] = "N/A";
-  //       }
-  //     }
-  //     console.log("distances", distances)
-  //     setDistances(newDistances);
-  //   }
-  //   if (userLocation) {
-  //     fetchDistances();
-  //   }
-  // }, [userLocation, tableData]);
-  //
 
   return (
     <>
@@ -718,6 +696,8 @@ function stableSort(array, comparator) {
       return b.distance - a.distance
     case "pickupLocation":
       return (getShortAddress(b.pickupLocation.address)).localeCompare(getShortAddress(a.pickupLocation.address))
+    case "name":
+      return (b.name).localeCompare(a.name)
 
     default:
       if (b[orderBy] < a[orderBy]) {
