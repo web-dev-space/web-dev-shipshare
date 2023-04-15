@@ -60,11 +60,12 @@ export const logout = async () => {
 
 
 export const profile = async () => {
+    axios.defaults.withCredentials = true;
     const response = await api.post(`${AUTH_URL}/profile`);
     return response.data;
 };
 
-export const changePassword = async (oldPassword, newPassword) => {
+export const changePassword = async ({oldPassword, newPassword}) => {
     const response = await api.put(`${AUTH_URL}/changePassword`, {
         oldPassword,
         newPassword

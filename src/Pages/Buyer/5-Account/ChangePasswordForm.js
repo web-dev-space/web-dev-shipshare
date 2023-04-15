@@ -20,6 +20,7 @@ import {
 } from "../../../redux/users/users-thunks";
 import {useDispatch} from "react-redux";
 import {getRandomAvatar} from "../../../utils/getRandomAvatar";
+import {profile} from "../../../redux/users/users-service";
 
 // ----------------------------------------------------------------------
 
@@ -89,8 +90,8 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
       oldPassword: data.oldPassword,
       newPassword: data.newPassword,
     };
-    console.log(newObject);
     try {
+      console.log(profile());
       await dispatch(changePasswordThunk(newObject));
       reset();
       enqueueSnackbar('Update success!');
