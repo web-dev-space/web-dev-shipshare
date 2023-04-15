@@ -68,7 +68,7 @@ function RHFTextFieldGoogle({ name, label,apiKey, ...other }) {
 RHFTextFieldGoogle.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  apiKey: PropTypes.string.isRequired,
+  // apiKey: PropTypes.string.isRequired,
 };
 
 export default RHFTextFieldGoogle;
