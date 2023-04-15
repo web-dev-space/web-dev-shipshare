@@ -69,7 +69,7 @@ const GroupMainMerchant = () => {
   }, []);
 
   // table data
-  const originalData = shipGroups;
+  const [originalData, setOriginalData] = useState(shipGroups);
 
 
   function getShortAddress(address) {
