@@ -97,6 +97,7 @@ const GroupMainPage = () => {
 
   function calculateDistance(userLocation, destinationAddress) {
     return new Promise((resolve, reject) => {
+      const attemptGeocode = (attemptCount) => {
       let geocoder = new window.google.maps.Geocoder();
       geocoder.geocode({address: destinationAddress}, function (results, status) {
         if (status === window.google.maps.GeocoderStatus.OK) {
@@ -116,12 +117,17 @@ const GroupMainPage = () => {
           let distance = earthRadius * c;
           distance = distance.toFixed(1);
           resolve(distance);
+        } else if (attemptCount < 3) {
+          console.log(`Geocode request failed with status ${status}. Retrying...`);
+          setTimeout(() => attemptGeocode(attemptCount + 1), 1000); //
         } else {
-          console.log("error call google map" + status)
-          reject("Geocode was not successful for the following reason: " + status);
+          resolve(Number.MAX_SAFE_INTEGER)
         }
       });
+      };
+      attemptGeocode(0);
     });
+
   }
 
   useEffect(() => {
