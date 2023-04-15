@@ -118,6 +118,7 @@ const GroupDetailMerchant = () => {
               <Box sx={{
                 display: 'flex',
                 alignItems: 'center',
+                justifyContent: 'center',
                 flexDirection: 'column'
               }}>
                 <Avatar
@@ -130,7 +131,6 @@ const GroupDetailMerchant = () => {
                     borderColor: 'common.white',
                     top: -64,
                     zIndex: 2,
-                    ml: 4,
                     width: {xs: 80, md: 128},
                     height: {xs: 80, md: 128},
                   }}
@@ -138,7 +138,6 @@ const GroupDetailMerchant = () => {
                 <Box
                   sx={{
                     mt: -5,
-                    ml: 4,
                   }}>
                   <Typography variant="h5">
                     My Group
