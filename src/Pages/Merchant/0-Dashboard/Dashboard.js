@@ -1,22 +1,22 @@
 import { Box, Container, Grid } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useState } from "react";
-import Main from "../../../third-party/layouts/dashboard/Main";
-import Header from "../../../third-party/layouts/dashboard/header";
-import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical";
+import Main from "third-party/layouts/dashboard/Main";
+import Header from "third-party/layouts/dashboard/header";
+import NavVertical from "third-party/layouts/dashboard/nav/NavVertical";
 // _mock_
 import {
   _ecommerceBestSalesman
-} from '../../../third-party/_mock/arrays';
+} from 'third-party/_mock/arrays';
 // components
-import { useSettingsContext } from '../../../third-party/components/settings';
+import { useSettingsContext } from 'third-party/components/settings';
 // sections
 import {
   EcommerceBestSalesman,
   EcommerceWidgetSummary,
   EcommerceYearlySales
-} from '../../../third-party/e-commerce';
-import { FileGeneralDataActivity } from '../../../third-party/file';
+} from 'third-party/e-commerce';
+import { FileGeneralDataActivity } from 'third-party/file';
 import { Helmet } from "react-helmet";
 
 
