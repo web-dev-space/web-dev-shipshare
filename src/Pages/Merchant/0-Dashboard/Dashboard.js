@@ -18,10 +18,12 @@ import {
 } from 'third-party/e-commerce';
 import { FileGeneralDataActivity } from 'third-party/file';
 import { Helmet } from "react-helmet";
-
-
+import { useDispatch } from 'react-redux';
+import { getStatsMerchantThunk } from 'redux/dashboard/dashboard-thunks';
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -40,6 +42,8 @@ const Dashboard = () => {
     month: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     year: ['2018', '2019', '2020', '2021', '2022'],
   };
+
+  dispatch(getStatsMerchantThunk());
 
   return (
     <>
