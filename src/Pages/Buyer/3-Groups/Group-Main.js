@@ -50,7 +50,7 @@ const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Group Name', sortable: true },
   { id: 'shipRoute', numeric: false, disablePadding: false, label: 'Route', sortable: true },
   { id: 'shipEndDate', numeric: false, disablePadding: false, label: 'End Date', sortable: true },
-  { id: 'pickupLocation', numeric: false, disablePadding: false, label: 'Pick Up At', sortable: false },
+  { id: 'pickupLocation', numeric: false, disablePadding: false, label: 'Pick Up At', sortable: true },
   { id: 'Distance', numeric: false, disablePadding: false, label: 'Distance', sortable: true },
   { id: 'actions', numeric: false, disablePadding: false, label: 'Action', sortable: false },
   { id: 'more', numeric: false, disablePadding: false, label: '', sortable: false },
@@ -281,7 +281,7 @@ const GroupMainPage = () => {
             * Math.sin(lngDistance / 2) * Math.sin(lngDistance / 2);
           let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
           let distance = earthRadius * c;
-
+          distance = distance.toFixed(1);
           resolve(distance);
         } else {
           reject("Geocode was not successful for the following reason: " + status);
@@ -289,29 +289,45 @@ const GroupMainPage = () => {
       });
     });
   }
-  const [distances, setDistances] = useState({});
-
 
   useEffect(() => {
-    async function fetchDistances() {
-      const newDistances = {};
-      for (const row of tableData) {
-        console.log("group",row)
-        try {
-          const distance = await calculateDistance(userLocation, row.pickupLocation.address);
-          newDistances[row._id] = distance.toFixed(1);
-        } catch (error) {
-          console.error(error);
-          newDistances[row._id] = "N/A";
-        }
-      }
-      setDistances(newDistances);
-    }
-    if (userLocation) {
-      fetchDistances();
-    }
-  }, [userLocation, tableData]);
+    const calculateDistances = async () => {
+      const newData = await Promise.all(shipGroups.map(async obj => {
+        const distance = await calculateDistance(userLocation, obj.pickupLocation.address);
+        return { ...obj, distance };
+      }));
 
+      setTableData(newData);
+      console.log('ttttt', tableData)
+    };
+
+    if (userLocation) {
+      calculateDistances();
+    }
+  }, [shipGroups, userLocation]);
+
+  // const [distances, setDistances] = useState({});
+  //
+  // useEffect(() => {
+  //   async function fetchDistances() {
+  //     const newDistances = {};
+  //     for (const row of tableData) {
+  //       try {
+  //         const distance = await calculateDistance(userLocation, row.pickupLocation.address);
+  //         newDistances[row._id] = distance.toFixed(1);
+  //       } catch (error) {
+  //         console.error(error);
+  //         newDistances[row._id] = "N/A";
+  //       }
+  //     }
+  //     console.log("distances", distances)
+  //     setDistances(newDistances);
+  //   }
+  //   if (userLocation) {
+  //     fetchDistances();
+  //   }
+  // }, [userLocation, tableData]);
+  //
 
   return (
     <>
@@ -492,16 +508,15 @@ const GroupMainPage = () => {
                             {getShortAddress(row.pickupLocation.address)}
                           </Typography>
                         </TableCell>
-
+   {/*--------  distance cell  --------*/}
                         <TableCell>
-                          {distances[row._id] ? (
-                            <Typography variant="body">
-                              {distances[row._id]} miles
-                            </Typography>
-                          ) : (
-                            <Typography variant="body">Loading...</Typography>
-                          )}
+                          <Typography
+                            variant="body"
+                          >
+                            {row.distance}{row.distance <= 1? ' mile': ' miles'}
+                          </Typography>
                         </TableCell>
+
                         <TableCell>
                           <Button variant="contained"
                             sx={{
@@ -686,8 +701,16 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+async function getDistance(origin, destination) {
+  const apiKey = "AIzaSyBhAlmoU1qiOCCSRvAbIY2l4-skF3iAVd0";
+  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=${apiKey}`;
+  const response = await fetch(url);
+  const data = await response.json();
+  const distance = data.rows[0].elements[0].distance.value;
+  return distance;
+}
 
-function descendingComparator(a, b, orderBy) {
+ function descendingComparator(a, b, orderBy, userLocation) {
   function getShortAddress(address) {
     const addressParts = address.split(', ');
     const cityState = addressParts.slice(-3, -2);
@@ -700,7 +723,8 @@ function descendingComparator(a, b, orderBy) {
       const dateA = new Date(a.shipEndDate);
       const dateB = new Date(b.shipEndDate);
       return parseInt(dateB.getTime().toString()) - parseInt(dateA.getTime().toString());
-
+    case 'Distance':
+      return b.distance - a.distance
     default:
       if (b[orderBy] < a[orderBy]) {
         return -1;
