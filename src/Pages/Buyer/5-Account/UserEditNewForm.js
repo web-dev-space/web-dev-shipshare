@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import { useCallback, useEffect, useMemo } from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 // form
 import { useForm, Controller } from 'react-hook-form';
@@ -23,7 +23,7 @@ import FormProvider, {
 	RHFTextField,
 	RHFUploadAvatar,
 } from '../../../third-party/components/hook-form';
-import { uploadImage } from "api/imageUpload.js";
+import {uploadImage, urlToFile} from "api/imageUpload.js";
 import {updateCurrentUserThunk, updateUserThunk} from "../../../redux/users/users-thunks";
 import {useDispatch} from "react-redux";
 
@@ -41,11 +41,9 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 
 	const NewUserSchema = Yup.object().shape({
 		name: Yup.string().required('Name is required'),
-		email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-		phoneNumber: Yup.string().required('Phone number is required'),
+		phone: Yup.string().required('Phone number is required'),
 		address: Yup.string().required('Address is required'),
-		role: Yup.string().required('Role is required'),
-		avatarUrl: Yup.mixed().required('Avatar is required'),
+		avatar: Yup.string().required('Avatar is required'),
 	});
 
 	const defaultValues = useMemo(
@@ -56,6 +54,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 			address: currentUser?.address || '',
 			avatar: currentUser?.avatar || null,
 			role: currentUser?.role || 'Buyer',
+			_id: currentUser?._id || '',
 		}),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[currentUser]
@@ -75,6 +74,10 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 		formState: { isSubmitting },
 	} = methods;
 
+	const [newFile, setNewFile] = useState({
+		preview: defaultValues.avatar,
+	});
+
 	const values = watch();
 
 	useEffect(() => {
@@ -86,14 +89,24 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isEdit, currentUser]);
-	const dispatch = useDispatch();
 
-	const onSubmit = async (data) => {
-		// console.log("current user is "+ currentUser);
+	const dispatch = useDispatch();
+	const onSubmit = (data) => {
+		data ={
+			...data,
+			_id: currentUser?._id,
+		}
+		console.log("data: ", data);
 		try {
 			// await new Promise((resolve) => setTimeout(resolve, 500));
-			const imageRemoteUrl = await uploadImage(data.avatarUrl)
-			const currentUser = await dispatch(updateCurrentUserThunk(data));
+			const file = urlToFile(newFile);
+			const imageRemoteUrl = uploadImage(file);
+			data = {
+				...data,
+				avatar: imageRemoteUrl,
+			}
+			dispatch(updateCurrentUserThunk(data));
+
 			console.log("imageRemoteUrl: " + imageRemoteUrl);
 
 			reset();
@@ -105,16 +118,23 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 		}
 	};
 
+	const onCancel = () => {
+		reset();
+	}
+
 	const handleDrop = useCallback(
 		(acceptedFiles) => {
 			const file = acceptedFiles[0];
-
+			console.log("file: ", file);
 			const newFile = Object.assign(file, {
 				preview: URL.createObjectURL(file),
 			});
+			console.log("newFile: ", newFile);
 
 			if (file) {
-				setValue('avatarUrl', newFile, { shouldValidate: true });
+				setValue('avatar', newFile.preview, { shouldValidate: true });
+				console.log("new file preview URL: ", newFile.preview);
+				setNewFile(newFile.preview);
 			}
 		},
 		[setValue]
@@ -141,8 +161,9 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 
 						<Box sx={{ mb: 4, mt: 3 }}>
 							<RHFUploadAvatar
-								name="avatarUrl"
+								name="avatar"
 								maxSize={3145728}
+								// file={defaultValues.avatar}
 								onDrop={handleDrop}
 								helperText={
 									<Typography
@@ -167,13 +188,13 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 
 				<Grid item xs={12} md={8}>
 					<Card sx={{ p: 3 }}>
-						<RHFTextField name="name" label="Full Name" style={{ marginBottom: 20 }} />
-						<RHFTextField name="phone" label="Phone Number" style={{ marginBottom: 20 }} />
-						<RHFTextField name="address" label="Address" style={{ marginBottom: 25 }} />
+						<RHFTextField name="name" label="Full Name" id="name" style={{ marginBottom: 20 }} />
+						<RHFTextField name="phone" label="Phone Number" id="phone" style={{ marginBottom: 20 }} />
+						<RHFTextField name="address" label="Address" id="address" style={{ marginBottom: 25 }} />
 
 						<Stack alignItems="flex-end" sx={{ mt: 3 }}>
 							<div>
-								<LoadingButton type="cancel" variant="outlined" style={{ marginRight: 10, width: 150 }}>
+								<LoadingButton type="cancel" variant="outlined" style={{ marginRight: 10, width: 150 }} onClick={onCancel}>
 									Cancel
 								</LoadingButton>
 								<LoadingButton type="submit" variant="contained" loading={isSubmitting} style={{ width: 150 }}>

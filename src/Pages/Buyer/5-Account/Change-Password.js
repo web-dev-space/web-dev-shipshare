@@ -11,13 +11,16 @@ import ChangePasswordForm from "./ChangePasswordForm.js";
 import {useParams} from "react-router-dom";
 import {_userList} from "../../../third-party/_mock/arrays";
 import {paramCase} from "change-case";
+import {useSelector} from "react-redux";
 import {Helmet} from "react-helmet";
 
 
 const ChangePassword = () => {
     const { name } = useParams();
 
-    const currentUser = _userList?.find((user) => paramCase(user.name) === name);
+    // const currentUser = _userList?.find((user) => paramCase(user.name) === name);
+
+    const currentUser = useSelector((state) => state.auth.currentUser);
 
     const [open, setOpen] = useState(false);
 
