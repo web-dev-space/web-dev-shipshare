@@ -15,6 +15,7 @@ import LoginPage from "./Pages/0-SignIn & SignUp/SignInPage";
 import SignUpPage from "./Pages/0-SignIn & SignUp/SignUpPage";
 import Home from "./Pages/home";
 import {MainIndex} from "./Pages";
+import CurrentUserSession from "./CurrentUserSession";
 
 // ----------------------------------------------------------------------
 
@@ -24,26 +25,27 @@ export default function App() {
   return (
     <SettingsProvider>
       <Provider store={store}>
-        <BrowserRouter>
-          <ScrollToTop/>
-          <MotionLazyContainer>
-            <ThemeProvider>
-              <ThemeSettings>
-                <SnackbarProvider>
-                  {/*---------------Main Routers----------------*/}
-                  <Routes>
-                    <Route path="/" element={<Home/>}/>
-                    <Route path="/home" element={<Home/>}/>
-                    <Route path="/*" element={<MainIndex/>}/>
-                    <Route path="/login" element={<LoginPage/>}/>
-                    <Route path="/signup" element={<SignUpPage/>}/>
-                  </Routes>
-                  {/*------------------------------------*/}
-                </SnackbarProvider>
-              </ThemeSettings>
-            </ThemeProvider>
-          </MotionLazyContainer>
-        </BrowserRouter>
+          <CurrentUserSession/>
+          <BrowserRouter>
+            <ScrollToTop/>
+            <MotionLazyContainer>
+              <ThemeProvider>
+                <ThemeSettings>
+                  <SnackbarProvider>
+                    {/*---------------Main Routers----------------*/}
+                    <Routes>
+                      <Route path="/" element={<Home/>}/>
+                      <Route path="/home" element={<Home/>}/>
+                      <Route path="/*" element={<MainIndex/>}/>
+                      <Route path="/login" element={<LoginPage/>}/>
+                      <Route path="/signup" element={<SignUpPage/>}/>
+                    </Routes>
+                    {/*------------------------------------*/}
+                  </SnackbarProvider>
+                </ThemeSettings>
+              </ThemeProvider>
+            </MotionLazyContainer>
+          </BrowserRouter>
       </Provider>
     </SettingsProvider>
   );
