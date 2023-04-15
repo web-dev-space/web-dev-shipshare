@@ -24,6 +24,8 @@ import PostCard from "./Discover/post-components/PostCard";
 import {Pagination} from "@mui/lab";
 import {useDispatch, useSelector} from "react-redux";
 import {findAllUsersThunk} from "../../../redux/users/users-thunks";
+import {findAllPostsThunk} from "../../../redux/posts/posts-thunks";
+import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -33,6 +35,8 @@ const Item = styled(Paper)(({ theme }) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
 }));
+
+const MAX_POSTS_PER_PAGE = 5;
 
 const Profile = (viewUser = '') => {
     const [open, setOpen] = useState(false);
@@ -64,58 +68,6 @@ const Profile = (viewUser = '') => {
     const [filter, setFilter] = useState('Posts');
     const [focusChip, setFocusChip] = useState('Posts');
 
-
-    const examplePosts = [{
-      title: "ShipShare is the Best Shipping Platform!",
-      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-      author: "Joe Doe",
-      date: new Date("2021-08-01"),
-      image: "https://source.unsplash.com/random",
-      commentsNumber: 1910,
-      viewsNumber: 8820,
-      repostsNumber: 7460,
-    },
-    {
-      title: "ShipShare is the Best Shipping Platform!",
-      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-      author: "Joe Doe",
-      date: new Date("2021-08-01"),
-      image: "https://source.unsplash.com/random",
-      commentsNumber: 1910,
-      viewsNumber: 8820,
-      repostsNumber: 7460,
-    },
-    {
-      title: "ShipShare is the Best Shipping Platform!",
-      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-      author: "Joe Doe",
-      date: new Date("2021-08-01"),
-      image: "https://source.unsplash.com/random",
-      commentsNumber: 1910,
-      viewsNumber: 8820,
-      repostsNumber: 7460,
-    },
-    {
-      title: "ShipShare is the Best Shipping Platform!",
-      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-      author: "Joe Doe",
-      date: new Date("2021-08-01"),
-      image: "https://source.unsplash.com/random",
-      commentsNumber: 1910,
-      viewsNumber: 8820,
-      repostsNumber: 7460,
-    },
-    {
-      title: "ShipShare is the Best Shipping Platform!",
-      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-      author: "Joe Doe",
-      date: new Date("2021-08-01"),
-      image: "https://source.unsplash.com/random",
-      commentsNumber: 1910,
-      viewsNumber: 8820,
-      repostsNumber: 7460,
-    }];
-
     const currentUser = useSelector((state) => state.auth.currentUser);
 
     const [follow, setFollow] = useState(false);
@@ -125,15 +77,23 @@ const Profile = (viewUser = '') => {
 
 
     const {users} = useSelector((state) => state.users);
+    const {posts} = useSelector((state) => state.posts);
     useEffect(() => {
       dispatch(findAllUsersThunk());
+      dispatch(findAllPostsThunk());
     }, []);
+
+    const [userPosts, setUserPosts] = useState([]);
+    useEffect(() => {
+      setUserPosts(posts.filter(item => item.userId === currentUser._id));
+    }, [posts, currentUser]);
 
     // count followers
     const countFollowed = users.map(item => item.following).flat().filter(item => item === currentUser._id).length;
 
+    const [page, setPage] = useState(1);
     const handlePaginationChange = (event, page) => {
-      console.log(page);
+        setPage(page);
     };
 
     return (
@@ -188,7 +148,7 @@ const Profile = (viewUser = '') => {
                           }}>
                               <Avatar
                                 alt="Remy Sharp"
-                                src={currentUser.avatar}
+                                src={getRandomAvatar(currentUser.name)}
                                 sx={{
                                     mx: 'auto',
                                     borderWidth: 2,
@@ -273,16 +233,19 @@ const Profile = (viewUser = '') => {
                             display: 'flex',
                             flexDirection:'column',
                             gap: 16 }}>
-                          {examplePosts.map((examplePost) => (
+                          {userPosts.slice(
+                              (page - 1) * MAX_POSTS_PER_PAGE,
+                              (page - 1) * MAX_POSTS_PER_PAGE + MAX_POSTS_PER_PAGE
+                          ).map((post) => (
                             <PostCard
-                            title={examplePost.title}
-                            post={examplePost.post}
-                            author={examplePost.author}
-                            date={examplePost.date}
-                            image={examplePost.image}
-                            commentsNumber={examplePost.commentsNumber}
-                            viewsNumber={examplePost.viewsNumber}
-                            repostsNumber={examplePost.repostsNumber} />
+                            title={post.title}
+                            post={post.post}
+                            author={currentUser.name}
+                            date={post.created}
+                            image={post.image}
+                            comments={post.comments}
+                            viewsNumber={post.viewsAmount}
+                            repostsNumber={post.repostsNumber} />
                             ))}
                             </div>
                           )}
@@ -297,7 +260,7 @@ const Profile = (viewUser = '') => {
                       alignItems: 'center',
                       height: 100,
                     }}>
-                      <Pagination count={10}
+                      <Pagination count={Math.ceil((userPosts || []).length / MAX_POSTS_PER_PAGE)}
                                   onChange={handlePaginationChange}
                       />
                     </div>
