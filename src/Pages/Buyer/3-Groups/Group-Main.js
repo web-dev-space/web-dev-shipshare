@@ -38,6 +38,7 @@ import { ALL_STATES, stateFullNameToAbbr } from "./allStates";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { updateShipGroupThunk, findAllShipGroupsThunk } from "../../../redux/shipGroups/shipGroups-thunks";
 import { Helmet } from "react-helmet";
+import {position} from "stylis";
 
 
 const DEFAULT_ORDER = 'asc';
@@ -242,13 +243,75 @@ const GroupMainPage = () => {
     navigate('./group-details');
   }
 
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      console.log("Latitude is " + position.coords.latitude + " Longitude is " + position.coords.longitude);
-    });
-  } else {
-    console.log("Geolocation is not supported by this browser.");
+  const [userLocation, setUserLocation] = useState(null);
+
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        let userLocation = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        };
+        setUserLocation(userLocation);
+      });
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }, []);
+
+  function toRad(value) {
+    return value * Math.PI / 180;
   }
+
+  function calculateDistance(userLocation, destinationAddress) {
+    return new Promise((resolve, reject) => {
+      let geocoder = new window.google.maps.Geocoder();
+      geocoder.geocode({ address: destinationAddress }, function(results, status) {
+        if (status === window.google.maps.GeocoderStatus.OK) {
+          let destinationLocation = {
+            latitude: results[0].geometry.location.lat(),
+            longitude: results[0].geometry.location.lng()
+          };
+
+          let earthRadius = 6371;
+          let latDistance = toRad(destinationLocation.latitude - userLocation.latitude);
+          let lngDistance = toRad(destinationLocation.longitude - userLocation.longitude);
+          let a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+            + Math.cos(toRad(userLocation.latitude)) * Math.cos(toRad(destinationLocation.latitude))
+            * Math.sin(lngDistance / 2) * Math.sin(lngDistance / 2);
+          let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+          let distance = earthRadius * c;
+
+          resolve(distance);
+        } else {
+          reject("Geocode was not successful for the following reason: " + status);
+        }
+      });
+    });
+  }
+  const [distances, setDistances] = useState({});
+
+
+  useEffect(() => {
+    async function fetchDistances() {
+      const newDistances = {};
+      for (const row of tableData) {
+        console.log("group",row)
+        try {
+          const distance = await calculateDistance(userLocation, row.pickupLocation.address);
+          newDistances[row._id] = distance.toFixed(1);
+        } catch (error) {
+          console.error(error);
+          newDistances[row._id] = "N/A";
+        }
+      }
+      setDistances(newDistances);
+    }
+    if (userLocation) {
+      fetchDistances();
+    }
+  }, [userLocation, tableData]);
+
 
   return (
     <>
@@ -334,7 +397,7 @@ const GroupMainPage = () => {
                   <TableBody>
                     {displayedItems.map((row) => (
                       <TableRow
-                        key={row.name}
+                        key={row.id}
                         style={{
                           borderTop: '1px solid #EDF2F7',
                           borderBottom: '1px solid #EDF2F7',
@@ -431,11 +494,13 @@ const GroupMainPage = () => {
                         </TableCell>
 
                         <TableCell>
-                          <Typography
-                            variant="body"
-                          >
-                            3.5 miles
-                          </Typography>
+                          {distances[row._id] ? (
+                            <Typography variant="body">
+                              {distances[row._id]} miles
+                            </Typography>
+                          ) : (
+                            <Typography variant="body">Loading...</Typography>
+                          )}
                         </TableCell>
                         <TableCell>
                           <Button variant="contained"
