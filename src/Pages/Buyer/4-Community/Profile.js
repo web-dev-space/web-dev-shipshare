@@ -148,7 +148,7 @@ const Profile = (viewUser = '') => {
                           }}>
                               <Avatar
                                 alt="Remy Sharp"
-                                src={getRandomAvatar(currentUser.name)}
+                                src={currentUser.avatar || getRandomAvatar(currentUser.name)}
                                 sx={{
                                     mx: 'auto',
                                     borderWidth: 2,
