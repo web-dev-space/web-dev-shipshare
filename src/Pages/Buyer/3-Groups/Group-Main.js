@@ -121,7 +121,7 @@ const GroupMainPage = () => {
           console.log(`Geocode request failed with status ${status}. Retrying...`);
           setTimeout(() => attemptGeocode(attemptCount + 1), 1000); //
         } else {
-          resolve(Number.MAX_SAFE_INTEGER)
+          resolve(9999)
         }
       });
       };
@@ -136,8 +136,8 @@ const GroupMainPage = () => {
         const distance = await calculateDistance(userLocation, obj.pickupLocation.address);
         return {...obj, distance};
       }));
-      setOriginalData(newData)
       setTableData(newData);
+      setOriginalData(newData)
       console.log('ttttt', tableData)
       console.log("originData", originalData)
     };

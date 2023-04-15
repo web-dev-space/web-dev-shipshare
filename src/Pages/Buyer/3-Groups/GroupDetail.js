@@ -154,8 +154,10 @@ const GroupDetailPage = (props) => {
               <Box sx={{
                 display: 'flex',
                 alignItems: 'center',
-                flexDirection: 'column'
+                justifyContent: 'center',
+                flexDirection: 'column',
               }}>
+                <Box>
                 <Avatar
                   alt="Remy Sharp"
                   src="https://material-ui.com/static/images/avatar/1.jpg"
@@ -166,17 +168,13 @@ const GroupDetailPage = (props) => {
                     borderColor: 'common.white',
                     top: -64,
                     zIndex: 2,
-                    ml: 4,
                     width: { xs: 80, md: 128 },
                     height: { xs: 80, md: 128 },
                   }}
-                />
+                /></Box>
                 <Box
-                  sx={{
-                    mt: -5,
-                    ml: 4,
-                  }}>
-                  <Typography variant="h5">
+                  sx={{mt: -5}}>
+                  <Typography variant="h5" >
                     {currentGroup ? currentGroup.name : "Loading.."}
                   </Typography>
                 </Box>
@@ -351,9 +349,7 @@ const GroupDetailPage = (props) => {
                   px: 3,
                 }}>
                 <Box
-                  sx={{
-                    my: 2,
-                  }}
+                  sx={{my: 2,}}
                 >
                   <Typography variant="h6">Activity</Typography>
                   <hr style={{ borderTop: "1px solid #F6F7FB", marginTop: "0.5rem" }} />
