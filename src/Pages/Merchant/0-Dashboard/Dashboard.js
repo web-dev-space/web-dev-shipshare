@@ -18,11 +18,15 @@ import {
 } from 'third-party/e-commerce';
 import { FileGeneralDataActivity } from 'third-party/file';
 import { Helmet } from "react-helmet";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getStatsMerchantThunk } from 'redux/dashboard/dashboard-thunks';
 
 const Dashboard = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(getStatsMerchantThunk());
+
+  const stats = useSelector(state => state.dashboard.stats);
+
+  console.debug("stats", stats);
 
   const [open, setOpen] = useState(false);
 

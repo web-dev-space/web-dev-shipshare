@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+    getStatsMerchantThunk
 } from "./dashboard-thunks";
 
 const initialState = {
