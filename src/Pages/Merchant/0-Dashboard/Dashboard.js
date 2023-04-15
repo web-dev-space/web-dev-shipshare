@@ -1,6 +1,6 @@
 import { Box, Container, Grid } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Main from "third-party/layouts/dashboard/Main";
 import Header from "third-party/layouts/dashboard/header";
 import NavVertical from "third-party/layouts/dashboard/nav/NavVertical";
@@ -22,13 +22,33 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getStatsMerchantThunk } from 'redux/dashboard/dashboard-thunks';
 
 const Dashboard = () => {
-  const dispatch = useDispatch(getStatsMerchantThunk());
+  const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const { themeStretch } = useSettingsContext();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const initStatsMerchant = () => {
+      dispatch(getStatsMerchantThunk());
+    }
+
+    initStatsMerchant();
+  }, []);
 
   const stats = useSelector(state => state.dashboard.stats);
+  // const topLeaders = useSelector(state => state.dashboard.topFiveLeaders);
+  const topLeaders = [
+    { name: "John Doe", total: 100, rank: "TOP 1", email: "ashlynn_ohara62@gmail.com" },
+  ];
 
-  console.debug("stats", stats);
+  useEffect(() => {
+    const debugStats = () => {
+      console.debug("stats changed", stats);
+    }
 
-  const [open, setOpen] = useState(false);
+    debugStats();
+  }, [stats]);
+
 
   const handleOpen = () => {
     setOpen(true);
@@ -38,16 +58,16 @@ const Dashboard = () => {
     setOpen(false);
   };
 
-  const theme = useTheme();
-  const { themeStretch } = useSettingsContext();
+  useEffect(() => {
+    console.debug("_ecommerceBestSalesman", _ecommerceBestSalesman)
+  }, [_ecommerceBestSalesman]);
+
 
   const TIME_LABELS = {
     week: ['Mon', 'Tue', 'Web', 'Thu', 'Fri', 'Sat', 'Sun'],
     month: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     year: ['2018', '2019', '2020', '2021', '2022'],
   };
-
-  dispatch(getStatsMerchantThunk());
 
   return (
     <>
@@ -75,36 +95,36 @@ const Dashboard = () => {
                 <Grid item xs={12} md={4}>
                   <EcommerceWidgetSummary
                     title="Parcels Received"
-                    percent={2.6}
-                    total={765}
-                    chart={{
-                      colors: [theme.palette.primary.main],
-                      series: [22, 8, 35, 50, 82, 84, 77, 12, 87, 43],
-                    }}
+                    // percent={2.6}
+                    total={stats?.totalParcelsNumber === undefined ? 0 : stats?.totalParcelsNumber}
+                    // chart={{
+                    //   colors: [theme.palette.primary.main],
+                    //   series: [22, 8, 35, 50, 82, 84, 77, 12, 87, 43],
+                    // }}
                   />
                 </Grid>
 
                 <Grid item xs={12} md={4}>
                   <EcommerceWidgetSummary
                     title="Shipments Sent"
-                    percent={-0.1}
-                    total={18765}
-                    chart={{
-                      colors: [theme.palette.info.main],
-                      series: [56, 47, 40, 62, 73, 30, 23, 54, 67, 68],
-                    }}
+                    // percent={-0.1}
+                    total={stats?.totalShipGroupsNumber === undefined ? 0 : stats?.totalShipGroupsNumber}
+                    // chart={{
+                    //   colors: [theme.palette.info.main],
+                    //   series: [56, 47, 40, 62, 73, 30, 23, 54, 67, 68],
+                    // }}
                   />
                 </Grid>
 
                 <Grid item xs={12} md={4}>
                   <EcommerceWidgetSummary
                     title="Total Revenue"
-                    percent={0.6}
-                    total={4876}
-                    chart={{
-                      colors: [theme.palette.warning.main],
-                      series: [40, 70, 75, 70, 50, 28, 7, 64, 38, 27],
-                    }}
+                    // percent={0.6}
+                    total={0}
+                    // chart={{
+                    //   colors: [theme.palette.warning.main],
+                    //   series: [40, 70, 75, 70, 50, 28, 7, 64, 38, 27],
+                    // }}
                   />
                 </Grid>
 
@@ -171,7 +191,7 @@ const Dashboard = () => {
                 <Grid item xs={12} md={6} lg={6}>
                   <EcommerceBestSalesman
                     title="Top Group Leaders (Forming Groups)"
-                    tableData={_ecommerceBestSalesman}
+                    tableData={topLeaders}
                     tableLabels={[
                       { id: 'groupLeader', label: 'Group Leader' },
                       { id: 'amount', label: 'Amount' },

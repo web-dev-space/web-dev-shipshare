@@ -12,9 +12,6 @@ const dashboardSlice = createSlice({
     name: "dashboard",
     initialState,
     extraReducers: {
-
-    },
-    reducers: {
         [getStatsMerchantThunk.pending]: (state, action) => {
             state.loading = true;
         },
@@ -22,7 +19,8 @@ const dashboardSlice = createSlice({
             state.stats = action.payload;
             state.loading = false;
         },
-    }
+    },
+    reducers: {}
 });
 
 
