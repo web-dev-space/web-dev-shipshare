@@ -81,6 +81,7 @@ const Profile = (viewUser = '') => {
 
     const currentUser = useSelector((state) => state.auth.currentUser);
 
+    console.log("current user ",currentUser);
     const [follow, setFollow] = useState(false);
     const handleFollow = () => {
       setFollow(!follow);
@@ -93,11 +94,11 @@ const Profile = (viewUser = '') => {
     }, []);
 
     // count followers
-    const countFollowed = users.map(item => item.following).flat().filter(item => item === currentUser._id).length;
+    const countFollowed = users.map(item => item.following).flat().filter(item => item === currentUser.email).length;
 
 
     //get posts list
-    const userId = currentUser._id;
+    const userId = currentUser.email;
     const { posts, loading } = useSelector((state) => {
       return state.posts;
     });
@@ -275,11 +276,11 @@ const Profile = (viewUser = '') => {
                             gap: 16 }}>
                           {postsList.map((post) => (
                             <PostCard
-                              id={post._id}
+                              // userId={post.userId}
                               title={post.title}
                               post={post.post}
                               author={post.author}
-                              date={post.date}
+                              date={post.created}
                               image={post.image}
                               commentsNumber={post.comments.length}
                               viewsNumber={post.viewsAmount}

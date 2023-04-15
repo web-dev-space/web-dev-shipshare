@@ -13,6 +13,8 @@ import {useNavigate, useParams} from "react-router-dom";
 import posts from "../../../../sampleData/posts";
 import {deletePostThunk, findAllPostsThunk, findPostByIdThunk} from "../../../../redux/posts/posts-thunks";
 import {Helmet} from "react-helmet";
+import {findUserById} from "../../../../redux/users/users-service";
+import {findUserByIdThunk} from "../../../../redux/users/users-thunks";
 
 const post = posts[0];
 const COMMENT_PER_PAGE = 5;
@@ -70,11 +72,18 @@ const PostDetails = () => {
     const {id} = useParams();
     const dispatch = useDispatch();
     const {posts} = useSelector(state => state.posts);
-    const post = posts.find(post => post.userId === id);
-    useEffect((id) => {
-        dispatch(findPostByIdThunk(id));
-    }, []);
+    const {users} = useSelector(state => state.users);
 
+    useEffect(() => {
+        dispatch(findPostByIdThunk(id));
+        dispatch(findUserByIdThunk(id));
+    }, [id]);
+
+    const post = posts.find(post => post.userId === id);
+    const user = users.find(user => user.email === post.userId);
+
+    console.log(post);
+    console.log("post ", user.name);
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {

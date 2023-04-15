@@ -20,6 +20,7 @@ import {findAllPostsThunk} from "../../../../redux/posts/posts-thunks";
 // sample date
 import posts from "../../../../sampleData/posts";
 import {Helmet} from "react-helmet";
+import {findAllUsersThunk, findUserByEmailThunk} from "../../../../redux/users/users-thunks";
 const examplePosts = posts;
 
 const chipLabelsArray = ["Latest", "Popular"];
@@ -95,7 +96,11 @@ const Discover = () => {
 
     const navigate = useNavigate();
 
-
+    const {users} = useSelector(state => state.users);
+    useEffect(() => {
+        dispatch(findAllUsersThunk());
+    }, []);
+    // const user = users.find(user => user.email === post.userId);
 
 
     return (
@@ -193,18 +198,26 @@ const Discover = () => {
                                     return b.viewsNumber - a.viewsNumber;
                                 }
                                 return 0;
-                            }).map((post) => (
-                                <PostCard
+                            }).map((post) => {
+                                console.log(users);
+                                console.log(post.userId);
+                                console.log(post._id);
+                                const user = users.find(user => user.email === post.userId);
+                                console.log(user);
+                                return (
+                                  <PostCard
                                     id={post._id}
                                     title={post.title}
                                     post={post.post}
-                                    author={post.author}
-                                    date={post.date}
+                                    author={user}
+                                    date={post.created}
                                     image={post.image}
                                     commentsNumber={post.comments.length}
                                     viewsNumber={post.viewsAmount}
-                                    onPostCardClick={()=>onPostCardClick(post._id)}/>
-                            ))}
+                                    onPostCardClick={() => onPostCardClick(post._id)}
+                                  />
+                                );
+                            })}
 
                         </div>
 

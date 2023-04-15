@@ -79,6 +79,7 @@ export default function PostCard({
                             color: '#929191'
                         }}>
                             <span style={{ marginLeft: 10,marginRight: 10}}>·</span>
+                            {/*{date}*/}
                             {new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(date))}
                         </div>
                         <div style={{
