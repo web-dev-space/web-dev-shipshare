@@ -65,7 +65,7 @@ const GroupMainPage = () => {
     console.log('useselector')
     return state.shipGroup.shipGroups
   });
-  const setShipGroups = (shipGroups) => dispatch(setShipGroups(shipGroups));
+  // const setShipGroups = (shipGroups) => dispatch(setShipGroups(shipGroups));
 
 
   useEffect(() => {
@@ -313,8 +313,12 @@ const GroupMainPage = () => {
     navigate('./checkout');
   }
 
-  const handleClickGroupDetail = () => {
-    navigate('./group-details');
+  const handleClickGroupDetail = (row) => {
+    console.log("row")
+    console.log(row)
+    let groupId = row._id
+    console.log(groupId)
+    navigate('./group-details?groupId=' + groupId);
   }
 
 
@@ -549,7 +553,7 @@ const GroupMainPage = () => {
                         </TableCell>
                         <TableCell>
                           <Button
-                            onClick={handleClickGroupDetail}
+                            onClick={() => handleClickGroupDetail(row)}
                             sx={{borderRadius: 5, backgroundColor: 'white', height: 45,}}
                           >
                             <MoreHorizIcon/></Button>
