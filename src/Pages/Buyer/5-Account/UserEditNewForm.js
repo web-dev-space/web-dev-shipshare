@@ -10,22 +10,17 @@ import { LoadingButton } from '@mui/lab';
 import { Box, Card, Grid, Stack, Switch, Typography, FormControlLabel } from '@mui/material';
 // utils
 import { fData } from '../../../third-party/utils/formatNumber';
-// routes
-import { PATH_DASHBOARD } from '../../../third-party/routes/paths';
-// assets
-import { countries } from '../../../third-party/assets/data';
 // components
 import Label from '../../../third-party/components/label';
-import { useSnackbar } from '../../../third-party/components/snackbar';
+import { useSnackbar } from 'notistack';
 import FormProvider, {
-	RHFSelect,
-	RHFSwitch,
 	RHFTextField,
 	RHFUploadAvatar,
 } from '../../../third-party/components/hook-form';
 import {uploadImage, urlToFile} from "api/imageUpload.js";
 import {updateCurrentUserThunk, updateUserThunk} from "../../../redux/users/users-thunks";
 import {useDispatch} from "react-redux";
+import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 
 // ----------------------------------------------------------------------
 
@@ -52,7 +47,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 			email: currentUser?.email || '',
 			phone: currentUser?.phone || '',
 			address: currentUser?.address || '',
-			avatar: currentUser?.avatar || null,
+			avatar: currentUser?.avatar || getRandomAvatar(currentUser?.name || ''),
 			role: currentUser?.role || 'Buyer',
 			_id: currentUser?._id || '',
 		}),
