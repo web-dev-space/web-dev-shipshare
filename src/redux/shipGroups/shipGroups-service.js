@@ -12,7 +12,6 @@ export const findAllShipGroups = async () => {
 
     const response = await axios.get(SHIPGROUPS_API);
     const shipGroups = response.data;
-
     return shipGroups;
 }
 
