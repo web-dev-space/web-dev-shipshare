@@ -513,7 +513,7 @@ const GroupMainPage = () => {
                           <Typography
                             variant="body"
                           >
-                            {row.distance}{row.distance <= 1? ' mile': ' miles'}
+                            {row.distance} Mi
                           </Typography>
                         </TableCell>
 
@@ -701,15 +701,6 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-async function getDistance(origin, destination) {
-  const apiKey = "AIzaSyBhAlmoU1qiOCCSRvAbIY2l4-skF3iAVd0";
-  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=${apiKey}`;
-  const response = await fetch(url);
-  const data = await response.json();
-  const distance = data.rows[0].elements[0].distance.value;
-  return distance;
-}
-
  function descendingComparator(a, b, orderBy, userLocation) {
   function getShortAddress(address) {
     const addressParts = address.split(', ');
@@ -725,6 +716,9 @@ async function getDistance(origin, destination) {
       return parseInt(dateB.getTime().toString()) - parseInt(dateA.getTime().toString());
     case 'Distance':
       return b.distance - a.distance
+    case "pickupLocation":
+      return (getShortAddress(b.pickupLocation.address)).localeCompare(getShortAddress(a.pickupLocation.address))
+
     default:
       if (b[orderBy] < a[orderBy]) {
         return -1;
