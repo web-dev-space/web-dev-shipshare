@@ -35,6 +35,7 @@ const authSlice = createSlice({
             state.currentUser = null;
         },
         [profileThunk.fulfilled]: (state, { payload }) => {
+            console.log("payload" + payload);
             state.currentUser = payload;
         },
         [updateCurrentUserThunk.fulfilled]: (state, { payload }) => {

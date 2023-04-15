@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
@@ -7,8 +7,8 @@ import { Container, Typography, Box, Card, Stack } from '@mui/material';
 import {useSnackbar} from "notistack";
 import useDoubleClick from '../../../third-party/hooks/useDoubleClick';
 import useCopyToClipboard from "../../../third-party/hooks/useCopyToClipboard";
-import {useSelector} from "react-redux";
 import {Helmet} from "react-helmet";
+import {findWarehouseByCompany} from "../../../redux/warehouse/warehouse-service";
 
 
 const Warehouse = () => {
@@ -22,30 +22,25 @@ const Warehouse = () => {
 		setOpen(false);
 	};
 
-	const currentUser = useSelector((state) => state.auth.currentUser);
-	console.log("current userId is " + currentUser._id);
-	console.log("current address is "+ currentUser.warehouseAddress);
+	const [currentWarehouse, setCurrentWarehouse] = useState(null);
+	useEffect(() => {
+		const fetchWarehouse = async () => {
+			try {
+				const response = await findWarehouseByCompany("ShipShare Official");
+				setCurrentWarehouse(response[0]);
+				console.log(response)
+			} catch (e) {
+				console.log(e);
+			}
+		}
+		fetchWarehouse().then(r => r);
+	},[setCurrentWarehouse]);
+
 
 
 	// handle copy to clipboard
 	const { enqueueSnackbar } = useSnackbar();
-
 	const { copy } = useCopyToClipboard();
-
-	// handle text
-	// let currentAddress = {
-	// 	receiver: "John",
-	// 	street: "1234 Main St",
-	// 	city: "Guangzhou",
-	// 	province: "Guangdong",
-	// 	phoneNumber: "13800001234",
-	// };
-	//
-	// const fullAddress = `${currentAddress.street}, ${currentAddress.city}, ${currentAddress.province}`;
-	// const textOnClick =
-	// 	`Receiver: ${currentAddress.receiver}` + "\n" +
-	// 	`Phone Number: ${currentAddress.phoneNumber}` + "\n" +
-	// 	`Address: ${fullAddress}`;
 
 	const onCopy = (text) => {
 		if (text) {
@@ -59,11 +54,12 @@ const Warehouse = () => {
 	});
 
 
-
 	const textOnClick =
-		`Receiver: ${currentUser.warehouseReceiver}` + "\n" +
-		`Phone Number: ${currentUser.warehousePhone}` + "\n" +
-		`Address: ${currentUser.warehouseAddress}`;
+		currentWarehouse?
+		`Receiver: ${currentWarehouse.receiver}` + "\n" +
+		`Phone Number: ${currentWarehouse.phoneNumber}` + "\n" +
+		`Address: ${currentWarehouse.street}, ${currentWarehouse.city}, ${currentWarehouse.province}`
+		: "";
 
 	return (
 		<>
@@ -92,15 +88,15 @@ const Warehouse = () => {
 						<Card onClick={handleClick} sx={{ p: 3 }}>
 							<Stack direction="row" spacing={1}>
 								<Typography paragraph style={{fontSize: 18, fontWeight: 'bold'}}>Receiver: </Typography>
-								<Typography paragraph style={{fontSize: 18}}>{currentUser.warehouseReceiver}</Typography>
+								{currentWarehouse && <Typography paragraph style={{fontSize: 18}}>{currentWarehouse.receiver}</Typography>}
 							</Stack>
 							<Stack direction="row" spacing={1}>
 								<Typography paragraph style={{fontSize: 18, fontWeight: 'bold'}}>Phone Number: </Typography>
-								<Typography paragraph style={{fontSize: 18}}>{currentUser.warehousePhone}</Typography>
+								{currentWarehouse && <Typography paragraph style={{fontSize: 18}}>{currentWarehouse.phoneNumber}</Typography>}
 							</Stack>
 							<Stack direction="row" spacing={1}>
 								<Typography paragraph style={{fontSize: 18, fontWeight: 'bold'}}>Address: </Typography>
-								<Typography paragraph style={{fontSize: 18}}>{currentUser.warehouseAddress}</Typography>
+								{currentWarehouse && <Typography paragraph style={{fontSize: 18}}>{currentWarehouse.street}, {currentWarehouse.city}, {currentWarehouse.province}</Typography>}
 							</Stack>
 						</Card>
 
