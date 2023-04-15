@@ -2,6 +2,7 @@ import axios from 'axios';
 import {API_BASE} from '../API_BASE';
 
 const USERS_URL = `${API_BASE}/users`;
+const AUTH_URL = `${API_BASE}/auth`;
 
 // User API
 export const findAllUsers = async () => {
@@ -34,7 +35,7 @@ export const updateUser = async (newUser) => {
 const api = axios.create({ withCredentials: true });
 
 export const login = async ({ email, password }) => {
-    const response = await api.post(`${USERS_URL}/login`, {
+    const response = await api.post(`${AUTH_URL}/login`, {
         email,
         password,
     });
@@ -43,7 +44,7 @@ export const login = async ({ email, password }) => {
 
 
 export const signup = async ({ name, email, password, role}) => {
-    const response = await api.post(`${USERS_URL}/signup`, {
+    const response = await api.post(`${AUTH_URL}/signup`, {
         name,
         email,
         password,
@@ -53,18 +54,18 @@ export const signup = async ({ name, email, password, role}) => {
 }
 
 export const logout = async () => {
-    const response = await api.post(`${USERS_URL}/logout`);
+    const response = await api.post(`${AUTH_URL}/logout`);
     return response.data;
 };
 
 
 export const profile = async () => {
-    const response = await api.post(`${USERS_URL}/profile`);
+    const response = await api.post(`${AUTH_URL}/profile`);
     return response.data;
 };
 
 export const changePassword = async (oldPassword, newPassword) => {
-    const response = await api.put(`${USERS_URL}/changePassword`, {
+    const response = await api.put(`${AUTH_URL}/changePassword`, {
         oldPassword,
         newPassword
     });
