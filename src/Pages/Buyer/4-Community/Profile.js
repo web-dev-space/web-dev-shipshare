@@ -26,6 +26,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 import {CustomAvatar} from "../../../third-party/components/custom-avatar";
 import {getRandomAvatar} from "../../../utils/getRandomAvatar";
+import {useNavigate} from "react-router-dom";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -94,9 +95,26 @@ const Profile = (viewUser = '') => {
     // count followers
     const countFollowed = users.map(item => item.following).flat().filter(item => item === currentUser._id).length;
 
+
+    //get posts list
+    const userId = currentUser._id;
+    const { posts, loading } = useSelector((state) => {
+      return state.posts;
+    });
+
+
+    console.log("posts  ", posts);
+    const postsList = posts.filter(item => item.userId === userId);
+    console.log("postsList  ", postsList);
+
     const handlePaginationChange = (event, page) => {
       console.log(page);
     };
+
+    const navigate = useNavigate();
+    function onPostCardClick  (id) {
+      navigate(`../discover/post/${id}`);
+    }
 
     return (
       <>
@@ -258,16 +276,17 @@ const Profile = (viewUser = '') => {
                             display: 'flex',
                             flexDirection:'column',
                             gap: 16 }}>
-                          {examplePosts.map((examplePost) => (
+                          {postsList.map((post) => (
                             <PostCard
-                            title={examplePost.title}
-                            post={examplePost.post}
-                            author={examplePost.author}
-                            date={examplePost.date}
-                            image={examplePost.image}
-                            commentsNumber={examplePost.commentsNumber}
-                            viewsNumber={examplePost.viewsNumber}
-                            repostsNumber={examplePost.repostsNumber} />
+                              id={post._id}
+                              title={post.title}
+                              post={post.post}
+                              author={post.author}
+                              date={post.date}
+                              image={post.image}
+                              commentsNumber={post.comments.length}
+                              viewsNumber={post.viewsAmount}
+                              onPostCardClick={()=>onPostCardClick(post._id)}/>
                             ))}
                             </div>
                           )}
