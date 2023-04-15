@@ -70,7 +70,7 @@ const PostDetails = () => {
     const {id} = useParams();
     const dispatch = useDispatch();
     const {posts} = useSelector(state => state.posts);
-    const post = posts.find(post => post._id === id);
+    const post = posts.find(post => post.userId === id);
     useEffect((id) => {
         dispatch(findPostByIdThunk(id));
     }, []);

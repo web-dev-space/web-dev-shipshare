@@ -101,11 +101,8 @@ const Profile = (viewUser = '') => {
     const { posts, loading } = useSelector((state) => {
       return state.posts;
     });
-
-
-    console.log("posts  ", posts);
     const postsList = posts.filter(item => item.userId === userId);
-    console.log("postsList  ", postsList);
+
 
     const handlePaginationChange = (event, page) => {
       console.log(page);

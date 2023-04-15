@@ -88,6 +88,7 @@ const SignUpPage = () => {
           left: 0,
           zIndex: 1,
           width: '100%',
+          height:'100%',
         }}
       >
         {/*----------------- left -----------------*/}
@@ -234,12 +235,19 @@ const SignUpPage = () => {
         <Box
           sx={{
             width: '40%',
+            height:"100%",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <Image
             src={welcomeImg}
             alt="welcome"
             sx={{
+              objectFit: 'cover',
+              height: '100%',
+              width: '100%',
               boxShadow: 1,
             }}
           />
