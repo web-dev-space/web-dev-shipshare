@@ -1,36 +1,26 @@
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 // form
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Box, Card, Grid, Stack, Switch, Typography, FormControlLabel } from '@mui/material';
-// utils
-import { fData } from '../../../third-party/utils/formatNumber';
-// routes
-import { PATH_DASHBOARD } from '../../../third-party/routes/paths';
-// assets
-import { countries } from '../../../third-party/assets/data';
+import { Box, Card, Grid, Stack, Typography } from '@mui/material';
 // components
 import Label from '../../../third-party/components/label';
-import { useSnackbar } from '../../../third-party/components/snackbar';
+import { useSnackbar } from 'notistack';
 import FormProvider, {
-  RHFSelect,
-  RHFSwitch,
   RHFTextField,
-  RHFUploadAvatar,
 } from '../../../third-party/components/hook-form';
 import { Avatar } from '@mui/material';
 import {
-  changePasswordThunk,
-  signupThunk,
-  updateCurrentUserThunk,
-  updateUserThunk
+  changePasswordThunk
 } from "../../../redux/users/users-thunks";
 import {useDispatch} from "react-redux";
+import {getRandomAvatar} from "../../../utils/getRandomAvatar";
+import {profile} from "../../../redux/users/users-service";
 
 // ----------------------------------------------------------------------
 
@@ -44,18 +34,24 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const defaultValues = useMemo(
+  const currentUserInfo = useMemo(
     () => ({
       name: currentUser?.name || '',
       email: currentUser?.email || '',
       phoneNumber: currentUser?.phoneNumber || '',
       address: currentUser?.address || '',
-      avatar: currentUser?.avatar || null,
+      avatar: currentUser?.avatar || getRandomAvatar(currentUser?.name || ''),
       role: currentUser?.role || 'Buyer',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentUser]
   );
+
+  const defaultValues = {
+      oldPassword: '',
+      newPassword: '',
+      confirmedPassword: '',
+  };
 
   const NewUserSchema = Yup.object().shape({
     oldPassword: Yup.string()
@@ -88,72 +84,61 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
 
   const values = watch();
 
-  useEffect(() => {
-    if (isEdit && currentUser) {
-      reset(defaultValues);
-    }
-    if (!isEdit) {
-      reset(defaultValues);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, currentUser]);
-
   const dispatch = useDispatch();
-  const onSubmit = (data) => {
-    console.log("password is " + currentUser.password);
-      data = {
-        ...data,
-        _id: currentUser._id,
-        password: data.confirmedPassword,
-      };
-      try {
-        console.log(data);
-        console.log("after password is " + currentUser.password);
-        dispatch(changePasswordThunk(data));
-        reset();
-        enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-        navigate("./");
-      } catch (error) {
-        console.log(error);
-      }
+  const onSubmit = async (data) => {
+    const newObject = {
+      oldPassword: data.oldPassword,
+      newPassword: data.newPassword,
+    };
+    try {
+      console.log(profile());
+      await dispatch(changePasswordThunk(newObject));
+      reset();
+      enqueueSnackbar('Update success!');
+      navigate("./");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onCancel = () => {
     reset();
-    navigate("../");
+    navigate("./");
   }
 
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
+        {/*Left part*/}
         <Grid item xs={12} md={4}>
           <Card sx={{ pt: 6, pb: 5, px: 3 }}>
             {isEdit && (
               <Label
                 color={
-                  defaultValues.role === 'buyer'
+                  currentUserInfo.role === 'buyer'
                     ? 'primary'
-                    : defaultValues.role === 'merchant'
+                    : currentUserInfo.role === 'merchant'
                       ? 'secondary'
                       : 'warning'}
                 sx={{ textTransform: 'uppercase', position: 'absolute', top: 24, right: 24 }}
               >
-                {defaultValues.role}
+                {currentUserInfo.role}
               </Label>
             )}
 
             <Box sx={{ mt:3, display: 'flex', alignItems: 'center', flexDirection: "column"}}>
-              <Avatar alt="Remy Sharp" src={defaultValues.avatar}
+              <Avatar alt="avatar" src={currentUserInfo.avatar}
                             sx={{ width: 120, height: 125 }} />
               <Typography variant="h5" component="h1" paragraph sx={{mt:4}}>
-                {defaultValues.name}
+                {currentUserInfo.name}
               </Typography>
             </Box>
 
           </Card>
         </Grid>
 
+        {/*Right part*/}
         <Grid item xs={12} md={8}>
           <Card sx={{ p: 3 }}>
             <RHFTextField name="oldPassword" label="Current Password" id="oldPassword" sx={{mb: 2}}/>
@@ -164,8 +149,11 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
                 <LoadingButton type="cancel" variant="outlined" style={{marginRight:10, width: 150}} onClick={onCancel}>
                   Cancel
                 </LoadingButton>
-                <LoadingButton type="submit" variant="contained" loading={isSubmitting} style={{width:150}}>
-                  {!isEdit ? 'Create Password' : 'Save Changes'}
+                <LoadingButton
+                    type="submit"
+                    variant="contained" style={{width:150}}
+                    loading={isSubmitting}>
+                  Save Changes
                 </LoadingButton>
               </div>
             </Stack>

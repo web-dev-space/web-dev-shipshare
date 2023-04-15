@@ -46,7 +46,6 @@ const parcelsSlice = createSlice({
         // update
         [updateParcelThunk.fulfilled]: (state, { payload }) => {
             state.loading = false;
-            console.log(payload)
             state.parcels = state.parcels.map
                 (parcel =>
                     parcel._id === payload._id

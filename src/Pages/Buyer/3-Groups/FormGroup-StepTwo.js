@@ -36,16 +36,10 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
     endDate: '',
   };
 
-
   // validation schema
   const NewGroupSchema = Yup.object().shape({
     groupName: Yup.string().required('Required'),
     receiverName: Yup.string().required('Required'),
-    // pickupLocation: Yup.string().required('Required'),
-    // pickupLocation: Yup.object().shape({
-    //   name: Yup.string().default(currentUser.email).required('Required'),
-    //   address: Yup.string().required('Required'),
-    // }),
     phoneNumber: Yup.string().required('Required'),
     endDate: Yup.string().required('Required'),
   });
@@ -127,9 +121,9 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
             name="pickupLocation"
             id="outlined-required"
             label="Pickup Location"
-            placeholder={'e.g. 123 Main Street, New York, NY 10001'}
+            placeholder={'e.g. 909 Kifer Rd, Sunnyvale, CA 94086, USA'}
             onChange={(location) => handlePickupLocationChange(location)}
-            apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+            // apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
           />
           <Stack
             direction={{sm: 'column', md: 'row'}}
