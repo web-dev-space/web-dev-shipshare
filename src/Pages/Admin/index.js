@@ -24,7 +24,7 @@ export default function Admin() {
             <Route path="/groups/*" element={<GroupMainMerchant />} />
             <Route path="/community/*" element={<Community />} />
             <Route path="/account/*" element={<Account />} />
-            <Route path="/change-warehouse-address" element={<ChangeWarehouse/>} />
+            <Route path="/account/change-warehouse-address" element={<ChangeWarehouse/>} />
             <Route path="/help/*" element={<Help />} />
 
             <Route path="/login" element={<LoginPage />} />

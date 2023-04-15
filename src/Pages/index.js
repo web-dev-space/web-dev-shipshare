@@ -30,7 +30,7 @@ export function MainIndex() {
 
                 <Route path="/userlist" element={<Page403 />} />
                 <Route path="/dashboard" element={<Page403 />} />
-                <Route path="/change-warehouse-address" element={<Page403 />} />
+                <Route path="/account/change-warehouse-address" element={<Page403 />} />
                 <Route path="/account/*" element={<Page403 />} />
                 <Route path="/*" element={<Page404 />} />
             </Routes>
@@ -47,7 +47,7 @@ export function MainIndex() {
 
                 <Route path="/userlist" element={<Page403 />} />
                 <Route path="/dashboard" element={<Page403 />} />
-                <Route path="/change-warehouse-address" element={<Page403 />} />
+                <Route path="/account/change-warehouse-address" element={<Page403 />} />
                 <Route path="/*" element={<Page404 />} />
             </Routes>
     )
@@ -80,7 +80,7 @@ export function MainIndex() {
                 <Route path="/groups/*" element={<GroupMainMerchant />} />
                 <Route path="/community/*" element={<Community />} />
                 <Route path="/account/*" element={<Account />} />
-                <Route path="/change-warehouse-address" element={<ChangeWarehouse/>} />
+                <Route path="/account/change-warehouse-address" element={<ChangeWarehouse/>} />
                 <Route path="/help/*" element={<Help />} />
                 <Route path="/*" element={<Page404 />} />
             </Routes>
