@@ -12,6 +12,10 @@ import Iconify from '../../../../third-party/components/iconify';
 import SvgColor from '../../../../third-party/components/svg-color';
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import {useState} from "react";
+import {getRandomAvatar} from "../../../../utils/getRandomAvatar";
+import {useNavigate} from "react-router-dom";
+import {findAllUsersThunk, updateCurrentUserThunk} from "../../../../redux/users/users-thunks";
+import {useSelector} from "react-redux";
 
 // ----------------------------------------------------------------------
 
@@ -31,15 +35,35 @@ UserCard.propTypes = {
 	user: PropTypes.object,
 };
 
-export default function UserCard({ user }) {
-	const { name, cover, follower, totalPosts, avatarUrl, following } = user;
-	const [follow, setFollow] = useState(false);
+export default function UserCard({ user, disableFollowButton, dispatch }) {
+	const navigate = useNavigate();
+	const { name, cover, followers, posts, avatar, following } = user;
+
+	const currentUser = useSelector((state) => state.auth.currentUser);
+	const follow = currentUser.following.includes(user._id)
+
+	// control profile page
 	const handleFollow = () => {
-		setFollow(!follow);
+		if (follow) {
+			dispatch(updateCurrentUserThunk({
+				...currentUser,
+				following: currentUser.following.filter(item => item !== user._id),
+			})).then(() =>
+				dispatch(findAllUsersThunk()));
+		} else {
+			dispatch(updateCurrentUserThunk({
+				...currentUser,
+				following: [
+					...currentUser.following,
+					user._id,
+				],
+			})).then(() =>
+				dispatch(findAllUsersThunk()));
+		}
 	};
 
 	return (
-		<Card sx={{ textAlign: 'center' }}>
+		<Card sx={{ textAlign: 'center' }} onClick={() => navigate(`./${user._id}`)}>
 			<Box sx={{ position: 'relative' }}>
 				<SvgColor
 					src="/assets/shape_avatar.svg"
@@ -58,7 +82,7 @@ export default function UserCard({ user }) {
 
 				<Avatar
 					alt={name}
-					src={avatarUrl}
+					src={avatar || name ? getRandomAvatar(name) : ''}
 					sx={{
 						width: 64,
 						height: 64,
@@ -73,7 +97,7 @@ export default function UserCard({ user }) {
 
 				<StyledOverlay />
 
-				<Image src={cover} alt={cover} ratio="16/9" />
+				<Image src="https://source.unsplash.com/random" alt={name} ratio="16/9" />
 			</Box>
 
 			<Typography variant="subtitle1" sx={{ mt: 6, mb: 0.5 }}>
@@ -83,11 +107,11 @@ export default function UserCard({ user }) {
 			{/*<Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, width: 120 , marginBottom:30, marginTop:10}}>*/}
 			{/*	Follow*/}
 			{/*</Button>*/}
-			{!follow && (
+			{!disableFollowButton && !follow && (
 				<Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
 					Follow
 				</Button> )}
-			{follow && (
+			{!disableFollowButton && follow && (
 				<Button variant="outlined" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
 					Unfollow
 				</Button>)}
@@ -99,7 +123,7 @@ export default function UserCard({ user }) {
 					<Typography variant="caption" component="div" sx={{ mb: 0.75, color: 'text.disabled' }}>
 						Follower
 					</Typography>
-					<Typography variant="subtitle1">{fShortenNumber(follower)}</Typography>
+					<Typography variant="subtitle1">{fShortenNumber(followers.length)}</Typography>
 				</div>
 
 				<div>
@@ -107,14 +131,14 @@ export default function UserCard({ user }) {
 						Following
 					</Typography>
 
-					<Typography variant="subtitle1">{fShortenNumber(following)}</Typography>
+					<Typography variant="subtitle1">{fShortenNumber(following.length)}</Typography>
 				</div>
 
 				<div>
 					<Typography variant="caption" component="div" sx={{ mb: 0.75, color: 'text.disabled' }}>
 						Total Post
 					</Typography>
-					<Typography variant="subtitle1">{fShortenNumber(totalPosts)}</Typography>
+					<Typography variant="subtitle1">{fShortenNumber(posts.length)}</Typography>
 				</div>
 			</Box>
 		</Card>

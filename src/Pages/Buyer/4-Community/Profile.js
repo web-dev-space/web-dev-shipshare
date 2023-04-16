@@ -22,9 +22,7 @@ import {Pagination} from "@mui/lab";
 import {useDispatch, useSelector} from "react-redux";
 import {
     findAllUsersThunk,
-    profileThunk,
     updateCurrentUserThunk,
-    updateUserThunk
 } from "../../../redux/users/users-thunks";
 import {findAllPostsThunk} from "../../../redux/posts/posts-thunks";
 import {getRandomAvatar} from "../../../utils/getRandomAvatar";
@@ -41,8 +39,9 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const MAX_POSTS_PER_PAGE = 5;
 
-const countFollowed = (users, currentUser) => {
-    return users.map(item => item.following).flat().filter(item => currentUser && item === currentUser._id).length;
+const getFollowers = (users, currentUser) => {
+    return users.filter(item => currentUser && (item.following || [])
+        .find((id) => id === currentUser._id));
 };
 
 const Profile = () => {
@@ -123,7 +122,7 @@ const Profile = () => {
                 && visibleProfile.role === 'buyer'
                 && currentUser._id !== visibleProfile._id);
             setFollow(currentUser.following.includes(visibleProfile._id));
-            setFollowers(countFollowed(users, visibleProfile));
+            setFollowers(getFollowers(users, visibleProfile).length);
         }
     }, [currentUser, visibleProfile, users]);
 
@@ -252,10 +251,18 @@ const Profile = () => {
                             <Activity />
                           )}
                           {focusChip === 'Following' && (
-                            <UserCardsPage />
+                            <UserCardsPage users={visibleProfile
+                                .following.map(id => users.find(user => user._id === id))}
+                            allUsers={users} allPosts={posts}
+                                           dispatch={dispatch}/>
                           )}
                           {focusChip === 'Followers' && (
-                            <UserCardsPage />
+                            <UserCardsPage
+                                users={getFollowers(users, visibleProfile)}
+                                allUsers={users}
+                                allPosts={posts}
+                                dispatch={dispatch}
+                            />
                           )}
                           {focusChip === 'Formed Group' && (
                             <GroupCardsPage />
