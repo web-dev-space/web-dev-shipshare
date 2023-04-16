@@ -193,7 +193,7 @@ const Discover = () => {
                                     id={post._id}
                                     title={post.title}
                                     post={post.post}
-                                    author={post.author}
+                                    author={post.name}
                                     date={post.created}
                                     image={post.image}
                                     commentsNumber={post.comments.length}

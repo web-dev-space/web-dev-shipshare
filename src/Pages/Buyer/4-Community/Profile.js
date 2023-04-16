@@ -25,7 +25,7 @@ import {
 } from "../../../redux/users/users-thunks";
 import {findAllPostsThunk} from "../../../redux/posts/posts-thunks";
 import {getRandomAvatar} from "../../../utils/getRandomAvatar";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {findAllShipGroupsThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 import {getRandomBanner} from "../../../utils/getRandomBanner";
 
@@ -139,6 +139,11 @@ const Profile = () => {
             setJoinedGroup(shipGroups.filter(item => item.members.includes(visibleProfile.email)));
         }
     }, [visibleProfile, shipGroups]);
+
+    const navigate = useNavigate();
+    function onPostCardClick  (id) {
+      navigate(`../discover/post/${id}`);
+    }
 
     return (
       <>
@@ -299,7 +304,8 @@ const Profile = () => {
                             image={post.image}
                             comments={post.comments}
                             viewsNumber={post.viewsAmount}
-                            repostsNumber={post.repostsNumber} />
+                            repostsNumber={post.repostsNumber}
+                            onPostCardClick={()=>onPostCardClick(post._id)}/>
                             ))}
                             </div>
                           )}
