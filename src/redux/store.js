@@ -6,6 +6,7 @@ import usersReducer from "./users/users-reducer";
 import shipGroupReducer from "./shipGroups/shipGroups-reducer.js";
 import postsReducer from "./posts/posts-reducer.js";
 import warehouseReducer from "./warehouse/warehouse-reducer";
+import dashboardReducer from "redux/dashboard/dashboard-reducer";
 
 const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
     users: usersReducer,
     posts: postsReducer,
     warehouses: warehouseReducer,
+    dashboard: dashboardReducer,
   },
 });
 

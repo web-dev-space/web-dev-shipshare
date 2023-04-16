@@ -18,7 +18,7 @@ EcommerceWidgetSummary.propTypes = {
   percent: PropTypes.number,
 };
 
-export default function EcommerceWidgetSummary({ title, percent, total, chart, sx, ...other }) {
+const MyChart = ({ chart }) => {
   const { colors, series, options } = chart;
 
   const chartOptions = useChart({
@@ -51,6 +51,18 @@ export default function EcommerceWidgetSummary({ title, percent, total, chart, s
     ...options,
   });
 
+  return <Chart
+    type="line"
+    series={[{ data: series }]}
+    options={chartOptions}
+    width={120}
+    height={80}
+  />
+
+}
+
+export default function EcommerceWidgetSummary({ title, percent, total, chart, sx, ...other }) {
+
   return (
     <Card sx={{ display: 'flex', alignItems: 'center', p: 3, ...sx }} {...other}>
       <Box sx={{ flexGrow: 1 }}>
@@ -62,16 +74,11 @@ export default function EcommerceWidgetSummary({ title, percent, total, chart, s
           {fNumber(total)}
         </Typography>
 
-        <TrendingInfo percent={percent} />
+        {percent !== undefined && <TrendingInfo percent={percent} />}
       </Box>
 
-      <Chart
-        type="line"
-        series={[{ data: series }]}
-        options={chartOptions}
-        width={120}
-        height={80}
-      />
+      {chart !== undefined && <MyChart chart={chart} />}
+
     </Card>
   );
 }
