@@ -111,6 +111,9 @@ export default function UserCard({ user, disableFollowButton, dispatch }) {
 				<Button variant="outlined" color="primary" style={{ borderRadius: 25, height:40, marginTop:8, marginBottom:8  }} onClick={handleFollow}>
 					Unfollow
 				</Button>)}
+			{disableFollowButton && (
+				<div style={{height: 56}}/>
+			)}
 
 			<Divider sx={{ borderStyle: 'dashed' }} />
 
