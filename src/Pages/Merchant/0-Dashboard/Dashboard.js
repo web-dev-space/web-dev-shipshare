@@ -113,6 +113,7 @@ const Dashboard = () => {
 
     const todayMonth = new Date().getMonth();
     timeLabels.month = rotateArray(timeLabels.month, todayMonth);
+    return timeLabels;
 
   }, []);
 
@@ -156,7 +157,7 @@ const Dashboard = () => {
 
         {/*--------------Main Content----------------------*/}
         <Main>
-          <Container maxWidth={false}>
+          {stats !== undefined && <Container maxWidth={false}>
             <Container maxWidth={themeStretch ? false : 'xl'}>
               <Grid container spacing={3}>
 
@@ -196,7 +197,7 @@ const Dashboard = () => {
                   />
                 </Grid> */}
 
-                <Grid item xs={12} md={12} lg={12}>
+                {timeLabels !== undefined && <Grid item xs={12} md={12} lg={12}>
                   <FileGeneralDataActivity
                     title="Shipment Activity"
                     chart={{
@@ -232,6 +233,7 @@ const Dashboard = () => {
                     }}
                   />
                 </Grid>
+                }
 
                 {/* <Grid item xs={12} md={6} lg={6}>
                   <EcommerceYearlySales
@@ -284,11 +286,12 @@ const Dashboard = () => {
 
               </Grid>
             </Container>
-          </Container>
+          </Container>}
         </Main>
         {/*------------------------------------*/}
       </Box>
     </>
   );
 };
+
 export default Dashboard;
