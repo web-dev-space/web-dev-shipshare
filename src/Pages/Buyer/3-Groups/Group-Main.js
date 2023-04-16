@@ -309,8 +309,12 @@ const GroupMainPage = () => {
     navigate('./form-new-group');
   }
 
-  const handleClickJoinGroup = () => {
-    navigate('./checkout');
+  const handleClickJoinGroup = (row) => {
+    console.log("row")
+    console.log(row)
+    let groupId = row._id
+    console.log(groupId)
+    navigate('./checkout?groupId=' + groupId);
   }
 
   const handleClickGroupDetail = (row) => {
@@ -546,7 +550,7 @@ const GroupMainPage = () => {
                                     backgroundColor: '80B213',
                                     height: 45,
                                   }}
-                                  onClick={handleClickJoinGroup}
+                                  onClick={() => handleClickJoinGroup(row)}
                           >
                             Join
                           </Button>
