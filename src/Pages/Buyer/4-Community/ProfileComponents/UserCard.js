@@ -43,7 +43,8 @@ export default function UserCard({ user, disableFollowButton, dispatch }) {
 	const follow = currentUser.following.includes(user._id)
 
 	// control profile page
-	const handleFollow = () => {
+	const handleFollow = (event) => {
+		event.stopPropagation();
 		if (follow) {
 			dispatch(updateCurrentUserThunk({
 				...currentUser,
@@ -63,7 +64,7 @@ export default function UserCard({ user, disableFollowButton, dispatch }) {
 	};
 
 	return (
-		<Card sx={{ textAlign: 'center' }} onClick={() => navigate(`./${user._id}`)}>
+		<Card sx={{ textAlign: 'center' }} onClick={() => navigate(`/community/profile/${user._id}`)}>
 			<Box sx={{ position: 'relative' }}>
 				<SvgColor
 					src="/assets/shape_avatar.svg"

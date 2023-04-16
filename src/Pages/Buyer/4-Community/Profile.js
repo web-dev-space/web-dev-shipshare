@@ -67,7 +67,7 @@ const Profile = () => {
     const [joinedGroup, setJoinedGroup] = useState([]);
 
     const chipLabelsArray = userId ? ['Posts', 'Formed Group','Following', 'Followers']
-        : ['Activity', 'Posts', 'Formed Group', 'Joined Group','Following', 'Followers'];
+        : ['Posts', 'Formed Group', 'Joined Group','Following', 'Followers'];
 
     const handleOpen = () => {
         setOpen(true);
@@ -261,9 +261,6 @@ const Profile = () => {
                       {/*content*/}
                       <div style={{marginTop:10}}>
                         <CardContent>
-                          {focusChip === 'Activity' && (
-                            <Activity />
-                          )}
                           {focusChip === 'Following' && (
                             <UserCardsPage users={visibleProfile
                                 .following.map(id => users.find(user => user._id === id))}

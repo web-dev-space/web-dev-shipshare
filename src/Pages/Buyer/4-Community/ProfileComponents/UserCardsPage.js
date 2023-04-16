@@ -33,7 +33,7 @@ export default function UserCardsPage({users, allUsers, allPosts, dispatch}) {
 				>
 					{users.map((user) => (
 						<UserCard key={user?._id}
-								  disableFollowButton={currentUser && currentUser._id === user._id}
+								  disableFollowButton={currentUser && (currentUser._id === user?._id)}
 								  dispatch={dispatch}
 								  user={{
 									  ...user,

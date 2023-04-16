@@ -29,7 +29,7 @@ export default function GroupCard({key, group})  {
 						alignItems: 'center',
 						padding: 16,
 					}}>
-						<img src={leader.avatar || getRandomAvatar(leader.name)}
+						<img src={leader ? (leader.avatar || getRandomAvatar(leader.name)) : ""}
 								 alt="post image"
 								 style={{
 									 width: 70,
