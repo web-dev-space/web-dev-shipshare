@@ -37,6 +37,8 @@ const Home = () => {
 
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const [isLargeScreen, setIsLargeScreen] = useState(false);
+    const [fontSize, setFontSize] = useState(24);
+    const [fontSize2, setFontSize2] = useState(14);
 
     useEffect(() => {
       const handleResize = () => {
@@ -47,6 +49,20 @@ const Home = () => {
       return () => {
         window.removeEventListener('resize', handleResize);
       };
+    }, []);
+
+    useEffect(() => {
+      function handleResize() {
+        if (window.innerWidth <= 800) {
+          setFontSize(12);
+          setFontSize2(6);
+        } else {
+          setFontSize(24);
+          setFontSize2(14);
+        }
+      }
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     const style = document.createElement('style');
@@ -436,7 +452,34 @@ const Home = () => {
 
 
 
+                      {/*====== part 6 - end ======*/}
+                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh'}}>
+                        <Box
+                          sx={{
+                            height: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            position: 'relative',
+                            textAlign: 'left',
+                            maxWidth: 1100,
+                          }}
+                        >
+                          <img src={require('./End.png')} alt="background-shape" style={{top:130, right: 12, width: 1000,}}/>
 
+                          <div style={{zIndex: 1, position: 'absolute', marginTop: '5rem', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                            <Typography variant="h3" component="text" paragraph style={{fontSize: fontSize}}>
+                              Ready to use ShipShare?
+                            </Typography>
+                            <Typography variant="text" component="text" paragraph sx={{color:'gray'}} style={{fontSize: fontSize2}}>
+                              Join thousand buyers and groups in the community
+                            </Typography>
+                            <Button variant="contained" onClick={()=>navigate('/login')} sx={{marginTop: '1rem', borderRadius: 15, padding: '1%', width: '35%'}}>Get Started</Button>
+                          </div>
+
+                        </Box>
+                      </div>
 
 
                     </Container>
