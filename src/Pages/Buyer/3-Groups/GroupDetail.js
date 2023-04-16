@@ -16,7 +16,7 @@ import Image from 'mui-image'
 import backgroundImg from './background.jpg';
 import { styled } from "@mui/material/styles";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {findAllShipGroupsThunk, findShipGroupByIdThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 import {useDispatch, useSelector} from "react-redux";
 import {findAllShipGroups} from "../../../redux/shipGroups/shipGroups-service";
@@ -80,6 +80,12 @@ const GroupDetailPage = (props) => {
     return formattedDate;
   }
 
+  const navigate = useNavigate();
+  const handleClickJoinGroup = (group) => {
+    let groupId = group._id
+    navigate('./checkout?groupId=' + groupId);
+  }
+
   return (
     <>
       <Header onOpenNav={handleOpen} />
@@ -129,7 +135,11 @@ const GroupDetailPage = (props) => {
                   mr: 1,
                 }}
               >
-                <Button variant="contained" color="primary">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleClickJoinGroup(currentGroup)}
+                >
                   Join
                 </Button>
               </Box>
@@ -346,7 +356,7 @@ const GroupDetailPage = (props) => {
                 <Box
                   sx={{my: 2,}}
                 >
-                  <Typography variant="h6">Activity</Typography>
+                  <Typography variant="h6">Members</Typography>
                   <hr style={{ borderTop: "1px solid #F6F7FB", marginTop: "0.5rem" }} />
                 </Box>
                 {/*activity details*/}
@@ -380,9 +390,6 @@ const GroupDetailPage = (props) => {
                       <Box textAlign="left">
                         <Typography variant="subtitle2">
                           John Doe
-                        </Typography>
-                        <Typography variant="caption">
-                          Joined in March 23, 2023
                         </Typography>
                       </Box>
                     </Box>

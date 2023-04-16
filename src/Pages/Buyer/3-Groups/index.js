@@ -14,6 +14,7 @@ export function Group() {
         <Route path="/merchant" element={<GroupMainMerchant/>}/>
         <Route path="/form-new-group" element={<FormGroup/>}/>
         <Route path="/group-details" element={<GroupDetail/>}/>
+        <Route path="/group-details/checkout" element={<Checkout/>}/>
         <Route path="/checkout" element={<Checkout/>}/>
       </Routes>
     </div>
