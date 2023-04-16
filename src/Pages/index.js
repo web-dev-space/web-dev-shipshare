@@ -78,6 +78,7 @@ export function MainIndex() {
                 <Route path="/parcels" element={<ParcelMain />} />
                 <Route path="/shipments" element={<ShipmentsMainMerchant />} />
                 <Route path="/groups/*" element={<GroupMainMerchant />} />
+                <Route path="/groups/group-details" element={<GroupDetailMerchant />} />
                 <Route path="/community/*" element={<Community />} />
                 <Route path="/account/*" element={<Account />} />
                 <Route path="/account/change-warehouse-address" element={<ChangeWarehouse/>} />

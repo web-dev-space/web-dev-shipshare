@@ -413,7 +413,7 @@ const GroupMainMerchant = () => {
                         </TableCell>
                         <TableCell>
                             <Button
-                              onClick={handleClickGroupDetail(row)}
+                              onClick={() => handleClickGroupDetail(row)}
                               variant="contained"
                               sx={{
                               color: 'white',

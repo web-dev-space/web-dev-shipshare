@@ -73,6 +73,7 @@ export default function Checkout() {
         const newParcel = {
           ...selectedParcel,
           shipGroup: groupId,
+          isShipped: true,
         }
         dispatch(updateParcelThunk(newParcel));
       })

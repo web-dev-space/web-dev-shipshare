@@ -410,11 +410,13 @@ const GroupMainPage = () => {
                               display: 'flex',
                             }}
                           >
+            {/*---------------- group avatar ----------------*/}
                             <Avatar
-                              alt="Product 1"
-                              src="/static/mock-images/products/product_1.png"
+                              src={row.leader}
+                              alt={row.name}
                               sx={{width: 60, height: 60, borderRadius: 2}}
                             />
+
                             <Box sx={{ml: 2}}>
                               <Typography
                                 variant="subtitle2"
