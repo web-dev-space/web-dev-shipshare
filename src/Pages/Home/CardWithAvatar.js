@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 const StyledCard = styled(Card)({
   display: 'flex',
   alignItems: 'center',
-  marginBottom: '1rem',
+  marginBottom: '3rem',
 });
 
 const StyledCardContent = styled(CardContent)({

@@ -13,6 +13,8 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {useNavigate} from "react-router-dom";
 import CardWithAvatar from "./CardWithAvatar";
 import routeTableItem from "../Buyer/6-Help/RouteTableItem";
+import RouteCard from "./RouteCard";
+import PostCard from "./PostCard";
 
 
 const Home = () => {
@@ -35,10 +37,12 @@ const Home = () => {
     }
 
     const [isSmallScreen, setIsSmallScreen] = useState(false);
+    const [isLargeScreen, setIsLargeScreen] = useState(false);
 
     useEffect(() => {
       const handleResize = () => {
         setIsSmallScreen(window.innerWidth < 800);
+        setIsLargeScreen(window.innerWidth > 1300);
       };
       window.addEventListener('resize', handleResize);
       return () => {
@@ -106,6 +110,45 @@ const Home = () => {
         route:'Air Standard',
         date: 'Mar 13, 2023',
         pickupAddress: 'Santa Clara, CA',
+      },
+    ];
+
+    const routes = [
+      {
+        route: 'Air - Sensitive',
+        price: '$20',
+        text1: 'Enjoy the fastest delivery!',
+        text2: "You can also ship sensitive products.",
+        trait1: 'Faster Delivery (2 weeks)',
+        trait2: 'Accepts sensitive items',
+        trait3: '',
+      },
+      {
+        route: 'Air - Standard',
+        price: '$15',
+        text1: 'Enjoy the fast delivery!',
+        text2: "Best choice for a ShipShare starter.",
+        trait1: 'Fastest Delivery (1 weeks)',
+        trait2: 'Suitable for normal items',
+        trait3: '',
+      },
+      {
+        route: 'Sea - Standard',
+        price: '$5',
+        text1: 'Not in hurry?',
+        text2: "Enjoy the best price with this plan!",
+        trait1: 'Lowest cost',
+        trait2: 'Normally 4 weeks',
+        trait3: 'Suitable for normal items',
+      },
+      {
+        route: 'Sea - Sensitive',
+        price: '$15',
+        text1: 'Ship sensitive products with the ',
+        text2: "best price!",
+        trait1: 'Lower cost',
+        trait2: 'Normally 6 weeks',
+        trait3: 'Accepts sensitive items',
       },
     ];
 
@@ -186,7 +229,6 @@ const Home = () => {
                             justifyContent: 'center',
                             alignItems: 'center',
                             position: 'relative',
-                            flex: '0 0 auto',
                             textAlign: 'left',
                           }}
                         >
@@ -231,7 +273,7 @@ const Home = () => {
 
 
                       {/*====== part 3 ======*/}
-                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '90vh', backgroundColor: "rgba(254, 249, 243, 0.6)"}}>
+                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh', backgroundColor: "rgba(254, 249, 243, 0.6)"}}>
                         <Box
                           sx={{
                             width: isSmallScreen? '100%':'50%',
@@ -246,7 +288,7 @@ const Home = () => {
                             maxWidth: 600,
                           }}
                         >
-                          <img src={require('./Shapes1.png')} alt="background-shape" style={{top:0, left: 50, zIndex:-1, width: 300, position: 'absolute'}}/>
+                          <img src={require('./Shapes1.png')} alt="background-shape" style={{top:0, left: 0, zIndex:-1, width: 300, position: 'absolute'}}/>
                           <img src={require('./Shapes2.png')} alt="background-shape" style={{bottom:0, right: 100, zIndex:-1, width: 200, position: 'absolute'}}/>
                           {groups.map((group) => (
                             <CardWithAvatar
@@ -257,8 +299,6 @@ const Home = () => {
                               pickupAddress={group.pickupAddress}
                             />
                           ))}
-
-
                         </Box>
                         {/*---- right side ----*/}
                         <Box
@@ -270,8 +310,8 @@ const Home = () => {
                             overflow: 'hidden',
                             flex: isSmallScreen ? '0 0 auto' : '1 1 auto',
                             flexDirection: 'column',
-                            padding: 5,
-                            maxWidth: 800,
+                            padding: 8,
+                            maxWidth: 900,
                           }}
                         >
                           <Typography variant="h2" component="text" paragraph>
@@ -289,6 +329,65 @@ const Home = () => {
                           <Button variant="contained" onClick={()=>navigate('/groups')} sx={{marginTop: '1rem', borderRadius: 15, padding: 1, width: 120}}>Join Now</Button>
                         </Box>
                       </div>
+
+
+                      {/*====== part 4 ======*/}
+                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh'}}>
+                        <Box
+                          sx={{
+                            height: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            position: 'relative',
+                            textAlign: 'left',
+                          }}
+                        >
+                          <Typography variant="h3" component="text" paragraph sx={{mb:9, mt:-20}}>
+                            Choose the plan
+                          </Typography>
+                          <div style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', flexDirection: isSmallScreen ? 'column' : (isLargeScreen ? 'row' : ''), alignItems: 'center'}}>
+                            {routes.map((route, index) =>
+                              (<RouteCard
+                                key={index}
+                                route={route.route}
+                                price={route.price}
+                                text1={route.text1}
+                                text2={route.text2}
+                                trait1={route.trait1}
+                                trait2={route.trait2}
+                                trait3={route.trait3}
+                              />))
+                            }
+                          </div>
+                        </Box>
+                      </div>
+
+
+
+                      {/*====== part 5 ======*/}
+                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh'}}>
+                        <Box
+                          sx={{
+                            height: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            position: 'relative',
+                            textAlign: 'left',
+                          }}
+                        >
+
+                          <div style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', flexDirection: isSmallScreen ? 'column' : (isLargeScreen ? 'row' : ''), alignItems: 'center'}}>
+                            {/*<PostCard index={0}/>*/}
+                          </div>
+                        </Box>
+                      </div>
+
+
+
 
 
 
