@@ -20,7 +20,12 @@ import GroupCardsPage from "./ProfileComponents/GroupCardsPage";
 import PostCard from "./Discover/post-components/PostCard";
 import {Pagination} from "@mui/lab";
 import {useDispatch, useSelector} from "react-redux";
-import {findAllUsersThunk} from "../../../redux/users/users-thunks";
+import {
+    findAllUsersThunk,
+    profileThunk,
+    updateCurrentUserThunk,
+    updateUserThunk
+} from "../../../redux/users/users-thunks";
 import {findAllPostsThunk} from "../../../redux/posts/posts-thunks";
 import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 import {useParams} from "react-router-dom";
@@ -52,8 +57,10 @@ const Profile = () => {
     const [userPosts, setUserPosts] = useState([]);
     const [focusChip, setFocusChip] = useState('Posts');
     const [follow, setFollow] = useState(false);
+    const [followers, setFollowers] = useState(0);
     const [page, setPage] = useState(1);
     const [visibleProfile, setVisibleProfile] = useState(null);
+    const [allowFollow, setAllowFollow] = useState(false);
 
     const chipLabelsArray = userId ? ['Posts', 'Formed Group','Following', 'Followers']
         : ['Activity', 'Posts', 'Formed Group', 'Joined Group','Following', 'Followers'];
@@ -68,7 +75,22 @@ const Profile = () => {
 
     // control profile page
     const handleFollow = () => {
-      setFollow(!follow);
+        if (follow) {
+            dispatch(updateCurrentUserThunk({
+                ...currentUser,
+                following: currentUser.following.filter(item => item !== visibleProfile._id),
+            })).then(() =>
+                dispatch(findAllUsersThunk()));
+        } else {
+            dispatch(updateCurrentUserThunk({
+                ...currentUser,
+                following: [
+                    ...currentUser.following,
+                    visibleProfile._id,
+                ],
+            })).then(() =>
+                dispatch(findAllUsersThunk()));
+        }
     };
 
     const handlePaginationChange = (event, page) => {
@@ -81,7 +103,6 @@ const Profile = () => {
     }, []);
 
     useEffect(() => {
-        console.log(userId);
         if (userId) {
             const user = users.find(item => item._id === userId);
             setVisibleProfile(user);
@@ -95,6 +116,16 @@ const Profile = () => {
             setUserPosts(posts.filter(item => item.userId === visibleProfile._id));
         }
     }, [posts, visibleProfile]);
+
+    useEffect(() => {
+        if (visibleProfile && currentUser) {
+            setAllowFollow(currentUser.role === 'buyer'
+                && visibleProfile.role === 'buyer'
+                && currentUser._id !== visibleProfile._id);
+            setFollow(currentUser.following.includes(visibleProfile._id));
+            setFollowers(countFollowed(users, visibleProfile));
+        }
+    }, [currentUser, visibleProfile, users]);
 
     return (
       <>
@@ -173,22 +204,26 @@ const Profile = () => {
                                   <Typography variant="h3" align="center">
                                     {visibleProfile?.name}
                                   </Typography>
-                                  <Typography align="center" style={{marginTop:8, marginBottom:4}}>
-                                      <strong>{countFollowed(users, visibleProfile)}</strong>{' '}
-                                      <span style={{ color: 'grey', marginRight:10}}>followers</span>{' '}
-                                      <strong>{visibleProfile?.following?.length}</strong>{' '}
-                                      <span style={{ color: 'grey' }}>following</span>{' '}
-                                  </Typography>
+                                  {
+                                      visibleProfile?.role === 'buyer' && (
+                                          <Typography align="center" style={{marginTop:8, marginBottom:4}}>
+                                              <strong>{followers}</strong>{' '}
+                                              <span style={{ color: 'grey', marginRight:10}}>followers</span>{' '}
+                                              <strong>{visibleProfile?.following?.length}</strong>{' '}
+                                              <span style={{ color: 'grey' }}>following</span>{' '}
+                                          </Typography>
+                                      )
+                                  }
 
 
-                                {userId && !follow && (
+                                {allowFollow && userId && !follow && (
                                   <Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
                                       <IconButton edge="start" color="inherit" aria-label="menu">
                                           <PersonAddIcon />
                                       </IconButton>
                                       Follow
                                   </Button> )}
-                                {userId && follow && (
+                                {allowFollow && userId && follow && (
                                   <Button variant="outlined" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
                                       <IconButton edge="start" color="inherit" aria-label="menu">
                                           <PersonAddIcon />
