@@ -23,12 +23,12 @@ const totalExpense = {
 	total: 55,
 };
 
-export default function CheckoutStepTwo() {
+export default function CheckoutStepTwo({parcels, setSelectedParcels}) {
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<Grid container spacing={5}>
 				<Grid item xs={6}>
-					<ParcelListCard index={false}/>
+					<ParcelListCard index={false} parcels={parcels} setSelectedParcels={setSelectedParcels}/>
 				</Grid>
 
 				<Grid item xs={6}>

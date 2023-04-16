@@ -14,43 +14,53 @@ import Grid from "@mui/material/Grid";
 import * as React from "react";
 
 // Sample parcel data
-const parcels = [
-	{
-		id: 1,
-		name: 'Parcel A',
-		trackingNumber: 'ABC123',
-		weight: 10,
-		imageUrl: 'https://via.placeholder.com/150',
-	},
-	{
-		id: 2,
-		name: 'Parcel B',
-		trackingNumber: 'XYZ789',
-		weight: 5,
-		imageUrl: 'https://via.placeholder.com/150',
-	},
-	// Add more parcels here
-];
+// const parcels = [
+// 	{
+// 		id: 1,
+// 		name: 'Parcel A',
+// 		trackingNumber: 'ABC123',
+// 		weight: 10,
+// 		imageUrl: 'https://via.placeholder.com/150',
+// 	},
+// 	{
+// 		id: 2,
+// 		name: 'Parcel B',
+// 		trackingNumber: 'XYZ789',
+// 		weight: 5,
+// 		imageUrl: 'https://via.placeholder.com/150',
+// 	},
+// 	// Add more parcels here
+// ];
 
-export default function ParcelListCard({index}) {
+export default function ParcelListCard({index, parcels, setSelectedParcels}) {
 	const firstPage = index;
-	const [selectedParcels, setSelectedParcels] = useState([]);
 
 	const handleEditCartClick = () => {
 		// Handle edit cart button click event here
+	};
+
+	const handleCheckboxChange = (event, parcel) => {
+		const { value, checked } = event.target;
+		console.log(event.target)
+		console.log(parcel)
+		if (checked) {
+			setSelectedParcels((prev) => [...prev, parcel]);
+		} else {
+			setSelectedParcels((prev) => prev.filter((item) => item !== parcel));
+		}
 	};
 
 	return (
 		<Card sx={{ borderRadius: 3, minWidth: 275, minHeight: 550}}>
 			{firstPage? <CardHeader title="Parcels Arrived"/>:<CardHeader title="Parcels" />}
 			<CardContent>
-				{firstPage? <FormControlLabel control={<Checkbox defaultChecked />} style={{marginLeft:1}} label="Select All" />:null}
+				{firstPage? <FormControlLabel control={<Checkbox checked={false} />} style={{marginLeft:1}} label="Select All" />:null}
 				{parcels.map((parcel) => (
 					<Box
 						key={parcel.id}
 						sx={{ display: 'flex', alignItems: 'center', py: 2 }}
 					>
-						{firstPage? <Checkbox/>:null}
+						{firstPage? <Checkbox onChange={(event) => handleCheckboxChange(event, parcel)}/>:null}
 						<Box sx={{ flexShrink: 0 }}>
 							<img src={parcel.imageUrl} alt={parcel.name} width={80} height={80} style={{borderRadius:15}}/>
 						</Box>

@@ -50,16 +50,11 @@ const GroupDetailPage = (props) => {
   const searchParams = new URLSearchParams(location.search);
   const groupId = searchParams.get('groupId');
   console.log("groupId", groupId)
-  // const groupId = props.location.search;
-  // console.log("desgroupId" + groupId)
 
   const dispatch = useDispatch();
   const currentGroup = useSelector((state) => {
-    // console.log('shipgroup dispatch')
     return state.shipGroup.currentGroup
   });
-  console.log("currentGroup", currentGroup)
-
 
   useEffect(() => {
     dispatch(findShipGroupByIdThunk(groupId));

@@ -42,8 +42,9 @@ export const deleteShipGroupThunk = createAsyncThunk(
 export const updateShipGroupThunk = createAsyncThunk(
     'shipGroups/updateShipGroup',
     async (shipGroup) => {
-        const response = await service.updateShipGroup(shipGroup);
-        
+      console.log("start")
+      const response = await service.updateShipGroup(shipGroup);
+        console.log(response)
         return response;
     }
 );

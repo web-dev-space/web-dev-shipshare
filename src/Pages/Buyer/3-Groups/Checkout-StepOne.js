@@ -23,12 +23,12 @@ const totalExpense = {
 	total: 55,
 };
 
-export default function CheckoutStepOne() {
+export default function CheckoutStepOne({parcels, setSelectedParcels}) {
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<Grid container spacing={5}>
 				<Grid item xs={6}>
-					<ParcelListCard index={true}/>
+					<ParcelListCard index={true} parcels={parcels} setSelectedParcels={setSelectedParcels}/>
 				</Grid>
 
 				<Grid item xs={6}>
@@ -40,11 +40,11 @@ export default function CheckoutStepOne() {
 							</Typography>
 							<Typography component="div" sx={{ display: 'flex', justifyContent: 'space-between', marginTop:3}}>
 								Number of Items
-								<Typography sx={{ textAlign: 'right' }}>2 Parcels</Typography>
+								<Typography sx={{ textAlign: 'right' }}>{parcels.length} Parcels</Typography>
 							</Typography>
 							<Typography variant="h5" component="div" sx={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', marginTop: 1 }}>
 								Total
-								<Typography sx={{ textAlign: 'right', fontWeight: 'bold' }}>60kg</Typography>
+								<Typography sx={{ textAlign: 'right', fontWeight: 'bold' }}>{parcels.reduce((acc, parcel) => acc + parcel.weight, 0)}kg</Typography>
 							</Typography>
 						</CardContent>
 					</Card>

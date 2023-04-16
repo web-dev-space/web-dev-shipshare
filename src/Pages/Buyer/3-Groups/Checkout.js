@@ -6,7 +6,7 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Header from "../../../third-party/layouts/dashboard/header";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical";
 import Main from "../../../third-party/layouts/dashboard/Main"
 import {Card, CardContent, Grid} from "@mui/material";
@@ -18,13 +18,43 @@ import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {CardActions} from "@mui/material";
 import CheckoutStepTwo from "./Checkout-StepTwo";
 import CheckoutStepOne from "./Checkout-StepOne";
+import {useLocation} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {findAllParcelsThunk, updateParcelThunk} from "../../../redux/parcels/parcels-thunks";
+import {parcelData} from "../../../sampleData/parcels";
+import {findShipGroupByIdThunk, updateShipGroupThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 
 // const steps = ['Choose a Route', 'Enter Group Details', 'Done'];
 const steps = ['', '', '', ''];
 export default function Checkout() {
+	const dispatch = useDispatch();
 	const [activeStep, setActiveStep] = React.useState(0);
 	const [skipped, setSkipped] = React.useState(new Set());
+	const location = useLocation();
+	const searchParams = new URLSearchParams(location.search);
+	const groupId = searchParams.get('groupId');
 
+	// ---------current user---------
+	const currentUser = useSelector(state => state.auth.currentUser || {role: "visitor"});
+	// Link to DB
+	const { parcels, loading } = useSelector((state) => {
+		return state.parcels
+	});
+
+	const currentGroup = useSelector((state) => {
+		return state.shipGroup.currentGroup
+	});
+
+	useEffect(() => {
+		dispatch(findShipGroupByIdThunk(groupId));
+	}, []);
+
+
+	const currentUserParcels = parcels.filter(parcel =>
+		parcel.user === currentUser.email && parcel.isWeighted && parcel.shipGroup);
+
+	const [selectedParcels, setSelectedParcels] =
+		useState([]);
 	const isStepOptional = (step) => {
 		return step === 1;
 	};
@@ -41,6 +71,25 @@ export default function Checkout() {
 		}
 
 		setActiveStep((prevActiveStep) => prevActiveStep + 1);
+		if (activeStep === 2) {
+			if (!currentGroup.members.includes(currentUser.email)) {
+				const newShipGroup = {
+					...currentGroup,
+					members: [...currentGroup.members, currentUser.email],
+				}
+				dispatch(updateShipGroupThunk(newShipGroup))
+			} else {
+				console.log("currentUser is already in the group")
+			}
+
+			selectedParcels.map(selectedParcel => {
+				const newParcel = {
+					...selectedParcel,
+					shipGroup: groupId,
+				}
+				dispatch(updateParcelThunk(newParcel));
+			})
+		}
 		setSkipped(newSkipped);
 	};
 
@@ -137,7 +186,7 @@ export default function Checkout() {
 
 								{/*page 1*/}
 								{activeStep === 0 ? (
-									<CheckoutStepOne />
+									<CheckoutStepOne parcels={currentUserParcels} setSelectedParcels={setSelectedParcels}/>
 								) : (
 									<React.Fragment>
 
@@ -146,7 +195,7 @@ export default function Checkout() {
 
 								{/*page 2*/}
 								{activeStep === 1 ? (
-									<CheckoutStepTwo />
+									<CheckoutStepTwo parcels={selectedParcels} setSelectedParcels={setSelectedParcels}/>
 								) : (
 									<React.Fragment>
 									</React.Fragment>
