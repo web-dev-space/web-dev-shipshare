@@ -13,7 +13,6 @@ import Image from 'mui-image'
 import backgroundImg from '../3-Groups/background.jpg';
 import {styled} from "@mui/material/styles";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import Activity from "./ProfileComponents/Activity";
 import UserCardsPage from "./ProfileComponents/UserCardsPage";
 import GreenChipGroup from "../../../components/GreenChipGroup";
 import GroupCardsPage from "./ProfileComponents/GroupCardsPage";
@@ -28,6 +27,7 @@ import {findAllPostsThunk} from "../../../redux/posts/posts-thunks";
 import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 import {useParams} from "react-router-dom";
 import {findAllShipGroupsThunk} from "../../../redux/shipGroups/shipGroups-thunks";
+import {getRandomBanner} from "../../../utils/getRandomBanner";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -163,7 +163,7 @@ const Profile = () => {
                         sx={{height: 250, position: 'relative'}}
                       >
                           <Image
-                            src={backgroundImg}
+                            src={visibleProfile? getRandomBanner(visibleProfile?.name || "1") : backgroundImg}
                             sx={{
                                 width: '100%',
                                 zIndex: 1,
@@ -171,6 +171,7 @@ const Profile = () => {
                                 right: 0,
                                 position: 'absolute',
                             }}
+                            style={{borderRadius: 20}}
                           />
                       </Box>
 

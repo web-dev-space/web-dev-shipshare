@@ -1,21 +1,17 @@
 import PropTypes from 'prop-types';
 // @mui
 import { alpha, styled } from '@mui/material/styles';
-import {Box, Card, Avatar, Divider, Typography, Stack, IconButton, Button} from '@mui/material';
+import {Box, Card, Avatar, Divider, Typography, Button} from '@mui/material';
 // utils
 import { fShortenNumber } from '../../../../third-party/utils/formatNumber';
-// _mock
-import { _socials } from '../../../../third-party/_mock/arrays';
 // components
 import Image from '../../../../third-party/components/image';
-import Iconify from '../../../../third-party/components/iconify';
 import SvgColor from '../../../../third-party/components/svg-color';
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import {useState} from "react";
 import {getRandomAvatar} from "../../../../utils/getRandomAvatar";
 import {useNavigate} from "react-router-dom";
 import {findAllUsersThunk, updateCurrentUserThunk} from "../../../../redux/users/users-thunks";
 import {useSelector} from "react-redux";
+import {getRandomBanner} from "../../../../utils/getRandomBanner";
 
 // ----------------------------------------------------------------------
 
@@ -98,27 +94,27 @@ export default function UserCard({ user, disableFollowButton, dispatch }) {
 
 				<StyledOverlay />
 
-				<Image src="https://source.unsplash.com/random" alt={name} ratio="16/9" />
+				{/*banner picture*/}
+				<Image src={getRandomBanner(name)} alt={name} ratio="16/9" />
 			</Box>
 
 			<Typography variant="subtitle1" sx={{ mt: 6, mb: 0.5 }}>
 				{name}
 			</Typography>
 
-			{/*<Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, width: 120 , marginBottom:30, marginTop:10}}>*/}
-			{/*	Follow*/}
-			{/*</Button>*/}
+			{/* middle -- show follow button */}
 			{!disableFollowButton && !follow && (
-				<Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
+				<Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, marginTop:8, marginBottom:8 }} onClick={handleFollow}>
 					Follow
 				</Button> )}
 			{!disableFollowButton && follow && (
-				<Button variant="outlined" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
+				<Button variant="outlined" color="primary" style={{ borderRadius: 25, height:40, marginTop:8, marginBottom:8  }} onClick={handleFollow}>
 					Unfollow
 				</Button>)}
 
 			<Divider sx={{ borderStyle: 'dashed' }} />
 
+			{/* bottom - show following data */}
 			<Box display="grid" gridTemplateColumns="repeat(3, 1fr)" sx={{ py: 3 }}>
 				<div>
 					<Typography variant="caption" component="div" sx={{ mb: 0.75, color: 'text.disabled' }}>
