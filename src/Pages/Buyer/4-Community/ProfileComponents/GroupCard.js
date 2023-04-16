@@ -1,8 +1,13 @@
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import MessageIcon from '@mui/icons-material/Message';
+import {useSelector} from "react-redux";
+import {getRandomAvatar} from "../../../../utils/getRandomAvatar";
 
 export default function GroupCard({key, group})  {
+
+	const {users} = useSelector((state) => state.users);
+	const leader = users.find((user) => user.email === group.leader);
 
 	return(
 		<Link to="./post"
@@ -24,7 +29,7 @@ export default function GroupCard({key, group})  {
 						alignItems: 'center',
 						padding: 16,
 					}}>
-						<img src={group.avatar}
+						<img src={leader ? (leader.avatar || getRandomAvatar(leader.name)) : ""}
 								 alt="post image"
 								 style={{
 									 width: 70,
@@ -43,7 +48,7 @@ export default function GroupCard({key, group})  {
 							fontSize: 16,
 							fontWeight: 'bolder'
 						}}>
-							{group.groupName}
+							{group.name}
 						</div>
 
 						<div style={{
@@ -58,7 +63,7 @@ export default function GroupCard({key, group})  {
 							}}>
 								Formed on
 								<span style={{ marginLeft: 10}}></span>
-								{new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(group.date))}
+								{new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(group.created ? new Date(group.created) : Date.now())}
 							</div>
 
 						</div>
