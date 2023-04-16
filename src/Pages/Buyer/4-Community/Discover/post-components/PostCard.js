@@ -8,7 +8,7 @@ export default function PostCard({
     author,
     date,
     image,
-    commentsNumber,
+    comments = [],
     viewsNumber,
     onPostCardClick})  {
 
@@ -95,8 +95,8 @@ export default function PostCard({
                                     sx={{ fontSize: 14 }}
                                     style={{marginRight: 8}}/>
                                 <div style={{ fontSize: 12}}>
-                                    {commentsNumber > 1000 ?
-                                        (commentsNumber / 1000) + 'k' : commentsNumber}
+                                    {comments && comments.length > 1000 ?
+                                        (comments.length / 1000) + 'k' : comments.length}
                                 </div>
                             </div>
                             <div style={{
