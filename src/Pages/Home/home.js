@@ -12,7 +12,6 @@ import {Helmet} from "react-helmet";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {useNavigate} from "react-router-dom";
 import CardWithAvatar from "./CardWithAvatar";
-import routeTableItem from "../Buyer/6-Help/RouteTableItem";
 import RouteCard from "./RouteCard";
 import PostCard from "./PostCard";
 
@@ -152,6 +151,33 @@ const Home = () => {
       },
     ];
 
+    const posts = [
+      {
+        avatarUrl: require('../../images/randomAvatars/avatar_3.jpg'),
+        title: "ShipShare is the Best Shipping Platform!",
+      },
+      {
+        avatarUrl: require('../../images/randomAvatars/avatar_1.jpg'),
+        title: "ShipShare is the Best Shipping Platform!",
+      },
+      {
+        avatarUrl: '',
+        title: '',
+      },
+      {
+        avatarUrl: require('../../images/randomAvatars/avatar_2.jpg'),
+        title: "ShipShare is the Best Shipping Platform!",
+      },
+      {
+        avatarUrl: require('../../images/randomAvatars/avatar_4.jpg'),
+        title: "ShipShare is the Best Shipping Platform!",
+      },
+      {
+        avatarUrl: require('../../images/randomAvatars/avatar_5.jpg'),
+        title: "ShipShare is the Best Shipping Platform!",
+      }
+      ]
+
     const navigate = useNavigate();
 
     return (
@@ -219,7 +245,7 @@ const Home = () => {
                       </div>
 
 
-                      {/*====== part 2 ======*/}
+                      {/*====== part 2 - How it works ======*/}
                       <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh'}}>
                         <Box
                           sx={{
@@ -272,7 +298,7 @@ const Home = () => {
 
 
 
-                      {/*====== part 3 ======*/}
+                      {/*====== part 3 - groups ======*/}
                       <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh', backgroundColor: "rgba(254, 249, 243, 0.6)"}}>
                         <Box
                           sx={{
@@ -331,7 +357,7 @@ const Home = () => {
                       </div>
 
 
-                      {/*====== part 4 ======*/}
+                      {/*====== part 4 - Choose the plan ======*/}
                       <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh'}}>
                         <Box
                           sx={{
@@ -350,7 +376,7 @@ const Home = () => {
                           <div style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', flexDirection: isSmallScreen ? 'column' : (isLargeScreen ? 'row' : ''), alignItems: 'center'}}>
                             {routes.map((route, index) =>
                               (<RouteCard
-                                key={index}
+                                index={index}
                                 route={route.route}
                                 price={route.price}
                                 text1={route.text1}
@@ -366,7 +392,7 @@ const Home = () => {
 
 
 
-                      {/*====== part 5 ======*/}
+                      {/*====== part 5 - Discover the community ======*/}
                       <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh'}}>
                         <Box
                           sx={{
@@ -377,11 +403,33 @@ const Home = () => {
                             alignItems: 'center',
                             position: 'relative',
                             textAlign: 'left',
+                            maxWidth: 1100,
                           }}
                         >
+                          <div style={{display: 'flex', flexWrap: 'wrap', flexDirection: isSmallScreen ? 'column' : (isLargeScreen ? 'row' : ''), alignItems: 'center'}}>
+                            {posts.map((post, index) =>
+                              (<PostCard
+                                key={index}
+                                index={index}
+                                avatarUrl={post.avatarUrl}
+                                title={post.title}
+                              />))
+                            }
+                          </div>
+                          <img src={require('./Comma.png')} alt="background-shape" style={{top:190, left: 570, zIndex:1, width: 80, position: 'absolute'}}/>
+                          <img src={require('./OrangeCircle.png')} alt="background-shape" style={{top:130, right: 12, zIndex:-1, width: 110, position: 'absolute'}}/>
 
-                          <div style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', flexDirection: isSmallScreen ? 'column' : (isLargeScreen ? 'row' : ''), alignItems: 'center'}}>
-                            {/*<PostCard index={0}/>*/}
+                          <div style={{display:"flex", flexDirection: 'column', maxWidth: 600, position: 'absolute', right: -180, top: 330}}>
+                            <Typography variant="h3" component="text" paragraph sx={{mb:9, mt:-20}}>
+                              Discover the community
+                            </Typography>
+                            <Typography variant="text" component="text" paragraph sx={{color:'gray'}}>
+                              Connect with a community of  members and discover tips and tricks for international purchases.
+                            </Typography>
+                            <Typography variant="text" component="text" paragraph sx={{color:'gray', mt:2}}>
+                              Whether you're a seasoned shopper or new to the game, our forum offers a space for you to learn, grow, and connect with others who share your interests.
+                            </Typography>
+                            <Button variant="contained" onClick={()=>navigate('/community/discover')} sx={{marginTop: '1rem', borderRadius: 15, padding: 1, width: 120}}>Discover</Button>
                           </div>
                         </Box>
                       </div>
