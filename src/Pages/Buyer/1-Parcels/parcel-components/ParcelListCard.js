@@ -18,24 +18,22 @@ export default function ParcelListCard({index, parcels, setSelectedParcels}) {
   const firstPage = index;
 
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-  const [selected, setSelected] = useState([parcels]);
+  const [selectedItemsToPass, setselectedItemsToPass] = useState([parcels]);
   const handleSelectAllChange = (event) => {
     const checked = event.target.checked;
     setSelectAllChecked(checked);
     setSelectedParcels(checked ? parcels : []);
-    setSelected(checked ? parcels : [])
+    setselectedItemsToPass(checked ? parcels : [])
   };
   const handleCheckboxChange = (event, parcel) => {
     const { checked } = event.target;
     setSelectedParcels((prev) =>
       checked ? [...prev, parcel] : prev.filter((item) => item !== parcel)
     );
-    setSelected((prev) =>
+    setselectedItemsToPass((prev) =>
       checked ? [...prev, parcel] : prev.filter((item) => item !== parcel)
     );
   };
-
-
 
   return (
     <Card sx={{borderRadius: 3, minWidth: 275, minHeight: 550}}>
@@ -64,7 +62,7 @@ export default function ParcelListCard({index, parcels, setSelectedParcels}) {
                 checked={
                   selectAllChecked ||
                   Boolean(
-                    selected.find((item) => item._id === parcel._id)
+                    selectedItemsToPass.find((item) => item._id === parcel._id)
                   )
                 }
                 onChange={(event) => handleCheckboxChange(event, parcel)}

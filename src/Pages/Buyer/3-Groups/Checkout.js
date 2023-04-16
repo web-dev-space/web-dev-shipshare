@@ -85,8 +85,16 @@ export default function Checkout() {
       navigate("/groups");
       return;
     }
+    if (activeStep === 1) {
+      const confirmed = window.confirm("You will lose your selection. Are you sure to leave?");
+      if (confirmed) {
+        setSelectedParcels([]);
+      } else {
+        return;
+    }
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+  }
 
 
   const handleReset = () => {
