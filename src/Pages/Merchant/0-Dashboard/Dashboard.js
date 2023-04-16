@@ -37,9 +37,23 @@ const Dashboard = () => {
 
   const stats = useSelector(state => state.dashboard.stats);
   // const topLeaders = useSelector(state => state.dashboard.topFiveLeaders);
-  const topLeaders = [
-    { name: "John Doe", total: 100, rank: "TOP 1", email: "ashlynn_ohara62@gmail.com" },
-  ];
+  const topLeaders = stats?.topFiveLeaders === undefined
+    ? []
+    : stats?.topFiveLeaders.map((leader, index) => {
+      return {
+        ...leader,
+        total: leader.amount,
+      }
+    });
+
+  const topUsers = stats?.topFiveUsers === undefined
+    ? []
+    : stats?.topFiveUsers.map((user, index) => {
+      return {
+        ...user,
+        total: user.amount,
+      }
+    });
 
   useEffect(() => {
     const debugStats = () => {
@@ -63,11 +77,65 @@ const Dashboard = () => {
   }, [_ecommerceBestSalesman]);
 
 
-  const TIME_LABELS = {
-    week: ['Mon', 'Tue', 'Web', 'Thu', 'Fri', 'Sat', 'Sun'],
-    month: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    year: ['2018', '2019', '2020', '2021', '2022'],
-  };
+  const timeLabels = useMemo(() => {
+    const rotateArray = (arr, index) => {
+      if (index === -1) {
+        return arr;
+      }
+      return arr.slice(index, arr.length).concat(arr.slice(0, index));
+    }
+
+    function getLastSevenWeekDates() {
+      const dates = [];
+      const today = new Date();
+
+      for (let i = 6; i >= 0; i--) {
+        // Calculate past week date
+        const pastWeekDate = new Date(today);
+        pastWeekDate.setDate(today.getDate() - 7 * i);
+
+        // Format the date as 'M/D'
+        const formattedDate = `${pastWeekDate.getMonth() + 1}/${pastWeekDate.getDate()}`;
+
+        // Add it to our array of dates
+        dates.push(formattedDate);
+      }
+
+      return dates;
+    }
+
+
+    const timeLabels = {
+      week: getLastSevenWeekDates(),
+      month: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      year: ['2018', '2019', '2020', '2021', '2022'],
+    };
+
+    const todayMonth = new Date().getMonth();
+    timeLabels.month = rotateArray(timeLabels.month, todayMonth);
+
+  }, []);
+
+
+  const weeklyData = useMemo(() => {
+    return stats?.activityWeekly === undefined ? {} : stats?.activityWeekly?.map((activity, index) => {
+      return {
+        name: activity.route,
+        data: activity.data,
+      }
+    })
+  }, [stats?.activityWeekly]);
+
+
+
+  const monthlyData = useMemo(() => {
+    return stats?.activityMonthly === undefined ? {} : stats?.activityMonthly?.map((activity, index) => {
+      return {
+        name: activity.route,
+        data: activity.data,
+      }
+    })
+  }, [stats?.activityMonthly]);
 
   return (
     <>
@@ -92,47 +160,47 @@ const Dashboard = () => {
             <Container maxWidth={themeStretch ? false : 'xl'}>
               <Grid container spacing={3}>
 
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={6}>
                   <EcommerceWidgetSummary
                     title="Parcels Received"
                     // percent={2.6}
                     total={stats?.totalParcelsNumber === undefined ? 0 : stats?.totalParcelsNumber}
-                    // chart={{
-                    //   colors: [theme.palette.primary.main],
-                    //   series: [22, 8, 35, 50, 82, 84, 77, 12, 87, 43],
-                    // }}
+                  // chart={{
+                  //   colors: [theme.palette.primary.main],
+                  //   series: [22, 8, 35, 50, 82, 84, 77, 12, 87, 43],
+                  // }}
                   />
                 </Grid>
 
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={6}>
                   <EcommerceWidgetSummary
                     title="Shipments Sent"
                     // percent={-0.1}
                     total={stats?.totalShipGroupsNumber === undefined ? 0 : stats?.totalShipGroupsNumber}
-                    // chart={{
-                    //   colors: [theme.palette.info.main],
-                    //   series: [56, 47, 40, 62, 73, 30, 23, 54, 67, 68],
-                    // }}
+                  // chart={{
+                  //   colors: [theme.palette.info.main],
+                  //   series: [56, 47, 40, 62, 73, 30, 23, 54, 67, 68],
+                  // }}
                   />
                 </Grid>
 
-                <Grid item xs={12} md={4}>
+                {/* <Grid item xs={12} md={4}>
                   <EcommerceWidgetSummary
                     title="Total Revenue"
                     // percent={0.6}
                     total={0}
-                    // chart={{
-                    //   colors: [theme.palette.warning.main],
-                    //   series: [40, 70, 75, 70, 50, 28, 7, 64, 38, 27],
-                    // }}
+                  // chart={{
+                  //   colors: [theme.palette.warning.main],
+                  //   series: [40, 70, 75, 70, 50, 28, 7, 64, 38, 27],
+                  // }}
                   />
-                </Grid>
+                </Grid> */}
 
-                <Grid item xs={12} md={6} lg={6}>
+                <Grid item xs={12} md={12} lg={12}>
                   <FileGeneralDataActivity
                     title="Shipment Activity"
                     chart={{
-                      labels: TIME_LABELS,
+                      labels: timeLabels,
                       colors: [
                         theme.palette.success.main,
                         theme.palette.error.main,
@@ -142,28 +210,30 @@ const Dashboard = () => {
                       series: [
                         {
                           type: 'Week',
-                          data: [
-                            { name: 'Air Standard', data: [20, 34, 48, 65, 37, 48] },
-                            { name: 'Air Sensitive', data: [10, 34, 13, 26, 27, 28] },
-                            { name: 'Sea Standard', data: [10, 14, 13, 16, 17, 18] },
-                            { name: 'Sea Sensitive', data: [5, 12, 6, 7, 8, 9] },
-                          ],
+                          // data: [
+                          //   { name: 'Air Standard', data: [20, 34, 48, 65, 37, 48] },
+                          //   { name: 'Air Sensitive', data: [10, 34, 13, 26, 27, 28] },
+                          //   { name: 'Sea Standard', data: [10, 14, 13, 16, 17, 18] },
+                          //   { name: 'Sea Sensitive', data: [5, 12, 6, 7, 8, 9] },
+                          // ],
+                          data: weeklyData,
                         },
                         {
                           type: 'Month',
-                          data: [
-                            { name: 'Air Standard', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
-                            { name: 'Air Sensitive', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
-                            { name: 'Sea Standard', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
-                            { name: 'Sea Sensitive', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
-                          ],
+                          // data: [
+                          //   { name: 'Air Standard', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
+                          //   { name: 'Air Sensitive', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
+                          //   { name: 'Sea Standard', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
+                          //   { name: 'Sea Sensitive', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
+                          // ],
+                          data: monthlyData,
                         },
                       ],
                     }}
                   />
                 </Grid>
 
-                <Grid item xs={12} md={6} lg={6}>
+                {/* <Grid item xs={12} md={6} lg={6}>
                   <EcommerceYearlySales
                     title="Total Revenue"
                     // subheader="(+43%) than last year"
@@ -185,7 +255,7 @@ const Dashboard = () => {
                       ],
                     }}
                   />
-                </Grid>
+                </Grid> */}
 
 
                 <Grid item xs={12} md={6} lg={6}>
@@ -203,7 +273,7 @@ const Dashboard = () => {
                 <Grid item xs={12} md={6} lg={6}>
                   <EcommerceBestSalesman
                     title="Top Buyers (Joining Groups)"
-                    tableData={_ecommerceBestSalesman}
+                    tableData={topUsers}
                     tableLabels={[
                       { id: 'buyer', label: 'Buyer' },
                       { id: 'amount', label: 'Amount' },
