@@ -47,7 +47,7 @@ export default function Checkout() {
   }, []);
 
 
-  const currentUserParcels = parcels.filter(parcel => parcel.user === currentUser.email && parcel.isWeighted && parcel.shipGroup);
+  const currentUserParcels = parcels.filter(parcel => parcel.user === currentUser.email && parcel.isWeighted && !parcel.shipGroup);
 
   const [selectedParcels, setSelectedParcels] = useState([]);
 
@@ -71,7 +71,8 @@ export default function Checkout() {
 
       selectedParcels.map(selectedParcel => {
         const newParcel = {
-          ...selectedParcel, shipGroup: groupId,
+          ...selectedParcel,
+          shipGroup: groupId,
         }
         dispatch(updateParcelThunk(newParcel));
       })
@@ -169,12 +170,12 @@ export default function Checkout() {
 
                   {/*page 1*/}
                   {activeStep === 0 ? (
-                    <CheckoutStepOne parcels={currentUserParcels} setSelectedParcels={setSelectedParcels}/>) : (
+                    <CheckoutStepOne parcels={currentUserParcels} selectedParcels={selectedParcels} setSelectedParcels={setSelectedParcels}/>) : (
                     <React.Fragment></React.Fragment>)}
 
                   {/*page 2*/}
                   {activeStep === 1 ? (
-                    <CheckoutStepTwo parcels={selectedParcels} setSelectedParcels={setSelectedParcels}/>) : (
+                    <CheckoutStepTwo parcels={selectedParcels} selectedParcels={selectedParcels} setSelectedParcels={setSelectedParcels}/>) : (
                     <React.Fragment></React.Fragment>)}
 
                   {/*page 3*/}

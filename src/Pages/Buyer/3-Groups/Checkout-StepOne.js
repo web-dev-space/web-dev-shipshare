@@ -7,10 +7,10 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import ParcelListCard from '../1-Parcels/parcel-components/ParcelListCard';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 
-export default function CheckoutStepOne({parcels, setSelectedParcels}) {
+export default function CheckoutStepOne({parcels, selectedParcels, setSelectedParcels}) {
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<Grid container spacing={5}>
@@ -18,7 +18,7 @@ export default function CheckoutStepOne({parcels, setSelectedParcels}) {
 					<ParcelListCard index={true} parcels={parcels} setSelectedParcels={setSelectedParcels}/>
 				</Grid>
 
-				<Grid item xs={6}>
+        <Grid item xs={6}>
 
 					<Card sx={{ minWidth: 275 }}>
 						<CardContent>
@@ -27,25 +27,25 @@ export default function CheckoutStepOne({parcels, setSelectedParcels}) {
 							</Typography>
 							<Typography component="div" sx={{ display: 'flex', justifyContent: 'space-between', marginTop:3}}>
 								Number of Items
-								<Typography sx={{ textAlign: 'right' }}>{parcels.length} Parcels</Typography>
+								<Typography sx={{ textAlign: 'right' }}>{selectedParcels.length} Parcels</Typography>
 							</Typography>
 							<Typography variant="h5" component="div"
 													sx={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', marginTop: 1 }}>
 								Weight
 								<Typography sx={{ textAlign: 'right', fontWeight: 'bold' }}>
-									{parcels.reduce((acc, parcel) => acc + parcel.weight, 0)} kg
+									{(selectedParcels.reduce((acc, parcel) => acc + parcel.weight, 0)).toFixed(1)} kg
 								</Typography>
 							</Typography>
 						</CardContent>
 					</Card>
 
-					{/*<Grid  sx={{ display: 'flex', justifyContent: 'center' }}>*/}
-					{/*	<Button variant="contained" style={{ borderRadius: 25, marginTop: 30, marginBottom: 30, maxWidth: 400, height:50 }} fullWidth="true">*/}
-					{/*		Checkout*/}
-					{/*	</Button>*/}
-					{/*</Grid>*/}
-				</Grid>
-			</Grid>
-		</Box>
-	);
+          {/*<Grid  sx={{ display: 'flex', justifyContent: 'center' }}>*/}
+          {/*	<Button variant="contained" style={{ borderRadius: 25, marginTop: 30, marginBottom: 30, maxWidth: 400, height:50 }} fullWidth="true">*/}
+          {/*		Checkout*/}
+          {/*	</Button>*/}
+          {/*</Grid>*/}
+        </Grid>
+      </Grid>
+    </Box>
+  );
 }

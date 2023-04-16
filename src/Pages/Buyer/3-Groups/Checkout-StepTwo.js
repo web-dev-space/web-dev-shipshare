@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import ParcelListCard from '../1-Parcels/parcel-components/ParcelListCard';
 import {useDispatch, useSelector} from "react-redux";
 import {useLocation} from "react-router-dom";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {findShipGroupByIdThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 
 
@@ -32,7 +32,7 @@ const totalExpense = {
   total: 55,
 };
 
-export default function CheckoutStepTwo({parcels, setSelectedParcels}) {
+export default function CheckoutStepTwo({parcels, selectedParcels, setSelectedParcels}) {
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -60,6 +60,20 @@ export default function CheckoutStepTwo({parcels, setSelectedParcels}) {
     });
     return formattedDate;
   }
+
+
+  const routePrices = {
+    'Air Standard': 15,
+    'Air Sensitive': 20,
+    'Sea Standard': 5,
+    'Sea Sensitive': 10,
+  };
+  const getPriceForRoute = (routeName) => {
+    return routePrices[routeName];
+  };
+
+  const routeRate = currentGroup ? getPriceForRoute(currentGroup.shipRoute) : 0;
+  const totalWeight = (selectedParcels.reduce((acc, parcel) => acc + parcel.weight, 0)).toFixed(1);
 
   return (
     <Box sx={{flexGrow: 1}}>
@@ -129,11 +143,15 @@ export default function CheckoutStepTwo({parcels, setSelectedParcels}) {
             <CardContent>
               <Typography variant="h6" component="div" sx={{display: 'flex', justifyContent: 'space-between'}}>
                 Route Rate
-                <Typography sx={{textAlign: 'right'}}>15/kg</Typography>
+                <Typography sx={{textAlign: 'right'}}>
+                  {routeRate !== 0 ? "$ " + routeRate + " /lbs" : "Loading.."}
+                </Typography>
               </Typography>
               <Typography variant="h6" component="div" sx={{display: 'flex', justifyContent: 'space-between'}}>
                 Weight
-                <Typography sx={{textAlign: 'right'}}>5.5kg</Typography>
+                <Typography sx={{textAlign: 'right'}}>
+                  {totalWeight} lbs
+                </Typography>
               </Typography>
               <Typography variant="h5" component="div" sx={{
                 display: 'flex',
@@ -142,7 +160,9 @@ export default function CheckoutStepTwo({parcels, setSelectedParcels}) {
                 marginTop: '20px'
               }}>
                 Total
-                <Typography sx={{textAlign: 'right'}}>60</Typography>
+                <Typography sx={{textAlign: 'right'}}>
+                  $ {routeRate * totalWeight}
+                </Typography>
               </Typography>
             </CardContent>
           </Card>
