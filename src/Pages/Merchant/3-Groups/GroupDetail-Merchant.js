@@ -348,38 +348,45 @@ const GroupDetailMerchant = () => {
                 {/*activity details*/}
                 <Stack spacing={2}>
                   {/*one activity cell*/}
-                  <Item
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Box
-                      sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}
-                    >
-                      <Avatar
-                        alt="Remy Sharp"
-                        src="https://material-ui.com/static/images/avatar/1.jpg"
-                        sx={{
-                          mx: 'auto',
-                          borderWidth: 2,
-                          borderStyle: 'solid',
-                          borderColor: 'common.white',
-                          zIndex: 2,
-                          mr: 1,
-                          width: 50,
-                          height: 50,
-                        }}
-                      />
-                      <Box textAlign="left">
-                        <Typography variant="subtitle2">
-                          John Doe
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Item>
+
+                  {
+                    currentGroup ? currentGroup.members.map((member, index) => {
+                      return (
+                        <Item
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <Box
+                            sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}
+                          >
+                            <Avatar
+                              alt="Remy Sharp"
+                              src="https://material-ui.com/static/images/avatar/1.jpg"
+                              sx={{
+                                mx: 'auto',
+                                borderWidth: 2,
+                                borderStyle: 'solid',
+                                borderColor: 'common.white',
+                                zIndex: 2,
+                                mr: 1,
+                                width: 50,
+                                height: 50,
+                              }}
+                            />
+                            <Box textAlign="left">
+                              <Typography variant="subtitle2">
+                                {member}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Item>
+                      )
+                    }) : <div/>
+                  }
 
 
                 </Stack>
