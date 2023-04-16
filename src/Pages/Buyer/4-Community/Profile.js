@@ -27,6 +27,7 @@ import {
 import {findAllPostsThunk} from "../../../redux/posts/posts-thunks";
 import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 import {useParams} from "react-router-dom";
+import {findAllShipGroupsThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -50,6 +51,8 @@ const Profile = () => {
     const { userId } = useParams();
     const {users} = useSelector((state) => state.users);
     const {posts} = useSelector((state) => state.posts);
+    const {shipGroups} = useSelector((state) => state.shipGroup);
+
     const currentUser = useSelector((state) => state.auth.currentUser);
 
     const [open, setOpen] = useState(false);
@@ -60,6 +63,8 @@ const Profile = () => {
     const [page, setPage] = useState(1);
     const [visibleProfile, setVisibleProfile] = useState(null);
     const [allowFollow, setAllowFollow] = useState(false);
+    const [formedGroup, setFormedGroup] = useState([]);
+    const [joinedGroup, setJoinedGroup] = useState([]);
 
     const chipLabelsArray = userId ? ['Posts', 'Formed Group','Following', 'Followers']
         : ['Activity', 'Posts', 'Formed Group', 'Joined Group','Following', 'Followers'];
@@ -99,6 +104,7 @@ const Profile = () => {
     useEffect(() => {
       dispatch(findAllUsersThunk());
       dispatch(findAllPostsThunk());
+      dispatch(findAllShipGroupsThunk());
     }, []);
 
     useEffect(() => {
@@ -125,6 +131,14 @@ const Profile = () => {
             setFollowers(getFollowers(users, visibleProfile).length);
         }
     }, [currentUser, visibleProfile, users]);
+
+    useEffect(() => {
+        if (visibleProfile) {
+            console.log(shipGroups);
+            setFormedGroup(shipGroups.filter(item => item.leader === visibleProfile.email));
+            setJoinedGroup(shipGroups.filter(item => item.members.includes(visibleProfile.email)));
+        }
+    }, [visibleProfile, shipGroups]);
 
     return (
       <>
@@ -265,10 +279,10 @@ const Profile = () => {
                             />
                           )}
                           {focusChip === 'Formed Group' && (
-                            <GroupCardsPage />
+                            <GroupCardsPage groups={formedGroup}/>
                           )}
                           {focusChip === 'Joined Group' && (
-                            <GroupCardsPage />
+                            <GroupCardsPage groups={joinedGroup}/>
                           )}
                           {focusChip === 'Posts' && (
                             <div style={{
