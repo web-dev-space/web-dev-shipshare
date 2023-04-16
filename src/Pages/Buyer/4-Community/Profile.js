@@ -7,10 +7,7 @@ import {
     Typography,
     Box,
     Button,
-    Card,
-    TableContainer,
-    Tooltip,
-    IconButton, TableBody, TableRow, TableCell, Avatar, TableHead, Table, Stack, Chip, Paper, CardContent
+    IconButton, Avatar, Paper, CardContent
 } from '@mui/material';
 import Image from 'mui-image'
 import backgroundImg from '../3-Groups/background.jpg';
@@ -26,6 +23,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 import {findAllPostsThunk} from "../../../redux/posts/posts-thunks";
 import {getRandomAvatar} from "../../../utils/getRandomAvatar";
+import {useParams} from "react-router-dom";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -38,8 +36,27 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const MAX_POSTS_PER_PAGE = 5;
 
-const Profile = (viewUser = '') => {
+const countFollowed = (users, currentUser) => {
+    return users.map(item => item.following).flat().filter(item => currentUser && item === currentUser._id).length;
+};
+
+const Profile = () => {
+
+    const dispatch = useDispatch();
+    const { userId } = useParams();
+    const {users} = useSelector((state) => state.users);
+    const {posts} = useSelector((state) => state.posts);
+    const currentUser = useSelector((state) => state.auth.currentUser);
+
     const [open, setOpen] = useState(false);
+    const [userPosts, setUserPosts] = useState([]);
+    const [focusChip, setFocusChip] = useState('Posts');
+    const [follow, setFollow] = useState(false);
+    const [page, setPage] = useState(1);
+    const [visibleProfile, setVisibleProfile] = useState(null);
+
+    const chipLabelsArray = userId ? ['Posts', 'Formed Group','Following', 'Followers']
+        : ['Activity', 'Posts', 'Formed Group', 'Joined Group','Following', 'Followers'];
 
     const handleOpen = () => {
         setOpen(true);
@@ -49,54 +66,35 @@ const Profile = (viewUser = '') => {
         setOpen(false);
     };
 
-    const dispatch = useDispatch();
-
-    // chip controller
-    const [selected, setSelected] = useState(null);
-    const handleChipClick = (value) => {
-      setSelected(value);
-    };
-
     // control profile page
-    const user = ['myself', 'other'];
-
-    let chipLabelsArray = ['Activity', 'Posts', 'Formed Group', 'Joined Group','Following', 'Followers'];
-    if(user==='myself'){
-      chipLabelsArray = ['Posts', 'Formed Group','Following', 'Followers'];
-    }
-
-    const [filter, setFilter] = useState('Posts');
-    const [focusChip, setFocusChip] = useState('Posts');
-
-    const currentUser = useSelector((state) => state.auth.currentUser);
-
-    const [follow, setFollow] = useState(false);
     const handleFollow = () => {
       setFollow(!follow);
     };
 
+    const handlePaginationChange = (event, page) => {
+        setPage(page);
+    };
 
-    const {users} = useSelector((state) => state.users);
-    const {posts} = useSelector((state) => state.posts);
     useEffect(() => {
       dispatch(findAllUsersThunk());
       dispatch(findAllPostsThunk());
     }, []);
 
-    const [userPosts, setUserPosts] = useState([]);
     useEffect(() => {
-        if (currentUser) {
-            setUserPosts(posts.filter(item => item.userId === currentUser._id));
+        console.log(userId);
+        if (userId) {
+            const user = users.find(item => item._id === userId);
+            setVisibleProfile(user);
+        } else {
+            setVisibleProfile(currentUser);
         }
-    }, [posts, currentUser]);
+    }, [users, userId, currentUser]);
 
-    // count followers
-    const countFollowed = users.map(item => item.following).flat().filter(item => currentUser && item === currentUser._id).length;
-
-    const [page, setPage] = useState(1);
-    const handlePaginationChange = (event, page) => {
-        setPage(page);
-    };
+    useEffect(() => {
+        if (visibleProfile) {
+            setUserPosts(posts.filter(item => item.userId === visibleProfile._id));
+        }
+    }, [posts, visibleProfile]);
 
     return (
       <>
@@ -150,7 +148,7 @@ const Profile = (viewUser = '') => {
                           }}>
                               <Avatar
                                 alt="Remy Sharp"
-                                src={currentUser? (currentUser?.avatar || getRandomAvatar(currentUser?.name)) : ""}
+                                src={visibleProfile? (visibleProfile?.avatar || getRandomAvatar(visibleProfile?.name)) : ""}
                                 sx={{
                                     mx: 'auto',
                                     borderWidth: 2,
@@ -173,24 +171,24 @@ const Profile = (viewUser = '') => {
                                     top: -50,
                                 }}>
                                   <Typography variant="h3" align="center">
-                                    {currentUser?.name}
+                                    {visibleProfile?.name}
                                   </Typography>
                                   <Typography align="center" style={{marginTop:8, marginBottom:4}}>
-                                      <strong>{countFollowed}</strong>{' '}
+                                      <strong>{countFollowed(users, visibleProfile)}</strong>{' '}
                                       <span style={{ color: 'grey', marginRight:10}}>followers</span>{' '}
-                                      <strong>{currentUser?.following?.length}</strong>{' '}
+                                      <strong>{visibleProfile?.following?.length}</strong>{' '}
                                       <span style={{ color: 'grey' }}>following</span>{' '}
                                   </Typography>
 
 
-                                {!viewUser && !follow && (
+                                {userId && !follow && (
                                   <Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
                                       <IconButton edge="start" color="inherit" aria-label="menu">
                                           <PersonAddIcon />
                                       </IconButton>
                                       Follow
                                   </Button> )}
-                                {!viewUser && follow && (
+                                {userId && follow && (
                                   <Button variant="outlined" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
                                       <IconButton edge="start" color="inherit" aria-label="menu">
                                           <PersonAddIcon />
@@ -208,7 +206,7 @@ const Profile = (viewUser = '') => {
                       <div style={{ display: 'flex', gap: '8px' }}>
                         <GreenChipGroup chipLabelsArray={chipLabelsArray}
                                         focusChip={focusChip}
-                                        setFilter={setFilter}
+                                        setFilter={setFocusChip}
                                         setFocusChip={setFocusChip}/>
                       </div>
 
@@ -242,7 +240,7 @@ const Profile = (viewUser = '') => {
                             <PostCard
                             title={post.title}
                             post={post.post}
-                            author={currentUser?.name}
+                            author={visibleProfile?.name}
                             date={post.created}
                             image={post.image}
                             comments={post.comments}

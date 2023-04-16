@@ -9,6 +9,7 @@ export function Community() {
             <Routes>
                 <Route path="/discover/*"    element={<DiscoverRoute/>}/>
                 <Route path="/profile" element={<Profile/>}/>
+                <Route path="/profile/:userId" element={<Profile/>}/>
             </Routes>
         </div>
     )
