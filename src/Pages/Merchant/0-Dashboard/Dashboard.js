@@ -38,15 +38,6 @@ const Dashboard = () => {
 
   const stats = useSelector(state => state.dashboard.stats);
 
-  useEffect(() => {
-    const debugStats = () => {
-      console.debug("stats changed", stats);
-    }
-
-    debugStats();
-  }, [stats]);
-
-
   const handleOpen = () => {
     setOpen(true);
   };
@@ -54,10 +45,6 @@ const Dashboard = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  useEffect(() => {
-    console.debug("_ecommerceBestSalesman", _ecommerceBestSalesman)
-  }, [_ecommerceBestSalesman]);
 
   return (
     <>
