@@ -8,3 +8,12 @@ export const getStatsMerchantThunk = createAsyncThunk(
         return stats;
     }
 );
+
+export const getStatsAdminThunk = createAsyncThunk(
+    'dashboard/getStatsAdmin',
+    async () => {
+        const stats = await service.getStatsAdmin();
+        return stats;
+    }
+);
+

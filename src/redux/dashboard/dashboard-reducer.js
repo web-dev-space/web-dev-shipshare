@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-    getStatsMerchantThunk
-} from "./dashboard-thunks";
+import { getStatsMerchantThunk, getStatsAdminThunk } from "./dashboard-thunks";
 
 const initialState = {
     stats: [],
@@ -19,6 +17,13 @@ const dashboardSlice = createSlice({
             state.stats = action.payload;
             state.loading = false;
         },
+        [getStatsAdminThunk.pending]: (state, action) => {
+            state.loading = true;
+        },
+        [getStatsAdminThunk.fulfilled]: (state, action) => {
+            state.stats = action.payload;
+            state.loading = false;
+        }
     },
     reducers: {}
 });

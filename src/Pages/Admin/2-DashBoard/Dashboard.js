@@ -20,10 +20,9 @@ import { useEffect } from "react";
 // _mock_
 // components
 // sections
-import { useSelector } from 'react-redux';
-import { getStatsMerchantThunk } from 'redux/dashboard/dashboard-thunks';
-
-import { useDispatch } from 'react-redux';
+import { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getStatsAdminThunk } from 'redux/dashboard/dashboard-thunks';
 
 
 const Dashboard = () => {
@@ -42,15 +41,9 @@ const Dashboard = () => {
   const theme = useTheme();
   const { themeStretch } = useSettingsContext();
 
-  const TIME_LABELS = {
-    week: ['Mon', 'Tue', 'Web', 'Thu', 'Fri', 'Sat', 'Sun'],
-    month: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    year: ['2018', '2019', '2020', '2021', '2022'],
-  };
-
   useEffect(() => {
     const initStatsMerchant = () => {
-      dispatch(getStatsMerchantThunk());
+      dispatch(getStatsAdminThunk());
     }
 
     initStatsMerchant();
@@ -65,6 +58,27 @@ const Dashboard = () => {
     debugStats();
   }, [stats]);
 
+  const getArrayWithDefault = (array) => {
+    return array === undefined ? [] : array;
+  }
+
+  const weeklyUserRegistrationData = getArrayWithDefault(stats?.countRecentRegisterWeekly);
+
+  const monthlyUserRegistrationData = getArrayWithDefault(stats?.countRecentRegisterMonthly);
+
+  const timeLabels = {
+    week: getArrayWithDefault(weeklyUserRegistrationData.xValues),
+    month: getArrayWithDefault(monthlyUserRegistrationData.xValues),
+  };
+
+  const recentFormedShipGroupWeekly = getArrayWithDefault(stats?.recentFormedShipGroupWeekly);
+
+  const recentFormedShipGroupMonthly = getArrayWithDefault(stats?.recentFormedShipGroupMonthly);
+
+  const timeLabelsFormedShipGroups = {
+    week: getArrayWithDefault(recentFormedShipGroupWeekly.xValues),
+    month: getArrayWithDefault(recentFormedShipGroupMonthly.xValues),
+  };
 
   return (
     <>
@@ -125,9 +139,9 @@ const Dashboard = () => {
 
                 <Grid item xs={12} md={6} lg={6}>
                   <FileGeneralDataActivity
-                    title="Weekly User Registration"
+                    title="New User Registration"
                     chart={{
-                      labels: TIME_LABELS,
+                      labels: timeLabels,
                       colors: [
                         theme.palette.success.main,
                       ],
@@ -135,13 +149,13 @@ const Dashboard = () => {
                         {
                           type: 'Week',
                           data: [
-                            { name: 'Air Sensitive', data: [20, 34, 48, 65, 37, 48, 43] },
+                            { name: 'new users', data: weeklyUserRegistrationData?.yValues },
                           ],
                         },
                         {
                           type: 'Month',
                           data: [
-                            { name: 'Air Sensitive', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
+                            { name: 'new users', data: monthlyUserRegistrationData.yValues },
                           ],
                         },
                       ],
@@ -150,6 +164,32 @@ const Dashboard = () => {
                 </Grid>
 
                 <Grid item xs={12} md={6} lg={6}>
+                  <FileGeneralDataActivity
+                    title="New User Registration"
+                    chart={{
+                      labels: timeLabelsFormedShipGroups,
+                      colors: [
+                        theme.palette.success.main,
+                      ],
+                      series: [
+                        {
+                          type: 'Week',
+                          data: [
+                            { name: 'new users', data: recentFormedShipGroupWeekly?.yValues },
+                          ],
+                        },
+                        {
+                          type: 'Month',
+                          data: [
+                            { name: 'new users', data: recentFormedShipGroupMonthly.yValues },
+                          ],
+                        },
+                      ],
+                    }}
+                  />
+                </Grid>
+
+                {/* <Grid item xs={12} md={6} lg={6}>
                   <EcommerceYearlySales
                     title="Weekly group formed"
                     chart={{
@@ -170,7 +210,7 @@ const Dashboard = () => {
                       ],
                     }}
                   />
-                </Grid>
+                </Grid> */}
 
                 {/* <Grid item xs={12} md={6} lg={6}>
                   <FileGeneralDataActivity
@@ -275,4 +315,5 @@ const Dashboard = () => {
     </>
   );
 };
+
 export default Dashboard;
