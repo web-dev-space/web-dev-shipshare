@@ -10,8 +10,6 @@ import { FileGeneralDataActivity } from 'third-party/file';
 const DashboardCommonPart = ({ stats }) => {
   const theme = useTheme();
 
-
-  // const topLeaders = useSelector(state => state.dashboard.topFiveLeaders);
   const topLeaders = stats?.topFiveLeaders === undefined
     ? []
     : stats?.topFiveLeaders.map((leader, index) => {
@@ -30,9 +28,6 @@ const DashboardCommonPart = ({ stats }) => {
       }
     });
 
-
-
-
   const weeklyData = useMemo(() => {
     return stats?.activityWeekly === undefined ? {} : stats?.activityWeekly?.map((activity, index) => {
       return {
@@ -41,8 +36,6 @@ const DashboardCommonPart = ({ stats }) => {
       }
     })
   }, [stats?.activityWeekly]);
-
-
 
   const monthlyData = useMemo(() => {
     return stats?.activityMonthly === undefined ? {} : stats?.activityMonthly?.map((activity, index) => {

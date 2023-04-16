@@ -144,12 +144,6 @@ const Dashboard = () => {
                             { name: 'Air Sensitive', data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 12, 43, 34] },
                           ],
                         },
-                        {
-                          type: 'Year',
-                          data: [
-                            { name: 'Images', data: [10, 34, 13, 56, 77] },
-                          ],
-                        },
                       ],
                     }}
                   />
