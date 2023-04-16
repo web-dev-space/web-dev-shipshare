@@ -1,28 +1,35 @@
 import { Box, Container, Grid } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useState } from "react";
-import Main from "../../../third-party/layouts/dashboard/Main";
-import Header from "../../../third-party/layouts/dashboard/header";
-import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical";
+import Main from "third-party/layouts/dashboard/Main";
+import Header from "third-party/layouts/dashboard/header";
+import NavVertical from "third-party/layouts/dashboard/nav/NavVertical";
 // _mock_
-import {
-  _ecommerceBestSalesman
-} from '../../../third-party/_mock/arrays';
 // components
-import { useSettingsContext } from '../../../third-party/components/settings';
+import { useSettingsContext } from 'third-party/components/settings';
 // sections
-import {
-  EcommerceBestSalesman,
-  EcommerceYearlySales
-} from '../../../third-party/e-commerce';
-import { FileGeneralDataActivity } from '../../../third-party/file';
-import { AnalyticsWidgetSummary } from '../../../third-party/analytics';
+import DashboardCommonPart from 'components/DashboardCommonPart';
 import { Helmet } from "react-helmet";
+import { AnalyticsWidgetSummary } from 'third-party/analytics';
+import {
+  EcommerceYearlySales
+} from 'third-party/e-commerce';
+import { FileGeneralDataActivity } from 'third-party/file';
 
+import { useEffect } from "react";
+// _mock_
+// components
+// sections
+import { useSelector } from 'react-redux';
+import { getStatsMerchantThunk } from 'redux/dashboard/dashboard-thunks';
+
+import { useDispatch } from 'react-redux';
 
 
 const Dashboard = () => {
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const stats = useSelector(state => state.dashboard.stats);
 
   const handleOpen = () => {
     setOpen(true);
@@ -40,6 +47,24 @@ const Dashboard = () => {
     month: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     year: ['2018', '2019', '2020', '2021', '2022'],
   };
+
+  useEffect(() => {
+    const initStatsMerchant = () => {
+      dispatch(getStatsMerchantThunk());
+    }
+
+    initStatsMerchant();
+  }, []);
+
+
+  useEffect(() => {
+    const debugStats = () => {
+      console.debug("stats changed", stats);
+    }
+
+    debugStats();
+  }, [stats]);
+
 
   return (
     <>
@@ -153,7 +178,7 @@ const Dashboard = () => {
                   />
                 </Grid>
 
-                <Grid item xs={12} md={6} lg={6}>
+                {/* <Grid item xs={12} md={6} lg={6}>
                   <FileGeneralDataActivity
                     title="Data Activity"
                     chart={{
@@ -243,7 +268,9 @@ const Dashboard = () => {
                       { id: 'rank', label: 'Rank', align: 'right' }, //delete if not needed
                     ]}
                   />
-                </Grid>
+                </Grid> */}
+
+                <DashboardCommonPart stats={stats} />
 
               </Grid>
             </Container>

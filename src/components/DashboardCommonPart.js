@@ -7,11 +7,10 @@ import {
 } from 'third-party/e-commerce';
 import { FileGeneralDataActivity } from 'third-party/file';
 
-const DashboardCommonPart = ({ }) => {
+const DashboardCommonPart = ({ stats }) => {
   const theme = useTheme();
 
 
-  const stats = useSelector(state => state.dashboard.stats);
   // const topLeaders = useSelector(state => state.dashboard.topFiveLeaders);
   const topLeaders = stats?.topFiveLeaders === undefined
     ? []

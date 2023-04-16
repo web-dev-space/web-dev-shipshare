@@ -37,7 +37,6 @@ const Dashboard = () => {
   }, []);
 
   const stats = useSelector(state => state.dashboard.stats);
-  // const topLeaders = useSelector(state => state.dashboard.topFiveLeaders);
 
   useEffect(() => {
     const debugStats = () => {
@@ -97,7 +96,7 @@ const Dashboard = () => {
                   />
                 </Grid>
 
-                <DashboardCommonPart />
+                <DashboardCommonPart stats={stats} />
 
                 {/* {timeLabels !== undefined && <Grid item xs={12} md={12} lg={12}>
                   <FileGeneralDataActivity
