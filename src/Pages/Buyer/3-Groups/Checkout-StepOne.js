@@ -42,18 +42,21 @@ export default function CheckoutStepOne({parcels, setSelectedParcels}) {
 								Number of Items
 								<Typography sx={{ textAlign: 'right' }}>{parcels.length} Parcels</Typography>
 							</Typography>
-							<Typography variant="h5" component="div" sx={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', marginTop: 1 }}>
-								Total
-								<Typography sx={{ textAlign: 'right', fontWeight: 'bold' }}>{parcels.reduce((acc, parcel) => acc + parcel.weight, 0)}kg</Typography>
+							<Typography variant="h5" component="div"
+													sx={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', marginTop: 1 }}>
+								Weight
+								<Typography sx={{ textAlign: 'right', fontWeight: 'bold' }}>
+									{parcels.reduce((acc, parcel) => acc + parcel.weight, 0)} kg
+								</Typography>
 							</Typography>
 						</CardContent>
 					</Card>
 
-					<Grid  sx={{ display: 'flex', justifyContent: 'center' }}>
-						<Button variant="contained" style={{ borderRadius: 25, marginTop: 30, marginBottom: 30, maxWidth: 400, height:50 }} fullWidth="true">
-							Checkout
-						</Button>
-					</Grid>
+					{/*<Grid  sx={{ display: 'flex', justifyContent: 'center' }}>*/}
+					{/*	<Button variant="contained" style={{ borderRadius: 25, marginTop: 30, marginBottom: 30, maxWidth: 400, height:50 }} fullWidth="true">*/}
+					{/*		Checkout*/}
+					{/*	</Button>*/}
+					{/*</Grid>*/}
 				</Grid>
 			</Grid>
 		</Box>
