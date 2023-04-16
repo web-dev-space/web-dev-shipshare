@@ -85,11 +85,13 @@ const Profile = (viewUser = '') => {
 
     const [userPosts, setUserPosts] = useState([]);
     useEffect(() => {
-      setUserPosts(posts.filter(item => item.userId === currentUser._id));
+        if (currentUser) {
+            setUserPosts(posts.filter(item => item.userId === currentUser._id));
+        }
     }, [posts, currentUser]);
 
     // count followers
-    const countFollowed = users.map(item => item.following).flat().filter(item => item === currentUser._id).length;
+    const countFollowed = users.map(item => item.following).flat().filter(item => currentUser && item === currentUser._id).length;
 
     const [page, setPage] = useState(1);
     const handlePaginationChange = (event, page) => {
@@ -148,7 +150,7 @@ const Profile = (viewUser = '') => {
                           }}>
                               <Avatar
                                 alt="Remy Sharp"
-                                src={currentUser.avatar || getRandomAvatar(currentUser.name)}
+                                src={currentUser? (currentUser?.avatar || getRandomAvatar(currentUser?.name)) : ""}
                                 sx={{
                                     mx: 'auto',
                                     borderWidth: 2,
@@ -171,12 +173,12 @@ const Profile = (viewUser = '') => {
                                     top: -50,
                                 }}>
                                   <Typography variant="h3" align="center">
-                                    {currentUser.name}
+                                    {currentUser?.name}
                                   </Typography>
                                   <Typography align="center" style={{marginTop:8, marginBottom:4}}>
                                       <strong>{countFollowed}</strong>{' '}
                                       <span style={{ color: 'grey', marginRight:10}}>followers</span>{' '}
-                                      <strong>{currentUser.following.length}</strong>{' '}
+                                      <strong>{currentUser?.following?.length}</strong>{' '}
                                       <span style={{ color: 'grey' }}>following</span>{' '}
                                   </Typography>
 
@@ -240,7 +242,7 @@ const Profile = (viewUser = '') => {
                             <PostCard
                             title={post.title}
                             post={post.post}
-                            author={currentUser.name}
+                            author={currentUser?.name}
                             date={post.created}
                             image={post.image}
                             comments={post.comments}
