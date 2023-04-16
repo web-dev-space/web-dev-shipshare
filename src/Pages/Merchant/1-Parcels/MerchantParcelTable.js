@@ -418,7 +418,7 @@ const MerchantParcelTable = ({ data, handleUpdateParcel }) => {
                                     </TableRow>
                                 );
                             })
-                            : <CustomNoRowsOverlay />}
+                            : ''}
                         {paddingHeight > 0 && (
                             <TableRow
                                 style={{
@@ -430,6 +430,8 @@ const MerchantParcelTable = ({ data, handleUpdateParcel }) => {
                         )}
                     </TableBody>
                 </Table>
+                {!(visibleRows && visibleRows.length > 0) &&
+                <CustomNoRowsOverlay />}
             </TableContainer>
             <Box sx={{ mt: 4, mb: 2 }} display="flex" justifyContent="center">
                 <PageNavigation />
