@@ -111,7 +111,7 @@ const Discover = () => {
 
                 {/*--------------Main Content----------------------*/}
                 <Main>
-                    <Container maxWidth={false}>
+                    <Container maxWidth='xl'>
 
                         <Image
                             src={backgroundImg}
