@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
@@ -16,6 +16,10 @@ import Image from 'mui-image'
 import backgroundImg from './background.jpg';
 import { styled } from "@mui/material/styles";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import {useLocation} from "react-router-dom";
+import {findAllShipGroupsThunk, findShipGroupByIdThunk} from "../../../redux/shipGroups/shipGroups-thunks";
+import {useDispatch, useSelector} from "react-redux";
+import {findAllShipGroups} from "../../../redux/shipGroups/shipGroups-service";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -42,8 +46,39 @@ const GroupDetailPage = (props) => {
   const [focusChip, setFocusChip] = useState('All');
   const chipLabelsArray = ["All", "Air Standard", "Air Sensitive", "Sea Standard", "Sea Sensitive"];
 
-  const groupInfo = props;
-  console.log("groupinfo", groupInfo)
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const groupId = searchParams.get('groupId');
+  console.log("groupId", groupId)
+
+  const dispatch = useDispatch();
+  const currentGroup = useSelector((state) => {
+    return state.shipGroup.currentGroup
+  });
+
+  useEffect(() => {
+    dispatch(findShipGroupByIdThunk(groupId));
+  }, []);
+
+  function getShortAddress(address) {
+    const addressParts = address.split(', ');
+    const cityState = addressParts.slice(-3, -1);
+    const state = cityState[1].substring(0, 2);
+    return `${cityState[0]}, ${state}`;
+  }
+
+  function formatDate(dateString) {
+    if (!dateString) {
+      return null;
+    }
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+    return formattedDate;
+  }
 
   return (
     <>
@@ -114,8 +149,10 @@ const GroupDetailPage = (props) => {
               <Box sx={{
                 display: 'flex',
                 alignItems: 'center',
-                flexDirection: 'column'
+                justifyContent: 'center',
+                flexDirection: 'column',
               }}>
+                <Box>
                 <Avatar
                   alt="Remy Sharp"
                   src="https://material-ui.com/static/images/avatar/1.jpg"
@@ -126,18 +163,14 @@ const GroupDetailPage = (props) => {
                     borderColor: 'common.white',
                     top: -64,
                     zIndex: 2,
-                    ml: 4,
                     width: { xs: 80, md: 128 },
                     height: { xs: 80, md: 128 },
                   }}
-                />
+                /></Box>
                 <Box
-                  sx={{
-                    mt: -5,
-                    ml: 4,
-                  }}>
-                  <Typography variant="h5">
-                    My Group
+                  sx={{mt: -5}}>
+                  <Typography variant="h5" >
+                    {currentGroup ? currentGroup.name : "Loading.."}
                   </Typography>
                 </Box>
               </Box>
@@ -218,7 +251,7 @@ const GroupDetailPage = (props) => {
                         /></div>
                       <div>
                         <Typography variant="caption">
-                          John Doe
+                          {currentGroup ? currentGroup.pickupLocation.name : "Loading.."}
                         </Typography>
                       </div>
                     </Box>
@@ -236,7 +269,7 @@ const GroupDetailPage = (props) => {
                       Group Route
                     </Typography>
                     <Typography variant="caption">
-                      Air Standard
+                      {currentGroup ? currentGroup.shipRoute : "Loading.."}
                     </Typography>
                   </Item>
                   <Item
@@ -251,7 +284,7 @@ const GroupDetailPage = (props) => {
                       Join Before
                     </Typography>
                     <Typography variant="caption">
-                      April 30, 2023
+                      {currentGroup ? formatDate(currentGroup.shipEndDate): "Loading.."}
                     </Typography>
                   </Item>
                   <Item
@@ -266,7 +299,7 @@ const GroupDetailPage = (props) => {
                       Pickup at
                     </Typography>
                     <Typography variant="caption">
-                      San Jose, CA
+                      {currentGroup ? getShortAddress(currentGroup.pickupLocation.address): "Loading.."}
                     </Typography>
                   </Item>
                   <Item
@@ -281,7 +314,7 @@ const GroupDetailPage = (props) => {
                       Current Weight
                     </Typography>
                     <Typography variant="caption">
-                      23.5kg
+                      N/A
                     </Typography>
                   </Item>
                   <Item
@@ -296,7 +329,7 @@ const GroupDetailPage = (props) => {
                       Members
                     </Typography>
                     <Typography variant="caption">
-                      9
+                      {currentGroup ? currentGroup.members.length : "Loading.."}
                     </Typography>
                   </Item>
 
@@ -311,9 +344,7 @@ const GroupDetailPage = (props) => {
                   px: 3,
                 }}>
                 <Box
-                  sx={{
-                    my: 2,
-                  }}
+                  sx={{my: 2,}}
                 >
                   <Typography variant="h6">Activity</Typography>
                   <hr style={{ borderTop: "1px solid #F6F7FB", marginTop: "0.5rem" }} />
@@ -357,41 +388,6 @@ const GroupDetailPage = (props) => {
                     </Box>
                   </Item>
 
-                  <Item
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Box
-                      sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-                    >
-                      <Avatar
-                        alt="Remy Sharp"
-                        src="https://material-ui.com/static/images/avatar/1.jpg"
-                        sx={{
-                          mx: 'auto',
-                          borderWidth: 2,
-                          borderStyle: 'solid',
-                          borderColor: 'common.white',
-                          zIndex: 2,
-                          mr: 1,
-                          width: 50,
-                          height: 50,
-                        }}
-                      />
-                      <Box textAlign="left">
-                        <Typography variant="subtitle2">
-                          John Doe
-                        </Typography>
-                        <Typography variant="caption">
-                          Joined in March 23, 2023
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Item>
 
                 </Stack>
 

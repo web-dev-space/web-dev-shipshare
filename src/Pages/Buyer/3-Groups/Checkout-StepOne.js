@@ -7,31 +7,18 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import ParcelListCard from '../1-Parcels/parcel-components/ParcelListCard';
+import {useEffect, useState} from "react";
 
 
-const parcels = [  {    name: 'Parcel 1',    image: 'https://picsum.photos/200/300',    logisticsNumber: 'LOG001',    weight: '10 kg',  },  {    name: 'Parcel 2',    image: 'https://picsum.photos/200/300',    logisticsNumber: 'LOG002',    weight: '5 kg',  },];
-
-const shipment = {
-	shipmentType: 'Air Standard',
-	deliveryDate: 'Mar 10, 2023',
-	deliveryAddress: 'Apt 505, 425 El Camino Real Santa Clara, CA 95056',
-};
-
-const totalExpense = {
-	shipping: 50,
-	tax: 5,
-	total: 55,
-};
-
-export default function CheckoutStepOne() {
+export default function CheckoutStepOne({parcels, selectedParcels, setSelectedParcels}) {
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<Grid container spacing={5}>
 				<Grid item xs={6}>
-					<ParcelListCard index={true}/>
+					<ParcelListCard index={true} parcels={parcels} setSelectedParcels={setSelectedParcels}/>
 				</Grid>
 
-				<Grid item xs={6}>
+        <Grid item xs={6}>
 
 					<Card sx={{ minWidth: 275 }}>
 						<CardContent>
@@ -40,22 +27,25 @@ export default function CheckoutStepOne() {
 							</Typography>
 							<Typography component="div" sx={{ display: 'flex', justifyContent: 'space-between', marginTop:3}}>
 								Number of Items
-								<Typography sx={{ textAlign: 'right' }}>2 Parcels</Typography>
+								<Typography sx={{ textAlign: 'right' }}>{selectedParcels.length} Parcels</Typography>
 							</Typography>
-							<Typography variant="h5" component="div" sx={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', marginTop: 1 }}>
-								Total
-								<Typography sx={{ textAlign: 'right', fontWeight: 'bold' }}>60kg</Typography>
+							<Typography variant="h5" component="div"
+													sx={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', marginTop: 1 }}>
+								Weight
+								<Typography sx={{ textAlign: 'right', fontWeight: 'bold' }}>
+									{(selectedParcels.reduce((acc, parcel) => acc + parcel.weight, 0)).toFixed(1)} kg
+								</Typography>
 							</Typography>
 						</CardContent>
 					</Card>
 
-					<Grid  sx={{ display: 'flex', justifyContent: 'center' }}>
-						<Button variant="contained" style={{ borderRadius: 25, marginTop: 30, marginBottom: 30, maxWidth: 400, height:50 }} fullWidth="true">
-							Checkout
-						</Button>
-					</Grid>
-				</Grid>
-			</Grid>
-		</Box>
-	);
+          {/*<Grid  sx={{ display: 'flex', justifyContent: 'center' }}>*/}
+          {/*	<Button variant="contained" style={{ borderRadius: 25, marginTop: 30, marginBottom: 30, maxWidth: 400, height:50 }} fullWidth="true">*/}
+          {/*		Checkout*/}
+          {/*	</Button>*/}
+          {/*</Grid>*/}
+        </Grid>
+      </Grid>
+    </Box>
+  );
 }

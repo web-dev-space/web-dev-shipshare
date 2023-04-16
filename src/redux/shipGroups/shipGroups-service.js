@@ -12,7 +12,6 @@ export const findAllShipGroups = async () => {
 
     const response = await axios.get(SHIPGROUPS_API);
     const shipGroups = response.data;
-
     return shipGroups;
 }
 
@@ -35,6 +34,7 @@ export const deleteShipGroup = async (id) => {
 
 export const updateShipGroup = async (shipGroup) => {
     const id = shipGroup._id;
+    console.log(id)
     const response = await axios.put(`${SHIPGROUPS_API}/${id}`, shipGroup);
     return response.data;
 }

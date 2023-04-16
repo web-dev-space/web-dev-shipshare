@@ -72,3 +72,8 @@ export const changePassword = async ({oldPassword, newPassword}) => {
     });
     return response.data;
 }
+
+export const updateCurrentUser = async (newUser) => {
+    const response = await axios.put(`${AUTH_URL}/update`, newUser);
+    return response.data;
+}

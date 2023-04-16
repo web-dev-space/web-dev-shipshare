@@ -16,11 +16,7 @@ import {Pagination} from "@mui/lab";
 import {useNavigate} from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux";
 import {findAllPostsThunk} from "../../../../redux/posts/posts-thunks";
-
-// sample date
-import posts from "../../../../sampleData/posts";
 import {Helmet} from "react-helmet";
-const examplePosts = posts;
 
 const chipLabelsArray = ["Latest", "Popular"];
 
@@ -36,7 +32,6 @@ const Discover = () => {
 
     const [focusChip, setFocusChip] = useState('Latest');
     const [filter, setFilter] = useState('All');
-    // const [posts, setPosts] = useState(examplePosts);
     const [filteredPosts, setFilteredPosts] = useState(posts);
     const [visiblePosts, setVisiblePosts] = useState([]);
     const [page, setPage] = useState(1);
@@ -199,7 +194,7 @@ const Discover = () => {
                                     title={post.title}
                                     post={post.post}
                                     author={post.author}
-                                    date={post.date}
+                                    date={post.created}
                                     image={post.image}
                                     commentsNumber={post.comments.length}
                                     viewsNumber={post.viewsAmount}

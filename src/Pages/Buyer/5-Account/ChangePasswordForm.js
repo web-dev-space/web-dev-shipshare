@@ -16,7 +16,7 @@ import FormProvider, {
 } from '../../../third-party/components/hook-form';
 import { Avatar } from '@mui/material';
 import {
-  changePasswordThunk
+  changePasswordThunk, logoutThunk
 } from "../../../redux/users/users-thunks";
 import {useDispatch} from "react-redux";
 import {getRandomAvatar} from "../../../utils/getRandomAvatar";
@@ -75,14 +75,9 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
 
   const {
     reset,
-    watch,
-    control,
-    setValue,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
-
-  const values = watch();
 
   const dispatch = useDispatch();
   const onSubmit = async (data) => {
@@ -91,21 +86,18 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
       newPassword: data.newPassword,
     };
     try {
-      console.log(profile());
-      await dispatch(changePasswordThunk(newObject));
-      reset();
-      enqueueSnackbar('Update success!');
-      navigate("./");
+        await dispatch(changePasswordThunk(newObject)).unwrap();
+        enqueueSnackbar('Update success!');
+        await dispatch(logoutThunk());
+        navigate("/login");
     } catch (error) {
-      console.log(error);
+        alert('Old password is wrong! Please update the correct password!');
     }
   };
 
   const onCancel = () => {
     reset();
-    navigate("./");
   }
-
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -146,9 +138,6 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
             <RHFTextField name="confirmedPassword" label="Confirmed Password" id="confirmedPassword" sx={{mb:1}}/>
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <div>
-                <LoadingButton type="cancel" variant="outlined" style={{marginRight:10, width: 150}} onClick={onCancel}>
-                  Cancel
-                </LoadingButton>
                 <LoadingButton
                     type="submit"
                     variant="contained" style={{width:150}}

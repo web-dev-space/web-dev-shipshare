@@ -7,23 +7,27 @@ import {
     Typography,
     Box,
     Button,
-    Card,
-    TableContainer,
-    Tooltip,
-    IconButton, TableBody, TableRow, TableCell, Avatar, TableHead, Table, Stack, Chip, Paper, CardContent
+    IconButton, Avatar, Paper, CardContent
 } from '@mui/material';
 import Image from 'mui-image'
 import backgroundImg from '../3-Groups/background.jpg';
 import {styled} from "@mui/material/styles";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import Activity from "./ProfileComponents/Activity";
 import UserCardsPage from "./ProfileComponents/UserCardsPage";
 import GreenChipGroup from "../../../components/GreenChipGroup";
 import GroupCardsPage from "./ProfileComponents/GroupCardsPage";
 import PostCard from "./Discover/post-components/PostCard";
 import {Pagination} from "@mui/lab";
 import {useDispatch, useSelector} from "react-redux";
-import {findAllUsersThunk} from "../../../redux/users/users-thunks";
+import {
+    findAllUsersThunk,
+    updateCurrentUserThunk,
+} from "../../../redux/users/users-thunks";
+import {findAllPostsThunk} from "../../../redux/posts/posts-thunks";
+import {getRandomAvatar} from "../../../utils/getRandomAvatar";
+import {useParams} from "react-router-dom";
+import {findAllShipGroupsThunk} from "../../../redux/shipGroups/shipGroups-thunks";
+import {getRandomBanner} from "../../../utils/getRandomBanner";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -34,8 +38,36 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-const Profile = (viewUser = '') => {
+const MAX_POSTS_PER_PAGE = 5;
+
+const getFollowers = (users, currentUser) => {
+    return users.filter(item => currentUser && (item.following || [])
+        .find((id) => id === currentUser._id));
+};
+
+const Profile = () => {
+
+    const dispatch = useDispatch();
+    const { userId } = useParams();
+    const {users} = useSelector((state) => state.users);
+    const {posts} = useSelector((state) => state.posts);
+    const {shipGroups} = useSelector((state) => state.shipGroup);
+
+    const currentUser = useSelector((state) => state.auth.currentUser);
+
     const [open, setOpen] = useState(false);
+    const [userPosts, setUserPosts] = useState([]);
+    const [focusChip, setFocusChip] = useState('Posts');
+    const [follow, setFollow] = useState(false);
+    const [followers, setFollowers] = useState(0);
+    const [page, setPage] = useState(1);
+    const [visibleProfile, setVisibleProfile] = useState(null);
+    const [allowFollow, setAllowFollow] = useState(false);
+    const [formedGroup, setFormedGroup] = useState([]);
+    const [joinedGroup, setJoinedGroup] = useState([]);
+
+    const chipLabelsArray = userId ? ['Posts', 'Formed Group','Following', 'Followers']
+        : ['Posts', 'Formed Group', 'Joined Group','Following', 'Followers'];
 
     const handleOpen = () => {
         setOpen(true);
@@ -45,96 +77,68 @@ const Profile = (viewUser = '') => {
         setOpen(false);
     };
 
-    const dispatch = useDispatch();
-
-    // chip controller
-    const [selected, setSelected] = useState(null);
-    const handleChipClick = (value) => {
-      setSelected(value);
-    };
-
     // control profile page
-    const user = ['myself', 'other'];
-
-    let chipLabelsArray = ['Activity', 'Posts', 'Formed Group', 'Joined Group','Following', 'Followers'];
-    if(user==='myself'){
-      chipLabelsArray = ['Posts', 'Formed Group','Following', 'Followers'];
-    }
-
-    const [filter, setFilter] = useState('Posts');
-    const [focusChip, setFocusChip] = useState('Posts');
-
-
-    const examplePosts = [{
-      title: "ShipShare is the Best Shipping Platform!",
-      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-      author: "Joe Doe",
-      date: new Date("2021-08-01"),
-      image: "https://source.unsplash.com/random",
-      commentsNumber: 1910,
-      viewsNumber: 8820,
-      repostsNumber: 7460,
-    },
-    {
-      title: "ShipShare is the Best Shipping Platform!",
-      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-      author: "Joe Doe",
-      date: new Date("2021-08-01"),
-      image: "https://source.unsplash.com/random",
-      commentsNumber: 1910,
-      viewsNumber: 8820,
-      repostsNumber: 7460,
-    },
-    {
-      title: "ShipShare is the Best Shipping Platform!",
-      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-      author: "Joe Doe",
-      date: new Date("2021-08-01"),
-      image: "https://source.unsplash.com/random",
-      commentsNumber: 1910,
-      viewsNumber: 8820,
-      repostsNumber: 7460,
-    },
-    {
-      title: "ShipShare is the Best Shipping Platform!",
-      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-      author: "Joe Doe",
-      date: new Date("2021-08-01"),
-      image: "https://source.unsplash.com/random",
-      commentsNumber: 1910,
-      viewsNumber: 8820,
-      repostsNumber: 7460,
-    },
-    {
-      title: "ShipShare is the Best Shipping Platform!",
-      post: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
-      author: "Joe Doe",
-      date: new Date("2021-08-01"),
-      image: "https://source.unsplash.com/random",
-      commentsNumber: 1910,
-      viewsNumber: 8820,
-      repostsNumber: 7460,
-    }];
-
-    const currentUser = useSelector((state) => state.auth.currentUser);
-
-    const [follow, setFollow] = useState(false);
     const handleFollow = () => {
-      setFollow(!follow);
+        if (follow) {
+            dispatch(updateCurrentUserThunk({
+                ...currentUser,
+                following: currentUser.following.filter(item => item !== visibleProfile._id),
+            })).then(() =>
+                dispatch(findAllUsersThunk()));
+        } else {
+            dispatch(updateCurrentUserThunk({
+                ...currentUser,
+                following: [
+                    ...currentUser.following,
+                    visibleProfile._id,
+                ],
+            })).then(() =>
+                dispatch(findAllUsersThunk()));
+        }
     };
-
-
-    const {users} = useSelector((state) => state.users);
-    useEffect(() => {
-      dispatch(findAllUsersThunk());
-    }, []);
-
-    // count followers
-    const countFollowed = users.map(item => item.following).flat().filter(item => item === currentUser._id).length;
 
     const handlePaginationChange = (event, page) => {
-      console.log(page);
+        setPage(page);
     };
+
+    useEffect(() => {
+      dispatch(findAllUsersThunk());
+      dispatch(findAllPostsThunk());
+      dispatch(findAllShipGroupsThunk());
+    }, []);
+
+    useEffect(() => {
+        if (userId) {
+            const user = users.find(item => item._id === userId);
+            setVisibleProfile(user);
+        } else {
+            setVisibleProfile(currentUser);
+        }
+    }, [users, userId, currentUser]);
+
+    useEffect(() => {
+        if (visibleProfile) {
+            setUserPosts(posts.filter(item => item.userId === visibleProfile._id));
+        }
+    }, [posts, visibleProfile]);
+
+    useEffect(() => {
+        if (visibleProfile && currentUser) {
+            setAllowFollow(currentUser.role === 'buyer'
+                && visibleProfile.role === 'buyer'
+                && currentUser._id !== visibleProfile._id);
+            setFollow(currentUser.following.includes(visibleProfile._id));
+            setFollowers(getFollowers(users, visibleProfile).length);
+        }
+    }, [currentUser, visibleProfile, users]);
+
+    useEffect(() => {
+        if (visibleProfile) {
+            console.log(shipGroups);
+            setFormedGroup(shipGroups.filter(item => item.leader === visibleProfile.email));
+            setJoinedGroup(shipGroups.filter(item => item.members.includes(visibleProfile.email)));
+        }
+    }, [visibleProfile, shipGroups]);
 
     return (
       <>
@@ -159,7 +163,7 @@ const Profile = (viewUser = '') => {
                         sx={{height: 250, position: 'relative'}}
                       >
                           <Image
-                            src={backgroundImg}
+                            src={visibleProfile? getRandomBanner(visibleProfile?.name || "1") : backgroundImg}
                             sx={{
                                 width: '100%',
                                 zIndex: 1,
@@ -167,6 +171,7 @@ const Profile = (viewUser = '') => {
                                 right: 0,
                                 position: 'absolute',
                             }}
+                            style={{borderRadius: 20}}
                           />
                       </Box>
 
@@ -188,7 +193,7 @@ const Profile = (viewUser = '') => {
                           }}>
                               <Avatar
                                 alt="Remy Sharp"
-                                src={currentUser.avatar}
+                                src={visibleProfile? (visibleProfile?.avatar || getRandomAvatar(visibleProfile?.name)) : ""}
                                 sx={{
                                     mx: 'auto',
                                     borderWidth: 2,
@@ -211,24 +216,28 @@ const Profile = (viewUser = '') => {
                                     top: -50,
                                 }}>
                                   <Typography variant="h3" align="center">
-                                    {currentUser.name}
+                                    {visibleProfile?.name}
                                   </Typography>
-                                  <Typography align="center" style={{marginTop:8, marginBottom:4}}>
-                                      <strong>{countFollowed}</strong>{' '}
-                                      <span style={{ color: 'grey', marginRight:10}}>followers</span>{' '}
-                                      <strong>{currentUser.following.length}</strong>{' '}
-                                      <span style={{ color: 'grey' }}>following</span>{' '}
-                                  </Typography>
+                                  {
+                                      visibleProfile?.role === 'buyer' && (
+                                          <Typography align="center" style={{marginTop:8, marginBottom:4}}>
+                                              <strong>{followers}</strong>{' '}
+                                              <span style={{ color: 'grey', marginRight:10}}>followers</span>{' '}
+                                              <strong>{visibleProfile?.following?.length}</strong>{' '}
+                                              <span style={{ color: 'grey' }}>following</span>{' '}
+                                          </Typography>
+                                      )
+                                  }
 
 
-                                {!viewUser && !follow && (
+                                {allowFollow && userId && !follow && (
                                   <Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
                                       <IconButton edge="start" color="inherit" aria-label="menu">
                                           <PersonAddIcon />
                                       </IconButton>
                                       Follow
                                   </Button> )}
-                                {!viewUser && follow && (
+                                {allowFollow && userId && follow && (
                                   <Button variant="outlined" color="primary" style={{ borderRadius: 25, height:40, marginTop:10 }} onClick={handleFollow}>
                                       <IconButton edge="start" color="inherit" aria-label="menu">
                                           <PersonAddIcon />
@@ -246,43 +255,51 @@ const Profile = (viewUser = '') => {
                       <div style={{ display: 'flex', gap: '8px' }}>
                         <GreenChipGroup chipLabelsArray={chipLabelsArray}
                                         focusChip={focusChip}
-                                        setFilter={setFilter}
+                                        setFilter={setFocusChip}
                                         setFocusChip={setFocusChip}/>
                       </div>
 
                       {/*content*/}
                       <div style={{marginTop:10}}>
                         <CardContent>
-                          {focusChip === 'Activity' && (
-                            <Activity />
-                          )}
                           {focusChip === 'Following' && (
-                            <UserCardsPage />
+                            <UserCardsPage users={visibleProfile
+                                .following.map(id => users.find(user => user._id === id))}
+                            allUsers={users} allPosts={posts}
+                                           dispatch={dispatch}/>
                           )}
                           {focusChip === 'Followers' && (
-                            <UserCardsPage />
+                            <UserCardsPage
+                                users={getFollowers(users, visibleProfile)}
+                                allUsers={users}
+                                allPosts={posts}
+                                dispatch={dispatch}
+                            />
                           )}
                           {focusChip === 'Formed Group' && (
-                            <GroupCardsPage />
+                            <GroupCardsPage groups={formedGroup}/>
                           )}
                           {focusChip === 'Joined Group' && (
-                            <GroupCardsPage />
+                            <GroupCardsPage groups={joinedGroup}/>
                           )}
                           {focusChip === 'Posts' && (
                             <div style={{
                             display: 'flex',
                             flexDirection:'column',
                             gap: 16 }}>
-                          {examplePosts.map((examplePost) => (
+                          {userPosts.slice(
+                              (page - 1) * MAX_POSTS_PER_PAGE,
+                              (page - 1) * MAX_POSTS_PER_PAGE + MAX_POSTS_PER_PAGE
+                          ).map((post) => (
                             <PostCard
-                            title={examplePost.title}
-                            post={examplePost.post}
-                            author={examplePost.author}
-                            date={examplePost.date}
-                            image={examplePost.image}
-                            commentsNumber={examplePost.commentsNumber}
-                            viewsNumber={examplePost.viewsNumber}
-                            repostsNumber={examplePost.repostsNumber} />
+                            title={post.title}
+                            post={post.post}
+                            author={visibleProfile?.name}
+                            date={post.created}
+                            image={post.image}
+                            comments={post.comments}
+                            viewsNumber={post.viewsAmount}
+                            repostsNumber={post.repostsNumber} />
                             ))}
                             </div>
                           )}
@@ -297,7 +314,7 @@ const Profile = (viewUser = '') => {
                       alignItems: 'center',
                       height: 100,
                     }}>
-                      <Pagination count={10}
+                      <Pagination count={Math.ceil((userPosts || []).length / MAX_POSTS_PER_PAGE)}
                                   onChange={handlePaginationChange}
                       />
                     </div>

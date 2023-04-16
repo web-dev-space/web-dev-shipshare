@@ -30,19 +30,24 @@ const authSlice = createSlice({
         },
         [loginThunk.fulfilled]: (state, { payload }) => {
             state.currentUser = payload;
+            state.error = null;
         },
         [logoutThunk.fulfilled]: (state) => {
             state.currentUser = null;
+            state.error = null;
         },
         [profileThunk.fulfilled]: (state, { payload }) => {
-            console.log("payload" + payload);
+            console.log(payload);
             state.currentUser = payload;
+            state.error = null;
         },
         [updateCurrentUserThunk.fulfilled]: (state, { payload }) => {
             state.currentUser = payload;
+            state.error = null;
         },
         [changePasswordThunk.fulfilled]: (state, { payload }) => {
             state.currentUser = payload;
+            state.error = null;
         }
     },
     reducers: {}
