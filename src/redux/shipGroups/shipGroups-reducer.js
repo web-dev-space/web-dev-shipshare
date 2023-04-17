@@ -36,7 +36,6 @@ const shipGroupsSlice = createSlice({
 
         },
         [findShipGroupByIdThunk.pending]: (state) => {
-
             state.loading = true;
             state.currentGroup = null;
 
@@ -49,7 +48,6 @@ const shipGroupsSlice = createSlice({
         [findShipGroupByIdThunk.rejected]: (state, action) => {
             state.loading = false;
             state.error = action.error;
-
         },
 
         // delete

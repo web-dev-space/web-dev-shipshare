@@ -21,6 +21,7 @@ import {findAllShipGroupsThunk, findShipGroupByIdThunk} from "../../../redux/shi
 import {useDispatch, useSelector} from "react-redux";
 import {findAllShipGroups} from "../../../redux/shipGroups/shipGroups-service";
 import {findAllUsersThunk} from "../../../redux/users/users-thunks";
+import {findAllParcelsThunk} from "../../../redux/parcels/parcels-thunks";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -42,21 +43,37 @@ const GroupDetailPage = (props) => {
     setOpen(false);
   };
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(findShipGroupByIdThunk(groupId));
+    dispatch(findAllUsersThunk());
+    dispatch(findAllParcelsThunk());
+    console.log("done")
+  }, []);
+
+  // Link to DB
+  const { parcels } = useSelector((state) => {
+    return state.parcels
+  });
+
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const groupId = searchParams.get('groupId');
   console.log("groupId", groupId)
 
-  const dispatch = useDispatch();
   const currentGroup = useSelector((state) => {
     return state.shipGroup.currentGroup
   });
-  const { users, loading } = useSelector((state) => state.users);
+  console.log("currentGroup", currentGroup)
 
-  useEffect(() => {
-    dispatch(findShipGroupByIdThunk(groupId));
-    dispatch(findAllUsersThunk());
-  }, []);
+  const currentGroupParcels = parcels.filter((parcel) => {
+    return parcel.shipGroup === currentGroup._id
+  })
+
+  console.log("currentGroupParcels", currentGroupParcels)
+
+  const { users, loading } = useSelector((state) => state.users);
 
   function getShortAddress(address) {
     const addressParts = address.split(', ');
@@ -85,6 +102,9 @@ const GroupDetailPage = (props) => {
   }
 
   const getLeaderAvatar=(group)=>{
+    if (group === null) {
+      return null;
+    }
     const groupLead = users.find((user) => {
       return user.email === group.leader
     })
@@ -354,7 +374,7 @@ const GroupDetailPage = (props) => {
                       Current Weight
                     </Typography>
                     <Typography variant="caption">
-                      N/A
+                      {(currentGroupParcels.reduce((acc, parcel) => acc + parcel.weight, 0)).toFixed(1)} kg
                     </Typography>
                   </Item>
                   <Item
