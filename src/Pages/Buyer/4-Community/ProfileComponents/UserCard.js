@@ -36,7 +36,7 @@ export default function UserCard({ user, disableFollowButton, dispatch }) {
 	const { name, cover, followers, posts, avatar, following } = user;
 
 	const currentUser = useSelector((state) => state.auth.currentUser);
-	const follow = currentUser.following.includes(user._id)
+	const follow = currentUser ? currentUser.following.includes(user._id) : false;
 
 	// control profile page
 	const handleFollow = (event) => {
