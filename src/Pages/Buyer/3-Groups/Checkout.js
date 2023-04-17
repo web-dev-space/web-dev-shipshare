@@ -53,12 +53,12 @@ export default function Checkout() {
 
 
   const handleNext = () => {
-    if (activeStep === 3) {
-      navigate("/groups");
-      return;
+    if (activeStep === 0) {
+      if (selectedParcels.length === 0) {
+        alert("Please select at least one parcel");
+        return;
+      }
     }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
     if (activeStep === 2) {
       if (!currentGroup.members.includes(currentUser.email)) {
         const newShipGroup = {
@@ -73,10 +73,18 @@ export default function Checkout() {
         const newParcel = {
           ...selectedParcel,
           shipGroup: groupId,
+          isShipped: true,
         }
         dispatch(updateParcelThunk(newParcel));
       })
     }
+    if (activeStep === 3) {
+      navigate("/groups");
+      return;
+    }
+
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
 
   };
 

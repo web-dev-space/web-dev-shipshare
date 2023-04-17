@@ -19,8 +19,13 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useSnackbar} from "notistack";
 import {useNavigate} from "react-router-dom";
-import {createShipGroupThunk, findAllShipGroupsThunk} from "../../../redux/shipGroups/shipGroups-thunks";
+import {
+  createShipGroupThunk,
+  findAllShipGroupsThunk,
+  updateShipGroupThunk
+} from "../../../redux/shipGroups/shipGroups-thunks";
 import {useDispatch, useSelector} from "react-redux";
+import axios from "axios";
 
 const steps = ['', '', ''];
 export default function FormGroupPage() {
@@ -44,7 +49,6 @@ export default function FormGroupPage() {
       navigate("/groups");
       return;
     }
-    ;
     if (activeStep === 0 && buttonSelected !== "") {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       return;
@@ -129,23 +133,54 @@ export default function FormGroupPage() {
     dispatch(findAllShipGroupsThunk());
   }, []);
 
-  const handleAddNewShipGroup = (prop) => {
-    console.log('create new group')
-    const newShipGroup = {
-      name: prop.groupName,
-      leader: currentUser.email,
-      pickupLocation: {
-        name: currentUser.name,
-        address: prop.pickupLocation
-      },
-      phoneNumber: prop.phoneNumber,
-      shipRoute: prop.shipRoute,
-      shipEndDate: prop.endDate,
-      members: [currentUser.email],
 
+  const geocodeAddress = async (destinationAddress) => {
+    return new Promise((resolve, reject) => {
+      const attemptGeocode = (attemptCount) => {
+        let geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({address: destinationAddress}, function (results, status) {
+          if (status === window.google.maps.GeocoderStatus.OK) {
+            console.log("success call google map" + status + "," + results)
+            let destinationLocation = {
+              latitude: results[0].geometry.location.lat(),
+              longitude: results[0].geometry.location.lng()
+            };
+            resolve(destinationLocation);
+          } else if (attemptCount < 3) {
+            console.log(`Geocode request failed with status ${status}. Retrying...`);
+            setTimeout(() => attemptGeocode(attemptCount + 1), 1000); //
+          } else {
+            resolve(9999)
+          }
+        });
+      };
+      attemptGeocode(0);
+    });
+  };
+
+  const handleAddNewShipGroup = async (prop) => {
+    console.log('create new group')
+    try {
+      const pickupLocationCoordinates = await geocodeAddress(prop.pickupLocation);
+      const newShipGroup = {
+        name: prop.groupName,
+        leader: currentUser.email,
+        pickupLocation: {
+          name: prop.receiverName,
+          address: prop.pickupLocation,
+          geoLatitude: pickupLocationCoordinates.latitude,
+          geoLongitude: pickupLocationCoordinates.longitude,
+        },
+        phoneNumber: prop.phoneNumber,
+        shipRoute: prop.shipRoute,
+        shipEndDate: prop.endDate,
+        members: [currentUser.email]
+      }
+      console.log('newShipGroup', newShipGroup);
+      dispatch(createShipGroupThunk(newShipGroup))
+    } catch (error) {
+      console.error(error);
     }
-    console.log('newShipGroup', newShipGroup);
-    dispatch(createShipGroupThunk(newShipGroup))
   }
 
   const getPageContent = () => {
