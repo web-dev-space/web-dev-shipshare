@@ -38,6 +38,10 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
+  if (orderBy === 'status') {
+    orderBy = 'phaseNumber';
+  }
+
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
@@ -267,11 +271,15 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     phaseNumber: convertStatusToPhaseNumber(status),
   })
 
-  useEffect(() => {
-    console.debug("rowBeingEdited changed", rowBeingEdited);
-  }, [rowBeingEdited]);
+  const useDebugWhenChange = (variable, name) => {
+    useEffect(() => {
+      console.debug(`${name} changed`, variable);
+    }, [variable]);
+  }
 
-
+  useDebugWhenChange(orderBy, "orderBy");
+  useDebugWhenChange(rowBeingEdited, "rowBeingEdited");
+  useDebugWhenChange(order, "order");
 
   const handleOpen = (row) => {
     setDetailedShip(row);
@@ -298,9 +306,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
 
   const handleRequestSort = React.useCallback(
     (event, newOrderBy) => {
-      if (newOrderBy === "status") {
-        newOrderBy = "phaseNumber";
-      }
 
       const isAsc = orderBy === newOrderBy && order === "asc";
       const toggledOrder = isAsc ? "desc" : "asc";
