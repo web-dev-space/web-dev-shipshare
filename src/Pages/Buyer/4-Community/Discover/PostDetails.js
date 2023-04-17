@@ -41,7 +41,7 @@ const Comment = ({user, date, content, role, handleDeleteComment}) => {
                             fontSize: 16,
                             fontWeight: 600,
                         }}>
-                            {user.name}
+                            {user?.name}
                         <div style={{
                             fontSize: 13,
                             color: '#929191'
