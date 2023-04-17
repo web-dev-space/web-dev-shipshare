@@ -30,6 +30,7 @@ import {uploadImage} from "api/imageUpload";
 import {Helmet} from "react-helmet";
 import {parcelData} from "../../../sampleData/parcels";
 import {Link} from "react-router-dom";
+import {postNewTracking} from "../../../redux/parcels/parcels-service";
 
 
 
