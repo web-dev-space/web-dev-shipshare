@@ -20,6 +20,7 @@ import OrangeChipGroup from "components/OrangeChipGroup";
 import ShippingDetailScreen from "components/ShipmentsDetailScreen.js";
 import { status } from "nprogress";
 import useDebugWhenChange from "utils/useDebugWhenChange.js";
+import { convertDateToString } from "utils/convertDateToString.js";
 
 
 function descendingComparator(a, b, orderBy) {
@@ -85,7 +86,7 @@ const headCells = [
     disablePadding: false,
     label: "Route",
   },
-  { id: "joinDate", numeric: false, disablePadding: false, label: "Join Date" },
+  { id: "shipEndDate", numeric: false, disablePadding: false, label: "Ship Date" },
   {
     id: "pickupLocation",
     numeric: false,
@@ -98,7 +99,7 @@ const headCells = [
 ];
 
 const DEFAULT_ORDER = "desc";
-const DEFAULT_ORDER_BY = "joinDate";
+const DEFAULT_ORDER_BY = "shipEndDate";
 const DEFAULT_ROWS_PER_PAGE = 5;
 
 function MyTableHead(props) {
@@ -495,10 +496,10 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                       }}
                     >
                       <TableCell component="th" scope="row" padding="none">
-                        {row?.trackingNumber === undefined ? "N/A" : row?.trackingNumber}
+                        {row?.trackingNumber === undefined ? "--" : row?.trackingNumber}
                       </TableCell>
                       <TableCell align="left">{row.shipRoute}</TableCell>
-                      <TableCell align="left">{row?.joinDate === undefined ? "N/A" : row?.joinDate}</TableCell>
+                      <TableCell align="left">{row?.shipEndDate === undefined ? "--" : convertDateToString(row?.shipEndDate)}</TableCell>
                       <TableCell align="left">{cityName?.length >= 2 ? cityName[cityName.length - 3] : cityName}</TableCell>
                       <TableCell
                         align="left"

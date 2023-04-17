@@ -30,7 +30,7 @@ const DeliveryStatusCard = ({ deliveryStatus }) => {
         <div style={{ display: 'flex', flexDirection: 'row' }} key={Math.random()}>
 
           <div style={{ marginLeft: 28, flexShrink: 1, paddingBottom: 12, width: '100%', position: 'relative' }}>
-            <div numberOfLines={1} style={index === 0 ? styles.deliveryTextCurrent : styles.deliveryText}>{item.StatusDescription}</div>
+            <div style={index === 0 ? styles.deliveryTextCurrent : styles.deliveryText}>{item.StatusDescription}</div>
             <div style={styles.deliveryDateText}>{item.Date}</div>
             {index !== deliveryStatus.length - 1 && <div style={styles.breakDeliveryLine} />}
 
