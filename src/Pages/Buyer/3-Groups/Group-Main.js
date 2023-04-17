@@ -84,22 +84,41 @@ const GroupMainPage = () => {
 
   // get user distance
   const [userLocation, setUserLocation] = useState(null);
+  // useEffect(() => {
+  //   console.log("getting user location...");
+  //   if ("geolocation" in navigator) {
+  //     navigator.geolocation.getCurrentPosition(function (position) {
+  //       let userLocation = {
+  //         latitude: position.coords.latitude,
+  //         longitude: position.coords.longitude
+  //       };
+  //       setUserLocation(userLocation);
+  //       console.log("setting user location...");
+  //     });
+  //   } else {
+  //     console.log("Geolocation is not supported by this browser.");
+  //   }
+  // }, []);
   useEffect(() => {
     console.log("getting user location...");
-    if ("geolocation" in navigator) {
+    const storedLocation = localStorage.getItem("userLocation");
+    if (storedLocation) {
+      setUserLocation(JSON.parse(storedLocation));
+      console.log("using cached user location...");
+    } else if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
         let userLocation = {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         };
         setUserLocation(userLocation);
+        localStorage.setItem("userLocation", JSON.stringify(userLocation));
         console.log("setting user location...");
       });
     } else {
       console.log("Geolocation is not supported by this browser.");
     }
   }, []);
-
   function toRad(value) {
     return value * Math.PI / 180;
   }
