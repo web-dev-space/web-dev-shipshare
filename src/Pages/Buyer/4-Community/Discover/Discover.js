@@ -17,14 +17,17 @@ import {useNavigate} from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux";
 import {findAllPostsThunk} from "../../../../redux/posts/posts-thunks";
 import {Helmet} from "react-helmet";
+import {findAllUsersThunk} from "../../../../redux/users/users-thunks";
 
 const chipLabelsArray = ["Latest", "Popular"];
 
 const Discover = () => {
     const dispatch = useDispatch();
     const {posts} = useSelector(state => state.posts);
+    const {users} = useSelector(state => state.users);
     useEffect(() => {
         dispatch(findAllPostsThunk());
+        dispatch(findAllUsersThunk());
     }, []);
 
     const MAX_SIZE_PER_PAGE = 10;
@@ -32,8 +35,8 @@ const Discover = () => {
 
     const [focusChip, setFocusChip] = useState('Latest');
     const [filter, setFilter] = useState('All');
-    const [filteredPosts, setFilteredPosts] = useState(posts);
-    const [visiblePosts, setVisiblePosts] = useState([]);
+
+    const [allPosts, setAllPosts] = useState([]);
     const [page, setPage] = useState(1);
 
     const handleOpen = () => {
@@ -49,6 +52,25 @@ const Discover = () => {
     };
 
     useEffect(() => {
+        // const userPosts = posts.filter(post => post.userId === users.id);
+
+        const userPostsAndNames = posts.map(post => ({
+            ...post,
+            name: users.find(user => user._id === post.userId)?.name || '',
+        }));
+        setAllPosts(userPostsAndNames);
+    }, [ posts, users]);
+
+
+    const [filteredPosts, setFilteredPosts] = useState([]);
+    useEffect(()=>{
+        setFilteredPosts(allPosts);
+    }, [allPosts]);
+    console.log('filtered posts' ,filteredPosts);
+
+
+    const [visiblePosts, setVisiblePosts] = useState([]);
+    useEffect(() => {
         const changePage = () => {
             const newPage = page - 1;
             const updatedVisiblePosts = filteredPosts.slice(
@@ -60,6 +82,7 @@ const Discover = () => {
         };
         changePage();
     }, [page, filteredPosts]);
+
     // search bar
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -111,7 +134,7 @@ const Discover = () => {
 
                 {/*--------------Main Content----------------------*/}
                 <Main>
-                    <Container maxWidth={false}>
+                    <Container maxWidth='xl'>
 
                         <Image
                             src={backgroundImg}
@@ -188,12 +211,13 @@ const Discover = () => {
                                     return b.viewsNumber - a.viewsNumber;
                                 }
                                 return 0;
-                            }).map((post) => (
+                            }).map((post, index) => (
                                 <PostCard
+                                    index={index}
                                     id={post._id}
                                     title={post.title}
                                     post={post.post}
-                                    author={post.author}
+                                    author={post.name}
                                     date={post.created}
                                     image={post.image}
                                     commentsNumber={post.comments.length}

@@ -146,7 +146,7 @@ const PostDetails = () => {
                         }}>
                             <IconButton
                                 style={{ marginLeft: -40}}
-                                onClick={() => navigate("../")}>
+                                onClick={() => navigate.goBack()}>
                                 <ArrowBackIcon style={{ color: 'white'}}/>
                             </IconButton>
                             <Typography variant="h2" gutterBottom style={{ color: 'white'}}>
