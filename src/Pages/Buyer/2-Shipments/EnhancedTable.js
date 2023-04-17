@@ -249,12 +249,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   const [open, setOpen] = useState(false);
   const [detailedShip, setDetailedShip] = useState({});
 
-  useDebugWhenChange("originalRows", originalRows);
-  useDebugWhenChange("rows", rows);
-  useDebugWhenChange("visibleRows", visibleRows);
-
-  // const [originalRows, setOriginalRows] = React.useState([]);
-
   const addStatus = (shipGroup) => {
     switch (shipGroup?.phaseNumber) {
       case 0:
@@ -294,42 +288,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     setOpen(false);
   };
 
-  // useEffect(() => {
-  //   let rowsOnMount = stableSort(
-  //     rows,
-  //     getComparator(DEFAULT_ORDER, DEFAULT_ORDER_BY)
-  //   );
-
-  //   rowsOnMount = rowsOnMount.slice(
-  //     0 * DEFAULT_ROWS_PER_PAGE,
-  //     0 * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE
-  //   );
-
-  //   setVisibleRows(rowsOnMount);
-  // }, [rows]);
-
-  // const handleRequestSort = React.useCallback(
-  //   (event, newOrderBy) => {
-
-  //     const isAsc = orderBy === newOrderBy && order === "asc";
-  //     const toggledOrder = isAsc ? "desc" : "asc";
-  //     setOrder(toggledOrder);
-  //     setOrderBy(newOrderBy);
-
-  //     const sortedRows = stableSort(
-  //       rows,
-  //       getComparator(toggledOrder, newOrderBy)
-  //     );
-  //     const updatedRows = sortedRows.slice(
-  //       page * rowsPerPage,
-  //       page * rowsPerPage + rowsPerPage
-  //     );
-
-  //     setVisibleRows(updatedRows);
-  //   },
-  //   [rows, order, orderBy, rowsPerPage]
-  // );
-
   const handleRequestSort = React.useCallback(
     (event, newOrderBy) => {
 
@@ -366,25 +324,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     changePage();
   }, [rows, page, order, orderBy, rowsPerPage]);
 
-  // const handleChangeRowsPerPage = React.useCallback(
-  //   (event) => {
-  //     const updatedRowsPerPage = parseInt(event.target.value, 10);
-  //     setRowsPerPage(updatedRowsPerPage);
-
-  //     setPage(0);
-
-  //     const sortedRows = stableSort(rows, getComparator(order, orderBy));
-  //     const updatedRows = sortedRows.slice(
-  //       0 * updatedRowsPerPage,
-  //       0 * updatedRowsPerPage + updatedRowsPerPage
-  //     );
-
-  //     setVisibleRows(updatedRows);
-
-  //     setPaddingHeight(0);
-  //   },
-  //   [order, orderBy]
-  // );
 
   useEffect(() => {
     const filterTableData = () => {
