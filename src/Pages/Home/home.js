@@ -14,6 +14,7 @@ import {useNavigate} from "react-router-dom";
 import CardWithAvatar from "./CardWithAvatar";
 import RouteCard from "./RouteCard";
 import PostCard from "./PostCard";
+import AppWelcome from "../../third-party/app/AppWelcome";
 
 
 const Home = () => {
@@ -42,7 +43,7 @@ const Home = () => {
 
     useEffect(() => {
       const handleResize = () => {
-        setIsSmallScreen(window.innerWidth < 800);
+        setIsSmallScreen(window.innerWidth < 900);
         setIsLargeScreen(window.innerWidth > 1300);
       };
       window.addEventListener('resize', handleResize);
@@ -216,53 +217,71 @@ const Home = () => {
                 <Main>
                     <Container maxWidth={true}>
                       {/*====== part 1 ======*/}
-                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '90vh', backgroundColor: "rgba(251, 254, 243, 0.6)"}}>
-                        <Box
-                          sx={{
-                            width: isSmallScreen? '100%':'40%',
-                            height: '100%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            position: 'relative',
-                            flex: isSmallScreen ? '1 1 auto' : '0 0 auto',
-                            textAlign: 'left',
-                            padding: 2,
-                            maxWidth: 500,
-                          }}
-                        >
-                          <Typography variant="h2" component="text" paragraph>
-                            Ship globally &
-                          </Typography>
-                          <Typography variant="h2" component="text" paragraph>
-                            Save big
-                          </Typography>
-                          <Typography variant="text" component="text" paragraph sx={{color:'gray'}}>
-                            ShipShare -- The ultimate solution for affordable and convenient international shipping!
-                          </Typography>
-                          <Button variant="contained" onClick={()=>navigate('/login')} sx={{marginTop: '1rem', borderRadius: 15, padding: 1, width: 120}}>Get Started</Button>
-                        </Box>
-                        {/*--- right side image ---*/}
-                        <Box
-                          sx={{
-                            width: isSmallScreen? '0%':'60%',
-                            height: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            overflow: 'hidden',
-                            flex: isSmallScreen ? '0 0 auto' : '1 1 auto',
-                            padding: 2,
-                            maxWidth: 800,
-                          }}
-                        >
-                          <img src={require('../../images/HomeGroup.png')} alt="HomeGroup" className={isSmallScreen ? 'hide-image' : ''} style={{objectFit: 'cover', borderRadius: '1rem', width: '100%'}}/>
-                        </Box>
-                      </div>
+                      {/*<div style={{display: isLargeScreen? 'flex':'', flexDirection: isLargeScreen? 'row': 'column', justifyContent: 'center', alignItem:"center", height: '90vh', backgroundColor: "rgba(251, 254, 243, 0.6)"}}>*/}
+                      {/*  <Box*/}
+                      {/*    sx={{*/}
+                      {/*      width: isLargeScreen? '40%':'100%',*/}
+                      {/*      height: isLargeScreen? '100%':400,*/}
+                      {/*      display: 'flex',*/}
+                      {/*      flexDirection: 'column',*/}
+                      {/*      justifyContent: 'center',*/}
+                      {/*      position: 'relative',*/}
+                      {/*      // flex: isLargeScreen ? '0 0 auto' : '1 1 auto',*/}
+                      {/*      textAlign: isLargeScreen? 'left': 'center',*/}
+                      {/*      alignItems: isLargeScreen? 'flex-start': 'center',*/}
+                      {/*      padding: 2,*/}
+                      {/*      maxWidth: 500,*/}
+                      {/*      minWidth: isLargeScreen? 400:100,*/}
+                      {/*      paddingY: isSmallScreen? '3rem': 0,*/}
+                      {/*    }}*/}
+                      {/*  >*/}
+                      {/*    <Typography variant="h2" component="text" paragraph>*/}
+                      {/*      Ship globally &*/}
+                      {/*    </Typography>*/}
+                      {/*    <Typography variant="h2" component="text" paragraph>*/}
+                      {/*      Save big*/}
+                      {/*    </Typography>*/}
+                      {/*    <Typography variant="body1" component="text" paragraph sx={{color:'gray'}}>*/}
+                      {/*      ShipShare -- The ultimate solution for affordable and convenient international shipping!*/}
+                      {/*    </Typography>*/}
+                      {/*    <Button variant="contained" onClick={()=>navigate('/login')} sx={{marginTop: '1rem', borderRadius: 15, padding: 1, width: 120}}>Get Started</Button>*/}
+                      {/*  </Box>*/}
+                      {/*  /!*--- right side image ---*!/*/}
+                      {/*  <Box*/}
+                      {/*    sx={{*/}
+                      {/*      width: isLargeScreen? '60%':'100%',*/}
+                      {/*      height: '100%',*/}
+                      {/*      alignItems: 'center',*/}
+                      {/*      display: isLargeScreen? 'flex':'',*/}
+                      {/*      justifyContent: 'center',*/}
+                      {/*      overflow: 'hidden',*/}
+                      {/*      flex: isLargeScreen ? '1 1 auto':'0 0 auto',*/}
+                      {/*      padding: 2,*/}
+                      {/*      maxWidth: 800,*/}
+                      {/*    }}*/}
+                      {/*  >*/}
+                      {/*    <img src={require('../../images/HomeGroup.png')} alt="HomeGroup" style={{objectFit: 'cover', borderRadius: '1rem', width: '100%'}}/>*/}
+                      {/*  </Box>*/}
+                      {/*</div>*/}
+                      <AppWelcome
+                        title={"Ship globally &"}
+                        title2={"Save big"}
+                        description="ShipShare -- The ultimate solution for affordable and convenient international shipping!"
+                        img={<img src={require('../../images/HomeGroup.png')} alt="HomeGroup" style={{
+                          p: 3,
+                          width: isSmallScreen? '80%':'50%',
+                          margin: { xs: 'auto', md: 'inherit' },
+                          alignSelf: 'center',
+                          marginBottom: 180,
+                          marginTop: 180,
+                          marginRight: isSmallScreen? 0: 30,
+                        }}/>}
+                        action={<Button variant="contained" style={{borderRadius: '1rem', marginBottom: -130}} onClick={()=>navigate('/login')}>Get Started</Button> }
+                      />
 
 
                       {/*====== part 2 - How it works ======*/}
-                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh'}}>
+                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh', marginTop: isLargeScreen? 0:210}}>
                         <Box
                           sx={{
                             height: '100%',
@@ -274,10 +293,10 @@ const Home = () => {
                             textAlign: 'left',
                           }}
                         >
-                          <Typography variant="h3" component="text" paragraph sx={{mb:9, mt:-20}}>
+                          <Typography variant={isSmallScreen? "h3": "h2"}  component="text" paragraph sx={{mb:9}}>
                             How it works
                           </Typography>
-                          <div style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', flexDirection: isSmallScreen? 'column':'', alignItems: 'center'}}>
+                          <div style={{display: 'flex', justifyContent: 'space-between',  flexDirection: isLargeScreen? 'row':'column', alignItems: 'center'}}>
                             {cards.map((card, index) => (
                               <Card key={index} sx={{width: 300, mr:3, mb:3}}>
                                 <CardContent sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
