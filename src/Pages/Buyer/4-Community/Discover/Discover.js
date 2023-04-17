@@ -220,6 +220,7 @@ const Discover = () => {
                                     author={post.name}
                                     date={post.created}
                                     image={post.image}
+                                    comments={post.comments}
                                     commentsNumber={post.comments.length}
                                     viewsNumber={post.viewsAmount}
                                     onPostCardClick={()=>onPostCardClick(post._id)}/>

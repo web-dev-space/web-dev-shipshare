@@ -15,12 +15,14 @@ import {useSnackbar} from "notistack";
 import {useNavigate} from "react-router-dom";
 import {LoadingButton} from "@mui/lab";
 import {createPostThunk} from "../../../../redux/posts/posts-thunks";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Helmet} from "react-helmet";
+import {uploadImage, urlToFile} from "../../../../api/imageUpload";
 
 const CreatePost = () => {
     // ---- handle the nav bar ---
     const [open, setOpen] = useState(false);
+    const currentUser = useSelector((state) => state.auth.currentUser);
 
     const handleOpen = () => {
         setOpen(true);
@@ -66,19 +68,23 @@ const CreatePost = () => {
         //     navigate("../");
         //     console.log('DATA', data);
         try {
+            const file = await urlToFile(data.cover.preview);
+            const imageRemoteUrl = await uploadImage(file);
             const newPost ={
-                user: "test@test.com",
+                userId: currentUser._id,
                 viewsAmount: 0,
-                role: "user",
-                date: new Date(),
+                created: new Date(),
                 title: data.title,
-                comment: data.content,
-                image: "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg",
+                post: data.content,
+                comments: [],
+                image: imageRemoteUrl,
             }
-            dispatch(createPostThunk(newPost));
-            console.log('DATA is here --> '+ data);
-            console.log('newPost is here --> '+ newPost);
-            navigate('../');
+            dispatch(createPostThunk(newPost)).then((result) => {
+                if (result.type.endsWith('fulfilled')) {
+                    enqueueSnackbar('Post success!');
+                    navigate('../');
+                }
+            });
         } catch (error) {
             console.log("error happens");
             console.error(error);
