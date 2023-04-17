@@ -31,6 +31,10 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
+  if (orderBy === 'status') {
+    orderBy = 'phaseNumber';
+  }
+
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
@@ -281,48 +285,50 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   //   setVisibleRows(rowsOnMount);
   // }, [rows]);
 
+  // const handleRequestSort = React.useCallback(
+  //   (event, newOrderBy) => {
+
+  //     const isAsc = orderBy === newOrderBy && order === "asc";
+  //     const toggledOrder = isAsc ? "desc" : "asc";
+  //     setOrder(toggledOrder);
+  //     setOrderBy(newOrderBy);
+
+  //     const sortedRows = stableSort(
+  //       rows,
+  //       getComparator(toggledOrder, newOrderBy)
+  //     );
+  //     const updatedRows = sortedRows.slice(
+  //       page * rowsPerPage,
+  //       page * rowsPerPage + rowsPerPage
+  //     );
+
+  //     setVisibleRows(updatedRows);
+  //   },
+  //   [rows, order, orderBy, rowsPerPage]
+  // );
+
   const handleRequestSort = React.useCallback(
     (event, newOrderBy) => {
-
-      if (newOrderBy === "status") {
-        newOrderBy = "phaseNumber";
-      }
 
       const isAsc = orderBy === newOrderBy && order === "asc";
       const toggledOrder = isAsc ? "desc" : "asc";
       setOrder(toggledOrder);
       setOrderBy(newOrderBy);
 
-      const sortedRows = stableSort(
-        rows,
-        getComparator(toggledOrder, newOrderBy)
-      );
-      const updatedRows = sortedRows.slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      );
-
-      setVisibleRows(updatedRows);
     },
-    [rows, order, orderBy, rowsPerPage]
+    [order, orderBy]
   );
 
   useEffect(() => {
     const changePage = () => {
       const newPage = page - 1;
 
-      console.debug("newPage", newPage);
-
       const sortedRows = stableSort(rows, getComparator(order, orderBy));
-
-      console.debug("sortedRows", sortedRows);
 
       const updatedRows = sortedRows.slice(
         newPage * rowsPerPage,
         newPage * rowsPerPage + rowsPerPage
       );
-
-      console.debug("updatedRows", updatedRows);
 
       setVisibleRows(updatedRows);
 
