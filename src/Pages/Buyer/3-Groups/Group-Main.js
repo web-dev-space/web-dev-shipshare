@@ -294,6 +294,8 @@ const GroupMainPage = () => {
   }
 
   const navigate = useNavigate();
+  const currentUser = useSelector(state => state.auth.currentUser);
+
   const handleFormNewGroup = () => {
     if(currentUser === null){
       alert("Please login first")
