@@ -33,7 +33,7 @@ export default function PostCard({
                          style={{
                              width: 90,
                              height: 90,
-                             objectFit: 'fill',
+                             objectFit: 'cover',
                              objectPosition: 'center',
                              borderRadius: 12}}/>
                 </div>

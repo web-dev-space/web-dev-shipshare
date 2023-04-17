@@ -127,7 +127,9 @@ const PostDetails = () => {
                     date: new Date()
                 }
             ]
-        }));
+        })).then(() => {
+            setNewComment('');
+        });
     }
 
     return (
@@ -184,7 +186,8 @@ const PostDetails = () => {
                             </Typography>
 
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 80}}>
-                                <Avatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_1.jpg" sx={{ width: 48, height: 48 }} />
+                                {!author && <Avatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_1.jpg" sx={{ width: 48, height: 48 }} />}
+                                {author && <Avatar src={author.avatar || getRandomAvatar(author.name)} sx={{ width: 48, height: 48 }} />}
                                 <div style={{ marginLeft: 8}}>
                                     <div style={{
                                         fontSize: 16,
