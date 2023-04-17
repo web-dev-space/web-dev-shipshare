@@ -79,7 +79,7 @@ export default function UserCard({ user, disableFollowButton, dispatch }) {
 
 				<Avatar
 					alt={name}
-					src={avatar || name ? getRandomAvatar(name) : ''}
+					src={avatar || (name ? getRandomAvatar(name) : '')}
 					sx={{
 						width: 64,
 						height: 64,
