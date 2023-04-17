@@ -16,9 +16,11 @@ import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import OrangeChipGroup from "../../../components/OrangeChipGroup";
-import ShippingDetailScreen from "../../../components/ShipmentsDetailScreen.js";
+import OrangeChipGroup from "components/OrangeChipGroup";
+import ShippingDetailScreen from "components/ShipmentsDetailScreen.js";
 import { status } from "nprogress";
+import useDebugWhenChange from "utils/useDebugWhenChange.js";
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -30,18 +32,36 @@ function descendingComparator(a, b, orderBy) {
   return 0;
 }
 
+const generalComparator = (order, orderBy, a, b) => {
+  if (a[orderBy] === undefined && b[orderBy] === undefined) {
+    return 0;
+  }
+
+  if (a[orderBy] === undefined) {
+    return 1;
+  }
+
+  if (b[orderBy] === undefined) {
+    return -1;
+  }
+
+  return order === "desc"
+    ? descendingComparator(a, b, orderBy)
+    : -descendingComparator(a, b, orderBy);
+
+};
+
 function getComparator(order, orderBy) {
   if (orderBy === 'status') {
     orderBy = 'phaseNumber';
   }
 
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+  return (a, b) => generalComparator(order, orderBy, a, b);
 }
 
 function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
+
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) {
@@ -224,6 +244,13 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   const [focusChip, setFocusChip] = useState("All");
   const originalRows = shipGroups;
   const setOriginalRows = setShipGroups;
+  const [rows, setRows] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [detailedShip, setDetailedShip] = useState({});
+
+  useDebugWhenChange("originalRows", originalRows);
+  useDebugWhenChange("rows", rows);
+  useDebugWhenChange("visibleRows", visibleRows);
 
   // const [originalRows, setOriginalRows] = React.useState([]);
 
@@ -256,11 +283,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
 
 
 
-  const [rows, setRows] = useState([]);
-
-  const [open, setOpen] = useState(false);
-
-  const [detailedShip, setDetailedShip] = useState({});
 
   const handleOpen = (row) => {
     setDetailedShip(row);

@@ -38,14 +38,31 @@ function descendingComparator(a, b, orderBy) {
   return 0;
 }
 
+const generalComparator = (order, orderBy, a, b) => {
+  if (a[orderBy] === undefined && b[orderBy] === undefined) {
+    return 0;
+  }
+
+  if (a[orderBy] === undefined) {
+    return 1;
+  }
+
+  if (b[orderBy] === undefined) {
+    return -1;
+  }
+
+  return order === "desc"
+    ? descendingComparator(a, b, orderBy)
+    : -descendingComparator(a, b, orderBy);
+
+};
+
 function getComparator(order, orderBy) {
   if (orderBy === 'status') {
     orderBy = 'phaseNumber';
   }
 
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+  return (a, b) => generalComparator(order, orderBy, a, b);
 }
 
 function stableSort(array, comparator) {
@@ -62,13 +79,13 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "groupName",
+    id: "name",
     numeric: false,
     disablePadding: true,
     label: "Group Name",
   },
   {
-    id: "endDate",
+    id: "shipEndDate",
     numeric: false,
     disablePadding: true,
     label: "End Date",
@@ -103,7 +120,7 @@ const headCells = [
 ];
 
 const DEFAULT_ORDER = "desc";
-const DEFAULT_ORDER_BY = "joinDate";
+const DEFAULT_ORDER_BY = "shipEndDate";
 const DEFAULT_ROWS_PER_PAGE = 5;
 
 function MyTableHead(props) {
@@ -272,10 +289,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     phaseNumber: convertStatusToPhaseNumber(status),
   })
 
-  useDebugWhenChange(orderBy, "orderBy");
-  useDebugWhenChange(rowBeingEdited, "rowBeingEdited");
-  useDebugWhenChange(order, "order");
-
   const handleOpen = (row) => {
     setDetailedShip(row);
     setOpen(true);
@@ -284,6 +297,9 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+
+  useDebugWhenChange("shipGroups", shipGroups);
 
   // useEffect(() => {
   //   let rowsOnMount = stableSort(
@@ -358,8 +374,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
 
 
   const handleRequestSort = (event, newOrderBy) => {
-    console.debug("new order by in handle request sort", newOrderBy);
-
     const isAsc = orderBy === newOrderBy && order === "asc";
     const toggledOrder = isAsc ? "desc" : "asc";
     setOrder(toggledOrder);

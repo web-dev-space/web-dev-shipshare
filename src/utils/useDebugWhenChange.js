@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const useDebugWhenChange = (variable, name) => {
+const useDebugWhenChange = (name, variable) => {
   useEffect(() => {
     console.debug(`"${name}" changed. Value:`, variable);
   }, [variable]);
