@@ -115,7 +115,7 @@ const ParcelMainPage = () => {
     });
 
     // Table data
-    const [tableData, setTableData] = useState(parcels);
+    const [tableData, setTableData] = useState([]);
     useEffect(() => {
         if (currentUser && currentUser.role !== "visitor") {
             dispatch(findAllParcelsThunk());
@@ -127,7 +127,7 @@ const ParcelMainPage = () => {
         if (parcels) {
             setTableData(
                 parcels
-                    .filter((val) => val.user === currentUser.email)
+                    .filter((val) => currentUser.role !== 'buyer' || val.user === currentUser.email)
                     .filter((val) => {
                     return filterCourier === "all" || val.courier === filterCourier;
                 })
