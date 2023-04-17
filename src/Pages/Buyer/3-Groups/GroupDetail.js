@@ -74,7 +74,8 @@ const GroupDetailPage = (props) => {
   console.log("currentGroupParcels", currentGroupParcels)
 
   const { users, loading } = useSelector((state) => state.users);
-
+  // console.log("loading",loading)
+  // console.log("users",users)
   function getShortAddress(address) {
     const addressParts = address.split(', ');
     const cityState = addressParts.slice(-3, -1);
@@ -96,7 +97,12 @@ const GroupDetailPage = (props) => {
   }
 
   const navigate = useNavigate();
+  const currentUser = useSelector(state => state.auth.currentUser);
   const handleClickJoinGroup = (group) => {
+    if(currentUser === null){
+      alert("Please login first")
+      return;
+    }
     let groupId = group._id
     navigate('./checkout?groupId=' + groupId);
   }

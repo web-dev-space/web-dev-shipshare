@@ -242,6 +242,22 @@ const GroupMainMerchant = () => {
     navigate('./group-details?groupId=' + groupId);
   }
 
+  const { users, loading } = useSelector((state) => state.users);
+
+  const getGroupAvatar = (group) => {
+    // console.log(users)
+    const groupLead = users.find((user) => {
+      return user.email === group.leader
+    })
+    if (groupLead !== undefined) {
+      console.log("has avatar" + groupLead._id);
+      return groupLead.avatar
+    } else {
+      console.log("no avatar");
+      return null
+    }
+  }
+
   return (
     <>
       <Helmet>
@@ -262,7 +278,7 @@ const GroupMainMerchant = () => {
         <Main>
           <Container maxWidth={false}>
             <Typography variant="h4">
-              Ongoing Groups
+               Groups
             </Typography>
             <Stack
               mt={3}
@@ -332,8 +348,8 @@ const GroupMainMerchant = () => {
                             }}
                           >
                             <Avatar
-                              alt="Product 1"
-                              src="/static/mock-images/products/product_1.png"
+                              alt={row.name}
+                              src={getGroupAvatar(row)}
                               sx={{ width: 60, height: 60, borderRadius: 2 }}
                             />
                             <Box sx={{ ml: 2 }}>
