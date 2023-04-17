@@ -1,4 +1,4 @@
-import {createAsyncThunk}  from "@reduxjs/toolkit";
+import {createAsyncThunk} from "@reduxjs/toolkit";
 import * as service from "./posts-service";
 
 export const findAllPostsThunk = createAsyncThunk(
@@ -23,9 +23,8 @@ export const createPostThunk = createAsyncThunk(
 
 export const updatePostThunk = createAsyncThunk(
   "posts/updatePost",
-  async (id) => {
-    const response = await service.updatePost(id);
-    return response.data;
+  async (post) => {
+      return await service.updatePost(post);
   }
 );
 

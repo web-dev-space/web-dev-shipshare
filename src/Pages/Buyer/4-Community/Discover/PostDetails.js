@@ -11,7 +11,12 @@ import {useNavigate, useParams} from "react-router-dom";
 
 // sample data
 import posts from "../../../../sampleData/posts";
-import {deletePostThunk, findAllPostsThunk, findPostByIdThunk} from "../../../../redux/posts/posts-thunks";
+import {
+    deletePostThunk,
+    findAllPostsThunk,
+    findPostByIdThunk,
+    updatePostThunk
+} from "../../../../redux/posts/posts-thunks";
 import {Helmet} from "react-helmet";
 import {getRandomAvatar} from "../../../../utils/getRandomAvatar";
 import {findAllUsersThunk} from "../../../../redux/users/users-thunks";
@@ -27,7 +32,8 @@ const Comment = ({user, date, content, role, handleDeleteComment}) => {
             display: 'flex', flexDirection: 'row',
             alignItems: 'center',
             marginTop: 32, marginBottom: 32}}>
-            <Avatar src={user.picture? user.picture : getRandomAvatar(user)} sx={{ width: 48, height: 48, mb: 'auto' }} />
+            {user &&
+            <Avatar src={user.avatar? user.avatar : getRandomAvatar(user.name)} sx={{ width: 48, height: 48, mb: 'auto' }} />}
             <div style={{ marginLeft: 16}}>
                 <div style={{display: 'flex', flexDirection: "row"}}>
                     <div style={{width:"100%"}}>
@@ -35,12 +41,12 @@ const Comment = ({user, date, content, role, handleDeleteComment}) => {
                             fontSize: 16,
                             fontWeight: 600,
                         }}>
-                            {user}
+                            {user.name}
                         <div style={{
                             fontSize: 13,
                             color: '#929191'
                         }}>
-                            {new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(date))}
+                            {date && new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(date))}
                         </div>
                     </div>
 
@@ -70,18 +76,23 @@ const Comment = ({user, date, content, role, handleDeleteComment}) => {
 // -----------------Post Details Page---------------------
 const PostDetails = () => {
     const {id} = useParams();
+
     const dispatch = useDispatch();
     const {posts} = useSelector(state => state.posts);
-    const {users} = useSelector((state) => state.users);
+    const post = posts.find(post => post._id === id) || {};
 
-    const post = posts.find(post => post._id === id);
-    const author = users.find(user => user._id === post.userId);
-    useEffect((id) => {
+    const {users} = useSelector((state) => state.users);
+    const {currentUser} = useSelector(state => state.auth);
+
+    // const post = posts.find(post => post._id === id) || {};
+    const author = users.find(user => user._id === post.userId) || {};
+    useEffect(() => {
         dispatch(findPostByIdThunk(id));
         dispatch(findAllUsersThunk());
     }, []);
 
     const [open, setOpen] = useState(false);
+    const [newComment, setNewComment] = useState('');
 
     const handleOpen = () => {
         setOpen(true);
@@ -103,12 +114,26 @@ const PostDetails = () => {
        navigate("./");
     };
 
-    const role = useSelector(state => state.auth.currentUser.role);
+    const role = useSelector(state => state.auth.currentUser?.role);
+
+    function handlePostNewComment() {
+        dispatch(updatePostThunk({
+            ...post,
+            comments: [
+                ...post.comments,
+                {
+                    user: currentUser._id,
+                    content: newComment,
+                    date: new Date()
+                }
+            ]
+        }));
+    }
 
     return (
         <>
             <Helmet>
-                <title>{post.title} | ShipShare</title>
+                <title>{post.title || ""} | ShipShare</title>
             </Helmet>
             <Header onOpenNav={handleOpen} />
             {/*-------Box is the layout of the whole page-----*/}
@@ -172,7 +197,7 @@ const PostDetails = () => {
                                         fontSize: 13,
                                         color: '#929191'
                                     }}>
-                                        {new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(post.created))}
+                                        {post.created && new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(post.created))}
                                     </div>
                                 </div>
                             </div>
@@ -218,6 +243,8 @@ const PostDetails = () => {
                                 rows={4}
                                 sx={{ backgroundColor: 'white'}}
                                 variant="outlined"
+                                value={newComment}
+                                onChange={(e) => setNewComment(e.target.value)}
                             />
 
                             <div style={{ width: '100%', marginBottom:40}}>
@@ -229,6 +256,7 @@ const PostDetails = () => {
                                         display: 'flex',
                                         marginLeft: 'auto',
                                         height: 40  }}
+                                    onClick={handlePostNewComment}
                                 >
                                     Post Comment
                                 </Button>
@@ -237,7 +265,7 @@ const PostDetails = () => {
 
                         {/*-----------------Comments---------------------*/}
                         <div style={{ marginTop: 16}}>
-                            {post.comments
+                            {(post.comments || [])
                                 .slice((page - 1) * COMMENT_PER_PAGE, (page - 1) * COMMENT_PER_PAGE + COMMENT_PER_PAGE)
                                 .map((comment, index) => (
                                 <>
@@ -248,7 +276,7 @@ const PostDetails = () => {
                                 }}/>
                                 <Comment
                                     key={index}
-                                    user={comment.user}
+                                    user={users.find(user => user._id === comment.user)}
                                     date={comment.date}
                                     content={comment.content}
                                     role={role}
@@ -270,7 +298,7 @@ const PostDetails = () => {
                                     display: 'flex', justifyContent: 'center'}}>
                             <Pagination
                                 color="primary"
-                                count={Math.ceil(post.comments.length / COMMENT_PER_PAGE)}
+                                count={Math.ceil((post.comments || []).length / COMMENT_PER_PAGE)}
                                 page={page}
                                 siblingCount={2}
                                 boundaryCount={1}
