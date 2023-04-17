@@ -16,9 +16,12 @@ import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import OrangeChipGroup from "../../../components/OrangeChipGroup";
-import ShippingDetailScreen from "../../../components/ShipmentsDetailScreen.js";
+import OrangeChipGroup from "components/OrangeChipGroup";
+import ShippingDetailScreen from "components/ShipmentsDetailScreen.js";
 import { status } from "nprogress";
+import useDebugWhenChange from "utils/useDebugWhenChange.js";
+import { convertDateToString } from "utils/convertDateToString.js";
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -30,14 +33,36 @@ function descendingComparator(a, b, orderBy) {
   return 0;
 }
 
-function getComparator(order, orderBy) {
+const generalComparator = (order, orderBy, a, b) => {
+  if (a[orderBy] === undefined && b[orderBy] === undefined) {
+    return 0;
+  }
+
+  if (a[orderBy] === undefined) {
+    return 1;
+  }
+
+  if (b[orderBy] === undefined) {
+    return -1;
+  }
+
   return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+    ? descendingComparator(a, b, orderBy)
+    : -descendingComparator(a, b, orderBy);
+
+};
+
+function getComparator(order, orderBy) {
+  if (orderBy === 'status') {
+    orderBy = 'phaseNumber';
+  }
+
+  return (a, b) => generalComparator(order, orderBy, a, b);
 }
 
 function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
+
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) {
@@ -61,7 +86,7 @@ const headCells = [
     disablePadding: false,
     label: "Route",
   },
-  { id: "joinDate", numeric: false, disablePadding: false, label: "Join Date" },
+  { id: "shipEndDate", numeric: false, disablePadding: false, label: "Ship Date" },
   {
     id: "pickupLocation",
     numeric: false,
@@ -74,7 +99,7 @@ const headCells = [
 ];
 
 const DEFAULT_ORDER = "desc";
-const DEFAULT_ORDER_BY = "joinDate";
+const DEFAULT_ORDER_BY = "shipEndDate";
 const DEFAULT_ROWS_PER_PAGE = 5;
 
 function MyTableHead(props) {
@@ -220,8 +245,9 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   const [focusChip, setFocusChip] = useState("All");
   const originalRows = shipGroups;
   const setOriginalRows = setShipGroups;
-
-  // const [originalRows, setOriginalRows] = React.useState([]);
+  const [rows, setRows] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [detailedShip, setDetailedShip] = useState({});
 
   const addStatus = (shipGroup) => {
     switch (shipGroup?.phaseNumber) {
@@ -252,11 +278,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
 
 
 
-  const [rows, setRows] = useState([]);
-
-  const [open, setOpen] = useState(false);
-
-  const [detailedShip, setDetailedShip] = useState({});
 
   const handleOpen = (row) => {
     setDetailedShip(row);
@@ -267,43 +288,16 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     setOpen(false);
   };
 
-  useEffect(() => {
-    let rowsOnMount = stableSort(
-      rows,
-      getComparator(DEFAULT_ORDER, DEFAULT_ORDER_BY)
-    );
-
-    rowsOnMount = rowsOnMount.slice(
-      0 * DEFAULT_ROWS_PER_PAGE,
-      0 * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE
-    );
-
-    setVisibleRows(rowsOnMount);
-  }, [rows]);
-
   const handleRequestSort = React.useCallback(
     (event, newOrderBy) => {
-      if (newOrderBy === "status") {
-        newOrderBy = "phaseNumber";
-      }
 
       const isAsc = orderBy === newOrderBy && order === "asc";
       const toggledOrder = isAsc ? "desc" : "asc";
       setOrder(toggledOrder);
       setOrderBy(newOrderBy);
 
-      const sortedRows = stableSort(
-        rows,
-        getComparator(toggledOrder, newOrderBy)
-      );
-      const updatedRows = sortedRows.slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      );
-
-      setVisibleRows(updatedRows);
     },
-    [rows, order, orderBy, page, rowsPerPage]
+    [order, orderBy]
   );
 
   useEffect(() => {
@@ -311,6 +305,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
       const newPage = page - 1;
 
       const sortedRows = stableSort(rows, getComparator(order, orderBy));
+
       const updatedRows = sortedRows.slice(
         newPage * rowsPerPage,
         newPage * rowsPerPage + rowsPerPage
@@ -329,28 +324,10 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     changePage();
   }, [rows, page, order, orderBy, rowsPerPage]);
 
-  const handleChangeRowsPerPage = React.useCallback(
-    (event) => {
-      const updatedRowsPerPage = parseInt(event.target.value, 10);
-      setRowsPerPage(updatedRowsPerPage);
-
-      setPage(0);
-
-      const sortedRows = stableSort(rows, getComparator(order, orderBy));
-      const updatedRows = sortedRows.slice(
-        0 * updatedRowsPerPage,
-        0 * updatedRowsPerPage + updatedRowsPerPage
-      );
-
-      setVisibleRows(updatedRows);
-
-      setPaddingHeight(0);
-    },
-    [order, orderBy]
-  );
 
   useEffect(() => {
     const filterTableData = () => {
+      setPage(1);
       setRows(
         originalRows.filter((row) => convertPhaseNumberToStatus(row)?.toLowerCase() === filter.toLowerCase() || filter.toLowerCase() === "all")
       );
@@ -451,17 +428,17 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                     <TableRow
                       hover
                       tabIndex={-1}
-                      key={row.trackingNumber}
+                      key={row.key || Math.random()}
                       style={{
                         borderTop: "1px solid #EDF2F7",
                         borderBottom: "1px solid #EDF2F7",
                       }}
                     >
                       <TableCell component="th" scope="row" padding="none">
-                        {row?.trackingNumber === undefined ? "N/A" : row?.trackingNumber}
+                        {row?.trackingNumber === undefined ? "--" : row?.trackingNumber}
                       </TableCell>
                       <TableCell align="left">{row.shipRoute}</TableCell>
-                      <TableCell align="left">{row?.joinDate === undefined ? "N/A" : row?.joinDate}</TableCell>
+                      <TableCell align="left">{row?.shipEndDate === undefined ? "--" : convertDateToString(row?.shipEndDate)}</TableCell>
                       <TableCell align="left">{cityName?.length >= 2 ? cityName[cityName.length - 3] : cityName}</TableCell>
                       <TableCell
                         align="left"
