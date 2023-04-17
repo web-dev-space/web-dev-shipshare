@@ -1,5 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {findAllPostsThunk, createPostThunk, updatePostThunk, deletePostThunk} from "./posts-thunks.js";
+import {
+    findAllPostsThunk,
+    createPostThunk,
+    updatePostThunk,
+    deletePostThunk,
+    findPostByIdThunk
+} from "./posts-thunks.js";
 
 const initialState = {
     posts: [],
@@ -29,15 +35,29 @@ const postsSlice = createSlice({
             state.error = action.error;
         },
         [deletePostThunk.fulfilled]: (state, {payload}) => {
-            state.posts = state.posts.filter(post => post.id !== payload);
+            state.posts = state.posts.filter(post => post._id !== payload);
         },
         [createPostThunk.fulfilled]: (state, {payload}) => {
             state.loading = false;
             state.posts.push(payload);
         },
+        [findPostByIdThunk.fulfilled]: (state, {payload}) => {
+            state.loading = false;
+            const index = state.posts.findIndex(post => post._id === payload._id);
+            if (index === -1) {
+                state.posts.push(payload);
+            } else {
+                state.posts[index] = {
+                    ...state.posts[index],
+                    ...payload,
+                };
+            }
+            console.log(state.posts);
+        },
         [updatePostThunk.fulfilled]: (state, {payload}) => {
             state.loading = false;
-            const index = state.posts.findIndex(post => post.id === payload.id);
+            console.log(payload);
+            const index = state.posts.findIndex(post => post._id === payload._id);
             state.posts[index] = {
                 ...state.posts[index],
                 ...payload,

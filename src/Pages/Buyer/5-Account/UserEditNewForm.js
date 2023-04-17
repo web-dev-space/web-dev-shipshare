@@ -89,12 +89,11 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 	const onSubmit = async (data) => {
 		data = {
 			...data,
-			_id: currentUser?._id,
 		}
 		console.log("data: ", data);
 		try {
 			// await new Promise((resolve) => setTimeout(resolve, 500));
-			const file = urlToFile(newFile);
+			const file = await urlToFile(newFile);
 			const imageRemoteUrl = await uploadImage(file);
 			data = {
 				...data,
