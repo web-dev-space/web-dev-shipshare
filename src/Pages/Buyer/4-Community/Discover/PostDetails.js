@@ -14,6 +14,7 @@ import posts from "../../../../sampleData/posts";
 import {deletePostThunk, findAllPostsThunk, findPostByIdThunk} from "../../../../redux/posts/posts-thunks";
 import {Helmet} from "react-helmet";
 import {getRandomAvatar} from "../../../../utils/getRandomAvatar";
+import {findAllUsersThunk} from "../../../../redux/users/users-thunks";
 
 const post = posts[0];
 const COMMENT_PER_PAGE = 5;
@@ -71,9 +72,13 @@ const PostDetails = () => {
     const {id} = useParams();
     const dispatch = useDispatch();
     const {posts} = useSelector(state => state.posts);
+    const {users} = useSelector((state) => state.users);
+
     const post = posts.find(post => post._id === id);
+    const author = users.find(user => user._id === post.userId);
     useEffect((id) => {
         dispatch(findPostByIdThunk(id));
+        dispatch(findAllUsersThunk());
     }, []);
 
     const [open, setOpen] = useState(false);
@@ -146,7 +151,7 @@ const PostDetails = () => {
                         }}>
                             <IconButton
                                 style={{ marginLeft: -40}}
-                                onClick={() => navigate.goBack()}>
+                                onClick={() => navigate(-1)}>
                                 <ArrowBackIcon style={{ color: 'white'}}/>
                             </IconButton>
                             <Typography variant="h2" gutterBottom style={{ color: 'white'}}>
@@ -161,7 +166,7 @@ const PostDetails = () => {
                                         fontWeight: 600,
                                         color: "white"
                                     }}>
-                                        {post.author}
+                                        {author.name}
                                     </div>
                                     <div style={{
                                         fontSize: 13,
