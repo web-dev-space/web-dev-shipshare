@@ -658,7 +658,7 @@ const GroupMainPage = () => {
 
           {displayedItems.map((row,index) => (
               <>
-                {(row.distance && index===2) &&
+                {(row.distance && index===0) &&
                   <Pagination
                     count={pageCount}
                     page={page}
