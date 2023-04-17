@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateShipGroupThunk } from "redux/shipGroups/shipGroups-thunks.js";
 import { convertDateToString } from "utils/convertDateToString.js";
 import { useMemo } from "react";
+import useDebugWhenChange from "utils/useDebugWhenChange.js";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -271,12 +272,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     phaseNumber: convertStatusToPhaseNumber(status),
   })
 
-  const useDebugWhenChange = (variable, name) => {
-    useEffect(() => {
-      console.debug(`${name} changed`, variable);
-    }, [variable]);
-  }
-
   useDebugWhenChange(orderBy, "orderBy");
   useDebugWhenChange(rowBeingEdited, "rowBeingEdited");
   useDebugWhenChange(order, "order");
@@ -304,27 +299,39 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   //   setVisibleRows(rowsOnMount);
   // }, [rows]);
 
-  const handleRequestSort = React.useCallback(
-    (event, newOrderBy) => {
+  // const handleRequestSort = React.useCallback(
+  //   (event, newOrderBy) => {
+  //     console.debug("new order by in handle request sort", newOrderBy);
 
-      const isAsc = orderBy === newOrderBy && order === "asc";
-      const toggledOrder = isAsc ? "desc" : "asc";
-      setOrder(toggledOrder);
-      setOrderBy(newOrderBy);
+  //     const isAsc = orderBy === newOrderBy && order === "asc";
+  //     const toggledOrder = isAsc ? "desc" : "asc";
+  //     setOrder(toggledOrder);
+  //     setOrderBy(newOrderBy);
 
-      const sortedRows = stableSort(
-        rows,
-        getComparator(toggledOrder, newOrderBy)
+  //     const sortedRows = stableSort(
+  //       rows,
+  //       getComparator(toggledOrder, newOrderBy)
+  //     );
+  //     const updatedRows = sortedRows.slice(
+  //       page * rowsPerPage,
+  //       page * rowsPerPage + rowsPerPage
+  //     );
+
+  //     setVisibleRows(updatedRows);
+  //   },
+  //   [rows, order, orderBy, page, rowsPerPage]
+  // );
+
+  useEffect(() => {
+    const filterTableData = () => {
+      setPage(1);
+      setRows(
+        originalRows.filter((row) => convertPhaseNumberToStatus(row)?.toLowerCase() === filter.toLowerCase() || filter.toLowerCase() === "all")
       );
-      const updatedRows = sortedRows.slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      );
+    };
+    filterTableData();
+  }, [originalRows, filter]);
 
-      setVisibleRows(updatedRows);
-    },
-    [rows, order, orderBy, page, rowsPerPage]
-  );
 
   useEffect(() => {
     const changePage = () => {
@@ -349,6 +356,16 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     changePage();
   }, [rows, page, order, orderBy, rowsPerPage]);
 
+
+  const handleRequestSort = (event, newOrderBy) => {
+    console.debug("new order by in handle request sort", newOrderBy);
+
+    const isAsc = orderBy === newOrderBy && order === "asc";
+    const toggledOrder = isAsc ? "desc" : "asc";
+    setOrder(toggledOrder);
+    setOrderBy(newOrderBy);
+  }
+
   // const handleChangeRowsPerPage = React.useCallback(
   //   (event) => {
   //     const updatedRowsPerPage = parseInt(event.target.value, 10);
@@ -369,15 +386,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   //   [order, orderBy]
   // );
 
-  useEffect(() => {
-    const filterTableData = () => {
-      setPage(1);
-      setRows(
-        originalRows.filter((row) => convertPhaseNumberToStatus(row)?.toLowerCase() === filter.toLowerCase() || filter.toLowerCase() === "all")
-      );
-    };
-    filterTableData();
-  }, [originalRows, filter]);
+
 
   function getStatusColor(row) {
     switch (convertPhaseNumberToStatus(row)?.toLowerCase()) {
