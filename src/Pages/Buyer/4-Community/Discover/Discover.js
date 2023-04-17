@@ -36,7 +36,6 @@ const Discover = () => {
     const [focusChip, setFocusChip] = useState('Latest');
     const [filter, setFilter] = useState('All');
 
-    const [visiblePosts, setVisiblePosts] = useState([]);
     const [allPosts, setAllPosts] = useState([]);
     const [page, setPage] = useState(1);
 
@@ -57,7 +56,7 @@ const Discover = () => {
 
         const userPostsAndNames = posts.map(post => ({
             ...post,
-            name: users.find(user => user._id === post.userId).name
+            name: users.find(user => user._id === post.userId)?.name || '',
         }));
         setAllPosts(userPostsAndNames);
     }, [ posts, users]);
@@ -67,6 +66,10 @@ const Discover = () => {
     useEffect(()=>{
         setFilteredPosts(allPosts);
     }, [allPosts]);
+    console.log('filtered posts' ,filteredPosts);
+
+
+    const [visiblePosts, setVisiblePosts] = useState([]);
     useEffect(() => {
         const changePage = () => {
             const newPage = page - 1;
@@ -208,8 +211,9 @@ const Discover = () => {
                                     return b.viewsNumber - a.viewsNumber;
                                 }
                                 return 0;
-                            }).map((post) => (
+                            }).map((post, index) => (
                                 <PostCard
+                                    index={index}
                                     id={post._id}
                                     title={post.title}
                                     post={post.post}
