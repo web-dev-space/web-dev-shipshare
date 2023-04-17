@@ -5,6 +5,12 @@ const PARCELS_API = `${API_BASE}/parcels`;
 
 export const createParcel = async (parcel) => {
     const response = await axios.post(PARCELS_API, parcel);
+    // While creating a parcel, we also need to create a tracking for it
+    postNewTracking(
+        {
+            trackingNumber: parcel.trackingNumber,
+            courier: parcel.courier
+        }).then(r => console.log("tracking created", r)).catch(e => console.error("error in creating tracking", e));
     return response.data;
 }
 
@@ -54,5 +60,27 @@ export const getParcelTracking = async ({ trackingNumber, courier }) => {
     } catch (error) {
         console.error("error in getParcelTracking", error, error?.response?.data);
         throw error;
+    }
+}
+
+export const postNewTracking = async ({trackingNumber, courier}) => {
+    try {
+        const options = {
+            method: 'POST',
+            url: `https://api.tracktry.com/v1/trackings/post`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Tracktry-Api-Key': TRACKTRY_API_KEY
+            },
+            data: {
+                tracking_number: trackingNumber,
+                carrier_code: courier
+            }
+        };
+
+        return await axios.request(options);
+    } catch (error) {
+        console.error(error)
+        console.error(error?.response?.data)
     }
 }

@@ -34,7 +34,7 @@ export default function GroupCard({key, group})  {
 								 style={{
 									 width: 70,
 									 height: 70,
-									 objectFit: 'fill',
+									 objectFit: 'cover',
 									 objectPosition: 'center',
 									 borderRadius: 12}}/>
 					</div>

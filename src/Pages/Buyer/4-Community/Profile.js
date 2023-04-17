@@ -288,6 +288,7 @@ const Profile = () => {
                             <GroupCardsPage groups={joinedGroup}/>
                           )}
                           {focusChip === 'Posts' && (
+                              <>
                             <div style={{
                             display: 'flex',
                             flexDirection:'column',
@@ -308,22 +309,22 @@ const Profile = () => {
                             onPostCardClick={()=>onPostCardClick(post._id)}/>
                             ))}
                             </div>
+
+                          {/*---Pagination---*/}
+                              <div style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              height: 100,
+                          }}>
+                              <Pagination count={Math.ceil((userPosts || []).length / MAX_POSTS_PER_PAGE)}
+                              onChange={handlePaginationChange}
+                              />
+                              </div>
+                              </>
                           )}
                         </CardContent>
                       </div>
-
-
-                    {/*---Pagination---*/}
-                    <div style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      height: 100,
-                    }}>
-                      <Pagination count={Math.ceil((userPosts || []).length / MAX_POSTS_PER_PAGE)}
-                                  onChange={handlePaginationChange}
-                      />
-                    </div>
                   </Container>
 
 

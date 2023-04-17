@@ -30,6 +30,7 @@ import {uploadImage} from "api/imageUpload";
 import {Helmet} from "react-helmet";
 import {parcelData} from "../../../sampleData/parcels";
 import {Link} from "react-router-dom";
+import {postNewTracking} from "../../../redux/parcels/parcels-service";
 
 
 
@@ -115,7 +116,7 @@ const ParcelMainPage = () => {
     });
 
     // Table data
-    const [tableData, setTableData] = useState(parcels);
+    const [tableData, setTableData] = useState([]);
     useEffect(() => {
         if (currentUser && currentUser.role !== "visitor") {
             dispatch(findAllParcelsThunk());
@@ -127,7 +128,7 @@ const ParcelMainPage = () => {
         if (parcels) {
             setTableData(
                 parcels
-                    .filter((val) => val.user === currentUser.email)
+                    .filter((val) => currentUser.role !== 'buyer' || val.user === currentUser.email)
                     .filter((val) => {
                     return filterCourier === "all" || val.courier === filterCourier;
                 })
