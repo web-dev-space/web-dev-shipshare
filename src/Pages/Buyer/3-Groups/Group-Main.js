@@ -64,11 +64,13 @@ const GroupMainPage = () => {
 
   const dispatch = useDispatch();
   const shipGroups = useSelector((state) => {
+    console.log('useselector')
     return state.shipGroup.shipGroups
   });
   const { users, loading } = useSelector((state) => state.users);
 
   // const setShipGroups = (shipGroups) => dispatch(setShipGroups(shipGroups));
+
 
   useEffect(() => {
     dispatch(findAllShipGroupsThunk());
@@ -293,10 +295,18 @@ const GroupMainPage = () => {
 
   const navigate = useNavigate();
   const handleFormNewGroup = () => {
+    if(currentUser === null){
+      alert("Please login first")
+      return;
+    }
     navigate('./form-new-group');
   }
 
   const handleClickJoinGroup = (row) => {
+    if(currentUser === null){
+      alert("Please login first")
+      return;
+    }
     console.log("row")
     console.log(row)
     let groupId = row._id

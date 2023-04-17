@@ -13,7 +13,7 @@ import {Provider} from "react-redux";
 import store from "./redux/store";
 import LoginPage from "./Pages/0-SignIn & SignUp/SignInPage";
 import SignUpPage from "./Pages/0-SignIn & SignUp/SignUpPage";
-import Home from "./Pages/home";
+import Home from "./Pages/Home/home";
 import {MainIndex} from "./Pages";
 import CurrentUserSession from "./CurrentUserSession";
 

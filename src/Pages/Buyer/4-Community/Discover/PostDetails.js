@@ -13,6 +13,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import posts from "../../../../sampleData/posts";
 import {deletePostThunk, findAllPostsThunk, findPostByIdThunk} from "../../../../redux/posts/posts-thunks";
 import {Helmet} from "react-helmet";
+import {getRandomAvatar} from "../../../../utils/getRandomAvatar";
 
 const post = posts[0];
 const COMMENT_PER_PAGE = 5;
@@ -25,10 +26,10 @@ const Comment = ({user, date, content, role, handleDeleteComment}) => {
             display: 'flex', flexDirection: 'row',
             alignItems: 'center',
             marginTop: 32, marginBottom: 32}}>
-            {/*<Avatar src={user.picture} sx={{ width: 48, height: 48, mb: 'auto' }} />*/}
+            <Avatar src={user.picture? user.picture : getRandomAvatar(user)} sx={{ width: 48, height: 48, mb: 'auto' }} />
             <div style={{ marginLeft: 16}}>
                 <div style={{display: 'flex', flexDirection: "row"}}>
-                    <div style={{width:"70%"}}>
+                    <div style={{width:"100%"}}>
                         <div style={{
                             fontSize: 16,
                             fontWeight: 600,
@@ -145,7 +146,7 @@ const PostDetails = () => {
                         }}>
                             <IconButton
                                 style={{ marginLeft: -40}}
-                                onClick={() => navigate("../")}>
+                                onClick={() => navigate.goBack()}>
                                 <ArrowBackIcon style={{ color: 'white'}}/>
                             </IconButton>
                             <Typography variant="h2" gutterBottom style={{ color: 'white'}}>
@@ -166,7 +167,7 @@ const PostDetails = () => {
                                         fontSize: 13,
                                         color: '#929191'
                                     }}>
-                                        {new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(post.date))}
+                                        {new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(post.created))}
                                     </div>
                                 </div>
                             </div>
