@@ -6,6 +6,8 @@ import { useSettingsContext } from '../../../../third-party/components/settings'
 // sections
 import UserCard from './UserCard';
 import {useSelector} from "react-redux";
+import {Pagination} from "@mui/lab";
+import React from "react";
 
 // ----------------------------------------------------------------------
 const getFollowers = (users, currentUser) => {
@@ -15,9 +17,17 @@ const getFollowers = (users, currentUser) => {
 const getPosts = (posts, currentUser) => {
 	return posts.filter(item => item.userId === currentUser._id);
 };
+
+const MAX_USERS_PER_PAGE = 6;
 export default function UserCardsPage({users, allUsers, allPosts, dispatch}) {
 	const { themeStretch } = useSettingsContext();
 	const currentUser = useSelector((state) => state.auth.currentUser);
+
+	const [page, setPage] = React.useState(1);
+
+	const handlePaginationChange = (event, page) => {
+		setPage(page);
+	};
 
 	return (
 		<>
@@ -31,7 +41,10 @@ export default function UserCardsPage({users, allUsers, allPosts, dispatch}) {
 						md: 'repeat(3, 1fr)',
 					}}
 				>
-					{users.map((user) => (
+					{users.slice(
+						(page - 1) * MAX_USERS_PER_PAGE,
+						(page - 1) * MAX_USERS_PER_PAGE + MAX_USERS_PER_PAGE
+					).map((user) => (
 						<UserCard key={user?._id}
 								  disableFollowButton={currentUser && (currentUser._id === user?._id)}
 								  dispatch={dispatch}
@@ -42,6 +55,16 @@ export default function UserCardsPage({users, allUsers, allPosts, dispatch}) {
 								  }} />
 					))}
 				</Box>
+				<div style={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					height: 100,
+				}}>
+					<Pagination count={Math.ceil((users || []).length / MAX_USERS_PER_PAGE)}
+								onChange={handlePaginationChange}
+					/>
+				</div>
 			</Container>
 		</>
 	);
