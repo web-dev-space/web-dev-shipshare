@@ -39,6 +39,8 @@ import {shallowEqual, useDispatch, useSelector} from "react-redux";
 import {updateShipGroupThunk, findAllShipGroupsThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 import {Helmet} from "react-helmet";
 import {position} from "stylis";
+import {findUserByEmail} from "../../../redux/users/users-service";
+import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 
 
 const DEFAULT_ORDER = 'asc';
@@ -62,14 +64,15 @@ const GroupMainPage = () => {
 
   const dispatch = useDispatch();
   const shipGroups = useSelector((state) => {
-    console.log('useselector')
     return state.shipGroup.shipGroups
   });
-  // const setShipGroups = (shipGroups) => dispatch(setShipGroups(shipGroups));
+  const { users, loading } = useSelector((state) => state.users);
 
+  // const setShipGroups = (shipGroups) => dispatch(setShipGroups(shipGroups));
 
   useEffect(() => {
     dispatch(findAllShipGroupsThunk());
+    dispatch(findAllUsersThunk());
   }, []);
 
   // table data
@@ -194,7 +197,6 @@ const GroupMainPage = () => {
       tableData,
       getComparator(DEFAULT_ORDER, DEFAULT_ORDER_BY),
     );
-    console.log("rowsOnmout")
     setTableData(rowsOnMount)
   }, []);
 
@@ -311,6 +313,20 @@ const GroupMainPage = () => {
   }
 
 
+  const getGroupAvatar = (group) => {
+    // console.log(users)
+    const groupLead = users.find((user) => {
+      return user.email === group.leader
+    })
+    if (groupLead !== undefined) {
+      console.log("has avatar" + groupLead._id);
+      return groupLead.avatar
+    } else {
+      console.log("no avatar");
+      return null
+    }
+  }
+
   return (
     <>
       <Helmet>
@@ -412,11 +428,10 @@ const GroupMainPage = () => {
                           >
             {/*---------------- group avatar ----------------*/}
                             <Avatar
-                              src={row.leader}
+                              src={getGroupAvatar(row)}
                               alt={row.name}
                               sx={{width: 60, height: 60, borderRadius: 2}}
                             />
-
                             <Box sx={{ml: 2}}>
                               <Typography
                                 variant="subtitle2"

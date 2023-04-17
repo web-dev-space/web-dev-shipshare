@@ -26,6 +26,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import {useDispatch, useSelector} from "react-redux";
 import {findShipGroupByIdThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 import {useLocation} from "react-router-dom";
+import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 
 
 const Item = styled(Paper)(({theme}) => ({
@@ -47,11 +48,6 @@ const GroupDetailMerchant = () => {
     setOpen(false);
   };
 
-  // Filter
-  const [filter, setFilter] = useState('All');
-  const [focusChip, setFocusChip] = useState('All');
-  const chipLabelsArray = ["All", "Air Standard", "Air Sensitive", "Sea Standard", "Sea Sensitive"];
-
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const groupId = searchParams.get('groupId');
@@ -59,9 +55,11 @@ const GroupDetailMerchant = () => {
   const currentGroup = useSelector((state) => {
     return state.shipGroup.currentGroup
   });
+  const { users, loading } = useSelector((state) => state.users);
 
   useEffect(() => {
     dispatch(findShipGroupByIdThunk(groupId));
+    dispatch(findAllUsersThunk());
   }, []);
 
   function getShortAddress(address) {
@@ -84,6 +82,38 @@ const GroupDetailMerchant = () => {
     return formattedDate;
   }
 
+  const getLeaderAvatar=(group)=>{
+    const groupLead = users.find((user) => {
+      return user.email === group.leader
+    })
+    if (groupLead !== undefined) {
+      return groupLead.avatar
+    } else {
+      return null
+    }
+  }
+
+  const getAvatarByEmail = (email) => {
+    const user = users.find((user) => {
+      return user.email === email
+    })
+    if (user !== undefined) {
+      return user.avatar
+    } else {
+      return null
+    }
+  }
+
+  const getNameByEmail = (email) => {
+    const user = users.find((user) => {
+      return user.email === email
+    })
+    if (user !== undefined) {
+      return user.name
+    } else {
+      return null
+    }
+  }
 
   return (
     <>
@@ -147,7 +177,7 @@ const GroupDetailMerchant = () => {
               }}>
                 <Avatar
                   alt="Remy Sharp"
-                  src="https://material-ui.com/static/images/avatar/1.jpg"
+                  src={ getLeaderAvatar(currentGroup) }
                   sx={{
                     mx: 'auto',
                     borderWidth: 2,
@@ -231,8 +261,7 @@ const GroupDetailMerchant = () => {
                       <div>
                         <Avatar
                           alt="Remy Sharp"
-                          src="https://material-ui.com/static/images/avatar/1.jpg"
-                          sx={{
+                          src={ getLeaderAvatar(currentGroup) }                          sx={{
                             mx: 'auto',
                             borderWidth: 2,
                             borderStyle: 'solid',
@@ -365,8 +394,7 @@ const GroupDetailMerchant = () => {
                           >
                             <Avatar
                               alt="Remy Sharp"
-                              src="https://material-ui.com/static/images/avatar/1.jpg"
-                              sx={{
+                              src={getAvatarByEmail(member)}                              sx={{
                                 mx: 'auto',
                                 borderWidth: 2,
                                 borderStyle: 'solid',
@@ -379,7 +407,7 @@ const GroupDetailMerchant = () => {
                             />
                             <Box textAlign="left">
                               <Typography variant="subtitle2">
-                                {member}
+                                {getNameByEmail(member)}
                               </Typography>
                             </Box>
                           </Box>

@@ -20,6 +20,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {findAllShipGroupsThunk, findShipGroupByIdThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 import {useDispatch, useSelector} from "react-redux";
 import {findAllShipGroups} from "../../../redux/shipGroups/shipGroups-service";
+import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -50,9 +51,11 @@ const GroupDetailPage = (props) => {
   const currentGroup = useSelector((state) => {
     return state.shipGroup.currentGroup
   });
+  const { users, loading } = useSelector((state) => state.users);
 
   useEffect(() => {
     dispatch(findShipGroupByIdThunk(groupId));
+    dispatch(findAllUsersThunk());
   }, []);
 
   function getShortAddress(address) {
@@ -79,6 +82,39 @@ const GroupDetailPage = (props) => {
   const handleClickJoinGroup = (group) => {
     let groupId = group._id
     navigate('./checkout?groupId=' + groupId);
+  }
+
+  const getLeaderAvatar=(group)=>{
+    const groupLead = users.find((user) => {
+      return user.email === group.leader
+    })
+    if (groupLead !== undefined) {
+      return groupLead.avatar
+    } else {
+      return null
+    }
+  }
+
+  const getAvatarByEmail = (email) => {
+    const user = users.find((user) => {
+      return user.email === email
+    })
+    if (user !== undefined) {
+      return user.avatar
+    } else {
+      return null
+    }
+  }
+
+  const getNameByEmail = (email) => {
+    const user = users.find((user) => {
+      return user.email === email
+    })
+    if (user !== undefined) {
+      return user.name
+    } else {
+      return null
+    }
   }
 
   return (
@@ -160,7 +196,7 @@ const GroupDetailPage = (props) => {
                 <Box>
                 <Avatar
                   alt="Remy Sharp"
-                  src="https://material-ui.com/static/images/avatar/1.jpg"
+                  src={ getLeaderAvatar(currentGroup) }
                   sx={{
                     mx: 'auto',
                     borderWidth: 2,
@@ -242,8 +278,7 @@ const GroupDetailPage = (props) => {
                       <div>
                         <Avatar
                           alt="Remy Sharp"
-                          src="https://material-ui.com/static/images/avatar/1.jpg"
-                          sx={{
+                          src={getLeaderAvatar(currentGroup)}                          sx={{
                             mx: 'auto',
                             borderWidth: 2,
                             borderStyle: 'solid',
@@ -374,7 +409,7 @@ const GroupDetailPage = (props) => {
                           >
                             <Avatar
                               alt="Remy Sharp"
-                              src="https://material-ui.com/static/images/avatar/1.jpg"
+                              src={getAvatarByEmail(member)}
                               sx={{
                                 mx: 'auto',
                                 borderWidth: 2,
@@ -388,7 +423,7 @@ const GroupDetailPage = (props) => {
                             />
                             <Box textAlign="left">
                               <Typography variant="subtitle2">
-                                {member}
+                                {getNameByEmail(member)}
                               </Typography>
                             </Box>
                           </Box>
