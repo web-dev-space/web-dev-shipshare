@@ -267,22 +267,23 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     setOpen(false);
   };
 
-  useEffect(() => {
-    let rowsOnMount = stableSort(
-      rows,
-      getComparator(DEFAULT_ORDER, DEFAULT_ORDER_BY)
-    );
+  // useEffect(() => {
+  //   let rowsOnMount = stableSort(
+  //     rows,
+  //     getComparator(DEFAULT_ORDER, DEFAULT_ORDER_BY)
+  //   );
 
-    rowsOnMount = rowsOnMount.slice(
-      0 * DEFAULT_ROWS_PER_PAGE,
-      0 * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE
-    );
+  //   rowsOnMount = rowsOnMount.slice(
+  //     0 * DEFAULT_ROWS_PER_PAGE,
+  //     0 * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE
+  //   );
 
-    setVisibleRows(rowsOnMount);
-  }, [rows]);
+  //   setVisibleRows(rowsOnMount);
+  // }, [rows]);
 
   const handleRequestSort = React.useCallback(
     (event, newOrderBy) => {
+
       if (newOrderBy === "status") {
         newOrderBy = "phaseNumber";
       }
@@ -303,18 +304,25 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
 
       setVisibleRows(updatedRows);
     },
-    [rows, order, orderBy, page, rowsPerPage]
+    [rows, order, orderBy, rowsPerPage]
   );
 
   useEffect(() => {
     const changePage = () => {
       const newPage = page - 1;
 
+      console.debug("newPage", newPage);
+
       const sortedRows = stableSort(rows, getComparator(order, orderBy));
+
+      console.debug("sortedRows", sortedRows);
+
       const updatedRows = sortedRows.slice(
         newPage * rowsPerPage,
         newPage * rowsPerPage + rowsPerPage
       );
+
+      console.debug("updatedRows", updatedRows);
 
       setVisibleRows(updatedRows);
 
@@ -329,28 +337,29 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     changePage();
   }, [rows, page, order, orderBy, rowsPerPage]);
 
-  const handleChangeRowsPerPage = React.useCallback(
-    (event) => {
-      const updatedRowsPerPage = parseInt(event.target.value, 10);
-      setRowsPerPage(updatedRowsPerPage);
+  // const handleChangeRowsPerPage = React.useCallback(
+  //   (event) => {
+  //     const updatedRowsPerPage = parseInt(event.target.value, 10);
+  //     setRowsPerPage(updatedRowsPerPage);
 
-      setPage(0);
+  //     setPage(0);
 
-      const sortedRows = stableSort(rows, getComparator(order, orderBy));
-      const updatedRows = sortedRows.slice(
-        0 * updatedRowsPerPage,
-        0 * updatedRowsPerPage + updatedRowsPerPage
-      );
+  //     const sortedRows = stableSort(rows, getComparator(order, orderBy));
+  //     const updatedRows = sortedRows.slice(
+  //       0 * updatedRowsPerPage,
+  //       0 * updatedRowsPerPage + updatedRowsPerPage
+  //     );
 
-      setVisibleRows(updatedRows);
+  //     setVisibleRows(updatedRows);
 
-      setPaddingHeight(0);
-    },
-    [order, orderBy]
-  );
+  //     setPaddingHeight(0);
+  //   },
+  //   [order, orderBy]
+  // );
 
   useEffect(() => {
     const filterTableData = () => {
+      setPage(1);
       setRows(
         originalRows.filter((row) => convertPhaseNumberToStatus(row)?.toLowerCase() === filter.toLowerCase() || filter.toLowerCase() === "all")
       );
@@ -451,7 +460,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                     <TableRow
                       hover
                       tabIndex={-1}
-                      key={row.trackingNumber}
+                      key={row.key || Math.random()}
                       style={{
                         borderTop: "1px solid #EDF2F7",
                         borderBottom: "1px solid #EDF2F7",

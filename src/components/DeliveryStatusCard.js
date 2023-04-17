@@ -27,7 +27,7 @@ const DeliveryStatusCard = ({ deliveryStatus }) => {
       <div style={{ height: 8 }}></div>
 
       {deliveryStatus !== undefined && deliveryStatus !== null && deliveryStatus.length !== 0 ? deliveryStatus.map((item, index) =>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div style={{ display: 'flex', flexDirection: 'row' }} key={Math.random()}>
 
           <div style={{ marginLeft: 28, flexShrink: 1, paddingBottom: 12, width: '100%', position: 'relative' }}>
             <div numberOfLines={1} style={index === 0 ? styles.deliveryTextCurrent : styles.deliveryText}>{item.StatusDescription}</div>

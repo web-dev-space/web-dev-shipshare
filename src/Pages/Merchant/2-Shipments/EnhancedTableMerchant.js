@@ -25,7 +25,7 @@ import ShippingDetailScreen from "components/ShipmentsDetailScreen.js";
 import { useDispatch, useSelector } from "react-redux";
 import { updateShipGroupThunk } from "redux/shipGroups/shipGroups-thunks.js";
 import { convertDateToString } from "utils/convertDateToString.js";
-
+import { useMemo } from "react";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -235,7 +235,7 @@ const convertStatusToPhaseNumber = (status) => {
 
 
 
-const EnhancedTable = ({ }) => {
+const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   const dispatch = useDispatch();
 
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
@@ -247,7 +247,7 @@ const EnhancedTable = ({ }) => {
   const [filter, setFilter] = useState("All");
   const [focusChip, setFocusChip] = useState("All");
 
-  const originalRows = useSelector((state) => state.shipGroup.shipGroups);
+  const originalRows = shipGroups;
 
   const [rowBeingEdited, setRowBeingEdited] = React.useState({});
   const [newWeight, setNewWeight] = React.useState(0);
@@ -485,7 +485,7 @@ const EnhancedTable = ({ }) => {
                     <TableRow
                       hover
                       tabIndex={-1}
-                      key={row.trackingNumber}
+                      key={row.key || Math.random()}
                       style={{
                         borderTop: "1px solid #EDF2F7",
                         borderBottom: "1px solid #EDF2F7",

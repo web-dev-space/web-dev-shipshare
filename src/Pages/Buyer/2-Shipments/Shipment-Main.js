@@ -10,6 +10,7 @@ import {Helmet} from "react-helmet";
 import shipGroupsData from "../../../sampleData/shipGroups";
 import "./shipment-main.css";
 import {Link} from "react-router-dom";
+import { random } from "lodash";
 
 const ShipmentMainPage = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,14 @@ const ShipmentMainPage = () => {
 
   const shipGroupsForVisitor = shipGroupsData;
 
-  const shipGroups = useSelector((state) => state.shipGroup.shipGroups);
+  const shipGroupsRedux = useSelector((state) => state.shipGroup.shipGroups);
+
+  const shipGroups = shipGroupsRedux?.map((shipGroup) => {
+    return {
+      ...shipGroup,
+      key: Math.random(),
+    };
+  });
   
   const setShipGroups = (shipGroups) => {
     // TODO

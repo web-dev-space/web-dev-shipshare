@@ -25,7 +25,7 @@ const ParcelDetails = ({ parcel, handleClose }) => {
             
             if (parcelTrackingInfo === undefined || parcelTrackingInfo.length === 0) {
                 dispatch(getParcelTrackingThunk(
-                    { trackingNumber: parcel.trackingNumber.replaceAll(' ', ''), courier: parcel.courier }));
+                    { trackingNumber: parcel?.trackingNumber?.replaceAll(' ', ''), courier: parcel.courier }));
             }
 
             // setDetailDeliveryStatus(deliveryStatus?.origin_info?.trackinfo || []);
