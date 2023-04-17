@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
@@ -23,6 +23,10 @@ import Image from 'mui-image'
 import backgroundImg from './background.jpg';
 import {styled} from "@mui/material/styles";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import {useDispatch, useSelector} from "react-redux";
+import {findShipGroupByIdThunk} from "../../../redux/shipGroups/shipGroups-thunks";
+import {useLocation} from "react-router-dom";
+import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 
 
 const Item = styled(Paper)(({theme}) => ({
@@ -44,10 +48,72 @@ const GroupDetailMerchant = () => {
     setOpen(false);
   };
 
-  // Filter
-  const [filter, setFilter] = useState('All');
-  const [focusChip, setFocusChip] = useState('All');
-  const chipLabelsArray = ["All", "Air Standard", "Air Sensitive", "Sea Standard", "Sea Sensitive"];
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const groupId = searchParams.get('groupId');
+  const dispatch = useDispatch();
+  const currentGroup = useSelector((state) => {
+    return state.shipGroup.currentGroup
+  });
+  const { users, loading } = useSelector((state) => state.users);
+
+  useEffect(() => {
+    dispatch(findShipGroupByIdThunk(groupId));
+    dispatch(findAllUsersThunk());
+  }, []);
+
+  function getShortAddress(address) {
+    const addressParts = address.split(', ');
+    const cityState = addressParts.slice(-3, -1);
+    const state = cityState[1].substring(0, 2);
+    return `${cityState[0]}, ${state}`;
+  }
+
+  function formatDate(dateString) {
+    if (!dateString) {
+      return null;
+    }
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+    return formattedDate;
+  }
+
+  const getLeaderAvatar=(group)=>{
+    const groupLead = users.find((user) => {
+      return user.email === group.leader
+    })
+    if (groupLead !== undefined) {
+      return groupLead.avatar
+    } else {
+      return null
+    }
+  }
+
+  const getAvatarByEmail = (email) => {
+    const user = users.find((user) => {
+      return user.email === email
+    })
+    if (user !== undefined) {
+      return user.avatar
+    } else {
+      return null
+    }
+  }
+
+  const getNameByEmail = (email) => {
+    const user = users.find((user) => {
+      return user.email === email
+    })
+    if (user !== undefined) {
+      return user.name
+    } else {
+      return null
+    }
+  }
 
   return (
     <>
@@ -90,18 +156,6 @@ const GroupDetailMerchant = () => {
                   position: 'absolute',
                 }}
               />
-              <Box
-                sx={{
-                  display: 'float',
-                  float: 'right',
-                  my: 3,
-                  mr: 1,
-                }}
-              >
-                <Button variant="contained" color="primary">
-                  Join
-                </Button>
-              </Box>
             </Box>
 
             {/*avatar & group name*/}
@@ -123,7 +177,7 @@ const GroupDetailMerchant = () => {
               }}>
                 <Avatar
                   alt="Remy Sharp"
-                  src="https://material-ui.com/static/images/avatar/1.jpg"
+                  src={ getLeaderAvatar(currentGroup) }
                   sx={{
                     mx: 'auto',
                     borderWidth: 2,
@@ -140,7 +194,7 @@ const GroupDetailMerchant = () => {
                     mt: -5,
                   }}>
                   <Typography variant="h5">
-                    My Group
+                    {currentGroup ? currentGroup.name : "Loading.."}
                   </Typography>
                 </Box>
               </Box>
@@ -207,8 +261,7 @@ const GroupDetailMerchant = () => {
                       <div>
                         <Avatar
                           alt="Remy Sharp"
-                          src="https://material-ui.com/static/images/avatar/1.jpg"
-                          sx={{
+                          src={ getLeaderAvatar(currentGroup) }                          sx={{
                             mx: 'auto',
                             borderWidth: 2,
                             borderStyle: 'solid',
@@ -221,7 +274,7 @@ const GroupDetailMerchant = () => {
                         /></div>
                       <div>
                         <Typography variant="caption">
-                          John Doe
+                          {currentGroup ? currentGroup.pickupLocation.name : "Loading.."}
                         </Typography>
                       </div>
                     </Box>
@@ -239,7 +292,7 @@ const GroupDetailMerchant = () => {
                       Group Route
                     </Typography>
                     <Typography variant="caption">
-                      Air Standard
+                      {currentGroup ? currentGroup.shipRoute : "Loading.."}
                     </Typography>
                   </Item>
                   <Item
@@ -254,7 +307,7 @@ const GroupDetailMerchant = () => {
                       Join Before
                     </Typography>
                     <Typography variant="caption">
-                      April 30, 2023
+                      {currentGroup ? formatDate(currentGroup.shipEndDate): "Loading.."}
                     </Typography>
                   </Item>
                   <Item
@@ -269,7 +322,7 @@ const GroupDetailMerchant = () => {
                       Pickup at
                     </Typography>
                     <Typography variant="caption">
-                      San Jose, CA
+                      {currentGroup ? getShortAddress(currentGroup.pickupLocation.address): "Loading.."}
                     </Typography>
                   </Item>
                   <Item
@@ -299,7 +352,7 @@ const GroupDetailMerchant = () => {
                       Members
                     </Typography>
                     <Typography variant="caption">
-                      9
+                      {currentGroup ? currentGroup.members.length : "Loading.."}
                     </Typography>
                   </Item>
 
@@ -318,83 +371,51 @@ const GroupDetailMerchant = () => {
                     my: 2,
                   }}
                 >
-                  <Typography variant="h6">Activity</Typography>
+                  <Typography variant="h6">Members</Typography>
                   <hr style={{borderTop: "1px solid #F6F7FB", marginTop: "0.5rem"}}/>
                 </Box>
                 {/*activity details*/}
                 <Stack spacing={2}>
                   {/*one activity cell*/}
-                  <Item
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Box
-                      sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}
-                    >
-                      <Avatar
-                        alt="Remy Sharp"
-                        src="https://material-ui.com/static/images/avatar/1.jpg"
-                        sx={{
-                          mx: 'auto',
-                          borderWidth: 2,
-                          borderStyle: 'solid',
-                          borderColor: 'common.white',
-                          zIndex: 2,
-                          mr: 1,
-                          width: 50,
-                          height: 50,
-                        }}
-                      />
-                      <Box textAlign="left">
-                        <Typography variant="subtitle2">
-                          John Doe
-                        </Typography>
-                        <Typography variant="caption">
-                          Joined in March 23, 2023
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Item>
 
-                  <Item
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Box
-                      sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}
-                    >
-                      <Avatar
-                        alt="Remy Sharp"
-                        src="https://material-ui.com/static/images/avatar/1.jpg"
-                        sx={{
-                          mx: 'auto',
-                          borderWidth: 2,
-                          borderStyle: 'solid',
-                          borderColor: 'common.white',
-                          zIndex: 2,
-                          mr: 1,
-                          width: 50,
-                          height: 50,
-                        }}
-                      />
-                      <Box textAlign="left">
-                        <Typography variant="subtitle2">
-                          John Doe
-                        </Typography>
-                        <Typography variant="caption">
-                          Joined in March 23, 2023
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Item>
+                  {
+                    currentGroup ? currentGroup.members.map((member, index) => {
+                      return (
+                        <Item
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <Box
+                            sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}
+                          >
+                            <Avatar
+                              alt="Remy Sharp"
+                              src={getAvatarByEmail(member)}                              sx={{
+                                mx: 'auto',
+                                borderWidth: 2,
+                                borderStyle: 'solid',
+                                borderColor: 'common.white',
+                                zIndex: 2,
+                                mr: 1,
+                                width: 50,
+                                height: 50,
+                              }}
+                            />
+                            <Box textAlign="left">
+                              <Typography variant="subtitle2">
+                                {getNameByEmail(member)}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Item>
+                      )
+                    }) : <div/>
+                  }
+
 
                 </Stack>
 

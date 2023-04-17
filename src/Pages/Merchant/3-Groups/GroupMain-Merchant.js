@@ -237,8 +237,9 @@ const GroupMainMerchant = () => {
   }
 
   const navigate = useNavigate();
-  const handleClickGroupDetail = () => {
-    navigate('./group-details');
+  const handleClickGroupDetail = (group) => {
+    let groupId = group._id
+    navigate('./group-details?groupId=' + groupId);
   }
 
   return (
@@ -412,7 +413,7 @@ const GroupMainMerchant = () => {
                         </TableCell>
                         <TableCell>
                             <Button
-                              onClick={handleClickGroupDetail}
+                              onClick={() => handleClickGroupDetail(row)}
                               variant="contained"
                               sx={{
                               color: 'white',

@@ -16,10 +16,12 @@ import Image from 'mui-image'
 import backgroundImg from './background.jpg';
 import { styled } from "@mui/material/styles";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {findAllShipGroupsThunk, findShipGroupByIdThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 import {useDispatch, useSelector} from "react-redux";
 import {findAllShipGroups} from "../../../redux/shipGroups/shipGroups-service";
+import {findAllUsersThunk} from "../../../redux/users/users-thunks";
+import {findAllParcelsThunk} from "../../../redux/parcels/parcels-thunks";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -41,24 +43,37 @@ const GroupDetailPage = (props) => {
     setOpen(false);
   };
 
-  // Filter
-  const [filter, setFilter] = useState('All');
-  const [focusChip, setFocusChip] = useState('All');
-  const chipLabelsArray = ["All", "Air Standard", "Air Sensitive", "Sea Standard", "Sea Sensitive"];
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(findShipGroupByIdThunk(groupId));
+    dispatch(findAllUsersThunk());
+    dispatch(findAllParcelsThunk());
+    console.log("done")
+  }, []);
+
+  // Link to DB
+  const { parcels } = useSelector((state) => {
+    return state.parcels
+  });
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const groupId = searchParams.get('groupId');
   console.log("groupId", groupId)
 
-  const dispatch = useDispatch();
   const currentGroup = useSelector((state) => {
     return state.shipGroup.currentGroup
   });
+  console.log("currentGroup", currentGroup)
 
-  useEffect(() => {
-    dispatch(findShipGroupByIdThunk(groupId));
-  }, []);
+  const currentGroupParcels = parcels.filter((parcel) => {
+    return parcel.shipGroup === currentGroup._id
+  })
+
+  console.log("currentGroupParcels", currentGroupParcels)
+
+  const { users, loading } = useSelector((state) => state.users);
 
   function getShortAddress(address) {
     const addressParts = address.split(', ');
@@ -78,6 +93,48 @@ const GroupDetailPage = (props) => {
       day: 'numeric'
     });
     return formattedDate;
+  }
+
+  const navigate = useNavigate();
+  const handleClickJoinGroup = (group) => {
+    let groupId = group._id
+    navigate('./checkout?groupId=' + groupId);
+  }
+
+  const getLeaderAvatar=(group)=>{
+    if (group === null) {
+      return null;
+    }
+    const groupLead = users.find((user) => {
+      return user.email === group.leader
+    })
+    if (groupLead !== undefined) {
+      return groupLead.avatar
+    } else {
+      return null
+    }
+  }
+
+  const getAvatarByEmail = (email) => {
+    const user = users.find((user) => {
+      return user.email === email
+    })
+    if (user !== undefined) {
+      return user.avatar
+    } else {
+      return null
+    }
+  }
+
+  const getNameByEmail = (email) => {
+    const user = users.find((user) => {
+      return user.email === email
+    })
+    if (user !== undefined) {
+      return user.name
+    } else {
+      return null
+    }
   }
 
   return (
@@ -129,7 +186,11 @@ const GroupDetailPage = (props) => {
                   mr: 1,
                 }}
               >
-                <Button variant="contained" color="primary">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleClickJoinGroup(currentGroup)}
+                >
                   Join
                 </Button>
               </Box>
@@ -155,7 +216,7 @@ const GroupDetailPage = (props) => {
                 <Box>
                 <Avatar
                   alt="Remy Sharp"
-                  src="https://material-ui.com/static/images/avatar/1.jpg"
+                  src={ getLeaderAvatar(currentGroup) }
                   sx={{
                     mx: 'auto',
                     borderWidth: 2,
@@ -237,8 +298,7 @@ const GroupDetailPage = (props) => {
                       <div>
                         <Avatar
                           alt="Remy Sharp"
-                          src="https://material-ui.com/static/images/avatar/1.jpg"
-                          sx={{
+                          src={getLeaderAvatar(currentGroup)}                          sx={{
                             mx: 'auto',
                             borderWidth: 2,
                             borderStyle: 'solid',
@@ -314,7 +374,7 @@ const GroupDetailPage = (props) => {
                       Current Weight
                     </Typography>
                     <Typography variant="caption">
-                      N/A
+                      {(currentGroupParcels.reduce((acc, parcel) => acc + parcel.weight, 0)).toFixed(1)} kg
                     </Typography>
                   </Item>
                   <Item
@@ -346,48 +406,51 @@ const GroupDetailPage = (props) => {
                 <Box
                   sx={{my: 2,}}
                 >
-                  <Typography variant="h6">Activity</Typography>
+                  <Typography variant="h6">Members</Typography>
                   <hr style={{ borderTop: "1px solid #F6F7FB", marginTop: "0.5rem" }} />
                 </Box>
                 {/*activity details*/}
                 <Stack spacing={2}>
                   {/*one activity cell*/}
-                  <Item
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Box
-                      sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-                    >
-                      <Avatar
-                        alt="Remy Sharp"
-                        src="https://material-ui.com/static/images/avatar/1.jpg"
-                        sx={{
-                          mx: 'auto',
-                          borderWidth: 2,
-                          borderStyle: 'solid',
-                          borderColor: 'common.white',
-                          zIndex: 2,
-                          mr: 1,
-                          width: 50,
-                          height: 50,
-                        }}
-                      />
-                      <Box textAlign="left">
-                        <Typography variant="subtitle2">
-                          John Doe
-                        </Typography>
-                        <Typography variant="caption">
-                          Joined in March 23, 2023
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Item>
 
+                  {
+                    currentGroup ? currentGroup.members.map((member, index) => {
+                      return (
+                        <Item
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <Box
+                            sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+                          >
+                            <Avatar
+                              alt="Remy Sharp"
+                              src={getAvatarByEmail(member)}
+                              sx={{
+                                mx: 'auto',
+                                borderWidth: 2,
+                                borderStyle: 'solid',
+                                borderColor: 'common.white',
+                                zIndex: 2,
+                                mr: 1,
+                                width: 50,
+                                height: 50,
+                              }}
+                            />
+                            <Box textAlign="left">
+                              <Typography variant="subtitle2">
+                                {getNameByEmail(member)}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Item>
+                      )
+                    }) : <div></div>
+                  }
 
                 </Stack>
 
