@@ -214,6 +214,7 @@ const LoginPage = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}
+            maxWidth={900}
           >
             <Image
               src={welcomeImg}
