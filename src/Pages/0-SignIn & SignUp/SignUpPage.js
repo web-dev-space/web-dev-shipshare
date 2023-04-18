@@ -72,6 +72,15 @@ const SignUpPage = () => {
     setPasswordVisible(!passwordVisible);
   };
 
+  // control layout
+  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 900);
+
+  useEffect(() => {
+    const handleResize = () => setIsWideScreen(window.innerWidth > 900);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <>
         <Helmet>
@@ -80,7 +89,7 @@ const SignUpPage = () => {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'row',
+          flexDirection: isWideScreen ? 'row' : 'column',
           alignItems: 'center',
           position: 'absolute',
           justifyContent: 'space-between',
@@ -88,17 +97,22 @@ const SignUpPage = () => {
           left: 0,
           zIndex: 1,
           width: '100%',
+          height: '100%',
         }}
       >
+
+        {!isWideScreen && <img src={welcomeImg} alt="welcome" style={{width:'100%', height:'100%', objectFit: 'cover', filter: 'blur(5px)'}} />}
+
         {/*----------------- left -----------------*/}
         <Box
           sx={{
-            width: '60%',
+            width: isWideScreen ? '50%' : '100%',
             height: '100%',
             alignItems: 'center',
             justifyContent: 'center',
             display: 'flex',
-            position: 'relative',
+            position: isWideScreen? 'relative': 'absolute',
+            zIndex:1,
           }}
         >
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -107,6 +121,9 @@ const SignUpPage = () => {
               spacing={3}
               sx={{
                 width: '100%',
+                backgroundColor: 'white',
+                borderRadius: '10px',
+                paddingX: '5vw',
               }}
             >
               <Box
@@ -116,6 +133,7 @@ const SignUpPage = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   position: 'relative',
+                  marginTop: '5vh',
                 }}>
                 <Typography variant="h3">
                   Create Your Account
@@ -220,7 +238,7 @@ const SignUpPage = () => {
                 type={"submit"}
               >Sign Up</Button>
               <Box>
-                <Typography style={{textAlign: 'center'}}>
+                <Typography style={{textAlign: 'center', marginBottom: '5vh'}}>
                   Already have an account? <Link href="../login" underline="hover">Log In</Link>
                 </Typography>
               </Box>
@@ -231,19 +249,29 @@ const SignUpPage = () => {
 
 
         {/*----------------- right -----------------*/}
-        <Box
-          sx={{
-            width: '40%',
-          }}
-        >
-          <Image
-            src={welcomeImg}
-            alt="welcome"
+        {isWideScreen &&
+          <Box
             sx={{
-              boxShadow: 1,
+              width: '50%',
+              height: "100%",
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
-          />
-        </Box>
+            maxWidth={900}
+          >
+            <Image
+              src={welcomeImg}
+              alt="welcome"
+              sx={{
+                objectFit: 'cover',
+                height: '100%',
+                width: '100%',
+                boxShadow: 1,
+              }}
+            />
+          </Box>
+        }
 
       </Box>
 
