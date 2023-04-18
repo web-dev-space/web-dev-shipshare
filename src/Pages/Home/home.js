@@ -343,20 +343,21 @@ const Home = () => {
                             flexDirection: 'column',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            // position: 'relative',
+                            position: 'relative',
                             // flex: isSmallScreen ? '1 1 auto' : '0 0 auto',
                             textAlign: 'left',
-                            padding: 5,
+                            padding: 15,
                             maxWidth: isLargeScreen? 600: true,
-                            marginTop: isLargeScreen? 30: 680,
+                            marginTop: isLargeScreen? 60: 680,
+                            marginBottom: isLargeScreen? 30: 0,
                           }}
                         >
                           {isLargeScreen
                             && <img src={require('./Shapes1.png')} alt="background-shape"
-                                    style={{top: 0, left: -10, zIndex: -1, width: 300, position: 'absolute'}}/>}
+                                    style={{top: -60, left: 0, zIndex: -1, width: 300, position: 'absolute'}}/>}
                           {isLargeScreen
                             && <img src={require('./Shapes2.png')} alt="background-shape"
-                                    style={{bottom: 0, right: 100, zIndex: -1, width: 200, position: 'absolute'}}/>}
+                                    style={{bottom: -30, right: -100, zIndex: -1, width: 200, position: 'absolute'}}/>}
 
                           <div style={{marginTop: isLargeScreen? 0: -600, width:'100%'}}>
                             {groups.map((group) => (
@@ -371,6 +372,7 @@ const Home = () => {
                               />
                             ))}
                           </div>
+
                         </div>
                         {/*---- right side ----*/}
                         <div
@@ -386,7 +388,7 @@ const Home = () => {
                             flexDirection: 'column',
                             padding: 8,
                             maxWidth: 900,
-                            marginTop: isLargeScreen? 30: 70,
+                            marginTop: isLargeScreen? 60: 70,
                           }}
                         >
                           <Typography variant="h2" component="text" paragraph>
@@ -407,7 +409,7 @@ const Home = () => {
 
 
                       {/*====== part 4 - Choose the plan ======*/}
-                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '100%'}}>
+                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '100%', marginTop:230}}>
                         <Box
                           sx={{
                             height: '100%',
