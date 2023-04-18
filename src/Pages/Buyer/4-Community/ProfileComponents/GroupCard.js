@@ -10,7 +10,7 @@ export default function GroupCard({key, group})  {
 	const leader = users.find((user) => user.email === group.leader);
 
 	return(
-		<Link to="./post"
+		<Link to={`/groups/group-details?groupId=${key}`}
 					style={{textDecoration: 'none', color: 'inherit'}}>
 			<div style={{
 				border: '1px solid',
