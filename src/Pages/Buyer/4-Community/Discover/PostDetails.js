@@ -222,9 +222,11 @@ const PostDetails = () => {
 
                         {/*-----------------Post Content---------------------*/}
                         <div style={{ padding: 8, marginTop: 48, marginBottom: 48}}>
-                            <Typography variant="body1" gutterBottom>
-                                {post.post}
-                            </Typography>
+                            {post.post.split('\n').map((paragraph, index) => (
+                                <Typography key={index} variant="body1" gutterBottom paragraph>
+                                    {paragraph}
+                                </Typography>
+                            ))}
                         </div>
 
                         <hr style={{
