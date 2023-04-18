@@ -11,7 +11,7 @@ import ShipmentsMainMerchant from "Pages/Merchant/2-Shipments/Shipment-MainMerch
 import GroupMainMerchant from "Pages/Merchant/3-Groups/GroupMain-Merchant";
 import ChangeWarehouse from "Pages/Merchant/4-Account/ChangeWarehouseAddress";
 import ParcelMain from "../Buyer/1-Parcels/Parcel-Main";
-import GroupDetailMerchant from "./3-Groups/GroupDetail-Merchant";
+import GroupDetailMerchant from "Pages/Merchant/3-Groups/GroupDetail-Merchant";
 
 
 export default function Merchant() {
