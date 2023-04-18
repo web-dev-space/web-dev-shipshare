@@ -53,3 +53,15 @@ export const getParcelTracking = async ({ trackingNumber, courier }) => {
 export const postNewTracking = async ({trackingNumber, courier}) => {
     return await axios.post(`${TRACKING_API}/tracking`, {trackingNumber, courier});
 }
+
+export const getParcelByShipGroupId = async (shipGroupId) => {
+    const response = await axios.get(`${PARCELS_API}?shipGroupId=${shipGroupId}`);
+    const parcels = response.data;
+    return parcels;
+}
+
+export const getParcelByShipGroupIdAndUserEmail = async (shipGroupId, userEmail) => {
+    const response = await axios.get(`${PARCELS_API}?shipGroupId=${shipGroupId}&userEmail=${userEmail}`);
+    const parcels = response.data;
+    return parcels;
+}

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
-import Header from "../../../third-party/layouts/dashboard/header"
-import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
-import Main from "../../../third-party/layouts/dashboard/Main"
+import Header from "third-party/layouts/dashboard/header"
+import NavVertical from "third-party/layouts/dashboard/nav/NavVertical"
+import Main from "third-party/layouts/dashboard/Main"
 import {
   Container,
   Typography,
@@ -17,11 +17,11 @@ import backgroundImg from './background.jpg';
 import {styled} from "@mui/material/styles";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import {useLocation, useNavigate} from "react-router-dom";
-import {findAllShipGroupsThunk, findShipGroupByIdThunk} from "../../../redux/shipGroups/shipGroups-thunks";
+import {findAllShipGroupsThunk, findShipGroupByIdThunk} from "redux/shipGroups/shipGroups-thunks";
 import {useDispatch, useSelector} from "react-redux";
-import {findAllShipGroups} from "../../../redux/shipGroups/shipGroups-service";
-import {findAllUsersThunk} from "../../../redux/users/users-thunks";
-import {findAllParcelsThunk} from "../../../redux/parcels/parcels-thunks";
+import {findAllShipGroups} from "redux/shipGroups/shipGroups-service";
+import {findAllUsersThunk} from "redux/users/users-thunks";
+import {findAllParcelsThunk} from "redux/parcels/parcels-thunks";
 
 
 const Item = styled(Paper)(({theme}) => ({

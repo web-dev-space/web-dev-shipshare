@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 const useDebugWhenChange = (name, variable) => {
   useEffect(() => {
-    console.debug(`"${name}" changed. Value:`, variable);
+    console.log(`"${name}" changed. Value:`, variable);
   }, [variable]);
 }
 
