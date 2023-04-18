@@ -297,17 +297,17 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   // useDebugWhenChange("paddingHeight", paddingHeight);
   // useDebugWhenChange("filter", filter);
   // useDebugWhenChange("focusChip", focusChip);
-  
+
   // useDebugWhenChange("rowBeingEdited", rowBeingEdited);
   // useDebugWhenChange("newWeight", newWeight);
   // useDebugWhenChange("newTrackingNumber", newTrackingNumber);
   // useDebugWhenChange("newShipRoute", newShipRoute);
   // useDebugWhenChange("newShipEndDate", newShipEndDate);
-  
+
   // useDebugWhenChange("rows", rows);
-  
+
   // useDebugWhenChange("open", open);
-  
+
   // useDebugWhenChange("detailedShip", detailedShip);
 
   const handleOpen = (row) => {
@@ -529,7 +529,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                         }
                       </TableCell>
                       <TableCell align="left">
-                        {rowBeingEdited._id === row._id ? (
+                        {/* {rowBeingEdited._id === row._id ? (
                           <TextField
                             id="outlined-basic"
                             label="Weight"
@@ -544,9 +544,9 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                             }}
                             type="number"
                           />
-                        ) : (
-                          <text>{row?.totalWeight === undefined || row?.totalWeight === null ? "--" : `${row?.totalWeight?.toFixed(1)} kg`}</text>
-                        )}
+                        ) : ( */}
+                        <text>{row?.totalWeight === undefined || row?.totalWeight === null ? "--" : `${row?.totalWeight?.toFixed(1)} kg`}</text>
+                        {/* )} */}
                       </TableCell>
                       <TableCell align="left">{cityName?.length >= 2 ? cityName[cityName.length - 3] : cityName}</TableCell>
                       <TableCell

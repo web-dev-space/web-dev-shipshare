@@ -63,7 +63,7 @@ export const getParcelTracking = async ({ trackingNumber, courier }) => {
     }
 }
 
-export const postNewTracking = async ({trackingNumber, courier}) => {
+export const postNewTracking = async ({ trackingNumber, courier }) => {
     try {
         const options = {
             method: 'POST',
@@ -83,4 +83,18 @@ export const postNewTracking = async ({trackingNumber, courier}) => {
         console.error(error)
         console.error(error?.response?.data)
     }
+}
+
+export const getParcelByShipGroupId = async (shipGroupId) => {
+    console.debug("get url", `${PARCELS_API}?shipGroupId=${shipGroupId}`)
+    const response = await axios.get(`${PARCELS_API}?shipGroupId=${shipGroupId}`);
+    const parcels = response.data;
+    console.debug("getParcelByShipGroupId", parcels);
+    return parcels;
+}
+
+export const getParcelByShipGroupIdAndUserEmail = async (shipGroupId, userEmail) => {
+    const response = await axios.get(`${PARCELS_API}?shipGroupId=${shipGroupId}&userEmail=${userEmail}`);
+    const parcels = response.data;
+    return parcels;
 }

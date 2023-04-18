@@ -5,6 +5,8 @@ import {
     updateParcelThunk,
     deleteParcelThunk,
     getParcelTrackingThunk,
+    getParcelByShipGroupIdThunk,
+    getParcelByShipGroupIdAndUserEmailThunk,
 } from "./parcels-thunks";
 
 const initialState = {
@@ -64,6 +66,20 @@ const parcelsSlice = createSlice({
                 ...state.trackings,
                 [payload.trackingNumber]: payload.trackingDetail
             }
+        },
+
+        [getParcelByShipGroupIdThunk.rejected]: (state, action) => {
+            state.error = action.error;
+        },
+        [getParcelByShipGroupIdThunk.fulfilled]: (state, { payload }) => {
+            state.parcels = payload;
+        },
+
+        [getParcelByShipGroupIdAndUserEmailThunk.rejected]: (state, action) => {
+            state.error = action.error;
+        },
+        [getParcelByShipGroupIdAndUserEmailThunk.fulfilled]: (state, { payload }) => {
+            state.parcels = payload;
         },
     },
     reducers: {}

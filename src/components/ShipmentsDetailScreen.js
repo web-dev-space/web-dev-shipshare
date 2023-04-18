@@ -4,7 +4,7 @@ import CustomizedSteppers from "components/CustomizedSteppers";
 import DeliveryStatusCard from 'components/DeliveryStatusCard';
 import ItemCard from 'components/ItemCard.js';
 import deliveryStatus from 'sampleData/deliveryStatus';
-import { parcelData } from 'sampleData/parcels';
+// import { parcelData } from 'sampleData/parcels';
 import Colors from 'styles/Colors';
 import FontSizes from 'styles/FontSizes';
 import { calculateDeliveryTime } from 'utils/calculateDeliveryTime';
@@ -15,6 +15,8 @@ import { getParcelTracking } from "../redux/parcels/parcels-service";
 import { useSelector } from 'react-redux';
 import { getShipmentTrackingThunk } from "../redux/shipGroups/shipGroups-thunks";
 import { useDispatch } from 'react-redux';
+import { getParcelByShipGroupIdThunk, getParcelByShipGroupIdAndUserEmailThunk } from "redux/parcels/parcels-thunks";
+import useDebugWhenChange from 'utils/useDebugWhenChange';
 
 const FontFamily = {
 }
@@ -36,15 +38,19 @@ const ShipmentDetails = ({ ship, handleClose }) => {
 
   const role = useSelector(state =>
     (state.auth.currentUser === null) ? "visitor" : state.auth.currentUser.role);
+  const parcelData = useSelector((state) => state?.parcels?.parcels);
+  const currentUser = useSelector((state) => state?.auth?.currentUser);
 
   const isMerchant = role === 'merchant';
+
+  useDebugWhenChange("parcelData", parcelData);
 
   const classifiedParcels = useMemo(() => {
     if (!isMerchant) {
       return [];
     }
 
-    return parcelData.reduce((accumulator, current) => {
+    return parcelData?.reduce((accumulator, current) => {
       if (!accumulator[current.user]) {
         accumulator[current.user] = [];
       }
@@ -55,10 +61,12 @@ const ShipmentDetails = ({ ship, handleClose }) => {
 
   }, [isMerchant, parcelData]);
 
+  const itemsBuyerMode = React.useMemo(() => {
+    return parcelData !== undefined ? parcelData?.filter(item => item?.user !== currentUser?.email) : [];
+  }, [parcelData]);
+
   const shortAddressList = ship?.pickupLocation?.address.split(',');
   const cityArrival = shortAddressList?.[shortAddressList.length - 3];
-
-  // const [detailDeliveryStatus, setDetailDeliveryStatus] = useState([]);
 
   const trackingInfo = useSelector((state) => state.shipGroup.trackings[ship?.trackingNumber?.replaceAll(' ', '')]);
 
@@ -81,6 +89,19 @@ const ShipmentDetails = ({ ship, handleClose }) => {
       console.log(e)
     });
   }, [ship]);
+
+
+  useEffect(() => {
+    if (isMerchant) {
+      if (ship?._id !== undefined) {
+        dispatch(getParcelByShipGroupIdThunk(ship?._id));
+      }
+    } else {
+      if (ship?._id !== undefined && currentUser?.email !== undefined) {
+        dispatch(getParcelByShipGroupIdAndUserEmailThunk(ship?._id, currentUser?.email));
+      }
+    }
+  }, [ship, currentUser]);
 
 
   return (
@@ -176,7 +197,7 @@ const ShipmentDetails = ({ ship, handleClose }) => {
 
 
         {/*Bottom Container*/}
-        {ship.phaseNumber >= 2 &&
+        {ship.phaseNumber >= 2 && detailDeliveryStatus !== undefined && detailDeliveryStatus !== null && detailDeliveryStatus.length !== 0 &&
           <Box style={{
             border: '1px solid rgb(226, 232, 240)',
             borderRadius: 10,
@@ -184,12 +205,11 @@ const ShipmentDetails = ({ ship, handleClose }) => {
             padding: 20,
           }}>
             <DeliveryStatusCard deliveryStatus={detailDeliveryStatus} />
-            <></>
           </Box>
         }
 
         {/*Detail items list*/}
-        <Box style={{
+        {parcelData !== undefined && parcelData.length !== 0 && <Box style={{
           border: '1px solid rgb(226, 232, 240)',
           borderRadius: 10,
           marginTop: 40,
@@ -201,10 +221,11 @@ const ShipmentDetails = ({ ship, handleClose }) => {
               isMerchant={isMerchant} />
             :
             <ItemCard leftCornerIconColor={"#F9C662"}
-              items={parcelData}
+              items={itemsBuyerMode}
               title={"Items Included"} />
           }
         </Box>
+        }
       </div>
 
 
