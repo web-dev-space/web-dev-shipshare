@@ -385,6 +385,7 @@ const Home = () => {
                                 pickupAddress={group.pickupAddress}
                                 isLargeScreen={isLargeScreen}
                                 isSmallScreen={isSmallScreen}
+                                isDiscoverSmallScreen={isDiscoverSmallScreen}
                               />
                             ))}
                           </div>
@@ -614,7 +615,7 @@ const Home = () => {
 
                       {/*====== part 6 - end ======*/}
                       {!isDiscoverPhoneScreen &&
-                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh'}}>
+                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '100%', marginTop: 60}}>
                         <Box
                           sx={{
                             height: '100%',
@@ -643,12 +644,12 @@ const Home = () => {
                       </div>}
 
                       {isDiscoverPhoneScreen &&
-                        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh'}}>
+                        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '100%'}}>
                           <Box
                             sx={{
                               height: '100%',
                               display: 'flex',
-                              flexDirection: 'column',
+                              flexDirection: 'column-reverse',
                               justifyContent: 'center',
                               alignItems: 'center',
                               position: 'relative',
@@ -656,16 +657,16 @@ const Home = () => {
                               maxWidth: 1100,
                             }}
                           >
-                            <img src={require('./End.png')} alt="background-shape" style={{top:130, right: 12, width: 1000,}}/>
+                            <img src={require('./EndForSmallScreen.png')} alt="background-shape" style={{top:130, right: 12, width: 1000,}}/>
 
-                            <div style={{zIndex: 1, position: 'absolute', marginTop: '5rem', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                              <Typography variant="h3" component="text" paragraph style={{fontSize: fontSize}}>
+                            <div style={{zIndex: 1, position: 'relative', marginTop: '5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:50}}>
+                              <Typography variant="h3" component="text" paragraph style={{fontSize: 16}}>
                                 Ready to use ShipShare?
                               </Typography>
-                              <Typography variant="text" component="text" paragraph sx={{color:'gray'}} style={{fontSize: fontSize2}}>
+                              <Typography variant="text" component="text" paragraph sx={{color:'gray'}} style={{fontSize: 14}}>
                                 Join thousand buyers and groups in the community
                               </Typography>
-                              <Button variant="contained" onClick={()=>navigate('/login')} sx={{marginTop: '1rem', borderRadius: 15, padding: '1%', width: '35%'}}>Get Started</Button>
+                              <Button variant="contained" onClick={()=>navigate('/login')} sx={{marginTop: '1rem', borderRadius: 15, padding: '1%', width: 100}}>Get Started</Button>
                             </div>
 
                           </Box>
