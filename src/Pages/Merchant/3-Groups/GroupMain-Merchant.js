@@ -258,6 +258,19 @@ const GroupMainMerchant = () => {
     }
   }
 
+  useEffect(
+    () => {
+      if (shipGroups) {
+        setTableData(shipGroups);
+      }
+    },
+    [shipGroups],
+  );
+
+  if (!shipGroups) {
+    return null;
+  }
+
   return (
     <>
       <Helmet>

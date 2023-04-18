@@ -113,7 +113,6 @@ const GroupMainPage = () => {
 
   useEffect(() => {
     navigate("./")
-    console.log("userLocation", userLocation);
   }, [userLocation]);
 
   function toRad(value) {
@@ -413,8 +412,6 @@ const GroupMainPage = () => {
                   Form New
                 </Button>
                 <Button
-                  // component={RouterLink}
-                  // to={PATH_DASHBOARD.eCommerce.new}
                   variant="outlined"
                   size="large"
                   startIcon={<TuneIcon/>}

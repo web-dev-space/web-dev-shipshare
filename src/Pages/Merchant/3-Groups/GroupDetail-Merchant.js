@@ -62,8 +62,6 @@ const GroupDetailMerchant = () => {
 
   const {users, loading} = useSelector((state) => state.users);
 
-  console.log("loading", loading)
-  console.log("users", users)
 
   const {parcels} = useSelector((state) => {
     return state.parcels
@@ -73,6 +71,9 @@ const GroupDetailMerchant = () => {
     return parcel.shipGroup === currentGroup._id
   })
 
+  if (!currentGroup) {
+    return null;
+  }
   function getShortAddress(address) {
     const addressParts = address.split(', ');
     const cityState = addressParts.slice(-3, -1);
