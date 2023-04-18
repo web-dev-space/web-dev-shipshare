@@ -28,8 +28,8 @@ const ShipmentMainPage = () => {
       ...shipGroup,
       key: Math.random(),
     };
-  });
-  
+  }).filter((shipGroup) => shipGroup?.members?.some((member) => member === user?.email));
+
   const setShipGroups = (shipGroups) => {
     // TODO
   };
