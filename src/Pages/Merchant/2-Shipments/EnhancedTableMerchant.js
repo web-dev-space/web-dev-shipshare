@@ -464,14 +464,21 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                       }}
                     >
                       <TableCell component="th" scope="row" padding="none">
-                        {row?.name}
+                        <Box sx={{ marginRight: '12px' }}>
+                          {row?.name}
+                        </Box>
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
                         {rowBeingEdited._id === row._id ? (
-                          <DatePick selectedDate={newShipEndDate}
-                            setSelectedDate={setNewShipEndDate} />
+                          <Box minWidth={180}
+                            sx={{ marginRight: '12px' }}>
+                            <DatePick selectedDate={newShipEndDate}
+                              setSelectedDate={setNewShipEndDate} />
+                          </Box>
                         ) :
+                        <Box sx={{ marginRight: '12px', minWidth: '110px' }}>
                           <text>{row?.shipEndDate === undefined ? "--" : convertDateToString(row?.shipEndDate)}</text>
+                        </Box>
                         }
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
@@ -484,11 +491,14 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                             value={newTrackingNumber}
                             onChange={(e) => setNewTrackingNumber(e.target.value)}
                             sx={{
-                              minWidth: 100,
+                              minWidth: 150,
+                              marginRight: '12px',
                             }}
                           />
                         ) : (
+                          <Box sx={{ marginRight: '12px', minWidth: '110px' }}>
                           <text>{row?.trackingNumber === undefined || row?.trackingNumber === null ? "--" : `${row?.trackingNumber} `}</text>
+                        </Box>
                         )}
                       </TableCell>
                       <TableCell align="left">
@@ -549,52 +559,54 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                         }
                       </TableCell>
                       <TableCell align="left">
-                        <Button
-                          variant="contained"
-                          sx={{
-                            backgroundColor: "white",
-                            "&:hover": {
+                        <Box spacing={2} display='flex'>
+                          <Button
+                            variant="contained"
+                            sx={{
                               backgroundColor: "white",
-                            },
-                            color: "#1A202C",
-                            border: "1px solid rgba(0, 90, 100, 0.35)",
-                          }}
-                          onClick={() => {
-                            handleOpen(row);
-                          }}
-                        >
-                          Details
-                        </Button>
-                        {
-                          rowBeingEdited._id === row._id ? (
-                            <Button
-                              variant="contained"
-                              color="error"
-                              sx={{
-                                ml: 1,
-                              }}
-                              onClick={() => {
-                                handleClickDoneButton(row)
-                              }}
-                            >
-                              Done
-                            </Button>
-                          ) : (
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              sx={{
-                                ml: 1,
-                              }}
-                              disabled={rowBeingEdited?._id !== undefined && rowBeingEdited._id !== row._id}
-                              onClick={() => {
-                                handleClickEditButton(row)
-                              }}
-                            >
-                              Edit
-                            </Button>
-                          )
-                        }
+                              "&:hover": {
+                                backgroundColor: "white",
+                              },
+                              color: "#1A202C",
+                              border: "1px solid rgba(0, 90, 100, 0.35)",
+                            }}
+                            onClick={() => {
+                              handleOpen(row);
+                            }}
+                          >
+                            Details
+                          </Button>
+                          {
+                            rowBeingEdited._id === row._id ? (
+                              <Button
+                                variant="contained"
+                                color="error"
+                                sx={{
+                                  ml: 1,
+                                }}
+                                onClick={() => {
+                                  handleClickDoneButton(row)
+                                }}
+                              >
+                                Done
+                              </Button>
+                            ) : (
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                sx={{
+                                  ml: 1,
+                                }}
+                                disabled={rowBeingEdited?._id !== undefined && rowBeingEdited._id !== row._id}
+                                onClick={() => {
+                                  handleClickEditButton(row)
+                                }}
+                              >
+                                Edit
+                              </Button>
+                            )
+                          }
+                        </Box>
                       </TableCell>
                     </TableRow>
                   );
