@@ -111,6 +111,11 @@ const GroupMainPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    navigate("./")
+    console.log("userLocation", userLocation);
+  }, [userLocation]);
+
   function toRad(value) {
     return value * Math.PI / 180;
   }
@@ -146,7 +151,7 @@ const GroupMainPage = () => {
 
       setTableData(newData);
       setOriginalData(newData)
-      console.log('ttttt', tableData)
+      console.log('tableData', tableData)
       console.log("originData", originalData)
     };
 
