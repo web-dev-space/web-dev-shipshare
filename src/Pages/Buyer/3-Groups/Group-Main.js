@@ -180,7 +180,7 @@ const GroupMainPage = () => {
 
   // chip filter
   useEffect(() => {
-    const newFilteredRows = filteredData.filter(
+    const newFilteredRows = originalData.filter(
       (row) => focusChip === 'All' || focusChip.includes(row.shipRoute)
     );
     setTableData(newFilteredRows);
@@ -209,7 +209,7 @@ const GroupMainPage = () => {
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
   const [rows, setRows] = useState([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
-  const [filteredData, setFilteredData] = useState(originalData)
+  const [filteredData, setFilteredData] = useState(shipGroups)
 
 
   useEffect(() => {
