@@ -289,6 +289,27 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     phaseNumber: convertStatusToPhaseNumber(status),
   })
 
+  // useDebugWhenChange("order", order);
+  // useDebugWhenChange("orderBy", orderBy);
+  // useDebugWhenChange("page", page);
+  // useDebugWhenChange("visibleRows", visibleRows);
+  // useDebugWhenChange("rowsPerPage", rowsPerPage);
+  // useDebugWhenChange("paddingHeight", paddingHeight);
+  // useDebugWhenChange("filter", filter);
+  // useDebugWhenChange("focusChip", focusChip);
+  
+  // useDebugWhenChange("rowBeingEdited", rowBeingEdited);
+  // useDebugWhenChange("newWeight", newWeight);
+  // useDebugWhenChange("newTrackingNumber", newTrackingNumber);
+  // useDebugWhenChange("newShipRoute", newShipRoute);
+  // useDebugWhenChange("newShipEndDate", newShipEndDate);
+  
+  // useDebugWhenChange("rows", rows);
+  
+  // useDebugWhenChange("open", open);
+  
+  // useDebugWhenChange("detailedShip", detailedShip);
+
   const handleOpen = (row) => {
     setDetailedShip(row);
     setOpen(true);
@@ -475,7 +496,21 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                         }
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
-                        {row?.trackingNumber === undefined ? "--" : row?.trackingNumber}
+                        {/* {row?.trackingNumber === undefined ? "--" : row?.trackingNumber} */}
+                        {rowBeingEdited._id === row._id ? (
+                          <TextField
+                            id="outlined-tracking-number"
+                            label="Tracking Number"
+                            variant="outlined"
+                            value={newTrackingNumber}
+                            onChange={(e) => setNewTrackingNumber(e.target.value)}
+                            sx={{
+                              minWidth: 100,
+                            }}
+                          />
+                        ) : (
+                          <text>{row?.trackingNumber === undefined || row?.trackingNumber === null ? "--" : `${row?.trackingNumber} `}</text>
+                        )}
                       </TableCell>
                       <TableCell align="left">
                         {rowBeingEdited._id === row._id ? (
