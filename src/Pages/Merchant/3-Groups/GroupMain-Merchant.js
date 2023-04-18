@@ -41,6 +41,7 @@ import GroupDetailDrawerScreen from "./GroupDetailDrawerScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { findAllShipGroupsThunk } from "../../../redux/shipGroups/shipGroups-thunks";
 import { Helmet } from "react-helmet";
+import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 
 
 const DEFAULT_ORDER = 'asc';
@@ -66,6 +67,7 @@ const GroupMainMerchant = () => {
 
   useEffect(() => {
     dispatch(findAllShipGroupsThunk());
+    dispatch(findAllUsersThunk());
   }, []);
 
   // table data
@@ -256,6 +258,19 @@ const GroupMainMerchant = () => {
       console.log("no avatar");
       return null
     }
+  }
+
+  useEffect(
+    () => {
+      if (shipGroups) {
+        setTableData(shipGroups);
+      }
+    },
+    [shipGroups],
+  );
+
+  if (!shipGroups) {
+    return null;
   }
 
   return (

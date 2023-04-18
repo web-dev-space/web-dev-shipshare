@@ -44,7 +44,6 @@ const GroupDetailPage = (props) => {
   };
 
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(findShipGroupByIdThunk(groupId));
     dispatch(findAllUsersThunk());
@@ -56,9 +55,10 @@ const GroupDetailPage = (props) => {
   const navigate = useNavigate();
   const currentUser = useSelector(state => state.auth.currentUser);
 
+  const currentGroup = useSelector((state) => {
+    return state.shipGroup.currentGroup
+  });
 
-
-  // Link to DB
   const {parcels} = useSelector((state) => {
     return state.parcels
   });
@@ -68,10 +68,6 @@ const GroupDetailPage = (props) => {
   const groupId = searchParams.get('groupId');
   console.log("groupId", groupId)
 
-  const currentGroup = useSelector((state) => {
-    return state.shipGroup.currentGroup
-  });
-  console.log("currentGroup", currentGroup)
 
   if (!currentGroup) {
     return null;

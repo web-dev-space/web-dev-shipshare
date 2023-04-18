@@ -111,6 +111,10 @@ const GroupMainPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    navigate("./")
+  }, [userLocation]);
+
   function toRad(value) {
     return value * Math.PI / 180;
   }
@@ -146,7 +150,7 @@ const GroupMainPage = () => {
 
       setTableData(newData);
       setOriginalData(newData)
-      console.log('ttttt', tableData)
+      console.log('tableData', tableData)
       console.log("originData", originalData)
     };
 
@@ -180,7 +184,7 @@ const GroupMainPage = () => {
 
   // chip filter
   useEffect(() => {
-    const newFilteredRows = filteredData.filter(
+    const newFilteredRows = originalData.filter(
       (row) => focusChip === 'All' || focusChip.includes(row.shipRoute)
     );
     setTableData(newFilteredRows);
@@ -209,7 +213,7 @@ const GroupMainPage = () => {
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
   const [rows, setRows] = useState([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
-  const [filteredData, setFilteredData] = useState(originalData)
+  const [filteredData, setFilteredData] = useState(shipGroups)
 
 
   useEffect(() => {
@@ -408,8 +412,6 @@ const GroupMainPage = () => {
                   Form New
                 </Button>
                 <Button
-                  // component={RouterLink}
-                  // to={PATH_DASHBOARD.eCommerce.new}
                   variant="outlined"
                   size="large"
                   startIcon={<TuneIcon/>}
