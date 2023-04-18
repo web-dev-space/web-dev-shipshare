@@ -1,21 +1,21 @@
 import CloseIcon from '@mui/icons-material/Close';
-import {Box, IconButton, Typography} from '@mui/material';
-import CustomizedSteppers from "../../../components/CustomizedSteppers";
-import DeliveryStatusCard from '../../../components/DeliveryStatusCard';
-import ItemCard from '../../../components/ItemCard.js';
-import deliveryStatus from '../../../sampleData/deliveryStatus';
-import {parcelData} from '../../../sampleData/parcels';
-import shipGroups from '../../../sampleData/shipGroups';
-import Colors from '../../../styles/Colors';
-import FontSizes from '../../../styles/FontSizes';
-import GroupMemberCard from "../../../components/GroupMemberCard";
-import GroupItemCard from "../../../components/GroupItemCard";
-import {calculateDeliveryTime} from "../../../utils/calculateDeliveryTime";
-import {convertDateToString} from "../../../utils/convertDateToString";
+import { Box, IconButton, Typography } from '@mui/material';
+import CustomizedSteppers from "components/CustomizedSteppers";
+import DeliveryStatusCard from 'components/DeliveryStatusCard';
+import ItemCard from 'components/ItemCard.js';
+import deliveryStatus from 'sampleData/deliveryStatus';
+import { parcelData } from 'sampleData/parcels';
+import shipGroups from 'sampleData/shipGroups';
+import Colors from 'styles/Colors';
+import FontSizes from 'styles/FontSizes';
+import GroupMemberCard from "components/GroupMemberCard";
+import GroupItemCard from "components/GroupItemCard";
+import { calculateDeliveryTime } from "utils/calculateDeliveryTime";
+import { convertDateToString } from "utils/convertDateToString";
 
 const FontFamily = {}
 
-const GroupDetailDrawerScreen = ({ship, handleClose,isMerchant}) => {
+const GroupDetailDrawerScreen = ({ ship, handleClose, isMerchant }) => {
 
   isMerchant = true;
 
@@ -54,7 +54,7 @@ const GroupDetailDrawerScreen = ({ship, handleClose,isMerchant}) => {
             border: '1px solid #EDF2F7',
             padding: '8px',
           }}>
-          <CloseIcon color='#708095'/>
+          <CloseIcon color='#708095' />
         </IconButton>
       </Box>
 
@@ -67,8 +67,8 @@ const GroupDetailDrawerScreen = ({ship, handleClose,isMerchant}) => {
           border: '1px solid rgb(226, 232, 240)', borderRadius: 10, marginTop: 40,
         }}>
           <GroupMemberCard leftCornerIconColor={"#F9C662"}
-                    items={classifiedParcels}
-                    title={"Group Members"}/>
+            items={classifiedParcels}
+            title={"Group Members"} />
         </Box>
 
         {/*-------------Detail items list------------------*/}
@@ -76,9 +76,9 @@ const GroupDetailDrawerScreen = ({ship, handleClose,isMerchant}) => {
           border: '1px solid rgb(226, 232, 240)', borderRadius: 10, marginTop: 40,
         }}>
           <ItemCard leftCornerIconColor={"#F9C662"}
-                    items={classifiedParcels}
-                    title={"Items Included"}
-                    isMerchant={isMerchant}/>
+            items={classifiedParcels}
+            title={"Items Included"}
+            isMerchant={isMerchant} />
         </Box>
       </div>
 
