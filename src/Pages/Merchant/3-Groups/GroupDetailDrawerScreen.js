@@ -16,10 +16,6 @@ const GroupDetailDrawerScreen = ({ ship, handleClose, users, isMerchant = true }
 
   const parcelData = useSelector((state) => state?.parcels?.parcelsInDetailPage);
 
-  useDebugWhenChange('parcelData', parcelData);
-
-  useDebugWhenChange('ship', ship);
-
   useEffect(() => {
     if (ship?._id !== undefined) {
       dispatch(getParcelByShipGroupIdThunk({ shipGroupId: ship?._id }));

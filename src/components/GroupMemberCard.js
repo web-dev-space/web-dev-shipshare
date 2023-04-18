@@ -9,8 +9,6 @@ import useDebugWhenChange from "utils/useDebugWhenChange";
 const FontFamily = {}
 
 const GroupMemberCard = ({ items, leftCornerIconColor, title, users }) => {
-  useDebugWhenChange("users in GroupMemberCard", users);
-
   return (
     <div style={styles.bottomContainer}>
       <div style={styles.deliveryBar}>
