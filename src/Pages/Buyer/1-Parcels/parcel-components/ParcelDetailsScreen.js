@@ -9,12 +9,13 @@ import { getParcelTracking } from "../../../../redux/parcels/parcels-service";
 import { useDispatch, useSelector } from "react-redux";
 import { useMemo } from 'react';
 import { getParcelTrackingThunk } from "redux/parcels/parcels-thunks";
+import useDebugWhenChange from 'utils/useDebugWhenChange';
 
 const ParcelDetails = ({ parcel, handleClose }) => {
     const dispatch = useDispatch();
 
     // const [detailDeliveryStatus, setDetailDeliveryStatus] = useState([]);
-    const parcelTrackingInfo = useSelector(state => state?.parcels?.trackings[parcel.trackingNumber?.replaceAll(' ', '')] || []);
+    const parcelTrackingInfo = useSelector(state => state?.parcels?.trackings[parcel.trackingNumber?.replaceAll(' ', '')]);
     const detailDeliveryStatus = useMemo(
         () => parcelTrackingInfo?.origin_info?.trackinfo || [],
         [parcelTrackingInfo]
