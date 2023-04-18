@@ -143,9 +143,13 @@ const GroupDetailPage = (props) => {
     }
   }
 
-  return (
+  return currentGroup? (
+
+
+
     <>
-      <Header onOpenNav={handleOpen} />
+
+        <Header onOpenNav={handleOpen} />
       {/*-------Box is the layout of the whole page-----*/}
       <Box
         sx={{
@@ -469,6 +473,9 @@ const GroupDetailPage = (props) => {
         {/*------------------------------------*/}
       </Box>
     </>
+
+  ) : (
+    <div></div>
   );
 };
 export default GroupDetailPage;
