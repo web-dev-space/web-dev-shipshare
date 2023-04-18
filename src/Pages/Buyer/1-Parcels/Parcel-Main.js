@@ -307,9 +307,10 @@ const AddParcelDialog = ({ open, onClose, handleAddNewParcel }) => {
         [setValue]
     );
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         // ...
-        handleAddNewParcel(data);
+        await handleAddNewParcel(data);
+        reset();
         onClose();
     };
 

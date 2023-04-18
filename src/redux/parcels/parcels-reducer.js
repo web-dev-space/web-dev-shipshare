@@ -60,6 +60,7 @@ const parcelsSlice = createSlice({
             state.error = action.error;
         },
         [getParcelTrackingThunk.fulfilled]: (state, { payload }) => {
+            console.log(payload);
             state.trackings = {
                 ...state.trackings,
                 [payload.trackingNumber]: payload.trackingDetail
