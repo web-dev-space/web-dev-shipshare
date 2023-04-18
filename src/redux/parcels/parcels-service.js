@@ -86,10 +86,8 @@ export const postNewTracking = async ({ trackingNumber, courier }) => {
 }
 
 export const getParcelByShipGroupId = async (shipGroupId) => {
-    console.debug("get url", `${PARCELS_API}?shipGroupId=${shipGroupId}`)
     const response = await axios.get(`${PARCELS_API}?shipGroupId=${shipGroupId}`);
     const parcels = response.data;
-    console.debug("getParcelByShipGroupId", parcels);
     return parcels;
 }
 

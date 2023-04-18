@@ -31,9 +31,6 @@ const ParcelItem = ({ item, index }) => {
 }
 
 const ItemCard = ({ items, leftCornerIconColor, title, isMerchant }) => {
-  useDebugWhenChange("items", items);
-  console.debug("items", items);
-
 
   return (
     <div style={styles.bottomContainer}>
