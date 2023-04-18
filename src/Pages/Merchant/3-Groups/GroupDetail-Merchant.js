@@ -12,13 +12,7 @@ import {
   Tooltip,
   IconButton, TableBody, TableRow, TableCell, Avatar, TableHead, Table, Stack, Chip, Paper
 } from '@mui/material';
-import Iconify from "../../../third-party/components/iconify";
-import Scrollbar from "../../../third-party/components/scrollbar";
 import {Icon} from "@iconify/react";
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import {Pagination} from "@mui/lab";
-import TuneIcon from '@mui/icons-material/Tune';
-import OrangeChipGroup from "../../../components/OrangeChipGroup";
 import Image from 'mui-image'
 import backgroundImg from './background.jpg';
 import {styled} from "@mui/material/styles";
@@ -27,6 +21,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {findShipGroupByIdThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 import {useLocation} from "react-router-dom";
 import {findAllUsersThunk} from "../../../redux/users/users-thunks";
+import {findAllParcelsThunk} from "../../../redux/parcels/parcels-thunks";
 
 
 const Item = styled(Paper)(({theme}) => ({
@@ -47,20 +42,35 @@ const GroupDetailMerchant = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const groupId = searchParams.get('groupId');
   const dispatch = useDispatch();
-  const currentGroup = useSelector((state) => {
-    return state.shipGroup.currentGroup
-  });
-  const { users, loading } = useSelector((state) => state.users);
-
   useEffect(() => {
     dispatch(findShipGroupByIdThunk(groupId));
     dispatch(findAllUsersThunk());
-  }, []);
+    dispatch(findAllParcelsThunk());
+  }, [dispatch]);
+
+  const {users, loading} = useSelector((state) => state.users);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const groupId = searchParams.get('groupId');
+
+
+  const currentGroup = useSelector((state) => {
+    return state.shipGroup.currentGroup
+  });
+  const {parcels} = useSelector((state) => {
+    return state.parcels
+  });
+
+  console.log("currentGroup", currentGroup)
+  if (!currentGroup) {
+    return null;
+  }
+
+  const currentGroupParcels = parcels.filter((parcel) => {
+    return parcel.shipGroup === currentGroup._id
+  })
+
 
   function getShortAddress(address) {
     const addressParts = address.split(', ');
@@ -82,7 +92,7 @@ const GroupDetailMerchant = () => {
     return formattedDate;
   }
 
-  const getLeaderAvatar=(group)=>{
+  const getLeaderAvatar = (group) => {
     const groupLead = users.find((user) => {
       return user.email === group.leader
     })
@@ -115,7 +125,8 @@ const GroupDetailMerchant = () => {
     }
   }
 
-  return (
+
+  return currentGroup ? (
     <>
       <Header onOpenNav={handleOpen}/>
       {/*-------Box is the layout of the whole page-----*/}
@@ -177,7 +188,7 @@ const GroupDetailMerchant = () => {
               }}>
                 <Avatar
                   alt="Remy Sharp"
-                  src={ getLeaderAvatar(currentGroup) }
+                  src={getLeaderAvatar(currentGroup)}
                   sx={{
                     mx: 'auto',
                     borderWidth: 2,
@@ -261,16 +272,16 @@ const GroupDetailMerchant = () => {
                       <div>
                         <Avatar
                           alt="Remy Sharp"
-                          src={ getLeaderAvatar(currentGroup) }                          sx={{
-                            mx: 'auto',
-                            borderWidth: 2,
-                            borderStyle: 'solid',
-                            borderColor: 'common.white',
-                            zIndex: 2,
-                            mr: 1,
-                            width: 50,
-                            height: 50,
-                          }}
+                          src={getLeaderAvatar(currentGroup)} sx={{
+                          mx: 'auto',
+                          borderWidth: 2,
+                          borderStyle: 'solid',
+                          borderColor: 'common.white',
+                          zIndex: 2,
+                          mr: 1,
+                          width: 50,
+                          height: 50,
+                        }}
                         /></div>
                       <div>
                         <Typography variant="caption">
@@ -307,7 +318,7 @@ const GroupDetailMerchant = () => {
                       Join Before
                     </Typography>
                     <Typography variant="caption">
-                      {currentGroup ? formatDate(currentGroup.shipEndDate): "Loading.."}
+                      {currentGroup ? formatDate(currentGroup.shipEndDate) : "Loading.."}
                     </Typography>
                   </Item>
                   <Item
@@ -322,7 +333,7 @@ const GroupDetailMerchant = () => {
                       Pickup at
                     </Typography>
                     <Typography variant="caption">
-                      {currentGroup ? getShortAddress(currentGroup.pickupLocation.address): "Loading.."}
+                      {currentGroup ? getShortAddress(currentGroup.pickupLocation.address) : "Loading.."}
                     </Typography>
                   </Item>
                   <Item
@@ -337,7 +348,7 @@ const GroupDetailMerchant = () => {
                       Current Weight
                     </Typography>
                     <Typography variant="caption">
-                      23.5kg
+                      {(currentGroupParcels.reduce((acc, parcel) => acc + parcel.weight, 0)).toFixed(1)} kg
                     </Typography>
                   </Item>
                   <Item
@@ -394,16 +405,16 @@ const GroupDetailMerchant = () => {
                           >
                             <Avatar
                               alt="Remy Sharp"
-                              src={getAvatarByEmail(member)}                              sx={{
-                                mx: 'auto',
-                                borderWidth: 2,
-                                borderStyle: 'solid',
-                                borderColor: 'common.white',
-                                zIndex: 2,
-                                mr: 1,
-                                width: 50,
-                                height: 50,
-                              }}
+                              src={getAvatarByEmail(member)} sx={{
+                              mx: 'auto',
+                              borderWidth: 2,
+                              borderStyle: 'solid',
+                              borderColor: 'common.white',
+                              zIndex: 2,
+                              mr: 1,
+                              width: 50,
+                              height: 50,
+                            }}
                             />
                             <Box textAlign="left">
                               <Typography variant="subtitle2">
@@ -413,7 +424,7 @@ const GroupDetailMerchant = () => {
                           </Box>
                         </Item>
                       )
-                    }) : <div/>
+                    }) : <div>loading...</div>
                   }
 
 
@@ -428,6 +439,8 @@ const GroupDetailMerchant = () => {
         {/*------------------------------------*/}
       </Box>
     </>
+  ) : (
+    <div></div>
   );
 };
 export default GroupDetailMerchant;

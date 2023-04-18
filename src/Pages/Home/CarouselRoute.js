@@ -1,0 +1,145 @@
+import PropTypes from 'prop-types';
+import { useRef } from 'react';
+// @mui
+import { alpha, useTheme } from '@mui/material/styles';
+import { Box, Paper, Link, CardContent } from '@mui/material';
+import Carousel, {CarouselArrows} from "../../third-party/components/carousel";
+import RouteCard from "./RouteCard";
+
+
+
+const routes = [
+  {
+    route: 'Air - Sensitive',
+    price: '$20',
+    text1: 'Enjoy the fastest delivery!',
+    text2: "You can also ship sensitive products.",
+    trait1: 'Faster Delivery (2 weeks)',
+    trait2: 'Accepts sensitive items',
+    trait3: '',
+  },
+  {
+    route: 'Air - Standard',
+    price: '$15',
+    text1: 'Enjoy the fast delivery!',
+    text2: "Best choice for a ShipShare starter.",
+    trait1: 'Fastest Delivery (1 weeks)',
+    trait2: 'Suitable for normal items',
+    trait3: '',
+  },
+  {
+    route: 'Sea - Standard',
+    price: '$5',
+    text1: 'Not in hurry?',
+    text2: "Enjoy the best price with this plan!",
+    trait1: 'Lowest cost',
+    trait2: 'Normally 4 weeks',
+    trait3: 'Suitable for normal items',
+  },
+  {
+    route: 'Sea - Sensitive',
+    price: '$15',
+    text1: 'Ship sensitive products with the ',
+    text2: "best price!",
+    trait1: 'Lower cost',
+    trait2: 'Normally 6 weeks',
+    trait3: 'Accepts sensitive items',
+  },
+];
+
+
+CarouselRoute.propTypes = {
+  data: PropTypes.array,
+};
+
+
+export default function CarouselRoute({data}){
+  const carouselRef = useRef(null);
+  const theme = useTheme();
+  const carouselSettings = {
+    slidesToShow: 3,
+    centerMode: true,
+    centerPadding: '60px',
+    rtl: Boolean(theme.direction === 'rtl'),
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: { slidesToShow: 2 },
+      },
+      {
+        breakpoint: 600,
+        settings: { slidesToShow: 2 },
+      },
+      {
+        breakpoint: 480,
+        settings: { slidesToShow: 1, centerPadding: '0' },
+      },
+    ],
+  };
+  const handlePrev = () => {
+    carouselRef.current?.slickPrev();
+  };
+
+  const handleNext = () => {
+    carouselRef.current?.slickNext();
+  };
+
+  return (
+    <Box
+      sx={{
+        // overflow: 'hidden',
+        position: 'relative',
+      }}
+    >
+      <CarouselArrows
+        filled
+        icon="noto:rightwards-hand"
+        onNext={handleNext}
+        onPrevious={handlePrev}
+      >
+        <Carousel ref={carouselRef} {...carouselSettings}>
+          {routes.map((route, index) =>
+            (<RouteCard
+              index={index}
+              route={route.route}
+              price={route.price}
+              text1={route.text1}
+              text2={route.text2}
+              trait1={route.trait1}
+              trait2={route.trait2}
+              trait3={route.trait3}
+            />))
+          }
+        </Carousel>
+      </CarouselArrows>
+    </Box>
+  );
+}
+
+CarouselItem.propTypes = {
+  item: PropTypes.object,
+};
+
+function CarouselItem({ item }) {
+  const theme = useTheme();
+
+  const { image, title } = item;
+
+  return (
+    <div>
+      {routes.map((route, index) =>
+        (<RouteCard
+          index={index}
+          route={route.route}
+          price={route.price}
+          text1={route.text1}
+          text2={route.text2}
+          trait1={route.trait1}
+          trait2={route.trait2}
+          trait3={route.trait3}
+        />))
+      }
+    </div>
+  );
+}
+

@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import Image from 'mui-image'
 import backgroundImg from './background.jpg';
-import { styled } from "@mui/material/styles";
+import {styled} from "@mui/material/styles";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import {useLocation, useNavigate} from "react-router-dom";
 import {findAllShipGroupsThunk, findShipGroupByIdThunk} from "../../../redux/shipGroups/shipGroups-thunks";
@@ -24,7 +24,7 @@ import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 import {findAllParcelsThunk} from "../../../redux/parcels/parcels-thunks";
 
 
-const Item = styled(Paper)(({ theme }) => ({
+const Item = styled(Paper)(({theme}) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -44,16 +44,22 @@ const GroupDetailPage = (props) => {
   };
 
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(findShipGroupByIdThunk(groupId));
     dispatch(findAllUsersThunk());
     dispatch(findAllParcelsThunk());
     console.log("done")
-  }, []);
+  }, [dispatch]);
 
-  // Link to DB
-  const { parcels } = useSelector((state) => {
+  const {users, loading} = useSelector((state) => state.users);
+  const navigate = useNavigate();
+  const currentUser = useSelector(state => state.auth.currentUser);
+
+  const currentGroup = useSelector((state) => {
+    return state.shipGroup.currentGroup
+  });
+
+  const {parcels} = useSelector((state) => {
     return state.parcels
   });
 
@@ -62,18 +68,16 @@ const GroupDetailPage = (props) => {
   const groupId = searchParams.get('groupId');
   console.log("groupId", groupId)
 
-  const currentGroup = useSelector((state) => {
-    return state.shipGroup.currentGroup
-  });
-  console.log("currentGroup", currentGroup)
+
+  if (!currentGroup) {
+    return null;
+  }
 
   const currentGroupParcels = parcels.filter((parcel) => {
     return parcel.shipGroup === currentGroup._id
   })
 
-  console.log("currentGroupParcels", currentGroupParcels)
-
-  const { users, loading } = useSelector((state) => state.users);
+  // console.log("currentGroupParcels", currentGroupParcels)
 
   function getShortAddress(address) {
     const addressParts = address.split(', ');
@@ -95,13 +99,16 @@ const GroupDetailPage = (props) => {
     return formattedDate;
   }
 
-  const navigate = useNavigate();
   const handleClickJoinGroup = (group) => {
+    if (currentUser === null) {
+      alert("Please login first")
+      return;
+    }
     let groupId = group._id
     navigate('./checkout?groupId=' + groupId);
   }
 
-  const getLeaderAvatar=(group)=>{
+  const getLeaderAvatar = (group) => {
     if (group === null) {
       return null;
     }
@@ -137,38 +144,38 @@ const GroupDetailPage = (props) => {
     }
   }
 
-  return (
+  return currentGroup ? (
+
     <>
-      <Header onOpenNav={handleOpen} />
-      {/*-------Box is the layout of the whole page-----*/}
+      <Header onOpenNav={handleOpen}/>
       <Box
         sx={{
-          display: { lg: 'flex' },
-          minHeight: { lg: 1 },
+          display: {lg: 'flex'},
+          minHeight: {lg: 1},
         }}
       >
         {/*--------------Navigation bar------------------*/}
-        <NavVertical openNav={open} onCloseNav={handleClose} />
+        <NavVertical openNav={open} onCloseNav={handleClose}/>
 
         {/*--------------Main Content----------------------*/}
         <Main>
 
-          <Container maxWidth="xl" style={{ position: 'relative' }}>
+          <Container maxWidth="xl" style={{position: 'relative'}}>
             <IconButton aria-label="delete" size="small"
-              style={{ position: 'absolute', zIndex: 99, top: '20px', left: '40px', backgroundColor: 'white' }}
-              onClick={() => {
-                window.history.back();
-              }}
+                        style={{position: 'absolute', zIndex: 99, top: '20px', left: '40px', backgroundColor: 'white'}}
+                        onClick={() => {
+                          window.history.back();
+                        }}
             >
-              <ArrowBackIosNewIcon />
+              <ArrowBackIosNewIcon/>
             </IconButton>
             {/*backgroundImg & join button*/}
             <Box
-              sx={{ height: 300, position: 'relative' }}
+              sx={{height: 300, position: 'relative'}}
             >
               <Image
                 src={backgroundImg}
-                style={{ borderRadius: 20 }}
+                style={{borderRadius: 20}}
                 sx={{
                   width: '100%',
                   zIndex: 1,
@@ -214,23 +221,23 @@ const GroupDetailPage = (props) => {
                 flexDirection: 'column',
               }}>
                 <Box>
-                <Avatar
-                  alt="Remy Sharp"
-                  src={ getLeaderAvatar(currentGroup) }
-                  sx={{
-                    mx: 'auto',
-                    borderWidth: 2,
-                    borderStyle: 'solid',
-                    borderColor: 'common.white',
-                    top: -64,
-                    zIndex: 2,
-                    width: { xs: 80, md: 128 },
-                    height: { xs: 80, md: 128 },
-                  }}
-                /></Box>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={getLeaderAvatar(currentGroup)}
+                    sx={{
+                      mx: 'auto',
+                      borderWidth: 2,
+                      borderStyle: 'solid',
+                      borderColor: 'common.white',
+                      top: -64,
+                      zIndex: 2,
+                      width: {xs: 80, md: 128},
+                      height: {xs: 80, md: 128},
+                    }}
+                  /></Box>
                 <Box
                   sx={{mt: -5}}>
-                  <Typography variant="h5" >
+                  <Typography variant="h5">
                     {currentGroup ? currentGroup.name : "Loading.."}
                   </Typography>
                 </Box>
@@ -272,7 +279,7 @@ const GroupDetailPage = (props) => {
                   }}
                 >
                   <Typography variant="h6">About</Typography>
-                  <hr style={{ borderTop: "1px solid #F6F7FB", marginTop: "0.5rem" }} />
+                  <hr style={{borderTop: "1px solid #F6F7FB", marginTop: "0.5rem"}}/>
                 </Box>
                 {/*group details*/}
                 <Stack spacing={2}>
@@ -298,16 +305,16 @@ const GroupDetailPage = (props) => {
                       <div>
                         <Avatar
                           alt="Remy Sharp"
-                          src={getLeaderAvatar(currentGroup)}                          sx={{
-                            mx: 'auto',
-                            borderWidth: 2,
-                            borderStyle: 'solid',
-                            borderColor: 'common.white',
-                            zIndex: 2,
-                            mr: 1,
-                            width: 50,
-                            height: 50,
-                          }}
+                          src={getLeaderAvatar(currentGroup)} sx={{
+                          mx: 'auto',
+                          borderWidth: 2,
+                          borderStyle: 'solid',
+                          borderColor: 'common.white',
+                          zIndex: 2,
+                          mr: 1,
+                          width: 50,
+                          height: 50,
+                        }}
                         /></div>
                       <div>
                         <Typography variant="caption">
@@ -344,7 +351,7 @@ const GroupDetailPage = (props) => {
                       Join Before
                     </Typography>
                     <Typography variant="caption">
-                      {currentGroup ? formatDate(currentGroup.shipEndDate): "Loading.."}
+                      {currentGroup ? formatDate(currentGroup.shipEndDate) : "Loading.."}
                     </Typography>
                   </Item>
                   <Item
@@ -359,7 +366,7 @@ const GroupDetailPage = (props) => {
                       Pickup at
                     </Typography>
                     <Typography variant="caption">
-                      {currentGroup ? getShortAddress(currentGroup.pickupLocation.address): "Loading.."}
+                      {currentGroup ? getShortAddress(currentGroup.pickupLocation.address) : "Loading.."}
                     </Typography>
                   </Item>
                   <Item
@@ -407,7 +414,7 @@ const GroupDetailPage = (props) => {
                   sx={{my: 2,}}
                 >
                   <Typography variant="h6">Members</Typography>
-                  <hr style={{ borderTop: "1px solid #F6F7FB", marginTop: "0.5rem" }} />
+                  <hr style={{borderTop: "1px solid #F6F7FB", marginTop: "0.5rem"}}/>
                 </Box>
                 {/*activity details*/}
                 <Stack spacing={2}>
@@ -425,7 +432,7 @@ const GroupDetailPage = (props) => {
                           }}
                         >
                           <Box
-                            sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+                            sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}
                           >
                             <Avatar
                               alt="Remy Sharp"
@@ -449,7 +456,7 @@ const GroupDetailPage = (props) => {
                           </Box>
                         </Item>
                       )
-                    }) : <div></div>
+                    }) : <div>loading...</div>
                   }
 
                 </Stack>
@@ -463,6 +470,9 @@ const GroupDetailPage = (props) => {
         {/*------------------------------------*/}
       </Box>
     </>
+
+  ) : (
+    <div></div>
   );
 };
 export default GroupDetailPage;

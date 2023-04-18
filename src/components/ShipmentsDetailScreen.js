@@ -60,7 +60,7 @@ const ShipmentDetails = ({ ship, handleClose }) => {
 
   // const [detailDeliveryStatus, setDetailDeliveryStatus] = useState([]);
 
-  const trackingInfo = useSelector((state) => state.shipGroup.trackings[ship.trackingNumber?.replaceAll(' ', '')]);
+  const trackingInfo = useSelector((state) => state.shipGroup.trackings[ship?.trackingNumber?.replaceAll(' ', '')]);
 
   const detailDeliveryStatus = useMemo(() => {
     return trackingInfo?.origin_info?.trackinfo || [];
@@ -68,10 +68,10 @@ const ShipmentDetails = ({ ship, handleClose }) => {
 
   useEffect(() => {
     const fetchedDeliveryStatus = async () => {
-      if (ship.phaseNumber >= 2 && trackingInfo === undefined) {
+      if (ship.phaseNumber >= 2 && trackingInfo === undefined && ship?.trackingNumber !== undefined) {
 
         dispatch(getShipmentTrackingThunk(
-          { trackingNumber: ship.trackingNumber.replaceAll(' ', ''), courier: ship.courier }
+          { trackingNumber: ship?.trackingNumber?.replaceAll(' ', ''), courier: ship.courier }
         ));
 
         // setDetailDeliveryStatus(deliveryStatus?.origin_info?.trackinfo || []);

@@ -19,9 +19,11 @@ const PostCard = ({ index, avatarUrl, title }) => {
           </div>
         }
 
-        <div style={{ flexGrow: 1 }}>
-          <div style={{ fontWeight: 'bold', fontSize: '20px', marginBottom: '8px' }}>{title}</div>
-        </div>
+        {index !== 2 &&
+          <div style={{flexGrow: 1}}>
+            <div style={{fontWeight: 'bold', fontSize: '20px', marginBottom: '8px'}}>{title}</div>
+          </div>
+        }
 
         <div style={{flexDirection: 'row-reverse', display:'flex', marginRight: -5}}>
           {index !== 2 &&
