@@ -33,6 +33,13 @@ export default function ParcelListCard({index, parcels, setSelectedParcels}) {
     setselectedItemsToPass((prev) =>
       checked ? [...prev, parcel] : prev.filter((item) => item !== parcel)
     );
+    if (!checked) {
+      setSelectAllChecked(false);
+    } else {
+      if (selectedItemsToPass.length === parcels.length - 1) {
+        setSelectAllChecked(true);
+      }
+    }
   };
 
   return (
