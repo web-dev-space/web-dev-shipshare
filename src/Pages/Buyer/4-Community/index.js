@@ -1,9 +1,9 @@
 import {Route, Routes} from "react-router";
 import {DiscoverRoute} from "./Discover";
-import Profile from "./Profile";
+import Profile from "Pages/Buyer/4-Community/Profile";
 import {useSelector} from "react-redux";
-import Page403 from "../../../third-party/ErrorPages/Page403";
-import SearchProducts from "./Products/SearchProducts";
+import Page403 from "third-party/ErrorPages/Page403";
+import SearchProducts from "Pages/Buyer/4-Community/Products/SearchProducts";
 
 export function Community() {
     const currentUser = useSelector(state => state.auth.currentUser);
