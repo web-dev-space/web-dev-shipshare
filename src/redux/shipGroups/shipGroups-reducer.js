@@ -9,7 +9,7 @@ import {
 
 const initialState = {
     shipGroups: [],
-    currentGroup: null,
+    // currentGroup: null,
     loading: false,
     trackings: {},
 };
