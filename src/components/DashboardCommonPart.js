@@ -6,6 +6,7 @@ import {
   EcommerceBestSalesman
 } from 'third-party/e-commerce';
 import { FileGeneralDataActivity } from 'third-party/file';
+import useDebugWhenChange from 'utils/useDebugWhenChange';
 
 const DashboardCommonPart = ({ stats }) => {
   const theme = useTheme();

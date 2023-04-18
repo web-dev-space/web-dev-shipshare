@@ -129,7 +129,7 @@ const Dashboard = () => {
                     chart={{
                       labels: timeLabels,
                       colors: [
-                        theme.palette.success.main,
+                        '#00b8d7'
                       ],
                       series: [
                         {
@@ -151,7 +151,7 @@ const Dashboard = () => {
 
                 <Grid item xs={12} md={6} lg={6}>
                   <FileGeneralDataActivity
-                    title="New User Registration"
+                    title="New ShipGroup Formed"
                     chart={{
                       labels: timeLabelsFormedShipGroups,
                       colors: [
