@@ -42,38 +42,36 @@ const GroupDetailMerchant = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(findShipGroupByIdThunk(groupId));
     dispatch(findAllUsersThunk());
     dispatch(findAllParcelsThunk());
-  }, []);
+  }, [dispatch]);
+
+  const {users, loading} = useSelector((state) => state.users);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const groupId = searchParams.get('groupId');
-  const dispatch = useDispatch();
+
 
   const currentGroup = useSelector((state) => {
     return state.shipGroup.currentGroup
   });
-
-  console.log("currentGroup", currentGroup)
-
-
-  const {users, loading} = useSelector((state) => state.users);
-
-
   const {parcels} = useSelector((state) => {
     return state.parcels
   });
+
+  console.log("currentGroup", currentGroup)
+  if (!currentGroup) {
+    return null;
+  }
 
   const currentGroupParcels = parcels.filter((parcel) => {
     return parcel.shipGroup === currentGroup._id
   })
 
-  if (!currentGroup) {
-    return null;
-  }
+
   function getShortAddress(address) {
     const addressParts = address.split(', ');
     const cityState = addressParts.slice(-3, -1);
@@ -127,7 +125,8 @@ const GroupDetailMerchant = () => {
     }
   }
 
-  return (
+
+  return currentGroup ? (
     <>
       <Header onOpenNav={handleOpen}/>
       {/*-------Box is the layout of the whole page-----*/}
@@ -425,7 +424,7 @@ const GroupDetailMerchant = () => {
                           </Box>
                         </Item>
                       )
-                    }) : <div/>
+                    }) : <div>loading...</div>
                   }
 
 
@@ -440,6 +439,8 @@ const GroupDetailMerchant = () => {
         {/*------------------------------------*/}
       </Box>
     </>
+  ) : (
+    <div></div>
   );
 };
 export default GroupDetailMerchant;
