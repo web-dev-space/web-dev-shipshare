@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Header from "../../third-party/layouts/dashboard/header"
 import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../third-party/layouts/dashboard/Main"
@@ -15,6 +15,9 @@ import CardWithAvatar from "./CardWithAvatar";
 import RouteCard from "./RouteCard";
 import PostCard from "./PostCard";
 import AppWelcome from "../../third-party/app/AppWelcome";
+import {CarouselArrows} from "../../third-party/components/carousel";
+import CarouselRoute from "./CarouselRoute";
+import PostCardSmallLayout from "./PostCardSmallLayout";
 
 
 const Home = () => {
@@ -38,6 +41,8 @@ const Home = () => {
 
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const [isLargeScreen, setIsLargeScreen] = useState(false);
+    const [isDiscoverSmallScreen, setIsDiscoverSmallScreen] = useState(false);
+    const [isDiscoverPhoneScreen, setIsDiscoverPhoneScreen] = useState(false);
     const [fontSize, setFontSize] = useState(24);
     const [fontSize2, setFontSize2] = useState(14);
 
@@ -45,6 +50,8 @@ const Home = () => {
       const handleResize = () => {
         setIsSmallScreen(window.innerWidth < 900);
         setIsLargeScreen(window.innerWidth > 1300);
+        setIsDiscoverSmallScreen(window.innerWidth < 1600);
+        setIsDiscoverPhoneScreen(window.innerWidth < 900);
       };
       window.addEventListener('resize', handleResize);
       return () => {
@@ -178,8 +185,8 @@ const Home = () => {
         title: "ShipShare is the Best Shipping Platform!",
       },
       {
-        avatarUrl: '',
-        title: '',
+        avatarUrl: require('../../images/randomAvatars/avatar_6.jpg'),
+        title: "ShipShare is the Best Shipping Platform!",
       },
       {
         avatarUrl: require('../../images/randomAvatars/avatar_2.jpg'),
@@ -195,7 +202,16 @@ const Home = () => {
       }
       ]
 
-    const navigate = useNavigate();
+      const navigate = useNavigate();
+
+      const carouselRef = useRef(null);
+      const handlePrev = () => {
+        carouselRef.current?.slickPrev();
+      };
+
+      const handleNext = () => {
+        carouselRef.current?.slickNext();
+      };
 
     return (
         <>
@@ -387,7 +403,7 @@ const Home = () => {
                             // flex: isSmallScreen ? '0 0 auto' : '1 1 auto',
                             flexDirection: 'column',
                             padding: 8,
-                            maxWidth: 900,
+                            // maxWidth: 900,
                             marginTop: isLargeScreen? 60: 70,
                           }}
                         >
@@ -410,8 +426,8 @@ const Home = () => {
 
                       {/*====== part 4 - Choose the plan ======*/}
                       <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '100%', marginTop:230}}>
-                        <Box
-                          sx={{
+                        <div
+                          style={{
                             height: '100%',
                             display: 'flex',
                             flexDirection: 'column',
@@ -424,7 +440,10 @@ const Home = () => {
                           <Typography variant="h3" component="text" paragraph sx={{mb:9, mt:-20}}>
                             Choose the plan
                           </Typography>
-                          <div style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', flexDirection: isSmallScreen ? 'column' : (isLargeScreen ? 'row' : ''), alignItems: 'center'}}>
+
+                          <div style={{display: 'flex', justifyContent: 'center', flexWrap: 'wrap', flexDirection: isSmallScreen ? 'column' : (isLargeScreen ? 'row' : ''), alignItems: 'center'}}>
+                            {/*<Card style={{overflowX: 'auto'}}>*/}
+                            {/*  <CardContent style={{display:'flex', justifyContent:'center', alignItems:'center'}}>*/}
                             {routes.map((route, index) =>
                               (<RouteCard
                                 index={index}
@@ -437,57 +456,164 @@ const Home = () => {
                                 trait3={route.trait3}
                               />))
                             }
+                              {/*</CardContent>*/}
+                            {/*</Card>*/}
+                            {/*<CarouselRoute data={routes}/>*/}
                           </div>
-                        </Box>
+                        </div>
                       </div>
 
 
 
                       {/*====== part 5 - Discover the community ======*/}
-                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh'}}>
-                        <Box
-                          sx={{
-                            height: '100%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            position: 'relative',
-                            textAlign: 'left',
-                            maxWidth: 1100,
-                          }}
-                        >
-                          <div style={{display: 'flex', flexWrap: 'wrap', flexDirection: isSmallScreen ? 'column' : (isLargeScreen ? 'row' : ''), alignItems: 'center'}}>
-                            {posts.map((post, index) =>
-                              (<PostCard
-                                key={index}
-                                index={index}
-                                avatarUrl={post.avatarUrl}
-                                title={post.title}
-                              />))
-                            }
-                          </div>
-                          <img src={require('./Comma.png')} alt="background-shape" style={{top:190, left: 570, zIndex:1, width: 80, position: 'absolute'}}/>
-                          <img src={require('./OrangeCircle.png')} alt="background-shape" style={{top:130, right: 12, zIndex:-1, width: 110, position: 'absolute'}}/>
+                      {!isDiscoverSmallScreen &&
+                        <div style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'center',
+                          alignItem: "center",
+                          height: '100%'
+                        }}>
+                          <Box
+                            sx={{
+                              height: '100%',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              position: 'relative',
+                              textAlign: 'left',
+                              maxWidth: 1100,
+                            }}
+                          >
+                            <div style={{
+                              display: 'flex',
+                              flexWrap: 'wrap',
+                              flexDirection: isSmallScreen ? 'column' : (isLargeScreen ? 'row' : ''),
+                              alignItems: 'center',
+                              marginTop: 220
+                            }}>
+                              {posts.map((post, index) =>
+                                (<PostCard
+                                  key={index}
+                                  index={index}
+                                  avatarUrl={post.avatarUrl}
+                                  title={post.title}
+                                />))
+                              }
+                            </div>
+                            <img src={require('./Comma.png')} alt="background-shape"
+                                 style={{top: 190, left: 570, zIndex: 1, width: 80, position: 'absolute'}}/>
+                            <img src={require('./OrangeCircle.png')} alt="background-shape"
+                                 style={{top: 130, right: 12, zIndex: -1, width: 110, position: 'absolute'}}/>
 
-                          <div style={{display:"flex", flexDirection: 'column', maxWidth: 600, position: 'absolute', right: -180, top: 330}}>
-                            <Typography variant="h3" component="text" paragraph sx={{mb:9, mt:-20}}>
-                              Discover the community
-                            </Typography>
-                            <Typography variant="text" component="text" paragraph sx={{color:'gray'}}>
-                              Connect with a community of  members and discover tips and tricks for international purchases.
-                            </Typography>
-                            <Typography variant="text" component="text" paragraph sx={{color:'gray', mt:2}}>
-                              Whether you're a seasoned shopper or new to the game, our forum offers a space for you to learn, grow, and connect with others who share your interests.
-                            </Typography>
-                            <Button variant="contained" onClick={()=>navigate('/community/discover')} sx={{marginTop: '1rem', borderRadius: 15, padding: 1, width: 120}}>Discover</Button>
-                          </div>
-                        </Box>
-                      </div>
+                            <div style={{
+                              display: "flex",
+                              flexDirection: 'column',
+                              maxWidth: 500,
+                              position: 'absolute',
+                              right: -80,
+                              top: 330
+                            }}>
+                              <Typography variant="h3" component="text" paragraph sx={{mb: 9, mt: -20,}}>
+                                Discover the community
+                              </Typography>
+                              <Typography variant="text" component="text" paragraph sx={{color: 'gray', mt: -6}}>
+                                Connect with a community of members and discover tips and tricks for international
+                                purchases.
+                              </Typography>
+                              <Typography variant="text" component="text" paragraph sx={{color: 'gray', mt: 2}}>
+                                Whether you're a seasoned shopper or new to the game, our forum offers a space for you
+                                to learn, grow, and connect with others who share your interests.
+                              </Typography>
+                              <Button variant="contained" onClick={() => navigate('/community/discover')} sx={{
+                                marginTop: '1rem',
+                                borderRadius: 15,
+                                padding: 1,
+                                width: 120
+                              }}>Discover</Button>
+                            </div>
+                          </Box>
+                        </div>
+                      }
+                      {/*----- version 2 - small screen ------*/}
+                      {isDiscoverSmallScreen &&
+                        <div style={{
+                          display: 'flex',
+                          flexDirection: isDiscoverPhoneScreen? 'row':'column',
+                          justifyContent: 'center',
+                          alignItems: "center",
+                          height: '100%',
+                        }}>
+                          <Box
+                            sx={{
+                              height: '100%',
+                              display: 'flex',
+                              flexDirection: 'column-reverse',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              // position: 'relative',
+                              textAlign: 'left',
+                            }}
+                          >
+                            <div style={{
+                              display: 'flex',
+                              flexWrap: isDiscoverPhoneScreen? 'wrap':'wrap',
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              marginTop: 100,
+                              maxWidth: isDiscoverPhoneScreen? 400:800,
+                            }}>
+                              {posts.slice(0,4).map((post, index) =>
+                                (<PostCardSmallLayout
+                                  key={index}
+                                  index={index}
+                                  avatarUrl={post.avatarUrl}
+                                  title={post.title}
+                                  isDiscoverPhoneScreen={isDiscoverPhoneScreen}
+                                />))
+                              }
+                            </div>
+
+                            <div style={{
+                              display: "flex",
+                              flexDirection: 'column',
+                              maxWidth: 600,
+                              // position: 'absolute',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              textAlign: 'center',
+                              // right: -80,
+                              // top: 330
+                              marginTop: 220,
+                            }}>
+                              <Typography variant="h3" component="text" paragraph sx={{mb: 9, mt: -20,}}>
+                                Discover the community
+                              </Typography>
+                              <Typography variant="text" component="text" paragraph sx={{color: 'gray', mt: -6}}>
+                                Connect with a community of members and discover tips and tricks for international
+                                purchases.
+                              </Typography>
+                              <Typography variant="text" component="text" paragraph sx={{color: 'gray', mt: 2}}>
+                                Whether you're a seasoned shopper or new to the game, our forum offers a space for you
+                                to learn, grow, and connect with others who share your interests.
+                              </Typography>
+                              <Button variant="contained" onClick={() => navigate('/community/discover')} sx={{
+                                marginTop: '1rem',
+                                borderRadius: 15,
+                                padding: 1,
+                                width: 120
+                              }}>Discover</Button>
+                            </div>
+                          </Box>
+                        </div>
+                      }
 
 
 
                       {/*====== part 6 - end ======*/}
+                      {!isDiscoverPhoneScreen &&
                       <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh'}}>
                         <Box
                           sx={{
@@ -514,7 +640,37 @@ const Home = () => {
                           </div>
 
                         </Box>
-                      </div>
+                      </div>}
+
+                      {isDiscoverPhoneScreen &&
+                        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh'}}>
+                          <Box
+                            sx={{
+                              height: '100%',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              position: 'relative',
+                              textAlign: 'left',
+                              maxWidth: 1100,
+                            }}
+                          >
+                            <img src={require('./End.png')} alt="background-shape" style={{top:130, right: 12, width: 1000,}}/>
+
+                            <div style={{zIndex: 1, position: 'absolute', marginTop: '5rem', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                              <Typography variant="h3" component="text" paragraph style={{fontSize: fontSize}}>
+                                Ready to use ShipShare?
+                              </Typography>
+                              <Typography variant="text" component="text" paragraph sx={{color:'gray'}} style={{fontSize: fontSize2}}>
+                                Join thousand buyers and groups in the community
+                              </Typography>
+                              <Button variant="contained" onClick={()=>navigate('/login')} sx={{marginTop: '1rem', borderRadius: 15, padding: '1%', width: '35%'}}>Get Started</Button>
+                            </div>
+
+                          </Box>
+                        </div>
+                      }
 
 
                     </Container>
