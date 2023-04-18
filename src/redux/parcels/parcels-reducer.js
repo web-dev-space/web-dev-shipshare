@@ -13,6 +13,7 @@ const initialState = {
     parcels: [],
     loading: false,
     trackings: {},
+    parcelsInDetailPage: [],
 };
 
 const parcelsSlice = createSlice({
@@ -72,14 +73,14 @@ const parcelsSlice = createSlice({
             state.error = action.error;
         },
         [getParcelByShipGroupIdThunk.fulfilled]: (state, { payload }) => {
-            state.parcels = payload;
+            state.parcelsInDetailPage = payload;
         },
 
         [getParcelByShipGroupIdAndUserEmailThunk.rejected]: (state, action) => {
             state.error = action.error;
         },
         [getParcelByShipGroupIdAndUserEmailThunk.fulfilled]: (state, { payload }) => {
-            state.parcels = payload;
+            state.parcelsInDetailPage = payload;
         },
     },
     reducers: {}

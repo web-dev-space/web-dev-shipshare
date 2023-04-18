@@ -289,27 +289,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     phaseNumber: convertStatusToPhaseNumber(status),
   })
 
-  // useDebugWhenChange("order", order);
-  // useDebugWhenChange("orderBy", orderBy);
-  // useDebugWhenChange("page", page);
-  // useDebugWhenChange("visibleRows", visibleRows);
-  // useDebugWhenChange("rowsPerPage", rowsPerPage);
-  // useDebugWhenChange("paddingHeight", paddingHeight);
-  // useDebugWhenChange("filter", filter);
-  // useDebugWhenChange("focusChip", focusChip);
-
-  // useDebugWhenChange("rowBeingEdited", rowBeingEdited);
-  // useDebugWhenChange("newWeight", newWeight);
-  // useDebugWhenChange("newTrackingNumber", newTrackingNumber);
-  // useDebugWhenChange("newShipRoute", newShipRoute);
-  // useDebugWhenChange("newShipEndDate", newShipEndDate);
-
-  // useDebugWhenChange("rows", rows);
-
-  // useDebugWhenChange("open", open);
-
-  // useDebugWhenChange("detailedShip", detailedShip);
-
   const handleOpen = (row) => {
     setDetailedShip(row);
     setOpen(true);

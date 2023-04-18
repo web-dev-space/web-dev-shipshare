@@ -38,12 +38,10 @@ const ShipmentDetails = ({ ship, handleClose }) => {
 
   const role = useSelector(state =>
     (state.auth.currentUser === null) ? "visitor" : state.auth.currentUser.role);
-  const parcelData = useSelector((state) => state?.parcels?.parcels);
+  const parcelData = useSelector((state) => state?.parcels?.parcelsInDetailPage);
   const currentUser = useSelector((state) => state?.auth?.currentUser);
 
   const isMerchant = role === 'merchant';
-
-  useDebugWhenChange("parcelData", parcelData);
 
   const classifiedParcels = useMemo(() => {
     if (!isMerchant) {
@@ -61,9 +59,9 @@ const ShipmentDetails = ({ ship, handleClose }) => {
 
   }, [isMerchant, parcelData]);
 
-  const itemsBuyerMode = React.useMemo(() => {
-    return parcelData !== undefined ? parcelData?.filter(item => item?.user !== currentUser?.email) : [];
-  }, [parcelData]);
+  // const itemsBuyerMode = React.useMemo(() => {
+  //   return parcelData !== undefined ? parcelData?.filter(item => item?.user !== currentUser?.email) : [];
+  // }, [parcelData]);
 
   const shortAddressList = ship?.pickupLocation?.address.split(',');
   const cityArrival = shortAddressList?.[shortAddressList.length - 3];
@@ -94,11 +92,11 @@ const ShipmentDetails = ({ ship, handleClose }) => {
   useEffect(() => {
     if (isMerchant) {
       if (ship?._id !== undefined) {
-        dispatch(getParcelByShipGroupIdThunk(ship?._id));
+        dispatch(getParcelByShipGroupIdThunk({ shipGroupId: ship?._id }));
       }
     } else {
       if (ship?._id !== undefined && currentUser?.email !== undefined) {
-        dispatch(getParcelByShipGroupIdAndUserEmailThunk(ship?._id, currentUser?.email));
+        dispatch(getParcelByShipGroupIdAndUserEmailThunk({ shipGroupId: ship?._id, userEmail: currentUser?.email }));
       }
     }
   }, [ship, currentUser]);
@@ -221,7 +219,7 @@ const ShipmentDetails = ({ ship, handleClose }) => {
               isMerchant={isMerchant} />
             :
             <ItemCard leftCornerIconColor={"#F9C662"}
-              items={itemsBuyerMode}
+              items={parcelData}
               title={"Items Included"} />
           }
         </Box>

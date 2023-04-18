@@ -55,14 +55,14 @@ export const getParcelTrackingThunk = createAsyncThunk(
 
 export const getParcelByShipGroupIdThunk = createAsyncThunk(
     'parcels/getParcelByShipGroupId',
-    async (shipGroupId) => {
+    async ({ shipGroupId }) => {
         return await service.getParcelByShipGroupId(shipGroupId);
     }
 );
 
 export const getParcelByShipGroupIdAndUserEmailThunk = createAsyncThunk(
     'parcels/getParcelByShipGroupIdAndUserEmail',
-    async ( shipGroupId, userEmail ) => {
-        return await service.getParcelByShipGroupIdAndUserEmail( shipGroupId, userEmail );
+    async ({ shipGroupId, userEmail }) => {
+        return await service.getParcelByShipGroupIdAndUserEmail(shipGroupId, userEmail);
     }
 );
