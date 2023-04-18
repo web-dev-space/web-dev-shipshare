@@ -18,6 +18,7 @@ const ICONS = {
   account: icon('nav_account'),
   help: icon('nav_help'),
   dashboard: icon('ic_dashboard'),
+  products: icon('ic_ecommerce'),
 };
 
 // ----------------------------------------------------------------------
@@ -41,6 +42,7 @@ function navConfig(role) {
         subheader: 'Community',
         items: [
           { title: 'Discover', path: '/community/discover', icon: ICONS.discover },
+          { title: 'Products', path: '/community/products', icon: ICONS.products },
         ]
       },
 
@@ -84,6 +86,7 @@ function navConfig(role) {
         subheader: 'Community',
         items: [
           { title: 'Discover', path: '/community/discover', icon: ICONS.discover },
+          { title: 'Products', path: '/community/products', icon: ICONS.products },
           role === "merchant" || role === "admin"
             ? null
             :{ title: 'My Profile', path: '/community/profile', icon: ICONS.profile },

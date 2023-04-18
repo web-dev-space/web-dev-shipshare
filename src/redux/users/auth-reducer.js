@@ -22,7 +22,7 @@ const authSlice = createSlice({
             state.error = action.error;
         },
         [signupThunk.fulfilled]: (state, { payload }) => {
-            state.currentUser = {...payload, role: "buyer"};
+            state.currentUser = payload;
         },
         [loginThunk.rejected]: (state, { error }) => {
             state.currentUser = null;

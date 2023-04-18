@@ -28,7 +28,7 @@ import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 import {useNavigate, useParams} from "react-router-dom";
 import {findAllShipGroupsThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 import {getRandomBanner} from "../../../utils/getRandomBanner";
-
+import EditIcon from '@mui/icons-material/Edit';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -49,6 +49,7 @@ const Profile = () => {
 
     const dispatch = useDispatch();
     const { userId } = useParams();
+    const navigate = useNavigate();
     const {users} = useSelector((state) => state.users);
     const {posts} = useSelector((state) => state.posts);
     const {shipGroups} = useSelector((state) => state.shipGroup);
@@ -140,7 +141,6 @@ const Profile = () => {
         }
     }, [visibleProfile, shipGroups]);
 
-    const navigate = useNavigate();
     function onPostCardClick  (id) {
       navigate(`../discover/post/${id}`);
     }
@@ -178,6 +178,27 @@ const Profile = () => {
                             }}
                             style={{borderRadius: 20}}
                           />
+
+                          {
+                              visibleProfile && currentUser && currentUser._id === visibleProfile._id &&
+                              <Button style={{
+                                  background: 'rgba(0,0,0,0.5)',
+                                  position: 'absolute',
+                                  top: 20,
+                                  right: 20,
+                                  zIndex: 999,
+                                  display: 'flex',
+                                  alignItems: 'center',
+                              }}
+                              onClick={() => navigate("/account/account-info")}>
+                                  <EditIcon style={{fontSize:"medium", color: "white", marginLeft: 8}}/>
+                                  <Typography variant="subtitle1" style={{
+                                      color: "white",
+                                      marginLeft: 10,
+                                      marginRight: 8,
+                                  }}>Edit</Typography>
+                              </Button>
+                          }
                       </Box>
 
                       {/*avatar & group name & follow button*/}

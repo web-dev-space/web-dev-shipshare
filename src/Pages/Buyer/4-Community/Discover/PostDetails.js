@@ -26,7 +26,14 @@ const COMMENT_PER_PAGE = 5;
 
 
 // Comment component
-const Comment = ({user, date, content, role, handleDeleteComment}) => {
+const Comment = ({user, date, comment, content, role, dispatch, post}) => {
+    const handleDeleteComment = (comment) => {
+        console.log(comment);
+        dispatch(updatePostThunk({
+            ...post,
+            comments: post.comments.filter(c => c._id !== comment._id)
+        }));
+    };
     return (
         <div style={{
             display: 'flex', flexDirection: 'row',
@@ -34,7 +41,7 @@ const Comment = ({user, date, content, role, handleDeleteComment}) => {
             marginTop: 32, marginBottom: 32}}>
             {user &&
             <Avatar src={user.avatar? user.avatar : getRandomAvatar(user.name)} sx={{ width: 48, height: 48, mb: 'auto' }} />}
-            <div style={{ marginLeft: 16}}>
+            <div style={{ marginLeft: 16, width: "100%"}}>
                 <div style={{display: 'flex', flexDirection: "row"}}>
                     <div style={{width:"100%"}}>
                         <div style={{
@@ -54,7 +61,7 @@ const Comment = ({user, date, content, role, handleDeleteComment}) => {
                     {role === 'admin' && (
                         <div style={{width:"100%", display: "flex", justifyContent:"flex-end",
                             marginRight: 8}}>
-                            <IconButton onClick={handleDeleteComment}>
+                            <IconButton onClick={() => handleDeleteComment(comment)}>
                                 <DeleteIcon style={{color:"lightGrey", fontSize:"large"}}/>
                             </IconButton>
                         </div>
@@ -108,10 +115,6 @@ const PostDetails = () => {
     const handleDeletePost = (id) => {
         dispatch(deletePostThunk(id));
         navigate("../");
-    };
-   const handleDeleteComment = () => {
-       console.log('delete');
-       navigate("./");
     };
 
     const role = useSelector(state => state.auth.currentUser?.role);
@@ -222,9 +225,11 @@ const PostDetails = () => {
 
                         {/*-----------------Post Content---------------------*/}
                         <div style={{ padding: 8, marginTop: 48, marginBottom: 48}}>
-                            <Typography variant="body1" gutterBottom>
-                                {post.post}
-                            </Typography>
+                            {(post.post || '').split('\n').map((paragraph, index) => (
+                                <Typography key={index} variant="body1" gutterBottom paragraph>
+                                    {paragraph}
+                                </Typography>
+                            ))}
                         </div>
 
                         <hr style={{
@@ -239,31 +244,36 @@ const PostDetails = () => {
                                 Comments
                             </Typography>
 
-                            <TextField
-                                label="Write some of your comments..."
-                                multiline
-                                fullWidth
-                                rows={4}
-                                sx={{ backgroundColor: 'white'}}
-                                variant="outlined"
-                                value={newComment}
-                                onChange={(e) => setNewComment(e.target.value)}
-                            />
+                            {
+                                currentUser && currentUser.role !== 'visitor' &&
+                                <>
+                                    <TextField
+                                        label="Write some of your comments..."
+                                        multiline
+                                        fullWidth
+                                        rows={4}
+                                        sx={{ backgroundColor: 'white'}}
+                                        variant="outlined"
+                                        value={newComment}
+                                        onChange={(e) => setNewComment(e.target.value)}
+                                    />
 
-                            <div style={{ width: '100%', marginBottom:40}}>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    style={{
-                                        marginTop: 28,
-                                        display: 'flex',
-                                        marginLeft: 'auto',
-                                        height: 40  }}
-                                    onClick={handlePostNewComment}
-                                >
-                                    Post Comment
-                                </Button>
-                            </div>
+                                    <div style={{ width: '100%', marginBottom:40}}>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            style={{
+                                                marginTop: 28,
+                                                display: 'flex',
+                                                marginLeft: 'auto',
+                                                height: 40  }}
+                                            onClick={handlePostNewComment}
+                                        >
+                                            Post Comment
+                                        </Button>
+                                    </div>
+                                </>
+                            }
                         </div>
 
                         {/*-----------------Comments---------------------*/}
@@ -279,11 +289,13 @@ const PostDetails = () => {
                                 }}/>
                                 <Comment
                                     key={index}
+                                    comment={comment}
                                     user={users.find(user => user._id === comment.user)}
                                     date={comment.date}
                                     content={comment.content}
                                     role={role}
-                                    handleDeleteComment={handleDeleteComment}
+                                    dispatch={dispatch}
+                                    post={post}
                                 />
                                 </>
                             ))}

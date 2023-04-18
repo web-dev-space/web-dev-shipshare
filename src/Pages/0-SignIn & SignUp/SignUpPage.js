@@ -1,6 +1,6 @@
 import {Box, Link, Stack, Typography} from "@mui/material";
 import Button from '@mui/material/Button';
-import welcomeImg from "./welcome3.png";
+import welcomeImg from "./welcome.png";
 import Image from "mui-image";
 import InputAdornment from "@mui/material/InputAdornment";
 import * as Yup from "yup";
@@ -8,7 +8,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useSnackbar} from "notistack";
 import {useNavigate} from "react-router-dom";
-import FormProvider, {RHFTextField} from "../../third-party/components/hook-form";
+import FormProvider, {RHFSelect, RHFTextField} from "../../third-party/components/hook-form";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {useState, useEffect} from "react";
@@ -20,6 +20,7 @@ const SignUpPage = () => {
 
   // ---- handle the new post object ---
   const defaultValues = {
+    role: 'buyer',
     name: '',
     email: '',
     password: '',
@@ -28,6 +29,7 @@ const SignUpPage = () => {
 
   // validation schema
   const NewUserSchema = Yup.object().shape({
+    role: Yup.string().required('Please enter a valid role'),
     name: Yup.string().required('Please enter a valid nickname'),
     email: Yup.string().required('Please enter a valid email'),
     password: Yup.string().required('Password is required'),
@@ -61,7 +63,7 @@ const SignUpPage = () => {
   const onSubmit = (data) => {
       data = {
           ...data,
-          role: 'buyer'
+          following: [],
       };
       dispatch(signupThunk(data));
   };
@@ -139,7 +141,15 @@ const SignUpPage = () => {
                   Create Your Account
                 </Typography>
               </Box>
-              <RHFTextField fullWidth={true} name="name" variant="filled" id="name" placeholder="NICKNAME"
+                <RHFSelect native name="role" label="Role" placeholder="Role">
+                    <option key="buyer" value="buyer">
+                        Buyer
+                    </option>
+                    <option key="merchant" value="merchant">
+                        Merchant
+                    </option>
+                </RHFSelect>
+              <RHFTextField fullWidth={true} name="name" variant="outlined" id="name" placeholder="NICKNAME"
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position="start">
@@ -162,7 +172,7 @@ const SignUpPage = () => {
                                 </InputAdornment>
                               )
                             }}/>
-              <RHFTextField fullWidth={true} name="email" variant="filled" id="email" placeholder="EMAIL"
+              <RHFTextField fullWidth={true} name="email" variant="outlined" id="email" placeholder="EMAIL"
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position="start">
@@ -175,7 +185,7 @@ const SignUpPage = () => {
                                 </InputAdornment>
                               )
                             }}/>
-              <RHFTextField type={passwordVisible ? "text" : "password"} fullWidth={true} name="password" variant="filled" id="password"
+              <RHFTextField type={passwordVisible ? "text" : "password"} fullWidth={true} name="password" variant="outlined" id="password"
                             placeholder="PASSWORD"
                             InputProps={{
                               startAdornment: (
@@ -201,7 +211,7 @@ const SignUpPage = () => {
                                 </InputAdornment>
                               )
                             }}/>
-              <RHFTextField type={passwordVisible ? "text" : "password"} fullWidth={true} name="confirmPassword" variant="filled"
+              <RHFTextField type={passwordVisible ? "text" : "password"} fullWidth={true} name="confirmPassword" variant="outlined"
                             id="confirmPassword"
                             placeholder="CONFIRM PASSWORD"
                             InputProps={{
