@@ -222,7 +222,7 @@ const PostDetails = () => {
 
                         {/*-----------------Post Content---------------------*/}
                         <div style={{ padding: 8, marginTop: 48, marginBottom: 48}}>
-                            {post.post.split('\n').map((paragraph, index) => (
+                            {(post.post || '').split('\n').map((paragraph, index) => (
                                 <Typography key={index} variant="body1" gutterBottom paragraph>
                                     {paragraph}
                                 </Typography>
