@@ -25,7 +25,8 @@ import ShippingDetailScreen from "components/ShipmentsDetailScreen.js";
 import { useDispatch, useSelector } from "react-redux";
 import { updateShipGroupThunk } from "redux/shipGroups/shipGroups-thunks.js";
 import { convertDateToString } from "utils/convertDateToString.js";
-
+import { useMemo } from "react";
+import useDebugWhenChange from "utils/useDebugWhenChange.js";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -37,10 +38,31 @@ function descendingComparator(a, b, orderBy) {
   return 0;
 }
 
-function getComparator(order, orderBy) {
+const generalComparator = (order, orderBy, a, b) => {
+  if (a[orderBy] === undefined && b[orderBy] === undefined) {
+    return 0;
+  }
+
+  if (a[orderBy] === undefined) {
+    return 1;
+  }
+
+  if (b[orderBy] === undefined) {
+    return -1;
+  }
+
   return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+    ? descendingComparator(a, b, orderBy)
+    : -descendingComparator(a, b, orderBy);
+
+};
+
+function getComparator(order, orderBy) {
+  if (orderBy === 'status') {
+    orderBy = 'phaseNumber';
+  }
+
+  return (a, b) => generalComparator(order, orderBy, a, b);
 }
 
 function stableSort(array, comparator) {
@@ -57,13 +79,13 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "groupName",
+    id: "name",
     numeric: false,
     disablePadding: true,
     label: "Group Name",
   },
   {
-    id: "endDate",
+    id: "shipEndDate",
     numeric: false,
     disablePadding: true,
     label: "End Date",
@@ -98,7 +120,7 @@ const headCells = [
 ];
 
 const DEFAULT_ORDER = "desc";
-const DEFAULT_ORDER_BY = "joinDate";
+const DEFAULT_ORDER_BY = "shipEndDate";
 const DEFAULT_ROWS_PER_PAGE = 5;
 
 function MyTableHead(props) {
@@ -235,7 +257,7 @@ const convertStatusToPhaseNumber = (status) => {
 
 
 
-const EnhancedTable = ({ }) => {
+const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   const dispatch = useDispatch();
 
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
@@ -247,7 +269,7 @@ const EnhancedTable = ({ }) => {
   const [filter, setFilter] = useState("All");
   const [focusChip, setFocusChip] = useState("All");
 
-  const originalRows = useSelector((state) => state.shipGroup.shipGroups);
+  const originalRows = shipGroups;
 
   const [rowBeingEdited, setRowBeingEdited] = React.useState({});
   const [newWeight, setNewWeight] = React.useState(0);
@@ -267,8 +289,6 @@ const EnhancedTable = ({ }) => {
     phaseNumber: convertStatusToPhaseNumber(status),
   })
 
-
-
   const handleOpen = (row) => {
     setDetailedShip(row);
     setOpen(true);
@@ -279,43 +299,15 @@ const EnhancedTable = ({ }) => {
   };
 
   useEffect(() => {
-    let rowsOnMount = stableSort(
-      rows,
-      getComparator(DEFAULT_ORDER, DEFAULT_ORDER_BY)
-    );
-
-    rowsOnMount = rowsOnMount.slice(
-      0 * DEFAULT_ROWS_PER_PAGE,
-      0 * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE
-    );
-
-    setVisibleRows(rowsOnMount);
-  }, [rows]);
-
-  const handleRequestSort = React.useCallback(
-    (event, newOrderBy) => {
-      if (newOrderBy === "status") {
-        newOrderBy = "phaseNumber";
-      }
-
-      const isAsc = orderBy === newOrderBy && order === "asc";
-      const toggledOrder = isAsc ? "desc" : "asc";
-      setOrder(toggledOrder);
-      setOrderBy(newOrderBy);
-
-      const sortedRows = stableSort(
-        rows,
-        getComparator(toggledOrder, newOrderBy)
+    const filterTableData = () => {
+      setPage(1);
+      setRows(
+        originalRows.filter((row) => convertPhaseNumberToStatus(row)?.toLowerCase() === filter.toLowerCase() || filter.toLowerCase() === "all")
       );
-      const updatedRows = sortedRows.slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      );
+    };
+    filterTableData();
+  }, [originalRows, filter]);
 
-      setVisibleRows(updatedRows);
-    },
-    [rows, order, orderBy, page, rowsPerPage]
-  );
 
   useEffect(() => {
     const changePage = () => {
@@ -340,34 +332,14 @@ const EnhancedTable = ({ }) => {
     changePage();
   }, [rows, page, order, orderBy, rowsPerPage]);
 
-  const handleChangeRowsPerPage = React.useCallback(
-    (event) => {
-      const updatedRowsPerPage = parseInt(event.target.value, 10);
-      setRowsPerPage(updatedRowsPerPage);
 
-      setPage(0);
+  const handleRequestSort = (event, newOrderBy) => {
+    const isAsc = orderBy === newOrderBy && order === "asc";
+    const toggledOrder = isAsc ? "desc" : "asc";
+    setOrder(toggledOrder);
+    setOrderBy(newOrderBy);
+  }
 
-      const sortedRows = stableSort(rows, getComparator(order, orderBy));
-      const updatedRows = sortedRows.slice(
-        0 * updatedRowsPerPage,
-        0 * updatedRowsPerPage + updatedRowsPerPage
-      );
-
-      setVisibleRows(updatedRows);
-
-      setPaddingHeight(0);
-    },
-    [order, orderBy]
-  );
-
-  useEffect(() => {
-    const filterTableData = () => {
-      setRows(
-        originalRows.filter((row) => convertPhaseNumberToStatus(row)?.toLowerCase() === filter.toLowerCase() || filter.toLowerCase() === "all")
-      );
-    };
-    filterTableData();
-  }, [originalRows, filter]);
 
   function getStatusColor(row) {
     switch (convertPhaseNumberToStatus(row)?.toLowerCase()) {
@@ -485,7 +457,7 @@ const EnhancedTable = ({ }) => {
                     <TableRow
                       hover
                       tabIndex={-1}
-                      key={row.trackingNumber}
+                      key={row.key || Math.random()}
                       style={{
                         borderTop: "1px solid #EDF2F7",
                         borderBottom: "1px solid #EDF2F7",
@@ -600,7 +572,7 @@ const EnhancedTable = ({ }) => {
                               sx={{
                                 ml: 1,
                               }}
-                              disabled={rowBeingEdited.trackingNumber && rowBeingEdited.trackingNumber !== row.trackingNumber}
+                              disabled={rowBeingEdited?._id !== undefined && rowBeingEdited._id !== row._id}
                               onClick={() => {
                                 handleClickEditButton(row)
                               }}
