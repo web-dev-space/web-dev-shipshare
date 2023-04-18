@@ -330,7 +330,7 @@ const GroupMainPage = () => {
     // console.log("row")
     // console.log(row)
     let groupId = row._id
-    // console.log(groupId)
+    dispatch(findShipGroupByIdThunk(groupId));
     navigate('./checkout?groupId=' + groupId);
   }
 
