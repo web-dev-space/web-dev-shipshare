@@ -36,12 +36,17 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import {visuallyHidden} from "@mui/utils";
 import {ALL_STATES, stateFullNameToAbbr} from "./allStates";
 import {shallowEqual, useDispatch, useSelector} from "react-redux";
-import {updateShipGroupThunk, findAllShipGroupsThunk} from "../../../redux/shipGroups/shipGroups-thunks";
+import {
+  updateShipGroupThunk,
+  findAllShipGroupsThunk,
+  findShipGroupByIdThunk
+} from "../../../redux/shipGroups/shipGroups-thunks";
 import {Helmet} from "react-helmet";
 import {position} from "stylis";
 import {findUserByEmail} from "../../../redux/users/users-service";
 import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 import {CircularProgress} from "@mui/joy";
+import {findShipGroupById} from "../../../redux/shipGroups/shipGroups-service";
 
 
 const DEFAULT_ORDER = 'asc';
@@ -84,21 +89,7 @@ const GroupMainPage = () => {
 
   // get user distance
   const [userLocation, setUserLocation] = useState(null);
-  // useEffect(() => {
-  //   console.log("getting user location...");
-  //   if ("geolocation" in navigator) {
-  //     navigator.geolocation.getCurrentPosition(function (position) {
-  //       let userLocation = {
-  //         latitude: position.coords.latitude,
-  //         longitude: position.coords.longitude
-  //       };
-  //       setUserLocation(userLocation);
-  //       console.log("setting user location...");
-  //     });
-  //   } else {
-  //     console.log("Geolocation is not supported by this browser.");
-  //   }
-  // }, []);
+
   useEffect(() => {
     console.log("getting user location...");
     const storedLocation = localStorage.getItem("userLocation");
@@ -119,6 +110,7 @@ const GroupMainPage = () => {
       console.log("Geolocation is not supported by this browser.");
     }
   }, []);
+
   function toRad(value) {
     return value * Math.PI / 180;
   }
@@ -343,6 +335,7 @@ const GroupMainPage = () => {
   }
 
   const handleClickGroupDetail = (row) => {
+
     // console.log("row")
     // console.log(row)
     let groupId = row._id

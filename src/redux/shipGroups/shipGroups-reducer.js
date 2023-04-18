@@ -35,11 +35,11 @@ const shipGroupsSlice = createSlice({
             state.error = action.error;
 
         },
-        [findShipGroupByIdThunk.pending]: (state) => {
-            state.loading = true;
-            state.currentGroup = null;
-
-        },
+        // [findShipGroupByIdThunk.pending]: (state) => {
+        //     state.loading = true;
+        //     state.currentGroup = null;
+        //
+        // },
         [findShipGroupByIdThunk.fulfilled]: (state, { payload }) => {
             state.loading = false;
             state.currentGroup = payload;
@@ -89,6 +89,7 @@ const shipGroupsSlice = createSlice({
                 [payload.trackingNumber]: payload.trackingDetail
             }
         },
+
     },
     reducers: {}
 });
