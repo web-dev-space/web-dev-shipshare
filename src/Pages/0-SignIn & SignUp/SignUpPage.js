@@ -1,6 +1,6 @@
 import {Box, Link, Stack, Typography} from "@mui/material";
 import Button from '@mui/material/Button';
-import welcomeImg from "./welcome3.png";
+import welcomeImg from "./welcome.png";
 import Image from "mui-image";
 import InputAdornment from "@mui/material/InputAdornment";
 import * as Yup from "yup";

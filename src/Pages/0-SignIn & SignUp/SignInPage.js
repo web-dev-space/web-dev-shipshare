@@ -1,4 +1,4 @@
-import {Box, Container, FormControl, Link, Stack, Typography} from "@mui/material";
+import {Box, Link, Stack, Typography} from "@mui/material";
 import Button from '@mui/material/Button';
 import welcomeImg from "./welcome.png";
 import Image from "mui-image";
@@ -14,9 +14,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from 'react-redux';
 import { loginThunk } from '../../redux/users/users-thunks';
-import {current} from "@reduxjs/toolkit";
 import {Helmet} from "react-helmet";
-import LockIcon from '@mui/icons-material/Lock';
 import "./signIn.css"
 const LoginPage = () => {
 
