@@ -110,7 +110,7 @@ const Dashboard = () => {
                     title="Parcel Received"
                     total={getNumberWithDefault(stats?.totalParcelsNumber)}
                     color="warning"
-                    icon="fluent-mdl2:join-online-meeting"
+                    icon="tabler:package-export"
                   />
                 </Grid>
 
@@ -119,7 +119,7 @@ const Dashboard = () => {
                     title="Shipments Sent"
                     total={getNumberWithDefault(stats?.totalShipGroupsNumber)}
                     color="error"
-                    icon="tabler:package-export"
+                    icon="fluent-mdl2:join-online-meeting"
                   />
                 </Grid>
 
