@@ -241,31 +241,36 @@ const PostDetails = () => {
                                 Comments
                             </Typography>
 
-                            <TextField
-                                label="Write some of your comments..."
-                                multiline
-                                fullWidth
-                                rows={4}
-                                sx={{ backgroundColor: 'white'}}
-                                variant="outlined"
-                                value={newComment}
-                                onChange={(e) => setNewComment(e.target.value)}
-                            />
+                            {
+                                currentUser && currentUser.role !== 'visitor' &&
+                                <>
+                                    <TextField
+                                        label="Write some of your comments..."
+                                        multiline
+                                        fullWidth
+                                        rows={4}
+                                        sx={{ backgroundColor: 'white'}}
+                                        variant="outlined"
+                                        value={newComment}
+                                        onChange={(e) => setNewComment(e.target.value)}
+                                    />
 
-                            <div style={{ width: '100%', marginBottom:40}}>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    style={{
-                                        marginTop: 28,
-                                        display: 'flex',
-                                        marginLeft: 'auto',
-                                        height: 40  }}
-                                    onClick={handlePostNewComment}
-                                >
-                                    Post Comment
-                                </Button>
-                            </div>
+                                    <div style={{ width: '100%', marginBottom:40}}>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            style={{
+                                                marginTop: 28,
+                                                display: 'flex',
+                                                marginLeft: 'auto',
+                                                height: 40  }}
+                                            onClick={handlePostNewComment}
+                                        >
+                                            Post Comment
+                                        </Button>
+                                    </div>
+                                </>
+                            }
                         </div>
 
                         {/*-----------------Comments---------------------*/}
