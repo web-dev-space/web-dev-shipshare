@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router";
 import ParcelMainPage from "Pages/Buyer/1-Parcels/Parcel-Main";
 import ShipmentMainPage from "Pages/Buyer/2-Shipments/Shipment-Main";
 import { Group } from "Pages/Buyer/3-Groups";
-import { Community } from "Pages//Buyer/4-Community";
+import { Community } from "Pages/Buyer/4-Community";
 import { Account } from "Pages/Buyer/5-Account";
 import { Help } from "Pages/Buyer/6-Help";
 import { useSelector } from "react-redux";
