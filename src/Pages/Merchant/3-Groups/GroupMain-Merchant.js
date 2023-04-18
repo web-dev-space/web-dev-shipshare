@@ -41,6 +41,7 @@ import GroupDetailDrawerScreen from "./GroupDetailDrawerScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { findAllShipGroupsThunk } from "../../../redux/shipGroups/shipGroups-thunks";
 import { Helmet } from "react-helmet";
+import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 
 
 const DEFAULT_ORDER = 'asc';
@@ -66,6 +67,7 @@ const GroupMainMerchant = () => {
 
   useEffect(() => {
     dispatch(findAllShipGroupsThunk());
+    dispatch(findAllUsersThunk());
   }, []);
 
   // table data
@@ -242,6 +244,35 @@ const GroupMainMerchant = () => {
     navigate('./group-details?groupId=' + groupId);
   }
 
+  const { users, loading } = useSelector((state) => state.users);
+
+  const getGroupAvatar = (group) => {
+    // console.log(users)
+    const groupLead = users.find((user) => {
+      return user.email === group.leader
+    })
+    if (groupLead !== undefined) {
+      console.log("has avatar" + groupLead._id);
+      return groupLead.avatar
+    } else {
+      console.log("no avatar");
+      return null
+    }
+  }
+
+  useEffect(
+    () => {
+      if (shipGroups) {
+        setTableData(shipGroups);
+      }
+    },
+    [shipGroups],
+  );
+
+  if (!shipGroups) {
+    return null;
+  }
+
   return (
     <>
       <Helmet>
@@ -262,7 +293,7 @@ const GroupMainMerchant = () => {
         <Main>
           <Container maxWidth={false}>
             <Typography variant="h4">
-              Ongoing Groups
+               Groups
             </Typography>
             <Stack
               mt={3}
@@ -332,8 +363,8 @@ const GroupMainMerchant = () => {
                             }}
                           >
                             <Avatar
-                              alt="Product 1"
-                              src="/static/mock-images/products/product_1.png"
+                              alt={row.name}
+                              src={getGroupAvatar(row)}
                               sx={{ width: 60, height: 60, borderRadius: 2 }}
                             />
                             <Box sx={{ ml: 2 }}>

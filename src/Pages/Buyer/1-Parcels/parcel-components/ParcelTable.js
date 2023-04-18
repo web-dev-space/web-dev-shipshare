@@ -18,6 +18,7 @@ import { visuallyHidden } from "@mui/utils";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Pagination from "@mui/lab/Pagination";
 import ParcelDetailsScreen from "./ParcelDetailsScreen";
+import {useNavigate} from "react-router-dom";
 
 const DEFAULT_ORDER = "asc";
 const DEFAULT_ORDER_BY = "date";
@@ -183,6 +184,7 @@ const ParcelTable = ({ data }) => {
   const [visibleRows, setVisibleRows] = React.useState(null);
   const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
   const [paddingHeight, setPaddingHeight] = React.useState(0);
+  const navigate = useNavigate();
   React.useEffect(() => {
     setRows(data);
   }, [data]);
@@ -394,12 +396,12 @@ const ParcelTable = ({ data }) => {
                         {row.isShipped ? (
                           <OutlinedOrangeButton
                             text="Shipped"
-                            onClick={() => console.log("Shipped")}
+                            onClick={() => navigate("/shipments")}
                           />
                         ) : row.isWeighted ? (
                           <OriginalOrangeButton
                             text="Ship Now"
-                            onClick={() => console.log("Ship Now")}
+                            onClick={() => navigate("/groups")}
                           />
                         ) : (
                           <DisabledOrangeButton text="In Transit" />

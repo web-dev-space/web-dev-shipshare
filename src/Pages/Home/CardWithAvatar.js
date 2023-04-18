@@ -5,7 +5,9 @@ import { styled } from '@mui/material/styles';
 const StyledCard = styled(Card)({
   display: 'flex',
   alignItems: 'center',
-  marginBottom: '3rem',
+  marginBottom: '2rem',
+  minWidth: 450,
+
 });
 
 const StyledCardContent = styled(CardContent)({
@@ -23,17 +25,17 @@ const StyledSubtitle = styled(Typography)({
   marginBottom: '0.5rem',
 });
 
-const CardWithAvatar = ({ avatarUrl, name, route, date, pickupAddress }) => {
+const CardWithAvatar = ({ avatarUrl, name, route, date, pickupAddress, isLargeScreen, isSmallScreen , isDiscoverSmallScreen}) => {
   return (
     <StyledCard>
       <CardMedia
         component="img"
-        sx={{ width: 50, height: 50, objectFit: 'cover' , borderRadius: '50%', marginLeft: '1rem',marginTop: -3}}
+        sx={{ width: isDiscoverSmallScreen? 30: 50, height: isDiscoverSmallScreen? 30: 50, objectFit: 'cover' , borderRadius: '50%', marginLeft: '1rem',marginTop: -3}}
         image={avatarUrl}
         alt="avatar"
       />
       <StyledCardContent>
-        <StyledTypography gutterBottom variant="h5" component="div">
+        <StyledTypography gutterBottom variant={isLargeScreen? "h5": 'subtitle1'}>
           {name}
         </StyledTypography>
         <StyledSubtitle variant="body2" color="text.secondary">

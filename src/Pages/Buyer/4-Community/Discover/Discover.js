@@ -206,9 +206,9 @@ const Discover = () => {
                             gap: 16 }}>
                             {visiblePosts.sort((a, b) => {
                                 if (focusChip === 'Latest') {
-                                    return b.date - a.date;
+                                    return new Date(b.created) - new Date(a.created);
                                 } else if (focusChip === 'Popular') {
-                                    return b.viewsNumber - a.viewsNumber;
+                                    return b.viewsAmount - a.viewsAmount;
                                 }
                                 return 0;
                             }).map((post, index) => (

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { Typography, Stack } from '@mui/material';
 // utils
-import { bgGradient } from '../../../../utils/cssStyles';
+import { bgGradient } from '../utils/cssStyles';
 
 // ----------------------------------------------------------------------
 
@@ -36,11 +36,12 @@ const StyledBg = styled('div')(({ theme }) => ({
     position: 'absolute',
     zIndex: -2,
     content: '""',
-    opacity: 0.2,
+    opacity: 0.1,
+
     ...bgGradient({
       direction: '135deg',
-      startColor: theme.palette.primary.light,
-      endColor: theme.palette.primary.main,
+      startColor: "rgba(251, 254, 243, 0.6)",
+      endColor: theme.palette.primary.light,
     }),
   },
 }));
@@ -54,7 +55,7 @@ AppWelcome.propTypes = {
   description: PropTypes.string,
 };
 
-export default function AppWelcome({ title, description, action, img, ...other }) {
+export default function AppWelcome({ title, title2, description, action, img, ...other }) {
   return (
     <StyledRoot {...other}>
       <Stack
@@ -63,20 +64,25 @@ export default function AppWelcome({ title, description, action, img, ...other }
         alignItems={{ xs: 'center', md: 'flex-start' }}
         sx={{
           pl: 5,
-          py: { xs: 5, md: 0 },
+          py: { xs: 8, md: 0 },
           pr: { xs: 5, md: 0 },
           textAlign: { xs: 'center', md: 'left' },
         }}
+
       >
-        <Typography paragraph variant="h4" sx={{ whiteSpace: 'pre-line' }}>
+        <Typography paragraph variant="h2" sx={{ whiteSpace: 'pre-line' }}>
           {title}
+        </Typography>
+        <Typography paragraph variant="h2" sx={{ whiteSpace: 'pre-line' }}>
+          {title2}
         </Typography>
 
         <Typography
           variant="body2"
           sx={{
             opacity: 0.8,
-            mb: { xs: 3, xl: 5 },
+            mb: { xs: 5, xl: 5 },
+            width: "60%",
           }}
         >
           {description}

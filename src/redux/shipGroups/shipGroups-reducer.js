@@ -89,6 +89,7 @@ const shipGroupsSlice = createSlice({
                 [payload.trackingNumber]: payload.trackingDetail
             }
         },
+
     },
     reducers: {}
 });

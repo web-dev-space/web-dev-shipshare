@@ -1,6 +1,6 @@
 import {Box, Link, Stack, Typography} from "@mui/material";
 import Button from '@mui/material/Button';
-import welcomeImg from "./welcome3.png";
+import welcomeImg from "./welcome.png";
 import Image from "mui-image";
 import InputAdornment from "@mui/material/InputAdornment";
 import * as Yup from "yup";
@@ -8,7 +8,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useSnackbar} from "notistack";
 import {useNavigate} from "react-router-dom";
-import FormProvider, {RHFTextField} from "../../third-party/components/hook-form";
+import FormProvider, {RHFSelect, RHFTextField} from "../../third-party/components/hook-form";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {useState, useEffect} from "react";
@@ -20,6 +20,7 @@ const SignUpPage = () => {
 
   // ---- handle the new post object ---
   const defaultValues = {
+    role: 'buyer',
     name: '',
     email: '',
     password: '',
@@ -28,6 +29,7 @@ const SignUpPage = () => {
 
   // validation schema
   const NewUserSchema = Yup.object().shape({
+    role: Yup.string().required('Please enter a valid role'),
     name: Yup.string().required('Please enter a valid nickname'),
     email: Yup.string().required('Please enter a valid email'),
     password: Yup.string().required('Password is required'),
@@ -61,7 +63,7 @@ const SignUpPage = () => {
   const onSubmit = (data) => {
       data = {
           ...data,
-          role: 'buyer'
+          following: [],
       };
       dispatch(signupThunk(data));
   };
@@ -72,6 +74,15 @@ const SignUpPage = () => {
     setPasswordVisible(!passwordVisible);
   };
 
+  // control layout
+  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 900);
+
+  useEffect(() => {
+    const handleResize = () => setIsWideScreen(window.innerWidth > 900);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <>
         <Helmet>
@@ -80,7 +91,7 @@ const SignUpPage = () => {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'row',
+          flexDirection: isWideScreen ? 'row' : 'column',
           alignItems: 'center',
           position: 'absolute',
           justifyContent: 'space-between',
@@ -88,17 +99,22 @@ const SignUpPage = () => {
           left: 0,
           zIndex: 1,
           width: '100%',
+          height: '100%',
         }}
       >
+
+        {!isWideScreen && <img src={welcomeImg} alt="welcome" style={{width:'100%', height:'100%', objectFit: 'cover', filter: 'blur(5px)'}} />}
+
         {/*----------------- left -----------------*/}
         <Box
           sx={{
-            width: '60%',
+            width: isWideScreen ? '50%' : '100%',
             height: '100%',
             alignItems: 'center',
             justifyContent: 'center',
             display: 'flex',
-            position: 'relative',
+            position: isWideScreen? 'relative': 'absolute',
+            zIndex:1,
           }}
         >
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -107,6 +123,9 @@ const SignUpPage = () => {
               spacing={3}
               sx={{
                 width: '100%',
+                backgroundColor: 'white',
+                borderRadius: '10px',
+                paddingX: '5vw',
               }}
             >
               <Box
@@ -116,12 +135,21 @@ const SignUpPage = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   position: 'relative',
+                  marginTop: '5vh',
                 }}>
                 <Typography variant="h3">
                   Create Your Account
                 </Typography>
               </Box>
-              <RHFTextField fullWidth={true} name="name" variant="filled" id="name" placeholder="NICKNAME"
+                <RHFSelect native name="role" label="Role" placeholder="Role">
+                    <option key="buyer" value="buyer">
+                        Buyer
+                    </option>
+                    <option key="merchant" value="merchant">
+                        Merchant
+                    </option>
+                </RHFSelect>
+              <RHFTextField fullWidth={true} name="name" variant="outlined" id="name" placeholder="NICKNAME"
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position="start">
@@ -144,7 +172,7 @@ const SignUpPage = () => {
                                 </InputAdornment>
                               )
                             }}/>
-              <RHFTextField fullWidth={true} name="email" variant="filled" id="email" placeholder="EMAIL"
+              <RHFTextField fullWidth={true} name="email" variant="outlined" id="email" placeholder="EMAIL"
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position="start">
@@ -157,7 +185,7 @@ const SignUpPage = () => {
                                 </InputAdornment>
                               )
                             }}/>
-              <RHFTextField type={passwordVisible ? "text" : "password"} fullWidth={true} name="password" variant="filled" id="password"
+              <RHFTextField type={passwordVisible ? "text" : "password"} fullWidth={true} name="password" variant="outlined" id="password"
                             placeholder="PASSWORD"
                             InputProps={{
                               startAdornment: (
@@ -183,7 +211,7 @@ const SignUpPage = () => {
                                 </InputAdornment>
                               )
                             }}/>
-              <RHFTextField type={passwordVisible ? "text" : "password"} fullWidth={true} name="confirmPassword" variant="filled"
+              <RHFTextField type={passwordVisible ? "text" : "password"} fullWidth={true} name="confirmPassword" variant="outlined"
                             id="confirmPassword"
                             placeholder="CONFIRM PASSWORD"
                             InputProps={{
@@ -220,7 +248,7 @@ const SignUpPage = () => {
                 type={"submit"}
               >Sign Up</Button>
               <Box>
-                <Typography style={{textAlign: 'center'}}>
+                <Typography style={{textAlign: 'center', marginBottom: '5vh'}}>
                   Already have an account? <Link href="../login" underline="hover">Log In</Link>
                 </Typography>
               </Box>
@@ -231,19 +259,29 @@ const SignUpPage = () => {
 
 
         {/*----------------- right -----------------*/}
-        <Box
-          sx={{
-            width: '40%',
-          }}
-        >
-          <Image
-            src={welcomeImg}
-            alt="welcome"
+        {isWideScreen &&
+          <Box
             sx={{
-              boxShadow: 1,
+              width: '50%',
+              height: "100%",
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
-          />
-        </Box>
+            maxWidth={900}
+          >
+            <Image
+              src={welcomeImg}
+              alt="welcome"
+              sx={{
+                objectFit: 'cover',
+                height: '100%',
+                width: '100%',
+                boxShadow: 1,
+              }}
+            />
+          </Box>
+        }
 
       </Box>
 

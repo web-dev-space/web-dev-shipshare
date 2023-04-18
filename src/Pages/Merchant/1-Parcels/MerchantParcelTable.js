@@ -16,6 +16,7 @@ import Pagination from "@mui/lab/Pagination";
 import ParcelDetailsScreen from "../../Buyer/1-Parcels/parcel-components/ParcelDetailsScreen";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
+import {useNavigate} from "react-router-dom";
 
 const DEFAULT_ORDER = "asc";
 const DEFAULT_ORDER_BY = "date";
@@ -163,6 +164,7 @@ const MerchantParcelTable = ({ data, handleUpdateParcel }) => {
     const [paddingHeight, setPaddingHeight] = React.useState(0);
     const [rowBeingEdited, setRowBeingEdited] = React.useState({});
     const [newWeight, setNewWeight] = React.useState(0);
+    const navigate = useNavigate();
     React.useEffect(() => {setRows(data)}, [data]);
 
     const [open, setOpen] = React.useState(false);
@@ -359,9 +361,9 @@ const MerchantParcelTable = ({ data, handleUpdateParcel }) => {
                                         </TableCell>
                                         <TableCell align="left">
                                             {row.isShipped ? (
-                                                <OutlinedOrangeButton text="Shipped" onClick={() => console.log("Shipped")} />
+                                                <OutlinedOrangeButton text="Shipped" onClick={() => navigate("/shipments")} />
                                             ) : row.isWeighted ? (
-                                                <OriginalOrangeButton text="Ship Now" onClick={() => console.log("Ship Now")} />
+                                                <OriginalOrangeButton text="Ship Now" onClick={() => navigate("/groups")} />
                                             ) : (
                                                 <DisabledOrangeButton text="In Transit" />
                                             )}
