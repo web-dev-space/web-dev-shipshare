@@ -478,7 +478,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                     <TableRow
                       hover
                       tabIndex={-1}
-                      key={row.key || Math.random()}
+                      // key={row.key || Math.random()}
                       style={{
                         borderTop: "1px solid #EDF2F7",
                         borderBottom: "1px solid #EDF2F7",
