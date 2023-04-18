@@ -6,7 +6,8 @@ import Header from "../../../third-party/layouts/dashboard/header/index.js";
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical.js";
 import EnhancedTable from "./EnhancedTableMerchant.js";
 import { updateShipGroupThunk, findAllShipGroupsThunk } from "redux/shipGroups/shipGroups-thunks.js";
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
+import { useMemo } from "react";
 
 const ShipmentMainPage = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const ShipmentMainPage = () => {
   const [open, setOpen] = useState(false);
 
   const shipGroups = useSelector((state) => state.shipGroup.shipGroups);
+
   const setShipGroups = (shipGroups) => {
     // TODO
   };
