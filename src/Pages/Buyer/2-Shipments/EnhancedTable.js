@@ -238,16 +238,17 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
   const [page, setPage] = React.useState(1);
-  const [visibleRows, setVisibleRows] = React.useState(null);
+  // const [visibleRows, setVisibleRows] = React.useState(null);
   const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
-  const [paddingHeight, setPaddingHeight] = React.useState(0);
+  // const [paddingHeight, setPaddingHeight] = React.useState(0);
   const [filter, setFilter] = useState("All");
   const [focusChip, setFocusChip] = useState("All");
-  const originalRows = shipGroups;
-  const setOriginalRows = setShipGroups;
+  // const originalRows = shipGroups;
+  // const setOriginalRows = setShipGroups;
   const [rows, setRows] = useState([]);
   const [open, setOpen] = useState(false);
   const [detailedShip, setDetailedShip] = useState({});
+
 
   const addStatus = (shipGroup) => {
     switch (shipGroup?.phaseNumber) {
@@ -266,17 +267,14 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     }
   }
 
-  useEffect(() => {
-    setOriginalRows(originalRows?.map((shipGroup) => {
+  const originalRows = React.useMemo(() => {
+    return shipGroups?.map((shipGroup) => {
       return {
         ...shipGroup,
         status: addStatus(shipGroup),
       }
     })
-    )
-  }, []);
-
-
+  }, [shipGroups]);
 
 
   const handleOpen = (row) => {
@@ -300,29 +298,30 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     [order, orderBy]
   );
 
-  useEffect(() => {
-    const changePage = () => {
-      const newPage = page - 1;
+  const visibleRows = React.useMemo(() => {
+    const newPage = page - 1;
 
-      const sortedRows = stableSort(rows, getComparator(order, orderBy));
+    const sortedRows = stableSort(rows, getComparator(order, orderBy));
 
-      const updatedRows = sortedRows.slice(
-        newPage * rowsPerPage,
-        newPage * rowsPerPage + rowsPerPage
-      );
+    const updatedRows = sortedRows.slice(
+      newPage * rowsPerPage,
+      newPage * rowsPerPage + rowsPerPage
+    );
 
-      setVisibleRows(updatedRows);
+    return updatedRows;
+  }, [page, rows, rowsPerPage, order, orderBy]);
 
-      const numEmptyRows =
-        newPage > 0
-          ? Math.max(0, (1 + newPage) * rowsPerPage - rows.length)
-          : 0;
 
-      const newPaddingHeight = 53 * numEmptyRows;
-      setPaddingHeight(newPaddingHeight);
-    };
-    changePage();
-  }, [rows, page, order, orderBy, rowsPerPage]);
+  const paddingHeight = React.useMemo(() => {
+    const newPage = page - 1;
+
+    const numEmptyRows =
+      newPage > 0
+        ? Math.max(0, (1 + newPage) * rowsPerPage - rows.length)
+        : 0;
+
+    return 53 * numEmptyRows;
+  }, [rows, page, rowsPerPage])
 
 
   useEffect(() => {
@@ -422,7 +421,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                 ? visibleRows.map((row, index) => {
 
                   const cityName = row?.pickupLocation?.address?.split(",");
-
 
                   return (
                     <TableRow
