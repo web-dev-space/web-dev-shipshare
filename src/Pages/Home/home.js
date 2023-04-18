@@ -272,8 +272,8 @@ const Home = () => {
                           width: isSmallScreen? '80%':'50%',
                           margin: { xs: 'auto', md: 'inherit' },
                           alignSelf: 'center',
-                          marginBottom: 180,
-                          marginTop: 180,
+                          marginBottom: 120,
+                          marginTop: 120,
                           marginRight: isSmallScreen? 0: 30,
                         }}/>}
                         action={<Button variant="contained" style={{borderRadius: '1rem', marginBottom: -130}} onClick={()=>navigate('/login')}>Get Started</Button> }
@@ -281,7 +281,7 @@ const Home = () => {
 
 
                       {/*====== part 2 - How it works ======*/}
-                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh', marginTop: isLargeScreen? 0:210}}>
+                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '100%', marginTop: 100}}>
                         <Box
                           sx={{
                             height: '100%',
@@ -293,7 +293,7 @@ const Home = () => {
                             textAlign: 'left',
                           }}
                         >
-                          <Typography variant={isSmallScreen? "h3": "h2"}  component="text" paragraph sx={{mb:9}}>
+                          <Typography variant={isSmallScreen? "h2": "h2"}  component="text" paragraph sx={{mb:9}}>
                             How it works
                           </Typography>
                           <div style={{display: 'flex', justifyContent: 'space-between',  flexDirection: isLargeScreen? 'row':'column', alignItems: 'center'}}>
@@ -334,45 +334,59 @@ const Home = () => {
 
 
                       {/*====== part 3 - groups ======*/}
-                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh', backgroundColor: "rgba(254, 249, 243, 0.6)"}}>
-                        <Box
-                          sx={{
-                            width: isSmallScreen? '100%':'50%',
+                      <div style={{display: 'flex', flexDirection: isLargeScreen? 'row':'column-reverse', justifyContent: 'center', backgroundColor: "rgba(254, 249, 243, 0.6)", marginTop: 100}}>
+                        <div
+                          style={{
+                            width: isLargeScreen? '50%':'100%',
                             height: '100%',
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'center',
-                            position: 'relative',
-                            flex: isSmallScreen ? '1 1 auto' : '0 0 auto',
+                            alignItems: 'center',
+                            // position: 'relative',
+                            // flex: isSmallScreen ? '1 1 auto' : '0 0 auto',
                             textAlign: 'left',
                             padding: 5,
-                            maxWidth: 600,
+                            maxWidth: isLargeScreen? 600: true,
+                            marginTop: isLargeScreen? 30: 680,
                           }}
                         >
-                          <img src={require('./Shapes1.png')} alt="background-shape" style={{top:0, left: 0, zIndex:-1, width: 300, position: 'absolute'}}/>
-                          <img src={require('./Shapes2.png')} alt="background-shape" style={{bottom:0, right: 100, zIndex:-1, width: 200, position: 'absolute'}}/>
-                          {groups.map((group) => (
-                            <CardWithAvatar
-                              avatarUrl={group.avatarUrl}
-                              name={group.name}
-                              route={group.route}
-                              date={group.date}
-                              pickupAddress={group.pickupAddress}
-                            />
-                          ))}
-                        </Box>
+                          {isLargeScreen
+                            && <img src={require('./Shapes1.png')} alt="background-shape"
+                                    style={{top: 0, left: -10, zIndex: -1, width: 300, position: 'absolute'}}/>}
+                          {isLargeScreen
+                            && <img src={require('./Shapes2.png')} alt="background-shape"
+                                    style={{bottom: 0, right: 100, zIndex: -1, width: 200, position: 'absolute'}}/>}
+
+                          <div style={{marginTop: isLargeScreen? 0: -600, width:'100%'}}>
+                            {groups.map((group) => (
+                              <CardWithAvatar
+                                avatarUrl={group.avatarUrl}
+                                name={group.name}
+                                route={group.route}
+                                date={group.date}
+                                pickupAddress={group.pickupAddress}
+                                isLargeScreen={isLargeScreen}
+                                isSmallScreen={isSmallScreen}
+                              />
+                            ))}
+                          </div>
+                        </div>
                         {/*---- right side ----*/}
-                        <Box
-                          sx={{
-                            width: isSmallScreen? '100%':'50%',
+                        <div
+                          style={{
+                            width: isLargeScreen? '50%':'100%',
                             height: '100%',
                             display: 'flex',
                             justifyContent: 'center',
-                            overflow: 'hidden',
-                            flex: isSmallScreen ? '0 0 auto' : '1 1 auto',
+                            alignItems: 'center',
+                            textAlign: 'center',
+                            // overflow: 'hidden',
+                            // flex: isSmallScreen ? '0 0 auto' : '1 1 auto',
                             flexDirection: 'column',
                             padding: 8,
                             maxWidth: 900,
+                            marginTop: isLargeScreen? 30: 70,
                           }}
                         >
                           <Typography variant="h2" component="text" paragraph>
@@ -388,12 +402,12 @@ const Home = () => {
                           Look no further than ShipShare! Join a group that ships to your doorstep and share the shipping costs with fellow members to enjoy the lowest shipping prices. Plus, meet like-minded people in the group and make new friends!
                           </Typography>
                           <Button variant="contained" onClick={()=>navigate('/groups')} sx={{marginTop: '1rem', borderRadius: 15, padding: 1, width: 120}}>Join Now</Button>
-                        </Box>
+                        </div>
                       </div>
 
 
                       {/*====== part 4 - Choose the plan ======*/}
-                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '80vh'}}>
+                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '100%'}}>
                         <Box
                           sx={{
                             height: '100%',
