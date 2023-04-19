@@ -38,14 +38,14 @@ export default function CheckoutStepOne({parcels, selectedParcels, setSelectedPa
               <Typography variant="h6" component="div" sx={{display: 'flex'}}>
                 Total
               </Typography>
-              <Typography component="div" sx={{display: 'flex', justifyContent: 'space-between', marginTop: 3}}>
+              <Typography variant="body2" component="div" sx={{display: 'flex', justifyContent: 'space-between', marginTop: 3}}>
                 Number of Items
-                <Typography sx={{textAlign: 'right'}}>{selectedParcels.length} Parcels</Typography>
+                <Typography variant="body2" sx={{textAlign: 'right'}}>{selectedParcels.length} Parcels</Typography>
               </Typography>
-              <Typography variant="h5" component="div"
+              <Typography variant="subtitle2" component="div"
                           sx={{display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', marginTop: 1}}>
                 Weight
-                <Typography sx={{textAlign: 'right', fontWeight: 'bold'}}>
+                <Typography variant="subtitle2" sx={{textAlign: 'right', fontWeight: 'bold'}}>
                   {(selectedParcels.reduce((acc, parcel) => acc + parcel.weight, 0)).toFixed(1)} kg
                 </Typography>
               </Typography>

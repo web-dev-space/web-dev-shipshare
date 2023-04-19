@@ -103,16 +103,16 @@ export default function ParcelListCard({index, parcels, setSelectedParcels}) {
                 height={80} style={{borderRadius: 15}}/>
             </Box>
             <Box sx={{flexGrow: 1, pl: 2}}>
-              <Typography variant="subtitle1">{parcel.name}</Typography>
-              <Typography variant="body2"
+              <Typography variant="body2">{parcel.name}</Typography>
+              <Typography variant="caption"
                           sx={{color: 'text.secondary'}}
               >Tracking Number: {parcel.trackingNumber}</Typography>
               <Stack
                 direction="row"
                 spacing={1}
               >
-              <Typography variant="body2">Weight: </Typography>
-              <Typography variant="body2">{parcel.weight} kg</Typography>
+              <Typography variant="caption">Weight: </Typography>
+              <Typography variant="caption">{parcel.weight} kg</Typography>
               </Stack>
             </Box>
           </Box>

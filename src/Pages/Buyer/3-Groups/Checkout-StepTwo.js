@@ -91,7 +91,7 @@ export default function CheckoutStepTwo({parcels, selectedParcels, setSelectedPa
         <Grid item xs={12} sm={12} md={6}>
           <Card sx={{minWidth: 350, borderRadius: 3, marginBottom: 8}}>
             <CardContent>
-              <Typography sx={{fontSize: 24}} color="text.secondary" gutterBottom>
+              <Typography sx={{fontSize: 24, fontWeight:'bold'}}  gutterBottom>
                 Shipment Information
               </Typography>
               <Typography variant="body1" component="div">
@@ -109,7 +109,7 @@ export default function CheckoutStepTwo({parcels, selectedParcels, setSelectedPa
                       stroke="#323142" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                   </div>
-                  <Typography>
+                  <Typography variant="body2">
                     {currentGroup ? currentGroup.shipRoute : "Loading.."}
                   </Typography>
                 </Box>
@@ -127,7 +127,7 @@ export default function CheckoutStepTwo({parcels, selectedParcels, setSelectedPa
                           fill="#323142"/>
                   </svg>
                   </div>
-                  <Typography>
+                  <Typography variant="body2">
                     {currentGroup ? formatDate(currentGroup.shipEndDate): "Loading.."}
                   </Typography>
                 </Box>
@@ -145,7 +145,8 @@ export default function CheckoutStepTwo({parcels, selectedParcels, setSelectedPa
                       stroke="#323142" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                   </div>
-                  <Typography>{currentGroup ? (currentGroup.pickupLocation.address): "Loading.."}</Typography>
+                  <Typography variant="body2">
+                    {currentGroup ? (currentGroup.pickupLocation.address): "Loading.."}</Typography>
                 </Box>
               </Typography>
             </CardContent>
@@ -153,26 +154,35 @@ export default function CheckoutStepTwo({parcels, selectedParcels, setSelectedPa
 
           <Card sx={{minWidth: 359}}>
             <CardContent>
-              <Typography variant="h6" component="div" sx={{display: 'flex', justifyContent: 'space-between'}}>
+              <Box
+                sx={{
+                  borderBottom: 1,
+                  borderColor: 'divider',
+                  pb: 2,
+                }}
+              >
+              <Typography variant="subtitle2" component="div" sx={{display: 'flex', justifyContent: 'space-between'}}>
                 Route Rate
-                <Typography sx={{textAlign: 'right'}}>
+                <Typography variant="body2" sx={{textAlign: 'right'}}>
                   {routeRate !== 0 ? "$ " + routeRate + " /kg" : "Loading.."}
                 </Typography>
               </Typography>
-              <Typography variant="h6" component="div" sx={{display: 'flex', justifyContent: 'space-between'}}>
+              <Typography variant="subtitle2" component="div" sx={{display: 'flex', justifyContent: 'space-between'}}>
                 Weight
-                <Typography sx={{textAlign: 'right'}}>
+                <Typography variant="body2" sx={{textAlign: 'right'}}>
                   {totalWeight} kg
                 </Typography>
               </Typography>
-              <Typography variant="h5" component="div" sx={{
+              </Box>
+              <Typography  component="div" sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 fontWeight: 'bold',
+                fontSize:24,
                 marginTop: '20px'
               }}>
                 Total
-                <Typography sx={{textAlign: 'right'}}>
+                <Typography  sx={{textAlign: 'right',fontWeight: 'bold', fontSize:24}}>
                   $ {routeRate * totalWeight}
                 </Typography>
               </Typography>
