@@ -20,10 +20,12 @@ export default function Page403() {
           </Typography>
         </m.div>
 
-        <m.div variants={varBounce().in}>
+        <m.div variants={varBounce().in} style={{display: 'flex',justifyContent:'center', alignItems: 'center', flexDirection:'column'}}>
           <Typography sx={{ color: 'text.secondary' }}>
             You don&apos;t have permission to access this page.
-            <br />
+          </Typography>
+
+            <Typography sx={{ color: 'text.secondary' }}>
             Please refer to our website administrator for more information.
           </Typography>
         </m.div>
