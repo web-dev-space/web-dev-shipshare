@@ -12,31 +12,60 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from "@mui/material/Grid";
 import * as React from "react";
+import {Stack} from "@mui/material";
 
 
 export default function ParcelListCard({index, parcels, setSelectedParcels}) {
   const firstPage = index;
 
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-  const [selectedItemsToPass, setselectedItemsToPass] = useState([parcels]);
+  const [selectedItemsToPass, setselectedItemsToPass] = useState([]);
   const handleSelectAllChange = (event) => {
     const checked = event.target.checked;
     setSelectAllChecked(checked);
-    setSelectedParcels(checked ? parcels : []);
     setselectedItemsToPass(checked ? parcels : [])
+    setSelectedParcels(checked ? parcels : []);
+
   };
+
+  useEffect(() => {
+    if (parcels.length===1) {
+      if (selectedItemsToPass.length === 1) {
+        setSelectAllChecked(true);
+      } else {
+        setSelectAllChecked(false);
+      }
+    } else
+
+    if (setSelectedParcels.length === parcels.length) {
+      setSelectAllChecked(true);
+    } else {
+      setSelectAllChecked(false);
+    }
+  }, [setSelectedParcels]);
+
   const handleCheckboxChange = (event, parcel) => {
     const { checked } = event.target;
-    setSelectedParcels((prev) =>
-      checked ? [...prev, parcel] : prev.filter((item) => item !== parcel)
-    );
     setselectedItemsToPass((prev) =>
       checked ? [...prev, parcel] : prev.filter((item) => item !== parcel)
     );
+    setSelectedParcels((prev) =>
+      checked ? [...prev, parcel] : prev.filter((item) => item !== parcel)
+    );
+
+    console.log("selectedItemsToPass", selectedItemsToPass);
+    console.log("parcels", parcels);
+    if (!checked) {
+      setSelectAllChecked(false);
+    } else {
+      if (selectedItemsToPass.length === parcels.length-1) {
+        setSelectAllChecked(true);
+      }
+    }
   };
 
   return (
-    <Card sx={{borderRadius: 3, minWidth: 275, minHeight: 550}}>
+    <Card sx={{borderRadius: 3, minWidth: 350, height: '100%'}}>
       {firstPage ? <CardHeader title="Parcels Arrived"/> : <CardHeader title="Parcels"/>}
       <CardContent>
         {/*----select all checkbox----*/}
@@ -74,11 +103,17 @@ export default function ParcelListCard({index, parcels, setSelectedParcels}) {
                 height={80} style={{borderRadius: 15}}/>
             </Box>
             <Box sx={{flexGrow: 1, pl: 2}}>
-              <Typography variant="subtitle1">{parcel.name}</Typography>
-              <Typography variant="body2"
+              <Typography variant="body2">{parcel.name}</Typography>
+              <Typography variant="caption"
                           sx={{color: 'text.secondary'}}
               >Tracking Number: {parcel.trackingNumber}</Typography>
-              <Typography variant="body2">Weight: {parcel.weight} lbs</Typography>
+              <Stack
+                direction="row"
+                spacing={1}
+              >
+              <Typography variant="caption">Weight: </Typography>
+              <Typography variant="caption">{parcel.weight} kg</Typography>
+              </Stack>
             </Box>
           </Box>
         ))}

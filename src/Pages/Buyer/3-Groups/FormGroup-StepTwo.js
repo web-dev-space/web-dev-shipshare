@@ -150,8 +150,9 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
               <DatePicker
                 required
                 name="endDate"
-                label="End Date"
+                label="End Date *"
                 value={selectedDate ? dayjs(selectedDate) : null}
+                minDate={dayjs()}
                 onChange={(date) => handleDateChange(date)}
                 renderInput={(props) => (
                   <TextField {...props}/>

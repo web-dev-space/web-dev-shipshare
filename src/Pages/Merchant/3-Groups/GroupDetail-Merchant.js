@@ -19,9 +19,10 @@ import {styled} from "@mui/material/styles";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import {useDispatch, useSelector} from "react-redux";
 import {findShipGroupByIdThunk} from "../../../redux/shipGroups/shipGroups-thunks";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 import {findAllParcelsThunk} from "../../../redux/parcels/parcels-thunks";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 
 const Item = styled(Paper)(({theme}) => ({
@@ -53,7 +54,7 @@ const GroupDetailMerchant = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const groupId = searchParams.get('groupId');
-
+  const navigate = useNavigate();
 
   const currentGroup = useSelector((state) => {
     return state.shipGroup.currentGroup
@@ -125,6 +126,16 @@ const GroupDetailMerchant = () => {
     }
   }
 
+  const getUserByEmail = (email) => {
+    const user = users.find((user) => {
+      return user.email === email
+    })
+    if (user !== undefined) {
+      return user
+    } else {
+      return null
+    }
+  }
 
   return currentGroup ? (
     <>
@@ -144,12 +155,10 @@ const GroupDetailMerchant = () => {
 
           <Container maxWidth="xl" style={{position: 'relative'}}>
             <IconButton aria-label="delete" size="small"
-                        style={{position: 'absolute', zIndex: 99, top: '20px', left: '40px', backgroundColor: 'white'}}
-                        onClick={() => {
-                          window.history.back();
-                        }}
+                        style={{position: 'absolute', zIndex: 99, top: '20px', left: '40px'}}
+                        onClick={() => {window.history.back()}}
             >
-              <ArrowBackIosNewIcon/>
+              <ArrowBackIcon style={{ color: 'white'}}/>
             </IconButton>
             {/*backgroundImg & join button*/}
             <Box
@@ -269,6 +278,18 @@ const GroupDetailMerchant = () => {
                       }
                       }
                     >
+                      <div
+                        style={
+                          {
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            cursor: 'pointer',
+                          }
+                        }
+                        onClick={() => navigate(`/community/profile/${getUserByEmail(currentGroup.leader)._id}`)}
+                      >
+
                       <div>
                         <Avatar
                           alt="Remy Sharp"
@@ -287,6 +308,7 @@ const GroupDetailMerchant = () => {
                         <Typography variant="caption">
                           {currentGroup ? currentGroup.pickupLocation.name : "Loading.."}
                         </Typography>
+                      </div>
                       </div>
                     </Box>
                   </Item>
@@ -402,6 +424,7 @@ const GroupDetailMerchant = () => {
                         >
                           <Box
                             sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}
+                            onClick={() => navigate(`/community/profile/${getUserByEmail(member)._id}`)}
                           >
                             <Avatar
                               alt="Remy Sharp"
