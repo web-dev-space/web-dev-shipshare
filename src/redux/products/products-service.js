@@ -9,5 +9,6 @@ export const getSearchResults = async (searchText) => {
 }
 
 export const getProductDetails = async (asinID) => {
-    return await axios.get(`${PRODUCTS_API}/details/${asinID}`);
+    const response = await axios.get(`${PRODUCTS_API}/details/${asinID}`);
+    return response.data;
 }

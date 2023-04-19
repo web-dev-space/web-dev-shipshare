@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 // components
 import { SkeletonProductItem } from '../../components/skeleton';
-//
-import ShopProductCard from './ShopProductCard';
+import ProductCard from "../../../Pages/Buyer/4-Community/Products/components/ShopProductCard";
 
 // ----------------------------------------------------------------------
 
@@ -28,7 +27,7 @@ export default function ShopProductList({ products, loading, ...other }) {
     >
       {(loading ? [...Array(12)] : products).map((product, index) =>
         product ? (
-          <ShopProductCard key={product.asin} product={product} />
+          <ProductCard key={product.asin} product={product} />
         ) : (
           <SkeletonProductItem key={index} />
         )

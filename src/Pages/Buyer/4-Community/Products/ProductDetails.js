@@ -2,27 +2,17 @@ import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 // @mui
-import { alpha } from '@mui/material/styles';
-import { Box, Tab, Tabs, Card, Grid, Divider, Container, Typography, Stack } from '@mui/material';
-// redux
-// import { useDispatch, useSelector } from '../../redux/store';
-// import { getProduct, addToCart, gotoStep } from '../../redux/slices/product';
-// routes
-// import { PATH_DASHBOARD } from '../../routes/paths';
-// components
-import Iconify from '../../../../third-party/components/iconify';
-import CustomBreadcrumbs from '../../../../third-party/components/custom-breadcrumbs';
+import { Box, Grid, Container } from '@mui/material';
 import { useSettingsContext } from '../../../../third-party/components/settings';
-import { SkeletonProductDetails } from '../../../../third-party/components/skeleton';
 // sections
 import {
   ProductDetailsSummary,
   ProductDetailsCarousel,
 } from '../../../../third-party/e-commerce/details';
-import CartWidget from '../../../../third-party/e-commerce/CartWidget';
 import Header from "../../../../third-party/layouts/dashboard/header";
 import NavVertical from "../../../../third-party/layouts/dashboard/nav/NavVertical";
 import Main from "../../../../third-party/layouts/dashboard/Main"
+import {getProductDetails} from "../../../../redux/products/products-service";
 
 
 // ----------------------------------------------------------------------
@@ -31,6 +21,28 @@ import Main from "../../../../third-party/layouts/dashboard/Main"
 
 export default function ProductDetails() {
   const { themeStretch } = useSettingsContext();
+
+  const {productId} = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getProductDetails(productId).then((rawData) => {
+      setProduct({
+          id: rawData.asin,
+          name: rawData.title,
+          cover: rawData.images[0].link,
+          images: (rawData.images.length > 3 ?
+              rawData.images.slice(0, 3) : rawData.images).map((image) => image.link),
+          totalRating: rawData.rating,
+          totalReview: rawData.ratings_total,
+
+          brand: rawData.brand,
+          description: rawData.description,
+      });
+      setLoading(false);
+    });
+  }, [productId]);
 
   const [open, setOpen] = useState(false);
 
@@ -46,21 +58,40 @@ export default function ProductDetails() {
 
   const [currentTab, setCurrentTab] = useState('description');
 
-  const product = {
-      id : 1,
-      name : "Product Name",
-      sizes : ["S", "M", "L", "XL"],
-      price : 100,
-      cover : "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZHVjdHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
-      status: 'sale',
-      colors: ['green', 'blue', 'gray'],
-      available : true,
-      priceSale : 50,
-      totalRating : 5,
-      totalReview : 5,
-      inventoryType : "in_stock",
-      images:["https://images.unsplash.com/photo-1681483476977-322d81693e41?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60", "https://images.unsplash.com/photo-1681433803589-cb603ab7a96b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60"]
+  const rawData = {
+      "title": "Folgers Coffee, Classic(Medium) Roast, 51 Ounce Classic 3.1 Pound (Pack of 3)",
+      "asin": "B07VS1BXZJ",
+      "link": "https://www.amazon.com/Folgers-Coffee-Classic-Medium-Roast/dp/B07VS1BXZJ",
+
+      "brand": "Folgers",
+      "description": "Made from Mountain Grown beans, the worlds richest and most aromatic. Folgers Classic Roast Coffee has been The Best Part of Wakin Up for more than 150 years. Finely ground coffee, Medium Roast; Aroma seal canister; Made from Mountain Grown beans",
+
+      "rating": 4.7,
+      "ratings_total": 8022,
+
+      "images": [
+          {
+              "link": "https://m.media-amazon.com/images/I/8145b-eZW9L._SL1500_.jpg",
+              "variant": "MAIN"
+          },
+          {
+              "link": "https://m.media-amazon.com/images/I/51L29e-BHLL._SL1500_.jpg",
+              "variant": "PT90"
+          }
+      ],
   }
+  //
+  // const product = {
+  //     id: rawData.asin,
+  //     name: rawData.title,
+  //     cover: rawData.images[0].link,
+  //     images: rawData.images.map((image) => image.link),
+  //     totalRating: rawData.rating,
+  //     totalReview: rawData.ratings_total,
+  //
+  //     brand: rawData.brand,
+  //     description: rawData.description,
+  // }
 
   return (
     <>
@@ -81,22 +112,21 @@ export default function ProductDetails() {
           <Container maxWidth="none">
       {/*<Container maxWidth={themeStretch ? false : 'lg'}>*/}
 
-          <>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6} lg={7}>
-                <ProductDetailsCarousel product={product} />
-              </Grid>
+              {loading ? <div>Loading...</div> :
+              <>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={6} lg={7}>
+                    <ProductDetailsCarousel product={product} />
+                  </Grid>
 
-              <Grid item xs={12} md={6} lg={5}>
-                <ProductDetailsSummary
-                  product={product}
-                  // cart={checkout.cart}
-                  // onAddCart={handleAddCart}
-                  // onGotoStep={handleGotoStep}
-                />
-              </Grid>
-            </Grid>
-            </>
+                  <Grid item xs={12} md={6} lg={5}>
+                    <ProductDetailsSummary
+                      product={product}
+                    />
+                  </Grid>
+                </Grid>
+                </>
+              }
           </Container>
         </Main>
       </Box>

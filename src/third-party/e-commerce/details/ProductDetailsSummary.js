@@ -44,32 +44,20 @@ export default function ProductDetailsSummary({  product, ...other }) {
   const {
     id,
     name,
-    sizes,
     price,
     cover,
-    status,
-    colors,
-    available,
-    priceSale,
     totalRating,
     totalReview,
-    inventoryType,
+    description,
+    brand,
   } = product;
 
-  // const alreadyProduct = cart.map((item) => item.id).includes(id);
-
-  // const isMaxQuantity =
-  //   cart.filter((item) => item.id === id).map((item) => item.quantity)[0] >= available;
 
   const defaultValues = {
     id,
     name,
     cover,
-    available,
     price,
-    colors: colors[0],
-    size: sizes[4],
-    quantity: available < 1 ? 0 : 1,
   };
 
   const methods = useForm({
@@ -127,26 +115,19 @@ export default function ProductDetailsSummary({  product, ...other }) {
         {...other}
       >
         <Stack spacing={2}>
+          {/* Brand */}
           <Label
             variant="soft"
-            color={inventoryType === 'in_stock' ? 'success' : 'error'}
+            color='success'
             sx={{ textTransform: 'uppercase', mr: 'auto' }}
           >
-            {sentenceCase(inventoryType || '')}
+            Brand: {brand}
           </Label>
 
-          <Typography
-            variant="overline"
-            component="div"
-            sx={{
-              color: status === 'sale' ? 'error.main' : 'info.main',
-            }}
-          >
-            {status}
-          </Typography>
-
+          {/* Name */}
           <Typography variant="h5">{name}</Typography>
 
+          {/* Rating */}
           <Stack direction="row" alignItems="center" spacing={1}>
             <Rating value={totalRating} precision={0.1} readOnly />
 
@@ -156,127 +137,21 @@ export default function ProductDetailsSummary({  product, ...other }) {
             </Typography>
           </Stack>
 
+          {/* Price */}
           <Typography variant="h4">
-            {priceSale && (
-              <Box
-                component="span"
-                sx={{ color: 'text.disabled', textDecoration: 'line-through', mr: 0.5 }}
-              >
-                {fCurrency(priceSale)}
-              </Box>
-            )}
-
             {fCurrency(price)}
           </Typography>
         </Stack>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Typography variant="subtitle2">Color</Typography>
-
-          <Controller
-            name="colors"
-            control={control}
-            render={({ field }) => (
-              <ColorSinglePicker
-                colors={colors}
-                value={field.value}
-                onChange={field.onChange}
-                sx={{
-                  ...(colors.length > 4 && {
-                    maxWidth: 144,
-                    justifyContent: 'flex-end',
-                  }),
-                }}
-              />
-            )}
-          />
-        </Stack>
-
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="subtitle2" sx={{ height: 40, lineHeight: '40px', flexGrow: 1 }}>
-            Size
-          </Typography>
-
-          <RHFSelect
-            name="size"
-            size="small"
-            helperText={
-              <Link underline="always" color="inherit">
-                Size Chart
-              </Link>
-            }
-            sx={{
-              maxWidth: 96,
-              '& .MuiFormHelperText-root': {
-                mx: 0,
-                mt: 1,
-                textAlign: 'right',
-              },
-            }}
-          >
-            {sizes.map((size) => (
-              <MenuItem key={size} value={size}>
-                {size}
-              </MenuItem>
-            ))}
-          </RHFSelect>
-        </Stack>
-
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="subtitle2" sx={{ height: 36, lineHeight: '36px' }}>
-            Quantity
-          </Typography>
-
-          <Stack spacing={1}>
-            <IncrementerButton
-              name="quantity"
-              quantity={values.quantity}
-              disabledDecrease={values.quantity <= 1}
-              disabledIncrease={values.quantity >= available}
-              onIncrease={() => setValue('quantity', values.quantity + 1)}
-              onDecrease={() => setValue('quantity', values.quantity - 1)}
-            />
-
-            <Typography
-              variant="caption"
-              component="div"
-              sx={{ textAlign: 'right', color: 'text.secondary' }}
-            >
-              Available: {available}
-            </Typography>
-          </Stack>
+        <Stack>
+          <Typography variant="subtitle2">Descriptions</Typography>
+          <Typography variant="subtitle2">{description}</Typography>
         </Stack>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        {/*<Stack direction="row" spacing={2}>*/}
-        {/*  <Button*/}
-        {/*    fullWidth*/}
-        {/*    // disabled={isMaxQuantity}*/}
-        {/*    size="large"*/}
-        {/*    color="warning"*/}
-        {/*    variant="contained"*/}
-        {/*    startIcon={<Iconify icon="ic:round-add-shopping-cart" />}*/}
-        {/*    onClick={handleAddCart}*/}
-        {/*    sx={{ whiteSpace: 'nowrap' }}*/}
-        {/*  >*/}
-        {/*    Add to Cart*/}
-        {/*  </Button>*/}
-
-        {/*  <Button fullWidth size="large" type="submit" variant="contained">*/}
-        {/*    Buy Now*/}
-        {/*  </Button>*/}
-        {/*</Stack>*/}
-
-        {/*<Stack direction="row" alignItems="center" justifyContent="center">*/}
-        {/*  {_socials.map((social) => (*/}
-        {/*    <IconButton key={social.name}>*/}
-        {/*      <Iconify icon={social.icon} />*/}
-        {/*    </IconButton>*/}
-        {/*  ))}*/}
-        {/*</Stack>*/}
       </Stack>
     </FormProvider>
   );
