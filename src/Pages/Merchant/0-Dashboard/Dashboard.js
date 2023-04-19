@@ -72,14 +72,24 @@ const Dashboard = () => {
                 <Grid item xs={12} md={6}>
                   <EcommerceWidgetSummary
                     title="Parcels Received"
+                    percent={7.8}
                     total={stats?.totalParcelsNumber === undefined ? 0 : stats?.totalParcelsNumber}
+                    chart={{
+                      colors: [theme.palette.primary.main],
+                      series: [22, 8, 35, 42, 32, 84, 77, 52],
+                    }}
                   />
                 </Grid>
 
                 <Grid item xs={12} md={6}>
                   <EcommerceWidgetSummary
                     title="Shipments Sent"
+                    percent={13.2}
                     total={stats?.totalShipGroupsNumber === undefined ? 0 : stats?.totalShipGroupsNumber}
+                    chart={{
+                      colors: [theme.palette.info.main],
+                      series: [56, 47, 40, 62, 73, 30, 67, 68],
+                    }}
                   />
                 </Grid>
 

@@ -17,6 +17,8 @@ const DashboardCommonPart = ({ stats }) => {
       return {
         ...leader,
         total: leader.amount,
+        key: index,
+        id: index,
       }
     });
 
@@ -26,6 +28,8 @@ const DashboardCommonPart = ({ stats }) => {
       return {
         ...user,
         total: user.amount,
+        key: index,
+        id: index,
       }
     });
 
