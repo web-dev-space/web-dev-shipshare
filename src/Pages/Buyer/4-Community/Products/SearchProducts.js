@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useLocation, useParams} from 'react-router-dom';
 // @mui
 import { Container, Box, Typography, Card } from '@mui/material';
 // components
@@ -7,7 +7,7 @@ import { useSettingsContext } from '../../../../third-party/components/settings'
 // sections
 import Header from "../../../../third-party/layouts/dashboard/header";
 import NavVertical from "../../../../third-party/layouts/dashboard/nav/NavVertical";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Main from "../../../../third-party/layouts/dashboard/Main"
 import SearchBar from "../../../../components/searchBar";
 import {getSearchResults} from "../../../../redux/products/products-service";
@@ -29,19 +29,26 @@ export default function SearchProducts() {
         setOpen(false);
     };
 
-
+    const location = useLocation();
+    const navigate = useNavigate();
+    const searchParams = new URLSearchParams(location.search);
+    const query = searchParams.get('query');
 
     // ShopProductList params -- products[array]
     // Product attributes: id, name, picture, price
     const[products, setProducts] = useState([]);
 
     // Search bar
-    const [filterName, setFilterName] = useState('');
+    const [filterName, setFilterName] = useState(query || '');
     const [startSearch, setStartSearch] = useState(false);
     const handleInputChange = (event) => {
         setFilterName(event.target.value);
     };
     const handleSearch= async() => {
+        searchParams.set('query', filterName);
+        navigate({
+            search: searchParams.toString(),
+        });
         setStartSearch(true);
         await getSearchResults(filterName)
             .then((res) => {
@@ -53,6 +60,12 @@ export default function SearchProducts() {
             handleSearch();
         }
     };
+
+    useEffect(() => {
+        if (query) {
+            handleSearch();
+        }
+    }, [query]);
 
     return (
         <>

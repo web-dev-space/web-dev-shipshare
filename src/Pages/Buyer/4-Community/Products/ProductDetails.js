@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
 // @mui
 import {
     Box,
@@ -11,7 +12,6 @@ import {
     TextField,
     Button,
     Avatar,
-    IconButton,
     Pagination,
     Divider
 } from '@mui/material';
@@ -23,9 +23,7 @@ import NavVertical from "../../../../third-party/layouts/dashboard/nav/NavVertic
 import Main from "../../../../third-party/layouts/dashboard/Main"
 import {getProductDetails} from "../../../../redux/products/products-service";
 import ProductDetailCard from "./components/ProductDetailCard";
-import {findPostByIdThunk, updatePostThunk} from "../../../../redux/posts/posts-thunks";
 import {getRandomAvatar} from "../../../../utils/getRandomAvatar";
-import DeleteIcon from "@mui/icons-material/Delete";
 import {reviews as sampleReviews} from "../../../../sampleData/reviews";
 import {findAllUsersThunk} from "../../../../redux/users/users-thunks";
 import {useDispatch, useSelector} from "react-redux";
@@ -110,6 +108,8 @@ export default function ProductDetails() {
             price: rawData.buybox_winner.price.raw,
           brand: rawData.brand,
           description: rawData.description,
+          features: rawData.feature_bullets,
+          link: rawData.link,
       });
       setLoading(false);
     });
@@ -124,6 +124,12 @@ export default function ProductDetails() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  // back button
+    const navigate = useNavigate();
+    const handleClickBack = () => {
+        navigate(-1);
+    };
 
 // ----------------------------------------------------------------------
     return (
@@ -147,7 +153,11 @@ export default function ProductDetails() {
                   // 这里要换个居中的loading动图
                   ? <div>Loading...</div>
                   : <>
-                      {/*在这里加上back button*/}
+                      {/*Back button*/}
+                      <Button onClick={handleClickBack}>
+                          <FaArrowLeft  style={{marginRight: 8}}/>
+                          Back
+                      </Button>
                     <Grid container spacing={3}>
                       <Grid item xs={12} md={6} lg={7}>
                         <ProductDetailsCarousel product={product} />
@@ -168,20 +178,19 @@ export default function ProductDetails() {
                           >
                               Descriptions
                           </Typography>
-                          {product.description &&
-                              (product.description || '').split('.\ ').map((paragraph, index) => (
+                          {product.features &&
+                              (product.features).map((paragraph, index) => (
                                   <Typography key={index} variant="body1" style={{whiteSpace: 'pre-line'}} gutterBottom paragraph>
                                       {paragraph}.
                                   </Typography>
                               ))
                           }
-                          {(!product.description || product.description === "") &&
+                          {(!product.features || product.features.length === 0) &&
                               <Typography variant="body1" style={{whiteSpace: 'pre-line'}} gutterBottom paragraph>
                                   No description.
                               </Typography>
                           }
-
-
+                          <a href={product.link}>View this product on Amazon</a>
                       </Card>
                       <Card sx={{p:4}}  style={{ marginTop: 64}}>
                           <Typography variant="h5"
