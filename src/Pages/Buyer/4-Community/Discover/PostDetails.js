@@ -33,6 +33,9 @@ const Comment = ({user, date, comment, content, role, dispatch, post}) => {
             comments: post.comments.filter(c => c._id !== comment._id)
         }));
     };
+
+
+
     return (
         <div style={{
             display: 'flex', flexDirection: 'row',
@@ -134,6 +137,18 @@ const PostDetails = () => {
         });
     }
 
+    const [isPhoneScreen, setIsPhoneScreen] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsPhoneScreen(window.innerWidth < 500);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     return (
         <>
             <Helmet>
@@ -183,11 +198,11 @@ const PostDetails = () => {
                                 onClick={() => navigate(-1)}>
                                 <ArrowBackIcon style={{ color: 'white'}}/>
                             </IconButton>
-                            <Typography variant="h2" gutterBottom style={{ color: 'white'}}>
+                            <Typography variant={isPhoneScreen? "h3":"h2"} gutterBottom style={{ color: 'white'}}>
                                 {post.title}
                             </Typography>
 
-                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 80}}>
+                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: isPhoneScreen?40: 80}}>
                                 {!author && <Avatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_1.jpg" sx={{ width: 48, height: 48 }} />}
                                 {author && <Avatar src={author.avatar || getRandomAvatar(author.name)} sx={{ width: 48, height: 48 }} />}
                                 <div style={{ marginLeft: 8}}>
