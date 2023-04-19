@@ -17,28 +17,28 @@ import {
   IconButton,
 } from '@mui/material';
 // routes
-import { PATH_DASHBOARD } from '../../../../routes/paths';
+import { PATH_DASHBOARD } from '../../routes/paths';
 // utils
-import { fShortenNumber, fCurrency } from '../../../../utils/formatNumber';
+import { fShortenNumber, fCurrency } from '../../utils/formatNumber';
 // _mock
-import { _socials } from '../../../../_mock/arrays';
+import { _socials } from '../../_mock/arrays';
 // components
-import Label from '../../../../components/label';
-import Iconify from '../../../../components/iconify';
-import { IncrementerButton } from '../../../../components/custom-input';
-import { ColorSinglePicker } from '../../../../components/color-utils';
-import FormProvider, { RHFSelect } from '../../../../components/hook-form';
+import Label from '../../components/label';
+import Iconify from '../../components/iconify';
+import { IncrementerButton } from '../../components/custom-input';
+import { ColorSinglePicker } from '../../components/color-utils';
+import FormProvider, { RHFSelect } from '../../components/hook-form';
 
 // ----------------------------------------------------------------------
 
 ProductDetailsSummary.propTypes = {
   cart: PropTypes.array,
-  onAddCart: PropTypes.func,
-  product: PropTypes.object,
-  onGotoStep: PropTypes.func,
+  // onAddCart: PropTypes.func,
+  // product: PropTypes.object,
+  // onGotoStep: PropTypes.func,
 };
 
-export default function ProductDetailsSummary({ cart, product, onAddCart, onGotoStep, ...other }) {
+export default function ProductDetailsSummary({  product, ...other }) {
   const navigate = useNavigate();
 
   const {
@@ -56,10 +56,10 @@ export default function ProductDetailsSummary({ cart, product, onAddCart, onGoto
     inventoryType,
   } = product;
 
-  const alreadyProduct = cart.map((item) => item.id).includes(id);
+  // const alreadyProduct = cart.map((item) => item.id).includes(id);
 
-  const isMaxQuantity =
-    cart.filter((item) => item.id === id).map((item) => item.quantity)[0] >= available;
+  // const isMaxQuantity =
+  //   cart.filter((item) => item.id === id).map((item) => item.quantity)[0] >= available;
 
   const defaultValues = {
     id,
@@ -88,31 +88,31 @@ export default function ProductDetailsSummary({ cart, product, onAddCart, onGoto
   }, [product]);
 
   const onSubmit = async (data) => {
-    try {
-      if (!alreadyProduct) {
-        onAddCart({
-          ...data,
-          colors: [values.colors],
-          subtotal: data.price * data.quantity,
-        });
-      }
-      onGotoStep(0);
-      navigate(PATH_DASHBOARD.eCommerce.checkout);
-    } catch (error) {
-      console.error(error);
-    }
+    // try {
+    //   if (!alreadyProduct) {
+    //     onAddCart({
+    //       ...data,
+    //       colors: [values.colors],
+    //       subtotal: data.price * data.quantity,
+    //     });
+    //   }
+    //   onGotoStep(0);
+    //   navigate(PATH_DASHBOARD.eCommerce.checkout);
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   const handleAddCart = async () => {
-    try {
-      onAddCart({
-        ...values,
-        colors: [values.colors],
-        subtotal: values.price * values.quantity,
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    // try {
+    //   onAddCart({
+    //     ...values,
+    //     colors: [values.colors],
+    //     subtotal: values.price * values.quantity,
+    //   });
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   return (
@@ -251,32 +251,32 @@ export default function ProductDetailsSummary({ cart, product, onAddCart, onGoto
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Stack direction="row" spacing={2}>
-          <Button
-            fullWidth
-            disabled={isMaxQuantity}
-            size="large"
-            color="warning"
-            variant="contained"
-            startIcon={<Iconify icon="ic:round-add-shopping-cart" />}
-            onClick={handleAddCart}
-            sx={{ whiteSpace: 'nowrap' }}
-          >
-            Add to Cart
-          </Button>
+        {/*<Stack direction="row" spacing={2}>*/}
+        {/*  <Button*/}
+        {/*    fullWidth*/}
+        {/*    // disabled={isMaxQuantity}*/}
+        {/*    size="large"*/}
+        {/*    color="warning"*/}
+        {/*    variant="contained"*/}
+        {/*    startIcon={<Iconify icon="ic:round-add-shopping-cart" />}*/}
+        {/*    onClick={handleAddCart}*/}
+        {/*    sx={{ whiteSpace: 'nowrap' }}*/}
+        {/*  >*/}
+        {/*    Add to Cart*/}
+        {/*  </Button>*/}
 
-          <Button fullWidth size="large" type="submit" variant="contained">
-            Buy Now
-          </Button>
-        </Stack>
+        {/*  <Button fullWidth size="large" type="submit" variant="contained">*/}
+        {/*    Buy Now*/}
+        {/*  </Button>*/}
+        {/*</Stack>*/}
 
-        <Stack direction="row" alignItems="center" justifyContent="center">
-          {_socials.map((social) => (
-            <IconButton key={social.name}>
-              <Iconify icon={social.icon} />
-            </IconButton>
-          ))}
-        </Stack>
+        {/*<Stack direction="row" alignItems="center" justifyContent="center">*/}
+        {/*  {_socials.map((social) => (*/}
+        {/*    <IconButton key={social.name}>*/}
+        {/*      <Iconify icon={social.icon} />*/}
+        {/*    </IconButton>*/}
+        {/*  ))}*/}
+        {/*</Stack>*/}
       </Stack>
     </FormProvider>
   );
