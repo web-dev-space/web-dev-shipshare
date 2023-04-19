@@ -34,3 +34,10 @@ export const deleteReviewThunk = createAsyncThunk(
     return await service.deleteReview(id);
   }
 );
+
+export const findReviewsForProjectThunk = createAsyncThunk(
+  "reviews/findReviewsForProject",
+  async (asin) => {
+    return await service.findReviewsForProject(asin);
+  }
+);
