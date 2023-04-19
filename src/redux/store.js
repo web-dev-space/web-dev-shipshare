@@ -7,7 +7,7 @@ import shipGroupReducer from "./shipGroups/shipGroups-reducer.js";
 import postsReducer from "./posts/posts-reducer.js";
 import warehouseReducer from "./warehouse/warehouse-reducer";
 import dashboardReducer from "redux/dashboard/dashboard-reducer";
-import reviewsReducer from "reviews/reviews-reducer.js";
+import reviewsReducer from "redux/reviews/reviews-reducer.js";
 
 const store = configureStore({
   reducer: {
