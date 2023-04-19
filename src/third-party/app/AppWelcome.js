@@ -91,7 +91,7 @@ export default function AppWelcome({ title, title2, description, action, img, ..
 
 
         {/*---- all users can see ----*/}
-        <Typography paragraph variant="h2" sx={{ whiteSpace: 'pre-line' ,mt:-8}}>
+        <Typography paragraph variant="h2" sx={{ whiteSpace: 'pre-line' ,mt:-4}}>
           {title}
         </Typography>
         <Typography paragraph variant="h2" sx={{ whiteSpace: 'pre-line' }}>
