@@ -7,7 +7,7 @@ import {
   Typography,
   Box, Button, Card, CardMedia, CardContent, Link,
 } from '@mui/material';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Helmet} from "react-helmet";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {useNavigate} from "react-router-dom";
@@ -18,6 +18,9 @@ import AppWelcome from "../../third-party/app/AppWelcome";
 import {CarouselArrows} from "../../third-party/components/carousel";
 import CarouselRoute from "./CarouselRoute";
 import PostCardSmallLayout from "./PostCardSmallLayout";
+import {findAllParcelsThunk} from "../../redux/parcels/parcels-thunks";
+import {parcelData} from "../../sampleData/parcels";
+import {findAllShipGroupsThunk} from "../../redux/shipGroups/shipGroups-thunks";
 
 
 const Home = () => {
@@ -32,12 +35,12 @@ const Home = () => {
     };
 
     // ---------current user---------
-    let currentUser = useSelector(state => state.auth.currentUser);
-    if (currentUser === null) {
-        currentUser = {
-            role: "visitor"
-        }
-    }
+    const currentUser = useSelector(state => state.auth.currentUser || { role: "visitor" });
+    // if (currentUser === null) {
+    //     currentUser = {
+    //         role: "visitor"
+    //     }
+    // }
 
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const [isLargeScreen, setIsLargeScreen] = useState(false);
@@ -212,7 +215,42 @@ const Home = () => {
       const handleNext = () => {
         carouselRef.current?.slickNext();
       };
-console.log(currentUser);
+// console.log(currentUser);
+
+      const dispatch = useDispatch();
+
+    // Link to DB
+      const { parcels, loading } = useSelector((state) => {
+        return state.parcels
+      });
+
+      const [tableData, setTableData] = useState([]);
+      useEffect(() => {
+        if (currentUser && currentUser.role !== "visitor") {
+          dispatch(findAllParcelsThunk());
+        }
+      }, [currentUser]);
+
+      useEffect(() => {
+        if (parcels) {
+          setTableData(
+            parcels
+              .filter((val) => currentUser.role !== 'buyer' || val.user === currentUser.email)
+          )
+        }
+      }, [parcels, currentUser])
+
+      const shipGroupsRedux = useSelector((state) => state.shipGroup.shipGroups);
+
+      const shipGroups = shipGroupsRedux?.map((shipGroup) => {
+        return {
+          ...shipGroup,
+          key: Math.random(),
+        };
+      }).filter((shipGroup) => shipGroup?.members?.some((member) => member === currentUser?.email));
+
+   // console.log("parcel num is ",tableData.length);
+   // console.log("shipGroup num is ",shipGroups.length);
 
     return (
         <>
@@ -234,23 +272,11 @@ console.log(currentUser);
                 <Main>
                     <Container maxWidth={true}>
 
-                      {/*====== welcome current user ======*/}
-                      {currentUser.name &&
-                        <div style={{backgroundColor: 'rgba(254, 249, 243, 0.6)', padding:5, marginBottom: 46, display: "flex", flexDirection: 'column', justifyContent:'center', alignItems:'center', borderRadius: 15}}>
-                          <Typography paragraph variant="h4" sx={{ whiteSpace: 'pre-line', color:'text.primary',mt:2}}>
-                            Welcome back, {currentUser.name}!
-                          </Typography>
-                          <Typography paragraph variant="h6" sx={{ whiteSpace: 'pre-line', color:'text.secondary'}}>
-                            Thank you for choosing <span style={{color:'rgba(238, 189, 94, 1)'}}>Ship</span><span style={{color:'rgba(128, 178, 19, 1)'}}>Share</span>~
-                          </Typography>
-                        </div>
-                      }
-
                       {/*====== part 1 ======*/}
                       <AppWelcome
-                        title={"Ship globally &"}
-                        title2={"Save big"}
-                        description="ShipShare -- The ultimate solution for affordable and convenient international shipping!"
+                        title={currentUser.name? `Hello, ${currentUser.name}`:"Ship globally &"}
+                        title2={currentUser.name? '':"Save big"}
+                        description={currentUser.name? `You have ${tableData.length} parcels and ${shipGroups.length} shipments. Thank you for choosing ShipShare!`:"ShipShare -- The ultimate solution for affordable and convenient international shipping!"}
                         img={<img src={require('../../images/HomeGroup.png')} alt="HomeGroup" style={{
                           p: 3,
                           width: isSmallScreen? '80%':'50%',

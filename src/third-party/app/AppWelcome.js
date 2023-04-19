@@ -60,7 +60,7 @@ export default function AppWelcome({ title, title2, description, action, img, ..
 
   // get current user
   const currentUser = useSelector((state) => state.auth.currentUser);
-  console.log(currentUser);
+  // console.log(currentUser);
 
 
   return (
