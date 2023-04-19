@@ -349,6 +349,18 @@ const GroupMainPage = () => {
     }
   }
 
+  const [isPhoneScreen, setIsPhoneScreen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsPhoneScreen(window.innerWidth < 962);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -374,7 +386,7 @@ const GroupMainPage = () => {
             <Stack
               mt={3}
               mb={3}
-              direction="row"
+              direction={isPhoneScreen? "column":"row"}
               sx={{justifyContent: 'space-between', width: '100%'}}
             >
               <Stack direction="row" spacing={2}>
@@ -387,7 +399,7 @@ const GroupMainPage = () => {
               </Stack>
 
               <Stack direction="row"
-                     spacing={2}
+                     spacing={2} sx={{mt:isPhoneScreen? 1: 0, display:"flex", justifyContent:"flex-end"}}
               >
                 {currentUser &&<Button
                   variant="contained"
