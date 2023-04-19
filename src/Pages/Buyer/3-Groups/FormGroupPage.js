@@ -98,9 +98,9 @@ export default function FormGroupPage() {
   const defaultValues = {
     shipRoute: '',
     groupName: '',
-    receiverName: '',
-    pickupLocation: '',
-    phoneNumber: '',
+    receiverName: currentUser.name,
+    pickupLocation: currentUser.address ? currentUser.address : '',
+    phoneNumber: currentUser.phone ? currentUser.phone : '',
     endDate: null,
   };
 

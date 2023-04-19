@@ -26,6 +26,7 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
       role: "visitor"
     }
   }
+  console.log("currentUser", currentUser)
 
   // ---- handle the new group object ---
   const defaultValues = {
@@ -64,6 +65,8 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
     onPickupLocationChange(d);
   };
 
+
+  const [receiverName, setReceiverName] = useState(currentUser.name);
 
   return (<>
       {/*----------------- Title & Description -----------------*/}
@@ -114,6 +117,11 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
             id="outlined-required"
             label="Receiver's Name"
             placeholder={'e.g. Mary Smith'}
+            defaultValue={receiverName}
+            // value={receiverName}
+            // onChange={(e) => {
+            //   setReceiverName( e.target.value);
+            // }}
           />
           <RHFTextFieldGoogle
             required
