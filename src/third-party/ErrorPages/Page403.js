@@ -12,7 +12,7 @@ import { ForbiddenIllustration } from '../assets/illustrations';
 
 export default function Page403() {
   return (
-    <Box style={{display: 'flex', height: '100%', justifyContent:'center', alignItems: 'center'}}>
+    <Box style={{display: 'flex', height: '100%', justifyContent:'center', alignItems: 'center', margin:10}}>
       <MotionContainer>
         <m.div variants={varBounce().in}>
           <Typography variant="h3" paragraph>
