@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
+
 // @mui
 import {
   Box,
@@ -30,6 +31,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { findReviewsForProject } from "redux/reviews/reviews-service";
 import { createReviewThunk } from "redux/reviews/reviews-thunks";
 import { findReviewsForProjectThunk } from "redux/reviews/reviews-thunks";
+import React from 'react';
+import { Snackbar } from "@mui/material";
+import { unwrapResult } from '@reduxjs/toolkit';
 
 // ----------------------------------------------------------------------
 const REVIEWS_PER_PAGE = 5;
@@ -41,6 +45,7 @@ const handleClickUserIcon = (user, navigate) => {
 
 // Comment component
 const Review = ({ user, date, content }) => {
+
   const navigate = useNavigate();
 
   return (
@@ -101,6 +106,19 @@ export default function ProductDetails() {
 
   const reviews = useSelector((state) => state.reviews.reviews);
 
+  const errorReviews = useSelector((state) => state.reviews.error);
+
+  const [openSnackbar, setOpenSnackBar] = React.useState(false);
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackBar(false);
+  };
+
+
   useEffect(() => {
     dispatch(findReviewsForProjectThunk(productId));
   }, []);
@@ -112,7 +130,7 @@ export default function ProductDetails() {
     dispatch(findAllUsersThunk());
   }, []);
 
-  function handlePostNewReview() {
+  async function handlePostNewReview() {
     console.log(newReview);
 
     const reviewForPost = {
@@ -122,9 +140,14 @@ export default function ProductDetails() {
       content: newReview,
     };
 
-    dispatch(createReviewThunk(reviewForPost));
+    try {
+      await dispatch(createReviewThunk(reviewForPost)).then(unwrapResult);
+      setNewReview('');
+    } catch (e) {
+      setOpenSnackBar(true);
+      console.log(errorReviews);
+    }
 
-    setNewReview('');
   }
 
   useEffect(() => {
@@ -299,6 +322,14 @@ export default function ProductDetails() {
                 </Card>
               </>
             }
+
+            <Snackbar
+              open={openSnackbar}
+              autoHideDuration={2000}
+              onClose={handleCloseSnackbar}
+              message={errorReviews || "Error occured when posting review."}
+            // action={action}
+            />
           </Container>
         </Main>
       </Box>

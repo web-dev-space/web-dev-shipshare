@@ -55,6 +55,11 @@ const reviewsSlice = createSlice({
             }
             console.log(state.reviews);
         },
+
+        [updateReviewThunk.rejected]: (state) => {
+            state.loading = false;
+            state.error = 'Error occured when posting review';
+        },
         [updateReviewThunk.fulfilled]: (state, { payload }) => {
             state.loading = false;
             console.log(payload);
