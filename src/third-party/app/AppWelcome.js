@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import { Typography, Stack } from '@mui/material';
 // utils
 import { bgGradient } from '../utils/cssStyles';
+import {useSelector} from "react-redux";
 
 // ----------------------------------------------------------------------
 
@@ -56,6 +57,12 @@ AppWelcome.propTypes = {
 };
 
 export default function AppWelcome({ title, title2, description, action, img, ...other }) {
+
+  // get current user
+  const currentUser = useSelector((state) => state.auth.currentUser);
+  console.log(currentUser);
+
+
   return (
     <StyledRoot {...other}>
       <Stack
@@ -70,7 +77,21 @@ export default function AppWelcome({ title, title2, description, action, img, ..
         }}
 
       >
-        <Typography paragraph variant="h2" sx={{ whiteSpace: 'pre-line' }}>
+        {/*/!*---- current user is not null ----*!/*/}
+        {/*{currentUser &&*/}
+        {/*  <Typography paragraph variant="h4" sx={{whiteSpace: 'pre-line', mt: -16}}>*/}
+        {/*    Welcome back, <span style={{color:'orange'}}>{currentUser.name}</span> ~*/}
+        {/*  </Typography>*/}
+        {/*}*/}
+        {/*{currentUser &&*/}
+        {/*  <Typography paragraph variant="h4" sx={{whiteSpace: 'pre-line', mb: 6}}>*/}
+        {/*    Thank you for choosing ShipShare!*/}
+        {/*  </Typography>*/}
+        {/*}*/}
+
+
+        {/*---- all users can see ----*/}
+        <Typography paragraph variant="h2" sx={{ whiteSpace: 'pre-line' ,mt:-8}}>
           {title}
         </Typography>
         <Typography paragraph variant="h2" sx={{ whiteSpace: 'pre-line' }}>

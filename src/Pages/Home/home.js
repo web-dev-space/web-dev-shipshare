@@ -213,6 +213,7 @@ const Home = () => {
         carouselRef.current?.slickNext();
       };
 
+
     return (
         <>
             <Helmet>
@@ -232,53 +233,20 @@ const Home = () => {
                 {/*--------------Main Content----------------------*/}
                 <Main>
                     <Container maxWidth={true}>
+
+                      {/*====== welcome current user ======*/}
+                      {currentUser &&
+                        <div style={{backgroundColor: 'rgba(254, 249, 243, 0.6)', padding:5, marginBottom: 46, display: "flex", flexDirection: 'column', justifyContent:'center', alignItems:'center', borderRadius: 15}}>
+                          <Typography paragraph variant="h4" sx={{ whiteSpace: 'pre-line', color:'text.primary',mt:2}}>
+                            Welcome back, {currentUser.name}!
+                          </Typography>
+                          <Typography paragraph variant="h6" sx={{ whiteSpace: 'pre-line', color:'text.secondary'}}>
+                            Thank you for choosing <span style={{color:'rgba(238, 189, 94, 1)'}}>Ship</span><span style={{color:'rgba(128, 178, 19, 1)'}}>Share</span>~
+                          </Typography>
+                        </div>
+                      }
+
                       {/*====== part 1 ======*/}
-                      {/*<div style={{display: isLargeScreen? 'flex':'', flexDirection: isLargeScreen? 'row': 'column', justifyContent: 'center', alignItem:"center", height: '90vh', backgroundColor: "rgba(251, 254, 243, 0.6)"}}>*/}
-                      {/*  <Box*/}
-                      {/*    sx={{*/}
-                      {/*      width: isLargeScreen? '40%':'100%',*/}
-                      {/*      height: isLargeScreen? '100%':400,*/}
-                      {/*      display: 'flex',*/}
-                      {/*      flexDirection: 'column',*/}
-                      {/*      justifyContent: 'center',*/}
-                      {/*      position: 'relative',*/}
-                      {/*      // flex: isLargeScreen ? '0 0 auto' : '1 1 auto',*/}
-                      {/*      textAlign: isLargeScreen? 'left': 'center',*/}
-                      {/*      alignItems: isLargeScreen? 'flex-start': 'center',*/}
-                      {/*      padding: 2,*/}
-                      {/*      maxWidth: 500,*/}
-                      {/*      minWidth: isLargeScreen? 400:100,*/}
-                      {/*      paddingY: isSmallScreen? '3rem': 0,*/}
-                      {/*    }}*/}
-                      {/*  >*/}
-                      {/*    <Typography variant="h2" component="text" paragraph>*/}
-                      {/*      Ship globally &*/}
-                      {/*    </Typography>*/}
-                      {/*    <Typography variant="h2" component="text" paragraph>*/}
-                      {/*      Save big*/}
-                      {/*    </Typography>*/}
-                      {/*    <Typography variant="body1" component="text" paragraph sx={{color:'gray'}}>*/}
-                      {/*      ShipShare -- The ultimate solution for affordable and convenient international shipping!*/}
-                      {/*    </Typography>*/}
-                      {/*    <Button variant="contained" onClick={()=>navigate('/login')} sx={{marginTop: '1rem', borderRadius: 15, padding: 1, width: 120}}>Get Started</Button>*/}
-                      {/*  </Box>*/}
-                      {/*  /!*--- right side image ---*!/*/}
-                      {/*  <Box*/}
-                      {/*    sx={{*/}
-                      {/*      width: isLargeScreen? '60%':'100%',*/}
-                      {/*      height: '100%',*/}
-                      {/*      alignItems: 'center',*/}
-                      {/*      display: isLargeScreen? 'flex':'',*/}
-                      {/*      justifyContent: 'center',*/}
-                      {/*      overflow: 'hidden',*/}
-                      {/*      flex: isLargeScreen ? '1 1 auto':'0 0 auto',*/}
-                      {/*      padding: 2,*/}
-                      {/*      maxWidth: 800,*/}
-                      {/*    }}*/}
-                      {/*  >*/}
-                      {/*    <img src={require('../../images/HomeGroup.png')} alt="HomeGroup" style={{objectFit: 'cover', borderRadius: '1rem', width: '100%'}}/>*/}
-                      {/*  </Box>*/}
-                      {/*</div>*/}
                       <AppWelcome
                         title={"Ship globally &"}
                         title2={"Save big"}
