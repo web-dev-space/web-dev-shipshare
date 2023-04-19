@@ -24,10 +24,8 @@ export default function ProductDetailCard({  product, ...other }) {
     id,
     name,
     price,
-    cover,
     totalRating,
     totalReview,
-    description,
     brand,
   } = product;
 
@@ -46,19 +44,17 @@ export default function ProductDetailCard({  product, ...other }) {
       >
         <Stack spacing={2}>
           {/* 1. Brand */}
-          <Label
-            variant="soft"
-            color='success'
-            sx={{ textTransform: 'uppercase', mr: 'auto' }}
-          >
+          <Label variant="soft" color='success' sx={{ mr: 'auto' }}>
             Brand: {brand}
           </Label>
 
           {/* 2. Name */}
           <Typography variant="h5">{name}</Typography>
 
+          <Divider sx={{ borderStyle: 'dashed', p:1 }} />
+
           {/* 3. Rating */}
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack direction="row" alignItems="center" spacing={1} sx={{p:1}}>
             {/* a. stars */}
             <Rating value={totalRating} precision={0.1} readOnly />
             {/* b. total ratings */}
@@ -67,26 +63,16 @@ export default function ProductDetailCard({  product, ...other }) {
                 {totalReview}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                reviews
+                ratings
               </Typography>
             </Stack>
           </Stack>
 
           {/* 4. Price */}
-          <Typography variant="h4">
+          <Typography variant="h3">
             {price}
           </Typography>
         </Stack>
-
-        <Divider sx={{ borderStyle: 'dashed' }} />
-
-        <Stack>
-          <Typography variant="subtitle1">Descriptions</Typography>
-          <Typography variant="subtitle2" paragraph>{description}</Typography>
-        </Stack>
-
-        <Divider sx={{ borderStyle: 'dashed' }} />
-
       </Stack>
     </Container>
   );
