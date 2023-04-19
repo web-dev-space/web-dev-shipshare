@@ -1,10 +1,10 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as service from "./users-service"
 
 // find -- all / by id / by email
 export const findAllUsersThunk = createAsyncThunk(
     'users/findAllUsers',
-    async () =>{
+    async () => {
         const users = await service.findAllUsers();
         return users;
     }
@@ -55,13 +55,13 @@ export const loginThunk = createAsyncThunk(
 export const profileThunk = createAsyncThunk(
     "users/profile", async () => {
         return await service.profile();
-});
+    });
 
 
 export const logoutThunk = createAsyncThunk(
     "users/logout", async () => {
         return await service.logout();
-});
+    });
 
 // update parcel
 export const updateCurrentUserThunk = createAsyncThunk(
@@ -77,5 +77,8 @@ export const changePasswordThunk = createAsyncThunk(
     }
 )
 
-
-
+export const restoreAuthThunk = createAsyncThunk(
+    "users/restoreAuth", async (currentUser) => {
+        return currentUser;
+    }
+);
