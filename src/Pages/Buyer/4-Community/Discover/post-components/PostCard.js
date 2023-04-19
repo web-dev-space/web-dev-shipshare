@@ -17,7 +17,7 @@ export default function PostCard({
 
     useEffect(() => {
         const handleResize = () => {
-            setIsPhoneScreen(window.innerWidth < 430);
+            setIsPhoneScreen(window.innerWidth < 480);
         };
         window.addEventListener('resize', handleResize);
         return () => {
