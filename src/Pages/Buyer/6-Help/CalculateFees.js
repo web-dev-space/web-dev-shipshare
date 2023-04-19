@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
@@ -57,6 +57,18 @@ const CalculateFees = () => {
 	const handleCalculate = () => {
 		setIsOpen(true);
 	}
+
+	const [isPhoneScreen, setIsPhoneScreen] = useState(false);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setIsPhoneScreen(window.innerWidth < 460);
+		};
+		window.addEventListener('resize', handleResize);
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, []);
 
 	return (
 		<>
@@ -117,7 +129,7 @@ const CalculateFees = () => {
 						<Typography variant="h6" component="h1" paragraph marginTop={5}>
 							Dimensions
 						</Typography>
-						<Stack direction="row" spacing={6} sx={{marginBottom: 10}}>
+						<Stack direction="row" spacing={isPhoneScreen? 2:6} sx={{marginBottom: 10}}>
 							<TextField fullWidth={true} variant="filled" label="Length" id="length"
 												 onChange={(event) => {setParcelLength(event.target.value); setIsOpen(false)}}
 												 InputProps={{
