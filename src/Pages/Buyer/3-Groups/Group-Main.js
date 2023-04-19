@@ -395,6 +395,7 @@ const GroupMainPage = () => {
                   setFilter={setFilter}
                   focusChip={focusChip}
                   setFocusChip={setFocusChip}
+                  isPhoneScreen={isPhoneScreen}
                 />
               </Stack>
 
@@ -403,7 +404,7 @@ const GroupMainPage = () => {
               >
                 {currentUser &&<Button
                   variant="contained"
-                  size="large"
+                  size={isPhoneScreen?"small": "large"}
                   color='primary'
                   startIcon={<Iconify icon="eva:plus-fill"/>}
                   onClick={handleFormNewGroup}
@@ -412,7 +413,7 @@ const GroupMainPage = () => {
                 </Button>}
                 <Button
                   variant="outlined"
-                  size="large"
+                  size={isPhoneScreen?"small": "large"}
                   startIcon={<TuneIcon/>}
                   onClick={handleOpenFilter}
                 >Filters</Button>
