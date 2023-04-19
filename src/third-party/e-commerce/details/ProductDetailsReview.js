@@ -4,9 +4,9 @@ import sumBy from 'lodash/sumBy';
 // @mui
 import { Divider, Typography, Rating, Button, LinearProgress, Stack, Box } from '@mui/material';
 // utils
-import { fShortenNumber } from '../../../../utils/formatNumber';
+import { fShortenNumber } from '../../utils/formatNumber';
 // components
-import Iconify from '../../../../components/iconify';
+import Iconify from '../../components/iconify';
 //
 import ProductDetailsReviewList from './ProductDetailsReviewList';
 import ProductDetailsReviewNewDialog from './ProductDetailsNewReviewForm';
