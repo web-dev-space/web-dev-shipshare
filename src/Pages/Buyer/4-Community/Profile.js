@@ -238,7 +238,7 @@ const Profile = () => {
                                     borderWidth: 2,
                                     borderStyle: 'solid',
                                     borderColor: 'common.white',
-                                    top: -64,
+                                    top: {xs: -38, md:-64},
                                     zIndex: 2,
                                     width: {xs: 80, md: 128},
                                     height: {xs: 80, md: 128},
@@ -252,7 +252,7 @@ const Profile = () => {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     position: 'relative',
-                                    top: -50,
+                                    top: {xs:-30, md:-50},
                                 }}>
                                   <Typography variant={isSmallScreen?'h5':"h3"} align="center">
                                     {visibleProfile?.name}

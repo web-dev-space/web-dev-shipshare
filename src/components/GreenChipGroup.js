@@ -9,7 +9,7 @@ function GreenChipGroup ({chipLabelsArray, setFilter, focusChip, setFocusChip, i
                     key={label}
                     label={label}
                     variant={focusChip === label ? "filled" : "outlined"}
-                    sx={{ fontSize: isSmallScreen? 12: 14, height:40, mr: 1,
+                    sx={{ fontSize: isSmallScreen? 12: 14, height:40, mr: 1, mt:1,
                         color: focusChip === label ? "#80B213" : "black",
                         fontWeight: "bold",
                     }}
