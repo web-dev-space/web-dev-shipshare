@@ -91,7 +91,7 @@ export default function CheckoutStepTwo({parcels, selectedParcels, setSelectedPa
         <Grid item xs={12} sm={12} md={6}>
           <Card sx={{minWidth: 350, borderRadius: 3, marginBottom: 8}}>
             <CardContent>
-              <Typography sx={{fontSize: 24, fontWeight: 'bold'}} gutterBottom>
+              <Typography variant="h6" gutterBottom>
                 Shipment Information
               </Typography>
               <Typography variant="body1" component="div">
@@ -176,15 +176,16 @@ export default function CheckoutStepTwo({parcels, selectedParcels, setSelectedPa
                   </Typography>
                 </Typography>
               </Box>
-              <Typography component="div" sx={{
+              <Typography
+                component="div"
+                variant="h6"
+                sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
-                fontWeight: 'bold',
-                fontSize: 24,
                 marginTop: '20px'
               }}>
                 Total
-                <Typography sx={{textAlign: 'right', fontWeight: 'bold', fontSize: 24}}>
+                <Typography variant="h6" sx={{textAlign: 'right'}}>
                   $ {routeRate * totalWeight}
                 </Typography>
               </Typography>
