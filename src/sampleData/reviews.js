@@ -29,4 +29,9 @@ export const reviews = [
         date: "2023-03-15T13:45:57.890+00:00",
         content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...",
     },
+<<<<<<< Updated upstream
 ];
+=======
+];
+
+>>>>>>> Stashed changes
