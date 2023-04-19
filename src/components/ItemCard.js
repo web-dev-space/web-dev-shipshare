@@ -2,6 +2,8 @@ import React from "react";
 import Colors from '../styles/Colors';
 import FontSizes from '../styles/FontSizes';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import useDebugWhenChange from "utils/useDebugWhenChange";
+import { useSelector } from "react-redux";
 
 const FontFamily = {
 }
@@ -29,6 +31,7 @@ const ParcelItem = ({ item, index }) => {
 }
 
 const ItemCard = ({ items, leftCornerIconColor, title, isMerchant }) => {
+
   return (
     <div style={styles.bottomContainer}>
       <div style={styles.deliveryBar}>
@@ -41,16 +44,16 @@ const ItemCard = ({ items, leftCornerIconColor, title, isMerchant }) => {
       <div>
         {/*Item list*/}
         {items && !isMerchant &&
-          items.map((item, index) =>
+          items?.map((item, index) =>
             <ParcelItem item={item} index={index} />
           )
         }
 
         {items && isMerchant &&
-          Object.keys(items).map((email, index) => {
+          Object.keys(items)?.map((email, index) => {
 
             const parcels = items[email];
-            const totalWeight = parcels.reduce((acc, parcel) => acc + (parcel.weight || 0), 0);
+            const totalWeight = parcels?.reduce((acc, parcel) => acc + (parcel.weight || 0), 0);
 
             return <div>
               <div style={{ paddingBottom: 12 }}>
