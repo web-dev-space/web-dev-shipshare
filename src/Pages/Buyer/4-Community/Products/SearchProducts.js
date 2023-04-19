@@ -9,12 +9,9 @@ import Header from "../../../../third-party/layouts/dashboard/header";
 import NavVertical from "../../../../third-party/layouts/dashboard/nav/NavVertical";
 import {useState} from "react";
 import Main from "../../../../third-party/layouts/dashboard/Main"
-import {useDispatch} from "react-redux";
-import {
-  ShopProductList,
-} from '../../../../third-party/e-commerce/shop';
 import SearchBar from "../../../../components/searchBar";
 import {getSearchResults} from "../../../../redux/products/products-service";
+import ProductListCard from "./components/ProductListCard";
 
 // ----------------------------------------------------------------------
 
@@ -105,7 +102,7 @@ export default function SearchProducts() {
                                 }
 
                                 {startSearch &&
-                                <ShopProductList products={products} loading={!products.length}/>
+                                <ProductListCard products={products} loading={!products.length}/>
                                 }
                             </Container>
                     </Container>

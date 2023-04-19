@@ -6,7 +6,7 @@ import Image from '../../../../../third-party/components/image';
 
 // ----------------------------------------------------------------------
 
-export default function ProductCard({ product }) {
+export default function ProductListCard({ product }) {
   const id = product.asin;
   const name = product.title;
   const price = product.price? product.price.name : "Unavailable";
