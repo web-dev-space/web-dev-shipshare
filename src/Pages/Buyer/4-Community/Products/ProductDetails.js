@@ -1,36 +1,119 @@
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
 // @mui
-import { alpha } from '@mui/material/styles';
-import { Box, Tab, Tabs, Card, Grid, Divider, Container, Typography, Stack } from '@mui/material';
-// redux
-// import { useDispatch, useSelector } from '../../redux/store';
-// import { getProduct, addToCart, gotoStep } from '../../redux/slices/product';
-// routes
-// import { PATH_DASHBOARD } from '../../routes/paths';
-// components
-import Iconify from '../../../../third-party/components/iconify';
-import CustomBreadcrumbs from '../../../../third-party/components/custom-breadcrumbs';
-import { useSettingsContext } from '../../../../third-party/components/settings';
-import { SkeletonProductDetails } from '../../../../third-party/components/skeleton';
-// sections
 import {
-  ProductDetailsSummary,
-  ProductDetailsCarousel,
-} from '../../../../third-party/e-commerce/details';
-import CartWidget from '../../../../third-party/e-commerce/CartWidget';
+    Box,
+    Grid,
+    Container,
+    Card,
+    Typography,
+    TextField,
+    Button,
+    Avatar,
+    Pagination,
+    Divider
+} from '@mui/material';
+import { useSettingsContext } from '../../../../third-party/components/settings';
+// sections
+import {ProductDetailsCarousel} from '../../../../third-party/e-commerce/details';
 import Header from "../../../../third-party/layouts/dashboard/header";
 import NavVertical from "../../../../third-party/layouts/dashboard/nav/NavVertical";
 import Main from "../../../../third-party/layouts/dashboard/Main"
+import {getProductDetails} from "../../../../redux/products/products-service";
+import ProductDetailCard from "./components/ProductDetailCard";
+import {getRandomAvatar} from "../../../../utils/getRandomAvatar";
+import {reviews as sampleReviews} from "../../../../sampleData/reviews";
+import {findAllUsersThunk} from "../../../../redux/users/users-thunks";
+import {useDispatch, useSelector} from "react-redux";
 
 
 // ----------------------------------------------------------------------
+const REVIEWS_PER_PAGE = 5;
 
+// Comment component
+const Review = ({user, date, content}) => {
+    return (
+        <div style={{
+            display: 'flex', flexDirection: 'row',
+            alignItems: 'center',
+            marginTop: 32, marginBottom: 32}}>
+            {user &&
+                <Avatar src={user.avatar? user.avatar : getRandomAvatar(user.name)} sx={{ width: 48, height: 48, mb: 'auto' }} />}
+            <div style={{ marginLeft: 16, width: "100%"}}>
+                <div style={{display: 'flex', flexDirection: "row"}}>
+                    <div style={{width:"100%"}}>
+                        <div style={{
+                            fontSize: 16,
+                            fontWeight: 600,
+                        }}>
+                            {user?.name}
+                            <div style={{
+                                fontSize: 13,
+                                color: '#929191'
+                            }}>
+                                {date && new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(date))}
+                            </div>
+                        </div>
 
+                    </div>
+                </div>
+
+                <div style={{
+                    fontSize: 14,
+                    marginTop: 10
+                }}>
+                    {content}
+                </div>
+            </div>
+        </div>
+    );
+};
 
 export default function ProductDetails() {
   const { themeStretch } = useSettingsContext();
+  const dispatch = useDispatch();
+
+  const {users} = useSelector((state) => state.users);
+  const role = useSelector(state => state.auth.currentUser?.role);
+
+  const {productId} = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [newReview, setNewReview] = useState('');
+
+  const [reviews, setReviews] = useState(sampleReviews);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    dispatch(findAllUsersThunk());
+    }, []);
+
+  function handlePostNewReview() {
+    console.log(newReview);
+    setNewReview('');
+  }
+
+  useEffect(() => {
+    getProductDetails(productId).then((rawData) => {
+      setProduct({
+          id: rawData.asin,
+          name: rawData.title,
+          cover: rawData.images[0].link,
+          images: (rawData.images.length > 3 ?
+              rawData.images.slice(0, 3) : rawData.images).map((image) => image.link),
+          totalRating: rawData.rating,
+          totalReview: rawData.ratings_total,
+            price: rawData.buybox_winner.price.raw,
+          brand: rawData.brand,
+          description: rawData.description,
+          features: rawData.feature_bullets,
+          link: rawData.link,
+      });
+      setLoading(false);
+    });
+  }, [productId]);
 
   const [open, setOpen] = useState(false);
 
@@ -42,27 +125,14 @@ export default function ProductDetails() {
     setOpen(false);
   };
 
-  const { name } = useParams();
+  // back button
+    const navigate = useNavigate();
+    const handleClickBack = () => {
+        navigate(-1);
+    };
 
-  const [currentTab, setCurrentTab] = useState('description');
-
-  const product = {
-      id : 1,
-      name : "Product Name",
-      sizes : ["S", "M", "L", "XL"],
-      price : 100,
-      cover : "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZHVjdHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
-      status: 'sale',
-      colors: ['green', 'blue', 'gray'],
-      available : true,
-      priceSale : 50,
-      totalRating : 5,
-      totalReview : 5,
-      inventoryType : "in_stock",
-      images:["https://images.unsplash.com/photo-1681483476977-322d81693e41?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60", "https://images.unsplash.com/photo-1681433803589-cb603ab7a96b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60"]
-  }
-
-  return (
+// ----------------------------------------------------------------------
+    return (
     <>
       <Header onOpenNav={handleOpen} />
 
@@ -79,24 +149,121 @@ export default function ProductDetails() {
         {/*--------------Main Content----------------------*/}
         <Main>
           <Container maxWidth="none">
-      {/*<Container maxWidth={themeStretch ? false : 'lg'}>*/}
+              {loading
+                  // 这里要换个居中的loading动图
+                  ? <div>Loading...</div>
+                  : <>
+                      {/*Back button*/}
+                      <Button onClick={handleClickBack}>
+                          <FaArrowLeft  style={{marginRight: 8}}/>
+                          Back
+                      </Button>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} md={6} lg={7}>
+                        <ProductDetailsCarousel product={product} />
+                      </Grid>
 
-          <>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6} lg={7}>
-                <ProductDetailsCarousel product={product} />
-              </Grid>
+                      <Grid item xs={12} md={6} lg={5}>
+                        <ProductDetailCard
+                          product={product}
+                        />
+                      </Grid>
+                    </Grid>
 
-              <Grid item xs={12} md={6} lg={5}>
-                <ProductDetailsSummary
-                  product={product}
-                  // cart={checkout.cart}
-                  // onAddCart={handleAddCart}
-                  // onGotoStep={handleGotoStep}
-                />
-              </Grid>
-            </Grid>
-            </>
+                      {/*descriptions*/}
+
+                      <Card sx={{p:4}}  style={{ marginTop: 64}}>
+                          <Typography variant="h5"
+                            style={{ marginBottom: 16, color: '#80B213'}}
+                          >
+                              Descriptions
+                          </Typography>
+                          {product.features &&
+                              (product.features).map((paragraph, index) => (
+                                  <Typography key={index} variant="body1" style={{whiteSpace: 'pre-line'}} gutterBottom paragraph>
+                                      {paragraph}.
+                                  </Typography>
+                              ))
+                          }
+                          {(!product.features || product.features.length === 0) &&
+                              <Typography variant="body1" style={{whiteSpace: 'pre-line'}} gutterBottom paragraph>
+                                  No description.
+                              </Typography>
+                          }
+                          <a href={product.link}>View this product on Amazon</a>
+                      </Card>
+                      <Card sx={{p:4}}  style={{ marginTop: 64}}>
+                          <Typography variant="h5"
+                                      style={{ marginBottom: 16, color: '#80B213'}}
+                          >
+                              Reviews
+                          </Typography>
+                          {
+                              role && role !== 'visitor' &&
+                              <>
+                                  <TextField
+                                      label="Write some of your reviews..."
+                                      multiline
+                                      fullWidth
+                                      rows={4}
+                                      sx={{ backgroundColor: 'white'}}
+                                      variant="outlined"
+                                      value={newReview}
+                                      onChange={(e) => setNewReview(e.target.value)}
+                                  />
+
+                                  <div style={{ width: '100%', marginBottom:40}}>
+                                      <Button
+                                          variant="contained"
+                                          color="primary"
+                                          style={{
+                                              marginTop: 28,
+                                              display: 'flex',
+                                              marginLeft: 'auto',
+                                              height: 40  }}
+                                          onClick={handlePostNewReview}
+                                      >
+                                          Post Review
+                                      </Button>
+                                  </div>
+                              </>
+                          }
+
+                          {/*-----------------Comments---------------------*/}
+                          <div style={{ marginTop: 16}}>
+                              <Divider sx={{ borderStyle: 'dashed'}} />
+                              {reviews
+                                  .slice((page - 1) * REVIEWS_PER_PAGE, (page - 1) * REVIEWS_PER_PAGE + REVIEWS_PER_PAGE)
+                                  .map((review, index) => (
+                                      <>
+                                          <Review
+                                              key={index}
+                                              user={users.find(user => user._id === review.user)}
+                                              date={review.date}
+                                              content={review.content}
+                                          />
+                                          <Divider sx={{ borderStyle: 'dashed' }} />
+                                      </>
+                                  ))}
+                          </div>
+
+                          {/*-----------------Pagination---------------------*/}
+                          <div
+                              style={{ marginTop: 40, marginBottom: 32,
+                                  display: 'flex', justifyContent: 'center'}}>
+                              <Pagination
+                                  color="primary"
+                                  count={Math.ceil(reviews.length / REVIEWS_PER_PAGE)}
+                                  page={page}
+                                  siblingCount={2}
+                                  boundaryCount={1}
+                                  onChange={(event, value) => {
+                                      setPage(value);
+                                  }} />
+                          </div>
+                      </Card>
+                  </>
+              }
           </Container>
         </Main>
       </Box>

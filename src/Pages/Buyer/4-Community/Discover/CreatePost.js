@@ -44,7 +44,7 @@ const CreatePost = () => {
     // validation schema
     const NewBlogSchema = Yup.object().shape({
         title: Yup.string().required('Title is required')
-            .max(30, 'Title must be no more than 30 characters'),
+            .max(40, 'Title must be no more than 40 characters'),
         cover: Yup.mixed().required('Cover is required'),
         content: Yup.string().required('Content is required'),
     });
