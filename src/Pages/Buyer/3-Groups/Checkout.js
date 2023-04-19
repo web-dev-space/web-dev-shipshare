@@ -48,7 +48,7 @@ export default function Checkout() {
   }, []);
 
 
-  const currentUserParcels = parcels.filter(parcel => parcel.user === currentUser.email && parcel.isWeighted && !parcel.shipGroup);
+  const currentUserParcels = parcels.filter(parcel => parcel.user === currentUser.email && parcel.isWeighted && !parcel.isShipped);
 
   const [selectedParcels, setSelectedParcels] = useState([]);
 
@@ -197,24 +197,21 @@ export default function Checkout() {
                             width: '35%', alignItems: 'center', flexDirection: 'column', display: 'flex',
                           }}
                         >
-                          <div>
+                          <div
+                            style={{
+                              textAlign: 'center',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              height: '100%',
+                            }}>
                             <Typography
                               variant="caption" style={{color: '#C2C0C0'}}
-                            >Please scan the Venmo code for payment
+                            >Please scan the Venmo code for payment and note that we will verify the payment before continuing with the process.
                             </Typography>
                           </div>
-                          <div>
-                            <Typography
-                              variant="caption" style={{color: '#C2C0C0'}}
-                            >and note that we will verify the payment
-                            </Typography>
-                          </div>
-                          <div>
-                            <Typography
-                              variant="caption" style={{color: '#C2C0C0'}}
-                            >before continuing with the process.
-                            </Typography>
-                          </div>
+
                         </Box>
                       </Box>
                       <Box
@@ -242,22 +239,18 @@ export default function Checkout() {
                             width: '35%', alignItems: 'center', flexDirection: 'column', display: 'flex',
                           }}
                         >
-                          <div>
+                          <div
+                            style={{
+                              textAlign: 'center',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              height: '100%',
+                            }}>
                             <Typography
                               variant="caption" style={{color: '#C2C0C0'}}
-                            >After we verify your payment,
-                            </Typography>
-                          </div>
-                          <div>
-                            <Typography
-                              variant="caption" style={{color: '#C2C0C0'}}
-                            >we will prepare for the shipment.
-                            </Typography>
-                          </div>
-                          <div>
-                            <Typography
-                              variant="caption" style={{color: '#C2C0C0'}}
-                            >Thanks for your order.
+                            >After we verify your payment, we will prepare for the shipment. Thanks for your order.
                             </Typography>
                           </div>
                         </Box>

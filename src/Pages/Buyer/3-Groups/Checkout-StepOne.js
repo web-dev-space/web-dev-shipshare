@@ -25,6 +25,7 @@ export default function CheckoutStepOne({parcels, selectedParcels, setSelectedPa
             spacing={5}
             sx={{
               justifyContent: 'center',
+              alignItems: 'stretch',
             }}>
         <Grid item xs={12} sm={12} md={6}>
           <ParcelListCard index={true} parcels={parcels} setSelectedParcels={setSelectedParcels}/>
