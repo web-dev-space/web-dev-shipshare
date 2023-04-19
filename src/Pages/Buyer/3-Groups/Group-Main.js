@@ -54,6 +54,7 @@ const DEFAULT_ORDER_BY = 'joinDate';
 const DEFAULT_ROWS_PER_PAGE = 5;
 
 
+
 const headCells = [
   {id: 'name', numeric: false, disablePadding: true, label: 'Group Name', sortable: true},
   {id: 'shipRoute', numeric: false, disablePadding: false, label: 'Route', sortable: true},
@@ -319,31 +320,17 @@ const GroupMainPage = () => {
   const currentUser = useSelector(state => state.auth.currentUser);
 
   const handleFormNewGroup = () => {
-    if (currentUser === null) {
-      alert("Please login first")
-      return;
-    }
     navigate('./form-new-group');
   }
 
   const handleClickJoinGroup = (row) => {
-    if (currentUser === null) {
-      alert("Please login first")
-      return;
-    }
-    // console.log("row")
-    // console.log(row)
     let groupId = row._id
     dispatch(findShipGroupByIdThunk(groupId));
     navigate('./checkout?groupId=' + groupId);
   }
 
   const handleClickGroupDetail = (row) => {
-
-    // console.log("row")
-    // console.log(row)
     let groupId = row._id
-    // console.log(groupId)
     navigate('./group-details?groupId=' + groupId);
   }
 
@@ -402,7 +389,7 @@ const GroupMainPage = () => {
               <Stack direction="row"
                      spacing={2}
               >
-                <Button
+                {currentUser &&<Button
                   variant="contained"
                   size="large"
                   color='primary'
@@ -410,7 +397,7 @@ const GroupMainPage = () => {
                   onClick={handleFormNewGroup}
                 >
                   Form New
-                </Button>
+                </Button>}
                 <Button
                   variant="outlined"
                   size="large"
@@ -438,6 +425,7 @@ const GroupMainPage = () => {
                     order={order}
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
+                    currentUser={currentUser}
                   />
 
                   {/*table body*/}
@@ -584,7 +572,7 @@ const GroupMainPage = () => {
                           </TableCell>
 
                           <TableCell>
-                            <Button variant="contained"
+                            {currentUser && <Button variant="contained"
                                     sx={{
                                       color: 'white',
                                       borderRadius: 5,
@@ -594,7 +582,7 @@ const GroupMainPage = () => {
                                     onClick={() => handleClickJoinGroup(row)}
                             >
                               Join
-                            </Button>
+                            </Button>}
                           </TableCell>
                           <TableCell>
                             <Button
@@ -767,15 +755,24 @@ const FilterDialog = ({
 
 
 function MyTableHead(props) {
-  const {order, orderBy, onRequestSort} = props;
+  const {order, orderBy, onRequestSort,currentUser} = props;
   const createSortHandler = (newOrderBy) => (event) => {
     onRequestSort(event, newOrderBy);
   };
 
+  const updatedHeadCells = headCells.map((headCell) => {
+    if (headCell.id === 'actions') {
+      return currentUser !== null ? headCell : null;
+    } else {
+      return headCell;
+    }
+  });
+
   return (
     <TableHead>
       <TableRow style={{borderTop: '1px solid #EDF2F7'}}>
-        {headCells.map((headCell) => (
+        {updatedHeadCells.map((headCell) => (
+          headCell && (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
@@ -798,6 +795,7 @@ function MyTableHead(props) {
               </TableSortLabel> : headCell.label
             }
           </TableCell>
+          )
         ))}
       </TableRow>
     </TableHead>

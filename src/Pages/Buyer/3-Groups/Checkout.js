@@ -22,6 +22,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {findAllParcelsThunk, updateParcelThunk} from "../../../redux/parcels/parcels-thunks";
 import {findShipGroupByIdThunk, updateShipGroupThunk} from "../../../redux/shipGroups/shipGroups-thunks";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const steps = ['', '', '', ''];
 export default function Checkout() {
@@ -47,7 +48,7 @@ export default function Checkout() {
   }, []);
 
 
-  const currentUserParcels = parcels.filter(parcel => parcel.user === currentUser.email && parcel.isWeighted && !parcel.shipGroup);
+  const currentUserParcels = parcels.filter(parcel => parcel.user === currentUser.email && parcel.isWeighted && !parcel.isShipped);
 
   const [selectedParcels, setSelectedParcels] = useState([]);
 
@@ -120,6 +121,8 @@ export default function Checkout() {
     setOpen(false);
   };
 
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
+
   return (<>
       <Header onOpenNav={handleOpen}/>
       {/*-------Box is the layout of the whole page-----*/}
@@ -145,20 +148,13 @@ export default function Checkout() {
                   marginRight: 'auto',
                   display: 'flex',
                   justifyContent: 'center',
+                  // alignItems: 'center',
                   mb: 5,
                 }}
               >
                 {steps.map((label, index) => {
                   const stepProps = {};
                   const labelProps = {};
-                  // if (isStepOptional(index)) {
-                  //   labelProps.optional = (
-                  //     <Typography variant="caption">Optional</Typography>
-                  //   );
-                  // }
-                  // if (isStepSkipped(index)) {
-                  //   stepProps.completed = false;
-                  // }
                   return (<Step key={label} {...stepProps}>
                       <StepLabel {...labelProps}>{label}</StepLabel>
                     </Step>);
@@ -201,24 +197,21 @@ export default function Checkout() {
                             width: '35%', alignItems: 'center', flexDirection: 'column', display: 'flex',
                           }}
                         >
-                          <div>
+                          <div
+                            style={{
+                              textAlign: 'center',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              height: '100%',
+                            }}>
                             <Typography
                               variant="caption" style={{color: '#C2C0C0'}}
-                            >Please scan the Venmo code for payment
+                            >Please scan the Venmo code for payment and note that we will verify the payment before continuing with the process.
                             </Typography>
                           </div>
-                          <div>
-                            <Typography
-                              variant="caption" style={{color: '#C2C0C0'}}
-                            >and note that we will verify the payment
-                            </Typography>
-                          </div>
-                          <div>
-                            <Typography
-                              variant="caption" style={{color: '#C2C0C0'}}
-                            >before continuing with the process.
-                            </Typography>
-                          </div>
+
                         </Box>
                       </Box>
                       <Box
@@ -246,22 +239,18 @@ export default function Checkout() {
                             width: '35%', alignItems: 'center', flexDirection: 'column', display: 'flex',
                           }}
                         >
-                          <div>
+                          <div
+                            style={{
+                              textAlign: 'center',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              height: '100%',
+                            }}>
                             <Typography
                               variant="caption" style={{color: '#C2C0C0'}}
-                            >After we verify your payment,
-                            </Typography>
-                          </div>
-                          <div>
-                            <Typography
-                              variant="caption" style={{color: '#C2C0C0'}}
-                            >we will prepare for the shipment.
-                            </Typography>
-                          </div>
-                          <div>
-                            <Typography
-                              variant="caption" style={{color: '#C2C0C0'}}
-                            >Thanks for your order.
+                            >After we verify your payment, we will prepare for the shipment. Thanks for your order.
                             </Typography>
                           </div>
                         </Box>
@@ -380,7 +369,61 @@ export default function Checkout() {
                     </React.Fragment>)}
 
                   {/*------------------buttons------------------*/}
-                  <Box sx={{display: 'flex', flexDirection: 'row', pt: 2, ml: 10, mr: 10}}>
+
+                {
+                  isSmallScreen &&
+                  <Box sx={{
+                    display: 'flex',
+                    flexDirection: {xs: 'column', sm: 'row'},
+                    pt: 2,
+                    ml: 'auto',
+                    mr: 'auto'
+                  }}>
+                    {activeStep === 0 && (<Button
+                      variant={"contained"}
+                      onClick={handleNext}
+                    >
+                      Checkout
+                    </Button>)}
+                    {activeStep === 1 && (<Button
+                      variant={"contained"}
+                      onClick={handleNext}
+                    >
+                      Place Order
+                    </Button>)}
+                    {activeStep === 2 && (<Button
+                      variant={"contained"}
+                      onClick={handleNext}
+                    >
+                      Payment Completed
+                    </Button>)}
+                    {activeStep === 3 && (<Button
+                      variant={"contained"}
+                      onClick={handleNext}
+                    >
+                      Done
+                    </Button>)}
+                    <Box sx={{flex: '1 1 auto'}}/>
+                    <Button
+                      color="inherit"
+                      disabled={activeStep === 2 || activeStep === 3}
+                      onClick={handleBack}
+                    >
+                      {activeStep ===  0||activeStep ===  1 ? 'Back' : ''}
+                    </Button>
+                  </Box>
+                }
+
+                {
+                  !isSmallScreen &&
+
+                  <Box sx={{
+                    display: 'flex',
+                    flexDirection: {xs: 'column', sm: 'row'},
+                    pt: 2,
+                    ml: 'auto',
+                    mr: 'auto'
+                  }}>
                     <Button
                       color="inherit"
                       disabled={activeStep === 2 || activeStep === 3}
@@ -414,10 +457,9 @@ export default function Checkout() {
                       >
                         Done
                       </Button>)}
-                    {/*<Button onClick={handleNext}>*/}
-                    {/*	{activeStep === steps.length - 1 ? 'Finish' : 'Next'}*/}
-                    {/*</Button>*/}
                   </Box>
+                }
+
                 </React.Fragment>)}
             </Box>
           </Container>
