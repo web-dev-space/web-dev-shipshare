@@ -41,7 +41,7 @@ import GroupDetailDrawerScreen from "./GroupDetailDrawerScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { findAllShipGroupsThunk } from "../../../redux/shipGroups/shipGroups-thunks";
 import { Helmet } from "react-helmet";
-import {findAllUsersThunk} from "../../../redux/users/users-thunks";
+import { findAllUsersThunk } from "../../../redux/users/users-thunks";
 
 
 const DEFAULT_ORDER = 'asc';
@@ -231,7 +231,8 @@ const GroupMainMerchant = () => {
 
   const [detailedShip, setDetailedShip] = useState({});
   const [openDrawer, setOpenDrawer] = useState(false);
-  const handleOpenDrawer = () => {
+  const handleOpenDrawer = ({ ship }) => {
+    setDetailedShip(ship);
     setOpenDrawer(true);
   }
   const handleCloseDrawer = () => {
@@ -293,7 +294,7 @@ const GroupMainMerchant = () => {
         <Main>
           <Container maxWidth={false}>
             <Typography variant="h4">
-               Groups
+              Groups
             </Typography>
             <Stack
               mt={3}
@@ -345,7 +346,7 @@ const GroupMainMerchant = () => {
 
                   {/*table body*/}
                   <TableBody>
-                    {displayedItems.map((row) => (
+                    {displayedItems.map((row, index) => (
                       <TableRow
                         key={row.name}
                         style={{
@@ -443,23 +444,23 @@ const GroupMainMerchant = () => {
                           </Typography>
                         </TableCell>
                         <TableCell>
-                            <Button
-                              onClick={() => handleClickGroupDetail(row)}
-                              variant="contained"
-                              sx={{
+                          <Button
+                            onClick={() => handleClickGroupDetail(row)}
+                            variant="contained"
+                            sx={{
                               color: 'white',
                               borderRadius: 1,
                               backgroundColor: '80B213',
                               height: 45,
                             }}>
-                              Group Page
-                            </Button>
+                            Group Page
+                          </Button>
                         </TableCell>
                         <TableCell>
                           <Button
                             variant="outlined"
                             sx={{ borderRadius: 1, height: 45, }}
-                            onClick={handleOpenDrawer}
+                            onClick={() => handleOpenDrawer({ ship: displayedItems[index] })}
                           >Details</Button>
                         </TableCell>
                       </TableRow>
@@ -519,7 +520,7 @@ const GroupMainMerchant = () => {
                 m: 0,
               }}
             >
-              <GroupDetailDrawerScreen handleClose={handleCloseDrawer} ship={detailedShip} />
+              <GroupDetailDrawerScreen handleClose={handleCloseDrawer} ship={detailedShip} users={users}/>
             </Box>
           </Drawer>
 

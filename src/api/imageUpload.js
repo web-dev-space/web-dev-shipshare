@@ -14,7 +14,6 @@ export const urlToFile = async (url, filename) => {
 }
 
 export const uploadImage = async (imageFile) => {
-  console.log("imageFile: " + imageFile);
   try {
     const formData = new FormData();
     formData.append('image', imageFile);

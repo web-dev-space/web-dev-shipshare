@@ -110,7 +110,7 @@ const Dashboard = () => {
                     title="Parcel Received"
                     total={getNumberWithDefault(stats?.totalParcelsNumber)}
                     color="warning"
-                    icon="fluent-mdl2:join-online-meeting"
+                    icon="tabler:package-export"
                   />
                 </Grid>
 
@@ -119,7 +119,7 @@ const Dashboard = () => {
                     title="Shipments Sent"
                     total={getNumberWithDefault(stats?.totalShipGroupsNumber)}
                     color="error"
-                    icon="tabler:package-export"
+                    icon="fluent-mdl2:join-online-meeting"
                   />
                 </Grid>
 
@@ -129,7 +129,7 @@ const Dashboard = () => {
                     chart={{
                       labels: timeLabels,
                       colors: [
-                        theme.palette.success.main,
+                        '#00b8d7'
                       ],
                       series: [
                         {
@@ -151,7 +151,7 @@ const Dashboard = () => {
 
                 <Grid item xs={12} md={6} lg={6}>
                   <FileGeneralDataActivity
-                    title="New User Registration"
+                    title="New ShipGroup Formed"
                     chart={{
                       labels: timeLabelsFormedShipGroups,
                       colors: [
