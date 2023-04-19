@@ -23,9 +23,16 @@ import { findAllUsersThunk } from "../../../../redux/users/users-thunks";
 const post = posts[0];
 const COMMENT_PER_PAGE = 5;
 
+const handleClickUserIcon = (user, navigate) => {
+  if (!user || !user._id) return;
+  navigate(`/community/profile/${user._id}`)
+};
+
 
 // Comment component
 const Comment = ({ user, date, comment, content, role, dispatch, post }) => {
+  const navigate = useNavigate();
+
   const handleDeleteComment = (comment) => {
     console.log(comment);
     dispatch(updatePostThunk({
@@ -33,6 +40,7 @@ const Comment = ({ user, date, comment, content, role, dispatch, post }) => {
       comments: post.comments.filter(c => c._id !== comment._id)
     }));
   };
+
   return (
     <div style={{
       display: 'flex', flexDirection: 'row',
@@ -42,6 +50,8 @@ const Comment = ({ user, date, comment, content, role, dispatch, post }) => {
       {user &&
         <Avatar
           src={user.avatar ? user.avatar : getRandomAvatar(user.name)}
+          onClick={() => { handleClickUserIcon(user, navigate) }}
+          style={{ cursor: 'pointer' }}
           sx={{ width: 48, height: 48, mb: 'auto' }} />}
       <div style={{ marginLeft: 16, width: "100%" }}>
         <div style={{ display: 'flex', flexDirection: "row" }}>
@@ -194,8 +204,14 @@ const PostDetails = () => {
               </Typography>
 
               <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 80 }}>
-                {!author && <Avatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_1.jpg" sx={{ width: 48, height: 48 }} />}
-                {author && <Avatar src={author.avatar || getRandomAvatar(author.name)} sx={{ width: 48, height: 48 }} />}
+                {!author && <Avatar
+                  src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_1.jpg"
+                  sx={{ width: 48, height: 48 }} />}
+                {author && <Avatar
+                  src={author.avatar || getRandomAvatar(author.name)}
+                  onClick={() => { handleClickUserIcon(author, navigate) }}
+                  style={{ cursor: 'pointer' }}
+                  sx={{ width: 48, height: 48 }} />}
                 <div style={{ marginLeft: 8 }}>
                   <div style={{
                     fontSize: 16,
