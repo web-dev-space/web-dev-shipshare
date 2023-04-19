@@ -1,5 +1,5 @@
 import { ToggleButton } from "@mui/lab";
-import Pagination from "@mui/lab/Pagination";
+import { Pagination } from '@mui/material';
 import { Drawer, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";

@@ -16,7 +16,7 @@ import TableHead from "@mui/material/TableHead";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { visuallyHidden } from "@mui/utils";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Pagination from "@mui/lab/Pagination";
+import { Pagination } from '@mui/material';
 import ParcelDetailsScreen from "./ParcelDetailsScreen";
 import {useNavigate} from "react-router-dom";
 import useDebugWhenChange from "utils/useDebugWhenChange";
