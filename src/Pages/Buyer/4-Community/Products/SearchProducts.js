@@ -12,6 +12,7 @@ import Main from "../../../../third-party/layouts/dashboard/Main"
 import SearchBar from "../../../../components/searchBar";
 import {getSearchResults} from "../../../../redux/products/products-service";
 import ProductListCard from "./components/ProductListCard";
+import {ShopProductList} from "../../../../third-party/e-commerce/shop";
 
 // ----------------------------------------------------------------------
 
@@ -27,6 +28,8 @@ export default function SearchProducts() {
     const handleClose = () => {
         setOpen(false);
     };
+
+
 
     // ShopProductList params -- products[array]
     // Product attributes: id, name, picture, price
@@ -102,7 +105,7 @@ export default function SearchProducts() {
                                 }
 
                                 {startSearch &&
-                                <ProductListCard products={products} loading={!products.length}/>
+                                <ShopProductList products={products} loading={!products.length}/>
                                 }
                             </Container>
                     </Container>

@@ -78,6 +78,7 @@ export default function ProductDetails() {
   const dispatch = useDispatch();
 
   const {users} = useSelector((state) => state.users);
+  const role = useSelector(state => state.auth.currentUser?.role);
 
   const {productId} = useParams();
   const [product, setProduct] = useState(null);
@@ -146,6 +147,7 @@ export default function ProductDetails() {
                   // 这里要换个居中的loading动图
                   ? <div>Loading...</div>
                   : <>
+                      {/*在这里加上back button*/}
                     <Grid container spacing={3}>
                       <Grid item xs={12} md={6} lg={7}>
                         <ProductDetailsCarousel product={product} />
@@ -166,11 +168,20 @@ export default function ProductDetails() {
                           >
                               Descriptions
                           </Typography>
-                          {(product.description || '').split('.\ ').map((paragraph, index) => (
-                              <Typography key={index} variant="body1" style={{whiteSpace: 'pre-line'}} gutterBottom paragraph>
-                                  {paragraph}.
+                          {product.description &&
+                              (product.description || '').split('.\ ').map((paragraph, index) => (
+                                  <Typography key={index} variant="body1" style={{whiteSpace: 'pre-line'}} gutterBottom paragraph>
+                                      {paragraph}.
+                                  </Typography>
+                              ))
+                          }
+                          {(!product.description || product.description === "") &&
+                              <Typography variant="body1" style={{whiteSpace: 'pre-line'}} gutterBottom paragraph>
+                                  No description.
                               </Typography>
-                          ))}
+                          }
+
+
                       </Card>
                       <Card sx={{p:4}}  style={{ marginTop: 64}}>
                           <Typography variant="h5"
@@ -179,7 +190,7 @@ export default function ProductDetails() {
                               Reviews
                           </Typography>
                           {
-
+                              role && role !== 'visitor' &&
                               <>
                                   <TextField
                                       label="Write some of your reviews..."
@@ -211,22 +222,21 @@ export default function ProductDetails() {
 
                           {/*-----------------Comments---------------------*/}
                           <div style={{ marginTop: 16}}>
+                              <Divider sx={{ borderStyle: 'dashed'}} />
                               {reviews
                                   .slice((page - 1) * REVIEWS_PER_PAGE, (page - 1) * REVIEWS_PER_PAGE + REVIEWS_PER_PAGE)
                                   .map((review, index) => (
                                       <>
-                                          <Divider sx={{ borderStyle: 'dashed' }} />
                                           <Review
                                               key={index}
                                               user={users.find(user => user._id === review.user)}
                                               date={review.date}
                                               content={review.content}
                                           />
+                                          <Divider sx={{ borderStyle: 'dashed' }} />
                                       </>
                                   ))}
                           </div>
-
-                          <Divider sx={{ borderStyle: 'dashed'}} />
 
                           {/*-----------------Pagination---------------------*/}
                           <div
