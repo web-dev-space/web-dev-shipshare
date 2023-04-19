@@ -11,39 +11,46 @@ import {useEffect, useState} from "react";
 
 
 export default function CheckoutStepOne({parcels, selectedParcels, setSelectedParcels}) {
-	return (
-		<Box sx={{ flexGrow: 1 }}>
-			<Grid container spacing={5}>
-				<Grid item xs={6}>
-					<ParcelListCard index={true} parcels={parcels} setSelectedParcels={setSelectedParcels}/>
-				</Grid>
+  return (
+    <Box
+      sx={{
+        // flexGrow: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
 
-        <Grid item xs={6}>
+    >
+      <Grid container
+            spacing={5}
+            sx={{
+              justifyContent: 'center',
+            }}>
+        <Grid item xs={12} sm={12} md={6}>
+          <ParcelListCard index={true} parcels={parcels} setSelectedParcels={setSelectedParcels}/>
+        </Grid>
 
-					<Card sx={{ minWidth: 275 }}>
-						<CardContent>
-							<Typography variant="h6" component="div" sx={{ display: 'flex'}}>
-								Total
-							</Typography>
-							<Typography component="div" sx={{ display: 'flex', justifyContent: 'space-between', marginTop:3}}>
-								Number of Items
-								<Typography sx={{ textAlign: 'right' }}>{selectedParcels.length} Parcels</Typography>
-							</Typography>
-							<Typography variant="h5" component="div"
-													sx={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', marginTop: 1 }}>
-								Weight
-								<Typography sx={{ textAlign: 'right', fontWeight: 'bold' }}>
-									{(selectedParcels.reduce((acc, parcel) => acc + parcel.weight, 0)).toFixed(1)} kg
-								</Typography>
-							</Typography>
-						</CardContent>
-					</Card>
+        <Grid item xs={12} sm={12} md={6}>
 
-          {/*<Grid  sx={{ display: 'flex', justifyContent: 'center' }}>*/}
-          {/*	<Button variant="contained" style={{ borderRadius: 25, marginTop: 30, marginBottom: 30, maxWidth: 400, height:50 }} fullWidth="true">*/}
-          {/*		Checkout*/}
-          {/*	</Button>*/}
-          {/*</Grid>*/}
+          <Card sx={{minWidth: 350}}>
+            <CardContent>
+              <Typography variant="h6" component="div" sx={{display: 'flex'}}>
+                Total
+              </Typography>
+              <Typography component="div" sx={{display: 'flex', justifyContent: 'space-between', marginTop: 3}}>
+                Number of Items
+                <Typography sx={{textAlign: 'right'}}>{selectedParcels.length} Parcels</Typography>
+              </Typography>
+              <Typography variant="h5" component="div"
+                          sx={{display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', marginTop: 1}}>
+                Weight
+                <Typography sx={{textAlign: 'right', fontWeight: 'bold'}}>
+                  {(selectedParcels.reduce((acc, parcel) => acc + parcel.weight, 0)).toFixed(1)} kg
+                </Typography>
+              </Typography>
+            </CardContent>
+          </Card>
+
         </Grid>
       </Grid>
     </Box>

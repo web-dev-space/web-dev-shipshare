@@ -18,13 +18,22 @@ export default function ParcelListCard({index, parcels, setSelectedParcels}) {
   const firstPage = index;
 
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-  const [selectedItemsToPass, setselectedItemsToPass] = useState([parcels]);
+  const [selectedItemsToPass, setselectedItemsToPass] = useState([]);
   const handleSelectAllChange = (event) => {
     const checked = event.target.checked;
     setSelectAllChecked(checked);
     setSelectedParcels(checked ? parcels : []);
     setselectedItemsToPass(checked ? parcels : [])
   };
+
+  useEffect(() => {
+    if (setSelectedParcels.length === parcels.length) {
+      setSelectAllChecked(true);
+    } else {
+      setSelectAllChecked(false);
+    }
+  }, [setSelectedParcels]);
+
   const handleCheckboxChange = (event, parcel) => {
     const { checked } = event.target;
     setSelectedParcels((prev) =>
@@ -36,14 +45,14 @@ export default function ParcelListCard({index, parcels, setSelectedParcels}) {
     if (!checked) {
       setSelectAllChecked(false);
     } else {
-      if (selectedItemsToPass.length === parcels.length - 1) {
+      if (selectedItemsToPass.length === parcels.length-1) {
         setSelectAllChecked(true);
       }
     }
   };
 
   return (
-    <Card sx={{borderRadius: 3, minWidth: 275, minHeight: 550}}>
+    <Card sx={{borderRadius: 3, minWidth: 350, minHeight: 550}}>
       {firstPage ? <CardHeader title="Parcels Arrived"/> : <CardHeader title="Parcels"/>}
       <CardContent>
         {/*----select all checkbox----*/}
