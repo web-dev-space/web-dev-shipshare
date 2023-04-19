@@ -311,7 +311,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     return updatedRows;
   }, [page, rows, rowsPerPage, order, orderBy]);
 
-
   const paddingHeight = React.useMemo(() => {
     const newPage = page - 1;
 
@@ -322,7 +321,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
 
     return 53 * numEmptyRows;
   }, [rows, page, rowsPerPage])
-
 
   useEffect(() => {
     const filterTableData = () => {

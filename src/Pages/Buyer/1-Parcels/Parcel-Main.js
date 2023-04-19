@@ -260,8 +260,8 @@ const ParcelMainPage = () => {
 };
 
 const couriers = [
-    { value: 'yto', label: 'YTO' },
-    { value: 'yunda', label: 'Yunda Express' },
+    { value: 'yto', label: 'YTO', key: "yto" },
+    { value: 'yunda', label: 'Yunda Express', key: "yunda" },
 ];
 
 const AddParcelDialog = ({ open, onClose, handleAddNewParcel }) => {
