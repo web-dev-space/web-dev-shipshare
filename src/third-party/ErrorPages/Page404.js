@@ -13,7 +13,7 @@ import { PageNotFoundIllustration } from '../assets/illustrations';
 export default function Page404() {
   return (
     <Box style={{display: 'flex', height: '100%', justifyContent:'center', alignItems: 'center', margin:10}}>
-      <MotionContainer>
+      <MotionContainer style={{display: 'flex', height: '100%', justifyContent:'center', alignItems: 'center', flexDirection:'column'}}>
         <m.div variants={varBounce().in}>
           <Typography variant="h3" paragraph>
             Sorry, page not found!
