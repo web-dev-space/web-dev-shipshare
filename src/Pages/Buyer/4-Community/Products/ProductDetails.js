@@ -53,6 +53,7 @@ const Review = ({ user, date, content }) => {
         <Avatar
           src={user.avatar ? user.avatar : getRandomAvatar(user.name)}
           onClick={() => { handleClickUserIcon(user, navigate) }}
+          style={{ cursor: 'pointer' }}
           sx={{ width: 48, height: 48, mb: 'auto' }} />}
       <div style={{ marginLeft: 16, width: "100%" }}>
         <div style={{ display: 'flex', flexDirection: "row" }}>
