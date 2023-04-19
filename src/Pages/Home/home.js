@@ -212,7 +212,7 @@ const Home = () => {
       const handleNext = () => {
         carouselRef.current?.slickNext();
       };
-
+console.log(currentUser);
 
     return (
         <>
@@ -235,7 +235,7 @@ const Home = () => {
                     <Container maxWidth={true}>
 
                       {/*====== welcome current user ======*/}
-                      {currentUser &&
+                      {currentUser.name &&
                         <div style={{backgroundColor: 'rgba(254, 249, 243, 0.6)', padding:5, marginBottom: 46, display: "flex", flexDirection: 'column', justifyContent:'center', alignItems:'center', borderRadius: 15}}>
                           <Typography paragraph variant="h4" sx={{ whiteSpace: 'pre-line', color:'text.primary',mt:2}}>
                             Welcome back, {currentUser.name}!
