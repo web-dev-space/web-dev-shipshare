@@ -9,14 +9,14 @@ function GreenChipGroup ({chipLabelsArray, setFilter, focusChip, setFocusChip, i
                     key={label}
                     label={label}
                     variant={focusChip === label ? "filled" : "outlined"}
-                    sx={{ fontSize: isSmallScreen? 12: 14, height:40, mr: 1, mt:1,
+                    sx={{ fontSize:  14, height:40, mr: 1, mt:1,
                         color: focusChip === label ? "#80B213" : "black",
                         fontWeight: "bold",
                     }}
                     style={{
                         backgroundColor: focusChip === label ? "rgb(228, 240, 205)" : "white",
-                        paddingLeft: isSmallScreen? 0:20,
-                        paddingRight: isSmallScreen? 0:20,
+                        paddingLeft: 20,
+                        paddingRight: 20,
                         borderRadius: 20,
                     }}
                     onClick={() => {

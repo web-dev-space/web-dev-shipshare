@@ -186,15 +186,15 @@ const Discover = () => {
                         {/*--------------Search Bar Row----------------------*/}
                         <Stack
                             width='100%'
-                            direction="row"
+                            direction={isSmallScreen? "column":"row"}
                             justifyContent="space-between"
                             flexWrap="wrap"
                         >
                             {/*---Search Bar---*/}
                             <SearchBar
                                 searchText="Search by Post Title"
-                                width={isSmallScreen? 220:360}
-                                height={isSmallScreen? 38:48}
+                                width={360}
+                                height={48}
                                 searchTerm={searchTerm}
                                 setSearchTerm={setSearchTerm}
                                 handleSearch={handleSearch}
