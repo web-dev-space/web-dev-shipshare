@@ -736,13 +736,13 @@ const Home = () => {
                             <img src={require('./EndForSmallScreen.png')} alt="background-shape" style={{top:130, right: 12, width: 1000,}}/>
 
                             <div style={{zIndex: 1, position: 'relative', marginTop: '5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:50}}>
-                              <Typography variant="h3" component="text" paragraph style={{fontSize: 16}}>
+                              <Typography variant="h3" component="text" paragraph >
                                 Ready to use ShipShare?
                               </Typography>
-                              <Typography variant="text" component="text" paragraph sx={{color:'gray'}} style={{fontSize: 14}}>
+                              <Typography variant="text" component="text" paragraph sx={{color:'gray'}}>
                                 Join thousand buyers and groups in the community
                               </Typography>
-                              <Button variant="contained" onClick={()=>navigate('/login')} sx={{marginTop: '1rem', borderRadius: 15, padding: '1%', width: 100}}>Get Started</Button>
+                              <Button variant="contained" onClick={()=>navigate('/login')} sx={{marginTop: '1rem', borderRadius: 15, padding: 1, width: 120}}>Get Started</Button>
                             </div>
 
                           </Box>
