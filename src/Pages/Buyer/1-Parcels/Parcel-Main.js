@@ -158,6 +158,19 @@ const ParcelMainPage = () => {
         dispatch(updateParcelThunk(newParcel));
     }
 
+    // -----small screen controller-----
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsSmallScreen(window.innerWidth < 639);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     return (
         <>
             <Helmet>
@@ -196,7 +209,7 @@ const ParcelMainPage = () => {
                         </Typography>
                     </Container>
 
-                    <Container maxWidth={false} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Container maxWidth={false} sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: isSmallScreen?'column':'row'}}>
                         {/*---Search Bar---*/}
                         <SearchBar
                             width={360}
@@ -209,6 +222,7 @@ const ParcelMainPage = () => {
                             handleKeyPress={handleKeyPress}
                         />
 
+                        <div style={{marginTop:isSmallScreen? 10:0}}>
                         {/*---button group---*/}
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             {
@@ -241,6 +255,7 @@ const ParcelMainPage = () => {
                                       filterCourier={filterCourier} setFilterCourier={setFilterCourier}
                                       onSubmitFilter={handleFilter}
                         />
+                        </div>
                     </Container>
 
                     {/*---Table---*/}
