@@ -131,7 +131,6 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
             label="Pickup Location"
             placeholder={'e.g. 909 Kifer Rd, Sunnyvale, CA 94086, USA'}
             onChange={(location) => handlePickupLocationChange(location)}
-            // apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
           />
           <Stack
             direction={{sm: 'column', md: 'row'}}
