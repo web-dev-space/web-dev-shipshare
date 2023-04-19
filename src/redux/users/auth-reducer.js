@@ -32,10 +32,12 @@ const authSlice = createSlice({
         [loginThunk.fulfilled]: (state, { payload }) => {
             state.currentUser = payload;
             state.error = null;
+            localStorage.setItem('auth', JSON.stringify(state.currentUser));
         },
         [logoutThunk.fulfilled]: (state) => {
             state.currentUser = null;
             state.error = null;
+            localStorage.removeItem('auth');
         },
         [profileThunk.fulfilled]: (state, { payload }) => {
             console.log(payload);
