@@ -3,10 +3,10 @@ import { useState } from 'react';
 // @mui
 import { Stack, Button, Rating, Avatar, Pagination, Typography } from '@mui/material';
 // utils
-import { fDate } from '../../../../utils/formatTime';
-import { fShortenNumber } from '../../../../utils/formatNumber';
+import { fDate } from '../../utils/formatTime';
+import { fShortenNumber } from '../../utils/formatNumber';
 // components
-import Iconify from '../../../../components/iconify';
+import Iconify from '../../components/iconify';
 
 // ----------------------------------------------------------------------
 
