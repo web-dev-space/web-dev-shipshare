@@ -42,7 +42,7 @@ function navConfig(role) {
         subheader: 'Community',
         items: [
           { title: 'Discover', path: '/community/discover', icon: ICONS.discover },
-          { title: 'Products', path: '/community/products', icon: ICONS.products },
+          { title: 'Product Reviews', path: '/community/products', icon: ICONS.products },
         ]
       },
 

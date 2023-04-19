@@ -13,7 +13,6 @@ import {useNavigate, useParams} from "react-router-dom";
 import posts from "../../../../sampleData/posts";
 import {
     deletePostThunk,
-    findAllPostsThunk,
     findPostByIdThunk,
     updatePostThunk
 } from "../../../../redux/posts/posts-thunks";
