@@ -21,12 +21,21 @@ import useDebugWhenChange from 'utils/useDebugWhenChange';
 const FontFamily = {
 }
 
-const hintText = [
-  'Order placed',
-  'Packaged',
+const hintTextBuyerVersion = [
+  "Order Created",
+  'Order Placed',
+  'Packed',
   'In Shipping',
   'Time to pick up the package!',
 ]
+
+const hintTextMerchantVersion = [
+  'Order Ready',
+  'Order Paid',
+  'Packed',
+  'In Shipping',
+  'Time to pick up the package!',
+];
 
 
 
@@ -42,6 +51,8 @@ const ShipmentDetails = ({ ship, handleClose }) => {
   const currentUser = useSelector((state) => state?.auth?.currentUser);
 
   const isMerchant = role === 'merchant';
+
+  const hintText = isMerchant ? hintTextMerchantVersion : hintTextBuyerVersion;
 
   const classifiedParcels = useMemo(() => {
     if (!isMerchant) {
