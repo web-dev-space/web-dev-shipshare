@@ -156,13 +156,13 @@ export default function CheckoutStepTwo({parcels, selectedParcels, setSelectedPa
               <Typography variant="h6" component="div" sx={{display: 'flex', justifyContent: 'space-between'}}>
                 Route Rate
                 <Typography sx={{textAlign: 'right'}}>
-                  {routeRate !== 0 ? "$ " + routeRate + " /lbs" : "Loading.."}
+                  {routeRate !== 0 ? "$ " + routeRate + " /kg" : "Loading.."}
                 </Typography>
               </Typography>
               <Typography variant="h6" component="div" sx={{display: 'flex', justifyContent: 'space-between'}}>
                 Weight
                 <Typography sx={{textAlign: 'right'}}>
-                  {totalWeight} lbs
+                  {totalWeight} kg
                 </Typography>
               </Typography>
               <Typography variant="h5" component="div" sx={{

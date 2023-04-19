@@ -106,7 +106,7 @@ export default function ParcelListCard({index, parcels, setSelectedParcels}) {
               <Typography variant="body2"
                           sx={{color: 'text.secondary'}}
               >Tracking Number: {parcel.trackingNumber}</Typography>
-              <Typography variant="body2">Weight: {parcel.weight} lbs</Typography>
+              <Typography variant="body2">Weight: {parcel.weight} kg</Typography>
             </Box>
           </Box>
         ))}
