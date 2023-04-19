@@ -80,7 +80,10 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
         >Enter Group Details</Typography>
         <Box
           sx={{
-            width: '35%', alignItems: 'center',
+            width: {xs: '70%', sm: '50%', md: '35%', lg: '35%', xl: '35%', xxl: '35%'},
+            alignItems: 'center',
+            textAlign: 'center',
+
           }}
         >
           <Typography
@@ -90,7 +93,9 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
         </Box>
       </Box>
       {/*----------------- Form -----------------*/}
-      <div style={{
+      <Box
+
+        style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -99,7 +104,8 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
           component={'form'}
           spacing={2}
           sx={{
-            width: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center',
+            width: {xs: '90%', sm: '80%', md: '70%', lg: '55%', xl: '55%', xxl: '50%'},
+            display: 'flex', flexDirection: 'column', alignItems: 'center',
           }}
         >
           <RHFTextField
@@ -133,7 +139,7 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
             onChange={(location) => handlePickupLocationChange(location)}
           />
           <Stack
-            direction={{sm: 'column', md: 'row'}}
+            direction={{xs:"column", sm: 'column', md: 'row'}}
             spacing={2}
             sx={{
               width: '100%',
@@ -170,7 +176,7 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
 
           </Stack>
         </Stack>
-      </div>
+      </Box>
 
 
     </>
