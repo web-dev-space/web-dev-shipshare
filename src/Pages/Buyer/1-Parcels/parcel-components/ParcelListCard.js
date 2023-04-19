@@ -12,6 +12,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from "@mui/material/Grid";
 import * as React from "react";
+import {Stack} from "@mui/material";
 
 
 export default function ParcelListCard({index, parcels, setSelectedParcels}) {
@@ -106,7 +107,13 @@ export default function ParcelListCard({index, parcels, setSelectedParcels}) {
               <Typography variant="body2"
                           sx={{color: 'text.secondary'}}
               >Tracking Number: {parcel.trackingNumber}</Typography>
-              <Typography variant="body2">Weight: {parcel.weight} kg</Typography>
+              <Stack
+                direction="row"
+                spacing={1}
+              >
+              <Typography variant="body2">Weight: </Typography>
+              <Typography variant="body2">{parcel.weight} kg</Typography>
+              </Stack>
             </Box>
           </Box>
         ))}
