@@ -58,21 +58,23 @@ export default function CarouselRoute({data}){
   const theme = useTheme();
   const carouselSettings = {
     slidesToShow: 3,
-    centerMode: true,
+    slidesToScroll: 3,
+    // centerMode: true,
     centerPadding: '60px',
     rtl: Boolean(theme.direction === 'rtl'),
+    infinite: false,
     responsive: [
       {
-        breakpoint: 1024,
-        settings: { slidesToShow: 2 },
+        breakpoint: 1400,
+        settings: { slidesToShow: 2, slidesToScroll: 2 },
       },
       {
         breakpoint: 600,
-        settings: { slidesToShow: 2 },
+        settings: { slidesToShow: 2, slidesToScroll: 2 },
       },
       {
         breakpoint: 480,
-        settings: { slidesToShow: 1, centerPadding: '0' },
+        settings: { slidesToShow: 1, slidesToScroll: 1 },
       },
     ],
   };
@@ -87,18 +89,16 @@ export default function CarouselRoute({data}){
   return (
     <Box
       sx={{
-        // overflow: 'hidden',
+        overflow: 'hidden',
         position: 'relative',
       }}
     >
       <CarouselArrows
-        filled
-        icon="noto:rightwards-hand"
         onNext={handleNext}
         onPrevious={handlePrev}
       >
         <Carousel ref={carouselRef} {...carouselSettings}>
-          {routes.map((route, index) =>
+          {data.map((route, index) =>
             (<RouteCard
               index={index}
               route={route.route}

@@ -542,7 +542,7 @@ const Home = () => {
 
 
                       {/*====== part 4 - Choose the plan ======*/}
-                      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItem:"center", height: '100%', marginTop:230}}>
+                      <div style={{justifyContent: 'center', alignItem:"center", height: '100%', marginTop:230}}>
                         <div
                           style={{
                             height: '100%',
@@ -557,27 +557,8 @@ const Home = () => {
                           <Typography variant="h3" component="text" paragraph sx={{mb:9, mt:-20}}>
                             Choose the plan
                           </Typography>
-
-                          <div style={{display: 'flex', justifyContent: 'center', flexWrap: 'wrap', flexDirection: isSmallScreen ? 'column' : (isLargeScreen ? 'row' : ''), alignItems: 'center'}}>
-                            {/*<Card style={{overflowX: 'auto'}}>*/}
-                            {/*  <CardContent style={{display:'flex', justifyContent:'center', alignItems:'center'}}>*/}
-                            {routes.map((route, index) =>
-                              (<RouteCard
-                                index={index}
-                                route={route.route}
-                                price={route.price}
-                                text1={route.text1}
-                                text2={route.text2}
-                                trait1={route.trait1}
-                                trait2={route.trait2}
-                                trait3={route.trait3}
-                              />))
-                            }
-                              {/*</CardContent>*/}
-                            {/*</Card>*/}
-                            {/*<CarouselRoute data={routes}/>*/}
-                          </div>
                         </div>
+                          <CarouselRoute data={routes}/>
                       </div>
 
 
