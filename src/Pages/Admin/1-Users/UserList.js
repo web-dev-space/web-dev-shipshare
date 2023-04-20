@@ -421,7 +421,7 @@ export default function UserList() {
                 {/*--------------Main Content----------------------*/}
                 <Main>
                     <Container maxWidth={false}>
-                        <Typography variant="h3" component="h1" paragraph>
+                        <Typography variant="h4" component="h1" paragraph>
                             User List
                         </Typography>
                     </Container>

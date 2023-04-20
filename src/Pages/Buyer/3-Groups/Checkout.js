@@ -190,7 +190,7 @@ export default function Checkout() {
                         }}
                       >
                         <Typography
-                          variant="h3"
+                          variant="h4"
                         >Scan to Pay</Typography>
                         <Box
                           sx={{
@@ -232,7 +232,7 @@ export default function Checkout() {
                         }}
                       >
                         <Typography
-                          variant="h3"
+                          variant="h4"
                         >Order Success</Typography>
                         <Box
                           sx={{

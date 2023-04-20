@@ -84,7 +84,7 @@ export default function SearchProducts() {
                 {/*--------------Main Content----------------------*/}
                 <Main>
                     <Container maxWidth="none">
-                        <Typography variant="h3" paragraph>
+                        <Typography variant="h4" paragraph>
                             Product Reviews
                         </Typography>
 

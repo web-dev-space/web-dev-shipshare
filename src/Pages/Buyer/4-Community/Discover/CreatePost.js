@@ -151,7 +151,7 @@ const CreatePost = () => {
                             direction="row"
                             justifyContent="space-between"
                         >
-                            <Typography variant="h3" paragraph>
+                            <Typography variant="h4" paragraph>
                                 Create a new post
                             </Typography>
                         </Stack>
