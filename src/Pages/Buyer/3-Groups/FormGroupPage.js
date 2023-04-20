@@ -32,7 +32,7 @@ export default function FormGroupPage() {
 
   const [activeStep, setActiveStep] = useState(0);
   const [buttonSelected, setButtonSelected] = useState("");
-  const [selectedDate, setSelectedDate] = useState(null);
+  // const [selectedDate, setSelectedDate] = useState(null);
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -60,16 +60,16 @@ export default function FormGroupPage() {
   };
 
   const handleButtonClick = (button) => {
-    console.log("handlebuttonclick: " + button)
+    // console.log("handlebuttonclick: " + button)
     setButtonSelected(button);
     setValue("shipRoute", button);
   };
 
   const handleDateChange = (date) => {
-    setSelectedDate(date);
+    // setSelectedDate(date);
+    const values = methods.getValues();
     setValue("endDate", date);
   };
-
 
   const handlePickupLocationChange = (d) => {
     console.log("d", d);
@@ -98,9 +98,9 @@ export default function FormGroupPage() {
   const defaultValues = {
     shipRoute: '',
     groupName: '',
-    receiverName: '',
-    pickupLocation: '',
-    phoneNumber: '',
+    receiverName: currentUser.name,
+    pickupLocation: currentUser.address ? currentUser.address : '',
+    phoneNumber: currentUser.phone ? currentUser.phone : '',
     endDate: null,
   };
 
@@ -177,7 +177,7 @@ export default function FormGroupPage() {
         members: [currentUser.email]
       }
       console.log('newShipGroup', newShipGroup);
-      dispatch(createShipGroupThunk(newShipGroup))
+      dispatch(createShipGroupThunk(newShipGroup));
     } catch (error) {
       console.error(error);
     }

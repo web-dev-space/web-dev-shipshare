@@ -21,6 +21,8 @@ import {uploadImage, urlToFile} from "api/imageUpload.js";
 import {updateCurrentUserThunk, updateUserThunk} from "../../../redux/users/users-thunks";
 import {useDispatch} from "react-redux";
 import {getRandomAvatar} from "../../../utils/getRandomAvatar";
+import RHFTextFieldGoogle from "../3-Groups/RHFTextFieldGoogle";
+import * as React from "react";
 
 // ----------------------------------------------------------------------
 
@@ -59,6 +61,11 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 		resolver: yupResolver(NewUserSchema),
 		defaultValues,
 	});
+
+	const handleAddressChange = (d) => {
+		const values = methods.getValues();
+		setValue("address", { ...values.address, address: d });
+	};
 
 	const {
 		reset,
@@ -180,13 +187,20 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 					<Card sx={{ p: 3 }}>
 						<RHFTextField name="name" label="Full Name" id="name" style={{ marginBottom: 20 }} />
 						<RHFTextField name="phone" label="Phone Number" id="phone" style={{ marginBottom: 20 }} />
-						<RHFTextField name="address" label="Address" id="address" style={{ marginBottom: 25 }} />
+						{/*<RHFTextField name="address" label="Address" id="address" style={{ marginBottom: 25 }} />*/}
+						<RHFTextFieldGoogle
+							required
+							style={{ marginBottom: 25 }}
+							fullWidth={true}
+							name="address"
+							id="address"
+							label="Address"
+							placeholder={'e.g. 909 Kifer Rd, Sunnyvale, CA 94086, USA'}
+							onChange={(location) => handleAddressChange(location)}
+						/>
 
 						<Stack alignItems="flex-end" sx={{ mt: 3 }}>
 							<div>
-								<LoadingButton type="cancel" variant="outlined" style={{ marginRight: 10, width: 150 }} onClick={onCancel}>
-									Cancel
-								</LoadingButton>
 								<LoadingButton type="submit" variant="contained" loading={isSubmitting} style={{ width: 150 }}>
 									{!isEdit ? 'Create User' : 'Save Changes'}
 								</LoadingButton>

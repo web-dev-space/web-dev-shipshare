@@ -69,6 +69,7 @@ function navConfig(role) {
       {
         subheader: 'Main',
         items: [
+          { title: 'Home', path: '/home', icon: ICONS.home },
           role === 'admin' || role === "merchant"
               ? { title: 'Dashboard', path: '/dashboard', icon: ICONS.dashboard }
               : null,
@@ -86,7 +87,7 @@ function navConfig(role) {
         subheader: 'Community',
         items: [
           { title: 'Discover', path: '/community/discover', icon: ICONS.discover },
-          { title: 'Products', path: '/community/products', icon: ICONS.products },
+          { title: 'Product Reviews', path: '/community/products', icon: ICONS.products },
           role === "merchant" || role === "admin"
             ? null
             :{ title: 'My Profile', path: '/community/profile', icon: ICONS.profile },

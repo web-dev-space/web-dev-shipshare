@@ -65,7 +65,7 @@ const TutorialPages = () => {
   const pageCount = 6;
   const handleNextPageClick = () => {
     if(screenNumber === 5) {
-      navigate("/");
+      navigate("/home");
     }
     if (screenNumber < pageCount) {
       setScreenNumber(screenNumber + 1);

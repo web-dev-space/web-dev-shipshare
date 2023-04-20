@@ -13,6 +13,7 @@ import SearchBar from "../../../../components/searchBar";
 import {getSearchResults} from "../../../../redux/products/products-service";
 import ProductListCard from "./components/ProductListCard";
 import {ShopProductList} from "../../../../third-party/e-commerce/shop";
+import useDebugWhenChange from "utils/useDebugWhenChange";
 
 // ----------------------------------------------------------------------
 
@@ -45,6 +46,7 @@ export default function SearchProducts() {
         setFilterName(event.target.value);
     };
     const handleSearch= async() => {
+        setProducts([]);
         searchParams.set('query', filterName);
         navigate({
             search: searchParams.toString(),

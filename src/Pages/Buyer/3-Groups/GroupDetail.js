@@ -157,8 +157,6 @@ const GroupDetailPage = (props) => {
     }
   }
 
-
-
   return currentGroup ? (
 
     <>
@@ -178,9 +176,11 @@ const GroupDetailPage = (props) => {
           <Container maxWidth="xl" style={{position: 'relative'}}>
             <IconButton aria-label="delete" size="small"
                         style={{position: 'absolute', zIndex: 99, top: '20px', left: '40px'}}
-                        onClick={() => {window.history.back()}}
+                        onClick={() => {
+                          window.history.back()
+                        }}
             >
-              <ArrowBackIcon style={{ color: 'white'}}/>
+              <ArrowBackIcon style={{color: 'white'}}/>
             </IconButton>
 
             {/*backgroundImg & join button*/}
@@ -199,22 +199,19 @@ const GroupDetailPage = (props) => {
                   position: 'absolute',
                 }}
               />
-              <Box
+              {currentUser&&
+              <Button
+                variant="contained"
+                color="primary"
                 sx={{
                   display: 'float',
                   float: 'right',
-                  my: 3,
-                  mr: 1,
+                  mt: 3,
+                  zIndex: 99,
                 }}
-              >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleClickJoinGroup(currentGroup)}
-                >
-                  Join
-                </Button>
-              </Box>
+                onClick={() => handleClickJoinGroup(currentGroup)}
+              >Join</Button>}
+
             </Box>
 
             {/*avatar & group name*/}
@@ -224,7 +221,9 @@ const GroupDetailPage = (props) => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 flexDirection: 'column',
-                position: 'relative',
+                // position: 'relative',
+                // width: '100%',
+                top: -600,
               }}
             >
 
@@ -232,30 +231,36 @@ const GroupDetailPage = (props) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                flexDirection: 'column',
-                ml: 8,
+                flexDirection: {xs: 'column', md: 'row'},
+                // position:'absolute',
               }}>
-                <Box>
-                  <Avatar
-                    alt="Remy Sharp"
-                    src={getLeaderAvatar(currentGroup)}
-                    sx={{
-                      mx: 'auto',
-                      borderWidth: 2,
-                      borderStyle: 'solid',
-                      borderColor: 'common.white',
-                      top: {xs: -40, md:-64},
-                      zIndex: 2,
-                      width: {xs: 80, md: 128},
-                      height: {xs: 80, md: 128},
-                      mb: {xs:2}
-                    }}
-                  /></Box>
+
                 <Box
-                  sx={{mt: -5}}>
-                  <Typography variant="h5">
-                    {currentGroup ? currentGroup.name : "Loading.."}
-                  </Typography>
+                  sx={{
+                    mt: -5,
+                  }}>
+                  <Box>
+                    <Avatar
+                      alt="Remy Sharp"
+                      src={getLeaderAvatar(currentGroup)}
+                      sx={{
+                        mx: 'auto',
+                        borderWidth: 2,
+                        borderStyle: 'solid',
+                        borderColor: 'common.white',
+                        top: -20,
+                        zIndex: 2,
+                        width: {xs: 80, md: 128},
+                        height: {xs: 80, md: 128},
+                      }}
+                    />
+                  </Box>
+
+                  <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    <Typography variant="h5" style={{flex: "1", textAlign: "center"}}>
+                      {currentGroup ? currentGroup.name : "Loading.."}
+                    </Typography>
+                  </div>
                 </Box>
               </Box>
             </Box>
@@ -329,26 +334,26 @@ const GroupDetailPage = (props) => {
                         }
                         onClick={() => navigate(`/community/profile/${getUserByEmail(currentGroup.leader)._id}`)}
                       >
-                      <div>
-                        <Avatar
-                          alt="Remy Sharp"
-                          src={getLeaderAvatar(currentGroup)} sx={{
-                          mx: 'auto',
-                          borderWidth: 2,
-                          borderStyle: 'solid',
-                          borderColor: 'common.white',
-                          zIndex: 2,
-                          mr: 1,
-                          width: 50,
-                          height: 50,
-                        }}
-                        />
-                      </div>
-                      <div>
-                        <Typography variant="caption">
-                          {currentGroup ? currentGroup.pickupLocation.name : "Loading.."}
-                        </Typography>
-                      </div>
+                        <div>
+                          <Avatar
+                            alt="Remy Sharp"
+                            src={getLeaderAvatar(currentGroup)} sx={{
+                            mx: 'auto',
+                            borderWidth: 2,
+                            borderStyle: 'solid',
+                            borderColor: 'common.white',
+                            zIndex: 2,
+                            mr: 1,
+                            width: 50,
+                            height: 50,
+                          }}
+                          />
+                        </div>
+                        <div>
+                          <Typography variant="caption">
+                            {currentGroup ? currentGroup.pickupLocation.name : "Loading.."}
+                          </Typography>
+                        </div>
                       </div>
                     </Box>
                   </Item>

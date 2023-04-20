@@ -4,6 +4,7 @@ import { List, Stack } from '@mui/material';
 //
 import { StyledSubheader } from './styles';
 import NavList from './NavList';
+import { Box } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -15,6 +16,15 @@ NavSectionVertical.propTypes = {
 export default function NavSectionVertical({ data, sx, ...other }) {
 
   return (
+    <Box
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      overflowY: "auto",
+      maxHeight: "calc(100vh - 200px)",
+
+    }}
+  >
     <Stack sx={sx} {...other}>
       {data.map((group) => {
         const key = group.subheader || group.items[0].title;
@@ -37,5 +47,6 @@ export default function NavSectionVertical({ data, sx, ...other }) {
         );
       })}
     </Stack>
+  </Box>
   );
 }

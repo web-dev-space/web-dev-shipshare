@@ -19,7 +19,7 @@ import { width } from "@mui/system";
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import StarsIcon from '@mui/icons-material/Stars';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -75,9 +75,10 @@ function ColorlibStepIcon(props) {
 
   const icons = {
     1: <EventNoteIcon fontSize="small" />,
-    2: <FontAwesomeIcon icon="fa-solid fa-cube" />,
-    3: <LocalShippingIcon fontSize="small" />,
-    4: <StarsIcon fontSize="small" />
+    2: <AssignmentTurnedInIcon fontSize="small" />,
+    3: <FontAwesomeIcon icon="fa-solid fa-cube" />,
+    4: <LocalShippingIcon fontSize="small" />,
+    5: <StarsIcon fontSize="small" />,
   };
 
   return (
@@ -109,6 +110,7 @@ ColorlibStepIcon.propTypes = {
 };
 
 const steps = [
+  "0",
   "1",
   "2",
   "3",
