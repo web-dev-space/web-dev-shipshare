@@ -55,7 +55,9 @@ const CalculateFees = () => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleCalculate = () => {
-		setIsOpen(true);
+		if(parcelWeight !== '' || ( parcelHeight !== '' && parcelLength !== '' && parcelWidth !== '' ) ){
+			setIsOpen(true);
+		}
 	}
 
 	const [isPhoneScreen, setIsPhoneScreen] = useState(false);
