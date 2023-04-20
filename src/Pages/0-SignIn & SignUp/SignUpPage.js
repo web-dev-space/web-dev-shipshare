@@ -15,6 +15,7 @@ import {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {signupThunk} from "../../redux/users/users-thunks";
 import {Helmet} from "react-helmet";
+import {LoadingButton} from "@mui/lab";
 
 const SignUpPage = () => {
 
@@ -42,7 +43,11 @@ const SignUpPage = () => {
   });
 
   // ---- handle the form submission ----
-  const {handleSubmit, setValue} = methods;
+  const {
+      handleSubmit,
+      setValue,
+      formState: { isSubmitting },
+  } = methods;
 
   const {enqueueSnackbar} = useSnackbar();
   const navigate = useNavigate();
@@ -239,17 +244,19 @@ const SignUpPage = () => {
                               )
                             }}/>
 
-              <Button
+            <LoadingButton
                 variant="contained"
                 color="primary"
                 fullWidth={true}
                 size="large"
-                sx={{height: 50}}
-                type={"submit"}
-              >Sign Up</Button>
+                sx={{height: 55}}
+                type="submit"
+                loading={isSubmitting}>
+                Sign Up
+            </LoadingButton>
               <Box>
                 <Typography style={{textAlign: 'center', marginBottom: '5vh'}}>
-                  Already have an account? <Link href="../login" underline="hover">Log In</Link>
+                  Already have an account?<Link href="../login" underline="hover" style={{marginLeft: 6}}>Log In</Link>
                 </Typography>
               </Box>
 

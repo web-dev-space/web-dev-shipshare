@@ -16,6 +16,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { loginThunk } from '../../redux/users/users-thunks';
 import {Helmet} from "react-helmet";
 import "./signIn.css"
+import {LoadingButton} from "@mui/lab";
 const LoginPage = () => {
 
   // ---- handle the new user object ---
@@ -55,7 +56,12 @@ const LoginPage = () => {
     defaultValues,
   });
 
-  const {handleSubmit, setValue} = methods;
+  const {
+      handleSubmit,
+      setValue,
+      formState: { isSubmitting }
+  }
+  = methods;
 
     const {enqueueSnackbar} = useSnackbar();
     const navigate = useNavigate();
@@ -179,18 +185,19 @@ const LoginPage = () => {
                                   )
                               }}/>
 
-
-              <Button
+              <LoadingButton
                 variant="contained"
                 color="primary"
                 fullWidth={true}
                 size="large"
                 sx={{height: 55}}
-                type={"submit"}
-              >Sign In</Button>
+                type="submit"
+                loading={isSubmitting}>
+                  Sign In
+              </LoadingButton>
               <Box>
                 <Typography style={{textAlign: 'center', marginBottom: '5vh'}} >
-                  Create a new account? <Link href="../signup" underline="hover">Sign Up</Link>
+                  New to ShipShare?<Link href="../signup" underline="hover" style={{marginLeft: 6}}>Sign Up</Link>
                 </Typography>
               </Box>
 
