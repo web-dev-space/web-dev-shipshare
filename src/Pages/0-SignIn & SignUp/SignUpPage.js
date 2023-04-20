@@ -88,11 +88,25 @@ const SignUpPage = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+    const logo = (
+        <Box
+            component="img"
+            src="/logo/shipshare-logo.svg"
+            style={{width: 140}}
+        />
+    );
+
   return (
     <>
         <Helmet>
             <title>Sign Up | ShipShare</title>
         </Helmet>
+        {/*-----------Logo Img---------------*/}
+        <Box style={{marginTop: 16, marginLeft: 16}}>
+            <Button style={{zIndex: 999}} onClick={()=> navigate("/home")}>
+                {logo}
+            </Button>
+        </Box>
       <Box
         sx={{
           display: 'flex',
