@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 // components
 import Label from '../../../../../third-party/components/label';
+import useDebugWhenChange from 'utils/useDebugWhenChange';
 
 // ----------------------------------------------------------------------
 
@@ -28,8 +29,6 @@ export default function ProductDetailCard({  product, ...other }) {
     totalReview,
     brand,
   } = product;
-
-
 
   return (
     <Container>

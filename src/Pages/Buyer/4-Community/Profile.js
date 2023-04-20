@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
@@ -29,6 +29,9 @@ import {useNavigate, useParams} from "react-router-dom";
 import {findAllShipGroupsThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 import {getRandomBanner} from "../../../utils/getRandomBanner";
 import EditIcon from '@mui/icons-material/Edit';
+import ReviewCard from "Pages/Buyer/4-Community/ProfileComponents/ReviewCard";
+import useDebugWhenChange from "utils/useDebugWhenChange";
+import {findReviewsByUserIdThunk} from "redux/reviews/reviews-thunks";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -67,8 +70,8 @@ const Profile = () => {
     const [formedGroup, setFormedGroup] = useState([]);
     const [joinedGroup, setJoinedGroup] = useState([]);
 
-    const chipLabelsArray = userId ? ['Posts', 'Formed Group','Following', 'Followers']
-        : ['Posts', 'Formed Group', 'Joined Group','Following', 'Followers'];
+    const chipLabelsArray = userId ? ['Posts', 'Formed Group','Following', 'Followers','Reviews']
+        : ['Posts', 'Formed Group', 'Joined Group','Following', 'Followers','Reviews'];
 
     const handleOpen = () => {
         setOpen(true);
@@ -145,6 +148,13 @@ const Profile = () => {
       navigate(`../discover/post/${id}`);
     }
 
+    function onReviewCardClick  (productId) {
+      if (productId){
+        const url = new URL(`./products/${productId}`, window.location.href);
+        window.open(url, '_blank');
+      }
+    }
+
     // -----small screen controller-----
     const [isSmallScreen, setIsSmallScreen] = useState(false);
 
@@ -158,6 +168,40 @@ const Profile = () => {
         window.removeEventListener('resize', handleResize);
       };
     }, []);
+
+    const reviewsData = [{
+      title: "goods name here",
+      post: "review here",
+      created: new Date(),
+    }]
+
+    const reviewsByUserId = useSelector((state) => state.reviews.reviewsByUserId);
+    const reviewsByProfileUser = useMemo(() => {
+      return visibleProfile && visibleProfile._id !== undefined ? reviewsByUserId[visibleProfile._id] : undefined;
+    }, [reviewsByUserId, visibleProfile]);
+
+    useEffect(() => {
+      if (visibleProfile && visibleProfile._id !== undefined) {
+        dispatch(findReviewsByUserIdThunk(visibleProfile._id));
+      }
+    }, [visibleProfile]);
+
+    const visibleReviews = useMemo(() => {
+      if (!reviewsByProfileUser) {
+        return [];
+      }
+       
+      return reviewsByProfileUser.map((review) => ({
+          ...review,
+          title: review?.productName,
+          post: review?.content,
+          created: review?.date,
+          image: review?.productImage,
+          link: review?.productLink,
+          asin: review?.asin,
+        })).sort((a, b) => b.created - a.created);
+      
+    }, [reviewsByProfileUser]);
 
     return (
       <>
@@ -359,6 +403,24 @@ const Profile = () => {
                               </div>
                               </>
                           )}
+                          {focusChip === 'Reviews' && 
+                            visibleReviews && visibleReviews.map(post=><div style={{
+                                display: 'flex',
+                                flexDirection:'column',
+                                marginBottom: 16,
+                                width: '90%' }}>
+                                  <ReviewCard 
+                                    title={post.title}
+                                    post={post.post}
+                                    author={visibleProfile?.name}
+                                    date={post.created}
+                                    image={post.image}
+                                    comments={post.comments}
+                                    viewsNumber={post.viewsAmount}
+                                    repostsNumber={post.repostsNumber}
+                                    onPostCardClick={()=>onReviewCardClick(post.asin)}
+                                  />
+                            </div> )}
                         </CardContent>
                       </div>
                   </Container>

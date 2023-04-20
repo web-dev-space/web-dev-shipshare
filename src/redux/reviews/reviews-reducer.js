@@ -6,11 +6,13 @@ import {
     deleteReviewThunk,
     findReviewByIdThunk,
     findReviewsForProjectThunk,
+    findReviewsByUserIdThunk,
 } from "redux/reviews/reviews-thunks.js";
 
 const initialState = {
     reviews: [],
     loading: false,
+    reviewsByUserId: {},
 }
 
 const templateReview = {
@@ -74,6 +76,11 @@ const reviewsSlice = createSlice({
             state.loading = false;
             state.reviews = payload;
         },
+
+        [findReviewsByUserIdThunk.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.reviewsByUserId[payload.userId] = payload.reviews;
+        }
     },
     reducers: {}
 });
