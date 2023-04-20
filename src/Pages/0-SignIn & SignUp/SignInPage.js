@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useSnackbar} from "notistack";
-import {useNavigate} from "react-router-dom";
+import {Link as RouterLink, useNavigate} from "react-router-dom";
 import FormProvider, {RHFTextField} from "../../third-party/components/hook-form";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -16,6 +16,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { loginThunk } from '../../redux/users/users-thunks';
 import {Helmet} from "react-helmet";
 import "./signIn.css"
+import {LoadingButton} from "@mui/lab";
 const LoginPage = () => {
 
   // ---- handle the new user object ---
@@ -55,13 +56,18 @@ const LoginPage = () => {
     defaultValues,
   });
 
-  const {handleSubmit, setValue} = methods;
+  const {
+      handleSubmit,
+      setValue,
+      formState: { isSubmitting }
+  }
+  = methods;
 
     const {enqueueSnackbar} = useSnackbar();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const onSubmit = (data) => {
-        dispatch(loginThunk(data))
+    const onSubmit = async(data) => {
+        await dispatch(loginThunk(data))
     };
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -80,11 +86,26 @@ const LoginPage = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+    const logo = (
+        <Box
+            component="img"
+            src="/logo/shipshare-logo.svg"
+            style={{width: 140}}
+        />
+    );
+
   return (
     <>
         <Helmet>
             <title>Sign In | ShipShare</title>
         </Helmet>
+        {/*-----------Logo Img---------------*/}
+        <Box style={{marginTop: 16, marginLeft: 16}}>
+            <Button style={{zIndex: 999}} onClick={()=> navigate("/home")}>
+                {logo}
+            </Button>
+        </Box>
+        {/* ------ main content -------- */}
       <Box
         sx={{
           display: 'flex',
@@ -103,7 +124,6 @@ const LoginPage = () => {
         {!isWideScreen && <img src={welcomeImg} alt="welcome" style={{width:'100%', height:'100%', objectFit: 'cover', filter: 'blur(5px)'}} />}
 
         {/*----------------- left -----------------*/}
-
         <Box
           sx={{
             width: isWideScreen ? '50%' : '100%',
@@ -180,18 +200,19 @@ const LoginPage = () => {
                                   )
                               }}/>
 
-
-              <Button
+              <LoadingButton
                 variant="contained"
                 color="primary"
                 fullWidth={true}
                 size="large"
                 sx={{height: 55}}
-                type={"submit"}
-              >Sign In</Button>
+                type="submit"
+                loading={isSubmitting}>
+                  Sign In
+              </LoadingButton>
               <Box>
                 <Typography style={{textAlign: 'center', marginBottom: '5vh'}} >
-                  Create a new account? <Link href="../signup" underline="hover">Sign Up</Link>
+                  New to ShipShare?<Link href="../signup" underline="hover" style={{marginLeft: 6}}>Sign Up</Link>
                 </Typography>
               </Box>
 
