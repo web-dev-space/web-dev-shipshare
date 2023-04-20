@@ -66,8 +66,8 @@ const LoginPage = () => {
     const {enqueueSnackbar} = useSnackbar();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const onSubmit = (data) => {
-        dispatch(loginThunk(data))
+    const onSubmit = async(data) => {
+        await dispatch(loginThunk(data))
     };
 
   const [passwordVisible, setPasswordVisible] = useState(false);

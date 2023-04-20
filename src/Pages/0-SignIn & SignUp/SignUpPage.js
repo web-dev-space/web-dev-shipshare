@@ -65,12 +65,12 @@ const SignUpPage = () => {
         }
     }, [currentUser, error]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async(data) => {
       data = {
           ...data,
           following: [],
       };
-      dispatch(signupThunk(data));
+      await dispatch(signupThunk(data));
   };
 
   // ---- handle the password visibility ----
