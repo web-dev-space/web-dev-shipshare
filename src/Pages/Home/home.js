@@ -300,7 +300,7 @@ const Home = () => {
                         <AppWelcome
                           title={`Hello, ${currentUser.name}`}
                           title2={currentUser.name? '':"Save big"}
-                          description={`We're excited to share that we've had ${getNumberWithDefault(stats?.newUserCounts)} new users join us today. Thank you for being a part of our community!`}
+                          description={`We're excited to share that we've had ${getNumberWithDefault(stats?.newUserCounts)} new users join us this week. Thank you for being a part of our community!`}
                           img={<img src={require('../../images/HomeGroup.png')} alt="HomeGroup" style={{
                             p: 3,
                             width: isSmallScreen? '80%':'50%',
@@ -746,13 +746,14 @@ const Home = () => {
                         >
                           <img src={require('./End.png')} alt="background-shape" style={{top:130, right: 12, width: 1000,}}/>
 
-                          <div style={{zIndex: 1, position: 'absolute', marginTop: '5rem', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                          <div style={{zIndex: 1, position: 'absolute', marginTop: '5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent:'center'}}>
                             <Typography variant="h3" component="text" paragraph style={{fontSize: fontSize}}>
                               Ready to use ShipShare?
                             </Typography>
-                            <Typography variant="text" component="text" paragraph sx={{color:'gray'}} style={{fontSize: fontSize2}}>
+                            <Typography variant="text" component="text" paragraph sx={{color:'gray', flexWrap:'center'}}>
                               Join thousand buyers and groups in the community
                             </Typography>
+
                             <Button variant="contained" onClick={()=>navigate('/login')} sx={{marginTop: '1rem', borderRadius: 15, padding: '1%', width: '35%'}}>Get Started</Button>
                           </div>
 
@@ -775,11 +776,11 @@ const Home = () => {
                           >
                             <img src={require('./EndForSmallScreen.png')} alt="background-shape" style={{top:130, right: 12, width: 1000,}}/>
 
-                            <div style={{zIndex: 1, position: 'relative', marginTop: '5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:50}}>
+                            <div style={{zIndex: 1, position: 'relative', marginTop: '5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom:50, justifyContent:'center'}}>
                               <Typography variant="h3" component="text" paragraph >
                                 Ready to use ShipShare?
                               </Typography>
-                              <Typography variant="text" component="text" paragraph sx={{color:'gray'}}>
+                              <Typography variant="text" component="text" paragraph sx={{color:'gray', textAlign:'center'}}>
                                 Join thousand buyers and groups in the community
                               </Typography>
                               <Button variant="contained" onClick={()=>navigate('/login')} sx={{marginTop: '1rem', borderRadius: 15, padding: 1, width: 120}}>Get Started</Button>
