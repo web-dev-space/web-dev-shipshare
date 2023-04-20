@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Header from "../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
@@ -58,6 +58,19 @@ const CalculateFees = () => {
 		setIsOpen(true);
 	}
 
+	const [isPhoneScreen, setIsPhoneScreen] = useState(false);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setIsPhoneScreen(window.innerWidth < 500);
+		};
+		handleResize();
+		window.addEventListener('resize', handleResize);
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, []);
+
 	return (
 		<>
 			<Helmet>
@@ -85,7 +98,7 @@ const CalculateFees = () => {
 							Weight
 						</Typography>
 						<Stack spacing={3}>
-							<TextField fullWidth={true} variant="filled" id="length" placeholder="0"
+							<TextField fullWidth={true} variant="outlined" id="length" placeholder="0"
 												 onChange={(event) => {setParcelWeight(event.target.value); setIsOpen(false);}}
 												 InputProps={{
 													 startAdornment: (
@@ -117,8 +130,8 @@ const CalculateFees = () => {
 						<Typography variant="h6" component="h1" paragraph marginTop={5}>
 							Dimensions
 						</Typography>
-						<Stack direction="row" spacing={6} sx={{marginBottom: 10}}>
-							<TextField fullWidth={true} variant="filled" label="Length" id="length"
+						<Stack direction="row" spacing={isPhoneScreen? 2:6} sx={{marginBottom: 10}}>
+							<TextField fullWidth={true} variant="outlined" label="Length" id="length"
 												 onChange={(event) => {setParcelLength(event.target.value); setIsOpen(false)}}
 												 InputProps={{
 													 inputProps: {
@@ -127,7 +140,7 @@ const CalculateFees = () => {
 														 style: { textAlign: "right" },
 													 },
 												 endAdornment:<InputAdornment position="end">cm</InputAdornment>}} />
-							<TextField fullWidth={true} variant="filled" label="Width" id="width"
+							<TextField fullWidth={true} variant="outlined" label="Width" id="width"
 												 onChange={(event) => {setParcelWidth(event.target.value);  setIsOpen(false);}}
 												 InputProps={{
 													 inputProps: {
@@ -136,7 +149,7 @@ const CalculateFees = () => {
 														 style: { textAlign: "right" },
 													 },
 													 endAdornment:<InputAdornment position="end">cm</InputAdornment>}} />
-							<TextField fullWidth={true} variant="filled" label="Height" id="height"
+							<TextField fullWidth={true} variant="outlined" label="Height" id="height"
 												 onChange={(event) => {setParcelHeight(event.target.value); setIsOpen(false);}}
 												 InputProps={{
 													 inputProps: {

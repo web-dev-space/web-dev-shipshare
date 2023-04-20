@@ -12,18 +12,20 @@ import { ForbiddenIllustration } from '../assets/illustrations';
 
 export default function Page403() {
   return (
-    <Box style={{display: 'flex', height: '100%', justifyContent:'center', alignItems: 'center'}}>
-      <MotionContainer>
+    <Box style={{display: 'flex', height: '100%', justifyContent:'center', alignItems: 'center', margin:10}}>
+      <MotionContainer style={{display: 'flex', height: '100%', justifyContent:'center', alignItems: 'center', flexDirection:'column'}}>
         <m.div variants={varBounce().in}>
           <Typography variant="h3" paragraph>
             No permission
           </Typography>
         </m.div>
 
-        <m.div variants={varBounce().in}>
+        <m.div variants={varBounce().in} style={{display: 'flex',justifyContent:'center', alignItems: 'center', flexDirection:'column'}}>
           <Typography sx={{ color: 'text.secondary' }}>
             You don&apos;t have permission to access this page.
-            <br />
+          </Typography>
+
+            <Typography sx={{ color: 'text.secondary' }}>
             Please refer to our website administrator for more information.
           </Typography>
         </m.div>

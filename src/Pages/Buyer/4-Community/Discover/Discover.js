@@ -113,8 +113,19 @@ const Discover = () => {
 
     const navigate = useNavigate();
 
+    // -----small screen controller-----
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
 
-
+    useEffect(() => {
+        const handleResize = () => {
+            setIsSmallScreen(window.innerWidth < 665);
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     return (
         <>
@@ -163,8 +174,9 @@ const Discover = () => {
                             </Typography>
                             <Button variant="contained"
                                     color="primary"
+                                    size={isSmallScreen?"small":"large"}
                                     startIcon={<AddIcon />}
-                                    style={{height:44}}
+                                    style={{height:isSmallScreen?36:44}}
                                     onClick={() => {navigate('./posts/create-new-post')}}
                                     >
                                 New Post
@@ -175,7 +187,7 @@ const Discover = () => {
                         {/*--------------Search Bar Row----------------------*/}
                         <Stack
                             width='100%'
-                            direction="row"
+                            direction={isSmallScreen? "column":"row"}
                             justifyContent="space-between"
                             flexWrap="wrap"
                         >
@@ -194,7 +206,9 @@ const Discover = () => {
                             <GreenChipGroup chipLabelsArray={chipLabelsArray}
                                             focusChip={focusChip}
                                             setFilter={setFilter}
-                                            setFocusChip={setFocusChip}/>
+                                            setFocusChip={setFocusChip}
+                                            isSmallScreen={isSmallScreen}
+                            />
                         </Stack>
 
                         <div style={{height:30}}/>

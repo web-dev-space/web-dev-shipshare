@@ -145,6 +145,20 @@ const Profile = () => {
       navigate(`../discover/post/${id}`);
     }
 
+    // -----small screen controller-----
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+    useEffect(() => {
+      const handleResize = () => {
+        setIsSmallScreen(window.innerWidth < 665);
+      };
+      handleResize();
+      window.addEventListener('resize', handleResize);
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
+
     return (
       <>
           <Header onOpenNav={handleOpen}/>
@@ -191,11 +205,11 @@ const Profile = () => {
                                   alignItems: 'center',
                               }}
                               onClick={() => navigate("/account/account-info")}>
-                                  <EditIcon style={{fontSize:"medium", color: "white", marginLeft: 8}}/>
-                                  <Typography variant="subtitle1" style={{
+                                  <EditIcon style={{fontSize:"medium", color: "white", marginLeft: isSmallScreen? 4:8}}/>
+                                  <Typography variant={isSmallScreen? 'body2':"subtitle1"} style={{
                                       color: "white",
-                                      marginLeft: 10,
-                                      marginRight: 8,
+                                      marginLeft: isSmallScreen? 5:10,
+                                      marginRight: isSmallScreen? 4:8,
                                   }}>Edit</Typography>
                               </Button>
                           }
@@ -225,7 +239,7 @@ const Profile = () => {
                                     borderWidth: 2,
                                     borderStyle: 'solid',
                                     borderColor: 'common.white',
-                                    top: -64,
+                                    top: {xs: -38, md:-64},
                                     zIndex: 2,
                                     width: {xs: 80, md: 128},
                                     height: {xs: 80, md: 128},
@@ -239,14 +253,14 @@ const Profile = () => {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     position: 'relative',
-                                    top: -50,
+                                    top: {xs:-30, md:-50},
                                 }}>
-                                  <Typography variant="h3" align="center">
+                                  <Typography variant={isSmallScreen?'h5':"h3"} align="center">
                                     {visibleProfile?.name}
                                   </Typography>
                                   {
                                       visibleProfile?.role === 'buyer' && (
-                                          <Typography align="center" style={{marginTop:8, marginBottom:4}}>
+                                          <Typography align="center" variant={isSmallScreen? 'subtitle2':"subtitle1"} style={{marginTop:8, marginBottom:4}}>
                                               <strong>{followers}</strong>{' '}
                                               <span style={{ color: 'grey', marginRight:10}}>followers</span>{' '}
                                               <strong>{visibleProfile?.following?.length}</strong>{' '}
@@ -282,7 +296,8 @@ const Profile = () => {
                         <GreenChipGroup chipLabelsArray={chipLabelsArray}
                                         focusChip={focusChip}
                                         setFilter={setFocusChip}
-                                        setFocusChip={setFocusChip}/>
+                                        setFocusChip={setFocusChip}
+                                        isSmallScreen={isSmallScreen}/>
                       </div>
 
                       {/*content*/}
