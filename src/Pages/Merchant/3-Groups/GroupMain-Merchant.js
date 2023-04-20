@@ -96,15 +96,7 @@ const GroupMainMerchant = () => {
   const chipLabelsArray = ["All", "Air Standard", "Air Sensitive", "Sea Standard", "Sea Sensitive"];
 
 
-  // chip filter
-  useEffect(() => {
-    const newFilteredRows = filteredData.filter(
-      (row) => focusChip === 'All' || focusChip.includes(row.shipRoute)
-    );
-    setTableData(newFilteredRows);
-  }, [focusChip]);
 
-  // Filter dialog'../1-Parcels/parcel-components/ParcelListCard';
   const [openFilter, setOpenFilter] = useState(false);
   const handleOpenFilter = () => {
     setOpenFilter(true);
@@ -113,7 +105,8 @@ const GroupMainMerchant = () => {
     setOpenFilter(false);
   };
 
-  const [tableData, setTableData] = useState(shipGroups);
+  const [filteredData, setFilteredData] = useState(shipGroups)
+  const [tableData, setTableData] = useState(filteredData);
   const [filterEndIn, setFilterEndIn] = useState("All");
   const [filterState, setFilterState] = useState("All");
   const [page, setPage] = useState(1);
@@ -126,8 +119,25 @@ const GroupMainMerchant = () => {
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
   const [rows, setRows] = useState([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
-  const [filteredData, setFilteredData] = useState(originalData)
 
+  // chip filter
+  useEffect(() => {
+    const newFilteredRows = filteredData.filter(
+      (row) => focusChip === 'All' || focusChip === row.shipRoute
+    );
+    setTableData(newFilteredRows);
+  }, [focusChip]);
+
+  useEffect(() => {
+    setTableData(filteredData);
+  }, [filteredData]);
+
+  useEffect(() => {
+    setPage(1);
+    setRows(
+        originalData.filter((row) => row.status === filter || filter === "All")
+      );
+  }, [originalData, filter]);
 
   useEffect(() => {
     let rowsOnMount = stableSort(
@@ -203,18 +213,7 @@ const GroupMainMerchant = () => {
     handleResetFilter();
   }, []);
 
-  useEffect(() => {
-    setTableData(filteredData);
-  }, [filteredData]);
 
-  useEffect(() => {
-    const filterTableData = () => {
-      setRows(
-        originalData.filter((row) => row.status === filter || filter === "All")
-      );
-    };
-    filterTableData();
-  }, [originalData, filter]);
 
   function formatDate(dateString) {
     if (!dateString) {
