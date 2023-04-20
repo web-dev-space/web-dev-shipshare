@@ -1,11 +1,12 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {
     changePasswordThunk,
     loginThunk,
     logoutThunk,
     profileThunk,
     signupThunk,
-    updateCurrentUserThunk
+    updateCurrentUserThunk,
+    restoreAuthThunk,
 } from "./users-thunks";
 
 const initialState = {
@@ -15,7 +16,7 @@ const initialState = {
 const authSlice = createSlice({
     name: "auth",
     initialState,
-    extraReducers:{
+    extraReducers: {
         [signupThunk.rejected]: (state, action) => {
             state.currentUser = null;
             console.log(action.response);
@@ -31,10 +32,12 @@ const authSlice = createSlice({
         [loginThunk.fulfilled]: (state, { payload }) => {
             state.currentUser = payload;
             state.error = null;
+            localStorage.setItem('auth', JSON.stringify(state.currentUser));
         },
         [logoutThunk.fulfilled]: (state) => {
             state.currentUser = null;
             state.error = null;
+            localStorage.removeItem('auth');
         },
         [profileThunk.fulfilled]: (state, { payload }) => {
             console.log(payload);
@@ -48,7 +51,12 @@ const authSlice = createSlice({
         [changePasswordThunk.fulfilled]: (state, { payload }) => {
             state.currentUser = payload;
             state.error = null;
-        }
+        },
+
+        [restoreAuthThunk.fulfilled]: (state, { payload }) => {
+            state.currentUser = payload;
+            state.error = null;
+        },
     },
     reducers: {}
 });
