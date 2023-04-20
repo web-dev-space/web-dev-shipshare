@@ -68,6 +68,18 @@ const Discover = () => {
     }, [allPosts]);
     console.log('filtered posts' ,filteredPosts);
 
+    useEffect(() => {
+        if (focusChip === 'Latest') {
+            setFilteredPosts(allPosts.sort((a, b) => new Date(b.created) - new Date(a.created)));
+        }
+    }, [focusChip, allPosts]);
+
+    useEffect(() => {
+        if (focusChip === 'Popular') {
+            setFilteredPosts(allPosts.sort((a, b) => b.viewsAmount- a.viewsAmount));
+        }
+    }, [focusChip, allPosts]);
+
 
     const [visiblePosts, setVisiblePosts] = useState([]);
     useEffect(() => {
@@ -81,7 +93,7 @@ const Discover = () => {
             setVisiblePosts(updatedVisiblePosts);
         };
         changePage();
-    }, [page, filteredPosts]);
+    }, [page, filteredPosts,focusChip]);
 
     // search bar
     const [searchTerm, setSearchTerm] = useState('');
@@ -218,14 +230,7 @@ const Discover = () => {
                             display: 'flex',
                             flexDirection:'column',
                             gap: 16 }}>
-                            {visiblePosts.sort((a, b) => {
-                                if (focusChip === 'Latest') {
-                                    return new Date(b.created) - new Date(a.created);
-                                } else if (focusChip === 'Popular') {
-                                    return b.viewsAmount - a.viewsAmount;
-                                }
-                                return 0;
-                            }).map((post, index) => (
+                            {visiblePosts.map((post, index) => (
                                 <PostCard
                                     index={index}
                                     id={post._id}
