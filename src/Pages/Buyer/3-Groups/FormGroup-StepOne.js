@@ -29,8 +29,10 @@ export default function FormGroupStepOne({ onButtonClick }) {
         >Choose a Route</Typography>
         <Box
           sx={{
-            width: '35%',
+            width: {xs: '80%', sm: '50%', md: '35%', lg: '35%', xl: '35%', xxl: '35%'},
             alignItems: 'center',
+            textAlign: 'center',
+            mx:{xs: 0, sm: 10, md: 10, lg: 10, xl: 10, xxl: 10},
           }}
         >
           <Typography
@@ -46,8 +48,7 @@ export default function FormGroupStepOne({ onButtonClick }) {
           flexDirection: 'row',
           justifyContent: 'space-between',
           mb: 5,
-          ml: 20,
-          mr: 20,
+          mx: {xs: 5, sm: 10, md: 10, lg: 10, xl: 10, xxl: 10},
           flexWrap: 'wrap',
           '& > *': {
             flexBasis: '22%',
@@ -79,7 +80,7 @@ export default function FormGroupStepOne({ onButtonClick }) {
             }}
           >
             <div
-              style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              style={{display: 'flex', flexDirection: 'column', alignItems: 'center',textAlign: 'center'}}>
               <Typography variant="subtitle2" component="div" sx={{mb: 3}}>
                 Air Standard
               </Typography>
@@ -121,7 +122,7 @@ export default function FormGroupStepOne({ onButtonClick }) {
             }}
           >
             <div
-              style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              style={{display: 'flex', flexDirection: 'column', alignItems: 'center',textAlign: 'center'}}>
               <Typography variant="subtitle2" component="div" sx={{mb: 3}}>
                 Air Sensitive
               </Typography>
@@ -162,7 +163,7 @@ export default function FormGroupStepOne({ onButtonClick }) {
             }}
           >
             <div
-              style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              style={{display: 'flex', flexDirection: 'column', alignItems: 'center',textAlign: 'center'}}>
               <Typography variant="subtitle2" component="div" sx={{mb: 3}}>
                 Sea Standard
               </Typography>
@@ -203,7 +204,7 @@ export default function FormGroupStepOne({ onButtonClick }) {
             }}
           >
             <div
-              style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              style={{display: 'flex', flexDirection: 'column', alignItems: 'center',textAlign: 'center'}}>
               <Typography variant="subtitle2" component="div" sx={{mb: 3}}>
                 Sea Sensitive
               </Typography>

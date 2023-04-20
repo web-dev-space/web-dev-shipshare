@@ -103,6 +103,8 @@ export default function UserCard({ user, disableFollowButton, dispatch }) {
 			</Typography>
 
 			{/* middle -- show follow button */}
+
+
 			{!disableFollowButton && !follow && (
 				<Button variant="contained" color="primary" style={{ borderRadius: 25, height:40, marginTop:7, marginBottom:9 }} onClick={handleFollow}>
 					Follow
