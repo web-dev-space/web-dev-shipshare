@@ -3,13 +3,29 @@ import { useTheme } from '@mui/material/styles';
 import { useMemo, Fragment } from "react";
 import { useSelector } from 'react-redux';
 import {
-  EcommerceBestSalesman
+  EcommerceBestSalesman,
+  EcommerceWidgetSummary,
+  EcommerceYearlySales,
 } from 'third-party/e-commerce';
 import { FileGeneralDataActivity } from 'third-party/file';
 import useDebugWhenChange from 'utils/useDebugWhenChange';
+import { useSettingsContext } from 'third-party/components/settings';
+import { Box, Container } from '@mui/material';
 
-const DashboardCommonPart = ({ stats }) => {
+
+function MyGridItem({ children }) {
+  const maxHeight = "455px";
+
+  return (
+    <Box maxHeight={maxHeight}>
+      {children}
+    </Box>
+  );
+}
+
+const DashboardCommonPart = ({ stats, isMerchant }) => {
   const theme = useTheme();
+  const { themeStretch } = useSettingsContext();
 
   const topLeaders = stats?.topFiveLeaders === undefined
     ? []
@@ -17,6 +33,8 @@ const DashboardCommonPart = ({ stats }) => {
       return {
         ...leader,
         total: leader.amount,
+        key: index,
+        id: index,
       }
     });
 
@@ -26,6 +44,8 @@ const DashboardCommonPart = ({ stats }) => {
       return {
         ...user,
         total: user.amount,
+        key: index,
+        id: index,
       }
     });
 
@@ -46,6 +66,14 @@ const DashboardCommonPart = ({ stats }) => {
       }
     })
   }, [stats?.activityMonthly]);
+
+
+  const recentParcelActivity = useMemo(() => {
+    return stats?.recentParcelActivity || [];
+  }, [stats]);
+
+  useDebugWhenChange('recentParcelActivity', recentParcelActivity);
+
 
 
   const timeLabels = useMemo(() => {
@@ -88,8 +116,8 @@ const DashboardCommonPart = ({ stats }) => {
 
   }, []);
 
-  return <Fragment>
-    {timeLabels !== undefined && <Grid item xs={12} md={12} lg={12}>
+  return <>
+    {timeLabels !== undefined && <Grid item xs={12} md={6} lg={6}>
       <FileGeneralDataActivity
         title="Shipment Activity"
         chart={{
@@ -111,9 +139,29 @@ const DashboardCommonPart = ({ stats }) => {
             },
           ],
         }}
+        style={{ height: '455px' }}
       />
     </Grid>
     }
+
+    <Grid item xs={12} md={6} lg={6}>
+      <EcommerceYearlySales
+        title="Parcel recieved"
+        chart={{
+          categories: timeLabels?.week || [],
+          series: [
+            {
+              year: 'Week',
+              data: [
+                { name: 'Parcel recieved', data: recentParcelActivity.yValues || [] },
+              ],
+            },
+          ],
+        }}
+        style={{ height: '455px' }}
+        defaultSeries="Week"
+      />
+    </Grid>
 
     <Grid item xs={12} md={6} lg={6}>
       <EcommerceBestSalesman
@@ -124,6 +172,7 @@ const DashboardCommonPart = ({ stats }) => {
           { id: 'amount', label: 'Amount' },
           { id: 'rank', label: 'Rank', align: 'right' }, //delete if not needed
         ]}
+        style={{ height: '455px' }}
       />
     </Grid>
 
@@ -136,9 +185,10 @@ const DashboardCommonPart = ({ stats }) => {
           { id: 'amount', label: 'Amount' },
           { id: 'rank', label: 'Rank', align: 'right' }, //delete if not needed
         ]}
+        style={{ height: '455px' }}
       />
     </Grid>
-  </Fragment>
+  </>
 };
 
 export default DashboardCommonPart;
