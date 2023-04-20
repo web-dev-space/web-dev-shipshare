@@ -50,6 +50,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
           display: 'flex',
           flexDirection: 'column',
         },
+        flexGrow: 1,
       }}
     >
       <Stack
