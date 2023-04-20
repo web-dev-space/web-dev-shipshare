@@ -369,6 +369,7 @@ const MerchantParcelTable = ({ data, handleUpdateParcel }) => {
                                             )}
                                         </TableCell>
                                         <TableCell align="left">
+                                            <Box spacing={2} display='flex'>
                                             <Button
                                                 variant="outlined"
                                                 style={{
@@ -416,6 +417,7 @@ const MerchantParcelTable = ({ data, handleUpdateParcel }) => {
                                                     </Button>
                                                 )
                                             }
+                                            </Box>
                                         </TableCell>
                                     </TableRow>
                                 );
