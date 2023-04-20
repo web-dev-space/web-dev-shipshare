@@ -40,3 +40,9 @@ export const findReviewsForProject = async (asin) => {
   const reviews = response.data;
   return reviews;
 };
+
+export const findReviewsByUserId = async (userId) => {
+  const response = await axios.get(`${REVIEWS_API}?userId=${userId}`);
+  const reviews = response.data;
+  return reviews;
+};

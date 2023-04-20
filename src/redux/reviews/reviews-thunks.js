@@ -41,3 +41,13 @@ export const findReviewsForProjectThunk = createAsyncThunk(
     return await service.findReviewsForProject(asin);
   }
 );
+
+export const findReviewsByUserIdThunk = createAsyncThunk(
+  "reviews/findReviewsByUserId",
+  async (userId) => {
+    return {
+      userId: userId,
+      reviews: await service.findReviewsByUserId(userId),
+    };
+  }
+);

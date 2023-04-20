@@ -138,6 +138,9 @@ export default function ProductDetails() {
       user: currentUser?._id,
       date: new Date(),
       content: newReview,
+      productName: product?.name,
+      productLink: product?.link,
+      productImage: product?.cover,
     };
 
     try {
