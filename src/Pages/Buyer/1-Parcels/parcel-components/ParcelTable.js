@@ -16,9 +16,10 @@ import TableHead from "@mui/material/TableHead";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { visuallyHidden } from "@mui/utils";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Pagination from "@mui/lab/Pagination";
+import { Pagination } from '@mui/material';
 import ParcelDetailsScreen from "./ParcelDetailsScreen";
 import {useNavigate} from "react-router-dom";
+import useDebugWhenChange from "utils/useDebugWhenChange";
 
 const DEFAULT_ORDER = "asc";
 const DEFAULT_ORDER_BY = "date";
@@ -137,6 +138,8 @@ function descendingComparator(a, b, orderBy) {
       } else {
         return 0;
       }
+    case "trackingNumber":
+      return b.trackingNumber.localeCompare(a.trackingNumber);
     default:
       return b[orderBy] - a[orderBy];
   }
@@ -207,17 +210,6 @@ const ParcelTable = ({ data }) => {
       const toggledOrder = isAsc ? "desc" : "asc";
       setOrder(toggledOrder);
       setOrderBy(newOrderBy);
-
-      const sortedRows = stableSort(
-        rows,
-        getComparator(toggledOrder, newOrderBy)
-      );
-      const updatedRows = sortedRows.slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      );
-
-      setVisibleRows(updatedRows);
     },
     [rows, order, orderBy, page, rowsPerPage]
   );
@@ -344,7 +336,7 @@ const ParcelTable = ({ data }) => {
                     <TableRow
                       hover
                       tabIndex={-1}
-                      key={row.trackingNumber}
+                      // key={row.trackingNumber}
                       style={{
                         borderTop: "1px solid #EDF2F7",
                         borderBottom: "1px solid #EDF2F7",

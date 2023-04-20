@@ -1,5 +1,5 @@
 import { ToggleButton } from "@mui/lab";
-import Pagination from "@mui/lab/Pagination";
+import { Pagination } from '@mui/material';
 import { Drawer, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -311,7 +311,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
     return updatedRows;
   }, [page, rows, rowsPerPage, order, orderBy]);
 
-
   const paddingHeight = React.useMemo(() => {
     const newPage = page - 1;
 
@@ -322,7 +321,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
 
     return 53 * numEmptyRows;
   }, [rows, page, rowsPerPage])
-
 
   useEffect(() => {
     const filterTableData = () => {

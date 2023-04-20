@@ -70,7 +70,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
 
       <NavSectionVertical data={naviData} />
 
-      <Box sx={{ flexGrow: 1 }} />
+      {/* <Box sx={{ flexGrow: 1 }} /> */}
 
     </Scrollbar>
   );
