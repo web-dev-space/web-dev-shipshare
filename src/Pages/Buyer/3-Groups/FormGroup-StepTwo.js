@@ -157,24 +157,24 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
             <Controller
               name='endDate'
               control={control}
-              render={
-                ({field}) => (
-                  <LocalizationProvider
-                    dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      required
-                      name="endDate"
-                      label="End Date *"
-                      value={selectedDate ? dayjs(selectedDate) : null}
-                      minDate={dayjs()}
-                      onChange={(date) => handleDateChange(date)}
-                      // renderInput={(props) => (
-                      //   <RHFTextField{...props}/>
-                      // )}
-                    />
-                  </LocalizationProvider>
-                )
-              }/>
+              render={({ field, fieldState: { error } }) => (
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    {...field}
+                    name="endDate"
+                    label="End Date *"
+                    value={selectedDate ? dayjs(selectedDate) : null}
+                    minDate={dayjs()}
+                    helperText={error ? error.message : "Required"}
+                    error={!!error}
+                    renderInput={(params) => (
+                      <TextField {...params} fullWidth />
+                    )}
+                    onChange={(date) => handleDateChange(date)}
+                  />
+                </LocalizationProvider>
+              )}
+            />
 
 
             {/*<Controller*/}
