@@ -12,7 +12,7 @@ import TableHead from "@mui/material/TableHead";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import {visuallyHidden} from "@mui/utils";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import Pagination from "@mui/lab/Pagination";
+import { Pagination } from '@mui/material';
 import ParcelDetailsScreen from "../../Buyer/1-Parcels/parcel-components/ParcelDetailsScreen";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -369,6 +369,7 @@ const MerchantParcelTable = ({ data, handleUpdateParcel }) => {
                                             )}
                                         </TableCell>
                                         <TableCell align="left">
+                                            <Box spacing={2} display='flex'>
                                             <Button
                                                 variant="outlined"
                                                 style={{
@@ -416,6 +417,7 @@ const MerchantParcelTable = ({ data, handleUpdateParcel }) => {
                                                     </Button>
                                                 )
                                             }
+                                            </Box>
                                         </TableCell>
                                     </TableRow>
                                 );

@@ -169,7 +169,7 @@ const Discover = () => {
                             direction="row"
                             justifyContent="space-between"
                         >
-                            <Typography variant="h3" component="h1" paragraph>
+                            <Typography variant="h4" component="h1" paragraph>
                                 Discover
                             </Typography>
                             <Button variant="contained"

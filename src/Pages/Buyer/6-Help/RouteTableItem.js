@@ -13,7 +13,16 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 
 
 const RouteTableItem = ({ index, type, time, price, factor, parcelWeight, parcelLength, parcelWidth, parcelHeight }) => {
-	const actualFactor = parseFloat(parcelWeight) > Math.ceil(parseFloat(parcelHeight) * parseFloat(parcelLength) * parseFloat(parcelWidth) / 5000) ? parseFloat(parcelWeight) : Math.ceil(parseFloat(parcelHeight) * parseFloat(parcelHeight) * parseFloat(parcelWeight) / 5000);
+	let actualFactor = 1;
+	if(parcelHeight !== "" && parcelLength !== "" && parcelWidth !== "" && parcelWeight !== "") {
+		actualFactor = parseFloat(parcelWeight) > Math.ceil(parseFloat(parcelHeight) * parseFloat(parcelLength) * parseFloat(parcelWidth) / 5000) ? parseFloat(parcelWeight) : Math.ceil(parseFloat(parcelHeight) * parseFloat(parcelHeight) * parseFloat(parcelWeight) / 5000);
+	}
+	else if(parcelWeight !== ""){
+		actualFactor = parseFloat(parcelWeight);
+	}
+	else if(parcelHeight !== "" && parcelLength !== "" && parcelWidth !== ""){
+		actualFactor = Math.ceil(parseFloat(parcelHeight) * parseFloat(parcelLength) * parseFloat(parcelWidth) / 5000);
+	}
 // console.log("factor is " +factor);
 	return (
 		<Box sx={{ display: 'flex', alignItems: 'center', border: '1px solid #E2E8F0', borderRadius: '8px', p: 2 , marginBottom:2}}>

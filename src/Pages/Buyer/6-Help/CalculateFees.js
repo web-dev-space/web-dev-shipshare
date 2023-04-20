@@ -55,7 +55,12 @@ const CalculateFees = () => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleCalculate = () => {
-		setIsOpen(true);
+		if(parcelWeight !== '' || ( parcelHeight !== '' && parcelLength !== '' && parcelWidth !== '' ) ){
+			setIsOpen(true);
+		}
+		else{
+			alert('Please enter the parcel weight or dimensions');
+		}
 	}
 
 	const [isPhoneScreen, setIsPhoneScreen] = useState(false);
@@ -90,7 +95,7 @@ const CalculateFees = () => {
 				{/*--------------Main Content----------------------*/}
 				<Main>
 					<Container maxWidth="md">
-						<Typography variant="h3" component="h1" paragraph>
+						<Typography variant="h4" component="h1" paragraph>
 							Calculate Fee
 						</Typography>
 

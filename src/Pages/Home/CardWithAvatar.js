@@ -6,7 +6,7 @@ const StyledCard = styled(Card)({
   display: 'flex',
   alignItems: 'center',
   marginBottom: '2rem',
-  minWidth: 380,
+  minWidth: 280,
 });
 
 const StyledCardContent = styled(CardContent)({
@@ -53,14 +53,16 @@ const CardWithAvatar = ({ avatarUrl, name, route, date, pickupAddress, isLargeSc
         <StyledSubtitle variant="body2" color="text.secondary">
           {route}
         </StyledSubtitle>
-        <div style={{flexDirection: 'row', display: 'flex'}}>
+        <div style={{flexDirection: isPhoneScreen? 'column':'row', display: 'flex'}}>
           <Typography variant={isPhoneScreen? "caption":"body2"} color="text.secondary" sx={{mr:1}}>
             End in {date}
           </Typography>
+          {!isPhoneScreen &&
           <Typography variant={isPhoneScreen? "caption":"body2"} color="text.secondary" sx={{mr:1}}>
             |
           </Typography>
-          <Typography variant={isPhoneScreen? "caption":"body2"} color="text.secondary">
+          }
+          <Typography variant={isPhoneScreen? "caption":"body2"} color="text.secondary" sx={{mt:isPhoneScreen? 1:0}}>
             Pick up at {pickupAddress}
           </Typography>
         </div>

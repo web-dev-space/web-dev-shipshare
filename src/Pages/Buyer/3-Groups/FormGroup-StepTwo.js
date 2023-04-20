@@ -153,6 +153,7 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
               id="outlined-required"
               label="Phone Number"
               placeholder={'e.g. 123-456-7890'}
+              style={{marginBottom: 15}}
             />
             <Controller
               name='endDate'
