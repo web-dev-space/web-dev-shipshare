@@ -147,7 +147,6 @@ const DashboardCommonPart = ({ stats, isMerchant }) => {
     <Grid item xs={12} md={6} lg={6}>
       <EcommerceYearlySales
         title="Parcel recieved"
-        // subheader="(+43%) than last year"
         chart={{
           categories: timeLabels?.week || [],
           series: [
@@ -157,15 +156,10 @@ const DashboardCommonPart = ({ stats, isMerchant }) => {
                 { name: 'Parcel recieved', data: recentParcelActivity.yValues || [] },
               ],
             },
-            // {
-            //   year: 'Monthly',
-            //   data: [
-            //     { name: 'Total Revenue', data: [148, 91, 69, 62, 49, 51, 35] },
-            //   ],
-            // },
           ],
         }}
         style={{ height: '455px' }}
+        defaultSeries="Week"
       />
     </Grid>
 

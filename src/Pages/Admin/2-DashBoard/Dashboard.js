@@ -75,6 +75,11 @@ const Dashboard = () => {
     month: getArrayWithDefault(recentFormedShipGroupMonthly.xValues),
   };
 
+  const recentPostsActivity = useMemo(() => {
+    return stats?.recentPostsActivity || [];
+  }, [stats]);
+
+
   return (
     <>
       <Helmet>
@@ -150,7 +155,7 @@ const Dashboard = () => {
                   />
                 </Grid>
 
-                <Grid item xs={12} md={6} lg={6}>
+                {/* <Grid item xs={12} md={6} lg={6}>
                   <FileGeneralDataActivity
                     title="New ShipGroup Formed"
                     chart={{
@@ -174,6 +179,25 @@ const Dashboard = () => {
                       ],
                     }}
                     style={{ height: '455px' }}
+                  />
+                </Grid> */}
+
+                <Grid item xs={12} md={6} lg={6}>
+                  <EcommerceYearlySales
+                    title="Post Activity"
+                    chart={{
+                      categories: recentPostsActivity.xValues || [],
+                      series: [
+                        {
+                          year: 'Week',
+                          data: [
+                            { name: 'Posts', data: recentPostsActivity.yValues || [] },
+                          ],
+                        },
+                      ],
+                    }}
+                    style={{ height: '455px' }}
+                    defaultSeries="Week"
                   />
                 </Grid>
 
