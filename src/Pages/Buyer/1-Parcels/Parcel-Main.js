@@ -205,7 +205,7 @@ const ParcelMainPage = () => {
                 }
                 <Main className={currentUser.role === "visitor" ? "visitor-mode" : ""}>
                     <Container maxWidth={false}>
-                        <Typography variant="h4" component="h1" paragraph>
+                        <Typography variant="h3" component="h1" paragraph>
                             My Parcels
                         </Typography>
                     </Container>

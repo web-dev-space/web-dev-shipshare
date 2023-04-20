@@ -381,7 +381,7 @@ const GroupMainPage = () => {
         {/*--------------Main Content----------------------*/}
         <Main>
           <Container maxWidth={false}>
-            <Typography variant="h4">
+            <Typography variant="h3" component="h1" paragraph>
               Ongoing Groups
             </Typography>
             <Stack
