@@ -47,23 +47,43 @@ const Dashboard = () => {
     setOpen(false);
   };
 
-  const recentShipGroupActivity = stats?.recentShipGroupActivity || [];
-
-  const groupFormPercent = useMemo(() => {
-    const y = recentShipGroupActivity?.yValues || [];
+  const getIncreasePercent = (yValues) => {
+    const y = yValues || [];
     if (y.length < 2) {
       return 0;
     }
 
     const last = y[y.length - 1];
     const lastSecond = y[y.length - 2];
-    console.log(last, lastSecond);
     if (lastSecond === 0) {
       return 0;
     }
     return (last - lastSecond) / lastSecond * 100;
+  };
 
-  }, [recentShipGroupActivity]);
+  const recentParcelActivity = useMemo(() => {
+    return stats?.recentParcelActivity || [];
+  }, [stats]);
+
+  const recentShipGroupActivity = useMemo(() => {
+    return stats?.recentShipGroupActivity || [];
+  }, [stats]);
+
+  const recentShipGroupShippedActivity = useMemo(() => {
+    return stats?.recentShipGroupShippedActivity || [];
+  }, [stats]);
+
+  const parcelFormPercent = useMemo(() =>
+    getIncreasePercent(recentParcelActivity?.yValues)
+    , [recentShipGroupActivity]);
+
+  const groupFormPercent = useMemo(() =>
+    getIncreasePercent(recentShipGroupActivity?.yValues)
+    , [recentShipGroupActivity]);
+
+  const groupShippedPercent = useMemo(() =>
+    getIncreasePercent(recentShipGroupShippedActivity?.yValues)
+    , [recentShipGroupShippedActivity]);
 
   return (
     <>
@@ -91,11 +111,11 @@ const Dashboard = () => {
                 <Grid item xs={12} md={6} xl={4}>
                   <EcommerceWidgetSummary
                     title="Parcels Received"
-                    percent={7.8}
+                    percent={parcelFormPercent}
                     total={stats?.totalParcelsNumber === undefined ? 0 : stats?.totalParcelsNumber}
                     chart={{
                       colors: [theme.palette.primary.main],
-                      series: [22, 8, 35, 42, 32, 84, 77, 52],
+                      series: recentParcelActivity.yValues || [],
                     }}
                   />
                 </Grid>
@@ -115,11 +135,11 @@ const Dashboard = () => {
                 <Grid item xs={12} md={6} xl={4}>
                   <EcommerceWidgetSummary
                     title="Shipments Sent"
-                    percent={13.2}
+                    percent={groupShippedPercent}
                     total={stats?.totalGroupShipped === undefined ? 0 : stats?.totalGroupShipped}
                     chart={{
                       colors: [theme.palette.info.main],
-                      series: [21, 32, 12, 24, 18, 45],
+                      series: recentShipGroupShippedActivity.yValues || [],
                     }}
                   />
                 </Grid>
