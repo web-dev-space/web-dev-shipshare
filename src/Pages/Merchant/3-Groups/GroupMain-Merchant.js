@@ -443,7 +443,8 @@ const GroupMainMerchant = () => {
                             {getShortAddress(row.pickupLocation.address)}
                           </Typography>
                         </TableCell>
-                        <TableCell>
+                        <TableCell align="left">
+                          <Box spacing={2} display='flex'>
                           <Button
                             onClick={() => handleClickGroupDetail(row)}
                             variant="contained"
@@ -452,16 +453,18 @@ const GroupMainMerchant = () => {
                               borderRadius: 1,
                               backgroundColor: '80B213',
                               height: 45,
+                              minWidth: 110,
+                              mr:1
                             }}>
                             Group Page
                           </Button>
-                        </TableCell>
-                        <TableCell>
+
                           <Button
                             variant="outlined"
                             sx={{ borderRadius: 1, height: 45, }}
                             onClick={() => handleOpenDrawer({ ship: displayedItems[index] })}
                           >Details</Button>
+                            </Box>
                         </TableCell>
                       </TableRow>
                     ))}
