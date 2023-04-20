@@ -7,7 +7,7 @@ import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import * as Yup from "yup";
-import {useForm} from "react-hook-form";
+import {Controller, useForm, useFormContext} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useSnackbar} from "notistack";
 import {useNavigate} from "react-router-dom";
@@ -26,7 +26,7 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
       role: "visitor"
     }
   }
-  console.log("currentUser", currentUser)
+  // console.log("currentUser", currentUser)
 
   // ---- handle the new group object ---
   const defaultValues = {
@@ -34,7 +34,7 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
     receiverName: '',
     pickupLocation: null,
     phoneNumber: '',
-    endDate: '',
+    endDate: null,
   };
 
   // validation schema
@@ -42,7 +42,7 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
     groupName: Yup.string().required('Required'),
     receiverName: Yup.string().required('Required'),
     phoneNumber: Yup.string().required('Required'),
-    endDate: Yup.string().required('Required'),
+    endDate: Yup.date().required('Required'),
   });
 
   const methods = useForm({
@@ -51,9 +51,12 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
 
 
   const [selectedDate, setSelectedDate] = useState(null);
+
+
   const handleDateChange = (date) => {
-    setSelectedDate(date);
     onDateChange(date);
+    setSelectedDate(date);
+
   };
 
   const {handleSubmit, setValue} = methods;
@@ -61,12 +64,11 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
   const handlePickupLocationChange = (d) => {
     // setInputPickupLocation(d)
     const values = methods.getValues();
-    setValue("pickupLocation", { ...values.pickupLocation, address: d });
+    setValue("pickupLocation", {...values.pickupLocation, address: d});
     onPickupLocationChange(d);
   };
 
-
-  const [receiverName, setReceiverName] = useState(currentUser.name);
+  const {control} = useFormContext();
 
   return (<>
       {/*----------------- Title & Description -----------------*/}
@@ -96,10 +98,10 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
       <Box
 
         style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}>
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}>
         <Stack
           component={'form'}
           spacing={2}
@@ -123,11 +125,6 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
             id="outlined-required"
             label="Receiver's Name"
             placeholder={'e.g. Mary Smith'}
-            defaultValue={receiverName}
-            // value={receiverName}
-            // onChange={(e) => {
-            //   setReceiverName( e.target.value);
-            // }}
           />
           <RHFTextFieldGoogle
             required
@@ -139,7 +136,7 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
             onChange={(location) => handlePickupLocationChange(location)}
           />
           <Stack
-            direction={{xs:"column", sm: 'column', md: 'row'}}
+            direction={{xs: "column", sm: 'column', md: 'row'}}
             spacing={2}
             sx={{
               width: '100%',
@@ -157,22 +154,52 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
               label="Phone Number"
               placeholder={'e.g. 123-456-7890'}
             />
+            <Controller
+              name='endDate'
+              control={control}
+              render={
+                ({field}) => (
+                  <LocalizationProvider
+                    dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      required
+                      name="endDate"
+                      label="End Date *"
+                      value={selectedDate ? dayjs(selectedDate) : null}
+                      minDate={dayjs()}
+                      onChange={(date) => handleDateChange(date)}
+                      // renderInput={(props) => (
+                      //   <RHFTextField{...props}/>
+                      // )}
+                    />
+                  </LocalizationProvider>
+                )
+              }/>
 
-            <LocalizationProvider
-              dateAdapter={AdapterDayjs}>
-              <DatePicker
-                required
-                name="endDate"
-                label="End Date *"
-                value={selectedDate ? dayjs(selectedDate) : null}
-                minDate={dayjs()}
-                onChange={(date) => handleDateChange(date)}
-                renderInput={(props) => (
-                  <TextField {...props}/>
-                )}
-              />
-            </LocalizationProvider>
 
+            {/*<Controller*/}
+            {/*  name='endDate'*/}
+            {/*  control={control}*/}
+            {/*  render={({field, fieldState: {error}}) => (*/}
+            {/*    <LocalizationProvider dateAdapter={AdapterDayjs} required>*/}
+            {/*      <DatePicker*/}
+            {/*        {...field}*/}
+            {/*        renderInput={(params) => (*/}
+            {/*          <TextField*/}
+            {/*            {...params}*/}
+            {/*            fullWidth*/}
+            {/*            error={!!error}*/}
+            {/*          />*/}
+            {/*        )}*/}
+            {/*        name="endDate"*/}
+            {/*        label="End Date *"*/}
+            {/*        value={selectedDate ? dayjs(selectedDate) : null}*/}
+            {/*        minDate={dayjs()}*/}
+            {/*        onChange={(date) => handleDateChange(date)}*/}
+            {/*      />*/}
+            {/*    </LocalizationProvider>*/}
+            {/*  )}*/}
+            {/*/>*/}
 
           </Stack>
         </Stack>
