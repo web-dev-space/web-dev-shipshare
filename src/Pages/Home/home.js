@@ -56,6 +56,7 @@ const Home = () => {
         setIsDiscoverSmallScreen(window.innerWidth < 1600);
         setIsDiscoverPhoneScreen(window.innerWidth < 900);
       };
+      handleResize();
       window.addEventListener('resize', handleResize);
       return () => {
         window.removeEventListener('resize', handleResize);
