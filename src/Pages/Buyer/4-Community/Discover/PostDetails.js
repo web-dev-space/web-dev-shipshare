@@ -87,7 +87,7 @@ const Comment = ({user, date, comment, content, role, dispatch, post}) => {
               </IconButton>
             </div>
           )}
-        </div>
+
 
         <div style={{
           fontSize: 14,
@@ -96,7 +96,7 @@ const Comment = ({user, date, comment, content, role, dispatch, post}) => {
           {content}
         </div>
       </div>
-    </div>
+
   );
 };
 
