@@ -250,6 +250,12 @@ const Home = () => {
         };
       }).filter((shipGroup) => shipGroup?.members?.some((member) => member === currentUser?.email));
 
+      //new users number
+      const stats = useSelector(state => state.dashboard.stats);
+      const getNumberWithDefault = (number, defaultValue = 0) => {
+        return number === undefined ? defaultValue : number;
+      };
+
    // console.log("parcel num is ",tableData.length);
    // console.log("shipGroup num is ",shipGroups.length);
 
@@ -274,6 +280,7 @@ const Home = () => {
                     <Container maxWidth={true}>
 
                       {/*====== part 1 ======*/}
+                      {(currentUser.role === "visitor" || currentUser.role === "buyer") &&
                       <AppWelcome
                         title={currentUser.name? `Hello, ${currentUser.name}`:"Ship globally &"}
                         title2={currentUser.name? '':"Save big"}
@@ -288,7 +295,39 @@ const Home = () => {
                           marginRight: isSmallScreen? 0: 30,
                         }}/>}
                         action={<Button variant="contained" style={{borderRadius: '1rem', marginBottom: -130}} onClick={()=>navigate('/login')}>Get Started</Button> }
-                      />
+                      />}
+                      {currentUser.role === "admin" &&
+                        <AppWelcome
+                          title={`Hello, ${currentUser.name}`}
+                          title2={currentUser.name? '':"Save big"}
+                          description={`We're excited to share that we've had ${getNumberWithDefault(stats?.newUserCounts)} new users join us today. Thank you for being a part of our community!`}
+                          img={<img src={require('../../images/HomeGroup.png')} alt="HomeGroup" style={{
+                            p: 3,
+                            width: isSmallScreen? '80%':'50%',
+                            margin: { xs: 'auto', md: 'inherit' },
+                            alignSelf: 'center',
+                            marginBottom: 120,
+                            marginTop: 120,
+                            marginRight: isSmallScreen? 0: 30,
+                          }}/>}
+                          action={<Button variant="contained" style={{borderRadius: '1rem', marginBottom: -130}} onClick={()=>navigate('/login')}>Get Started</Button> }
+                        />}
+                      {currentUser.role === "merchant" &&
+                        <AppWelcome
+                          title={`Hello, ${currentUser.name}`}
+                          title2={currentUser.name? '':"Save big"}
+                          description={`This week, you have processed ${stats?.totalParcelsNumber === undefined ? 0 : stats?.totalParcelsNumber} new shipments and  ${stats?.totalShipGroupsNumber === undefined ? 0 : stats?.totalShipGroupsNumber} parcels. Thank you for choosing ShipShare!`}
+                          img={<img src={require('../../images/HomeGroup.png')} alt="HomeGroup" style={{
+                            p: 3,
+                            width: isSmallScreen? '80%':'50%',
+                            margin: { xs: 'auto', md: 'inherit' },
+                            alignSelf: 'center',
+                            marginBottom: 120,
+                            marginTop: 120,
+                            marginRight: isSmallScreen? 0: 30,
+                          }}/>}
+                          action={<Button variant="contained" style={{borderRadius: '1rem', marginBottom: -130}} onClick={()=>navigate('/login')}>Get Started</Button> }
+                        />}
 
 
                       {/*====== part 2 - How it works ======*/}
