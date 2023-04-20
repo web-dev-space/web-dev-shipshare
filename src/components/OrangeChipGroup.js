@@ -10,7 +10,7 @@ function OrangeChipGroup ({chipLabelsArray, setFilter, focusChip, setFocusChip, 
                     label={label}
                     color={focusChip === label ? "warning" : "default"}
                     variant={focusChip === label ? "filled" : "outlined"}
-                    sx={{ fontSize: isPhoneScreen? 12: 14, height: isPhoneScreen? 30:40, mr: 1, mt:1,
+                    sx={{ fontSize: isPhoneScreen? 13: 14, height: isPhoneScreen? 32:40, mr: 1, mt:1,
                         color: focusChip === label ? "white" : "grey",
                     }}
                     onClick={() => {

@@ -65,6 +65,19 @@ const GroupMainMerchant = () => {
   const shipGroups = useSelector((state) => state.shipGroup.shipGroups);
   const setShipGroups = (shipGroups) => dispatch(setShipGroups(shipGroups));
 
+  const [isPhoneScreen, setIsPhoneScreen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsPhoneScreen(window.innerWidth < 962);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     dispatch(findAllShipGroupsThunk());
     dispatch(findAllUsersThunk());
@@ -299,7 +312,7 @@ const GroupMainMerchant = () => {
             <Stack
               mt={3}
               mb={3}
-              direction="row"
+              direction={isPhoneScreen? "column":"row"}
               sx={{ justifyContent: 'space-between', width: '100%' }}
             >
               <Stack direction="row" spacing={2}>
@@ -308,17 +321,18 @@ const GroupMainMerchant = () => {
                   setFilter={setFilter}
                   focusChip={focusChip}
                   setFocusChip={setFocusChip}
+                  isPhoneScreen={isPhoneScreen}
                 />
               </Stack>
 
               <Stack direction="row"
-                spacing={2}
+                spacing={2} sx={{mt:isPhoneScreen? 1: 0, display:"flex", justifyContent:"flex-end"}}
               >
                 <Button
                   // component={RouterLink}
                   // to={PATH_DASHBOARD.eCommerce.new}
                   variant="outlined"
-                  size="large"
+                  size={isPhoneScreen?"small": "large"}
                   startIcon={<TuneIcon />}
                   onClick={handleOpenFilter}
                 >Filters</Button>
