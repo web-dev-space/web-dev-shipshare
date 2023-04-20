@@ -44,7 +44,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
   const renderContent = (
     <Scrollbar
       sx={{
-        height: 1,
+        height: 10,
         '& .simplebar-content': {
           height: 1,
           display: 'flex',

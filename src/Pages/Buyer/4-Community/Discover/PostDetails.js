@@ -1,30 +1,36 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Header from "../../../../third-party/layouts/dashboard/header"
 import NavVertical from "../../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../../third-party/layouts/dashboard/Main"
-import {Container, Box, Avatar, Typography, TextField, Button, Pagination, IconButton} from '@mui/material';
+import { Container, Box, Avatar, Typography, TextField, Button, Pagination, IconButton } from '@mui/material';
 import Image from "mui-image";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // sample data
 import posts from "../../../../sampleData/posts";
 import {
-    deletePostThunk,
-    findPostByIdThunk,
-    updatePostThunk
+  deletePostThunk,
+  findPostByIdThunk,
+  updatePostThunk
 } from "../../../../redux/posts/posts-thunks";
-import {Helmet} from "react-helmet";
-import {getRandomAvatar} from "../../../../utils/getRandomAvatar";
-import {findAllUsersThunk} from "../../../../redux/users/users-thunks";
+import { Helmet } from "react-helmet";
+import { getRandomAvatar } from "../../../../utils/getRandomAvatar";
+import { findAllUsersThunk } from "../../../../redux/users/users-thunks";
 
 const post = posts[0];
 const COMMENT_PER_PAGE = 5;
 
+const handleClickUserIcon = (user, navigate) => {
+  if (!user || !user._id) return;
+  navigate(`/community/profile/${user._id}`)
+};
+
 
 // Comment component
+
 const Comment = ({user, date, comment, content, role, dispatch, post}) => {
     const handleDeleteComment = (comment) => {
         console.log(comment);
@@ -33,6 +39,9 @@ const Comment = ({user, date, comment, content, role, dispatch, post}) => {
             comments: post.comments.filter(c => c._id !== comment._id)
         }));
     };
+
+
+
     return (
         <div style={{
             display: 'flex', flexDirection: 'row',
@@ -67,15 +76,28 @@ const Comment = ({user, date, comment, content, role, dispatch, post}) => {
                     )}
                 </div>
 
-                <div style={{
-                    fontSize: 14,
-                    marginTop: 10
-                }}>
-                    {content}
-                </div>
+          </div>
+          {role === 'admin' && (
+            <div style={{
+              width: "100%", display: "flex", justifyContent: "flex-end",
+              marginRight: 8
+            }}>
+              <IconButton onClick={() => handleDeleteComment(comment)}>
+                <DeleteIcon style={{ color: "lightGrey", fontSize: "large" }} />
+              </IconButton>
             </div>
+          )}
+
+
+        <div style={{
+          fontSize: 14,
+          marginTop: 10
+        }}>
+          {content}
         </div>
-    );
+      </div>
+
+  );
 };
 
 
@@ -134,6 +156,19 @@ const PostDetails = () => {
         });
     }
 
+    const [isPhoneScreen, setIsPhoneScreen] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsPhoneScreen(window.innerWidth < 500);
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     return (
         <>
             <Helmet>
@@ -183,11 +218,11 @@ const PostDetails = () => {
                                 onClick={() => navigate(-1)}>
                                 <ArrowBackIcon style={{ color: 'white'}}/>
                             </IconButton>
-                            <Typography variant="h2" gutterBottom style={{ color: 'white'}}>
+                            <Typography variant={isPhoneScreen? "h3":"h2"} gutterBottom style={{ color: 'white'}}>
                                 {post.title}
                             </Typography>
 
-                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 80}}>
+                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: isPhoneScreen?40: 80}}>
                                 {!author && <Avatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_1.jpg" sx={{ width: 48, height: 48 }} />}
                                 {author && <Avatar src={author.avatar || getRandomAvatar(author.name)} sx={{ width: 48, height: 48 }} />}
                                 <div style={{ marginLeft: 8}}>
@@ -327,6 +362,7 @@ const PostDetails = () => {
             </Box>
         </>
     );
+
 };
 
 export default PostDetails;

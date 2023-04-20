@@ -226,6 +226,7 @@ const GroupDetailPage = (props) => {
                 top: -600,
               }}
             >
+
               <Box sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -261,8 +262,6 @@ const GroupDetailPage = (props) => {
                     </Typography>
                   </div>
                 </Box>
-
-
               </Box>
             </Box>
 
