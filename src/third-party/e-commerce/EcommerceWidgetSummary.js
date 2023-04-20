@@ -110,9 +110,9 @@ function TrendingInfo({ percent }) {
       />
 
       <Typography variant="subtitle2" component="div" noWrap>
-        {percent > 0 && '+'}
+        {percent >= 0 && '+'}
 
-        {fPercent(percent)}
+        {percent === 0 ? '0%' : fPercent(percent)}
 
         <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
           {' than last week'}

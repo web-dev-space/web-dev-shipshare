@@ -21,6 +21,7 @@ import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from 'react-redux';
 import { getStatsMerchantThunk } from 'redux/dashboard/dashboard-thunks';
 import DashboardCommonPart from 'components/DashboardCommonPart';
+import useDebugWhenChange from 'utils/useDebugWhenChange';
 
 const Dashboard = () => {
   const [open, setOpen] = useState(false);
@@ -46,6 +47,24 @@ const Dashboard = () => {
     setOpen(false);
   };
 
+  const recentShipGroupActivity = stats?.recentShipGroupActivity || [];
+
+  const groupFormPercent = useMemo(() => {
+    const y = recentShipGroupActivity?.yValues || [];
+    if (y.length < 2) {
+      return 0;
+    }
+
+    const last = y[y.length - 1];
+    const lastSecond = y[y.length - 2];
+    console.log(last, lastSecond);
+    if (lastSecond === 0) {
+      return 0;
+    }
+    return (last - lastSecond) / lastSecond * 100;
+
+  }, [recentShipGroupActivity]);
+
   return (
     <>
       <Helmet>
@@ -69,7 +88,7 @@ const Dashboard = () => {
             <Container maxWidth={themeStretch ? false : 'xl'}>
               <Grid container spacing={3}>
 
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6} xl={4}>
                   <EcommerceWidgetSummary
                     title="Parcels Received"
                     percent={7.8}
@@ -81,14 +100,26 @@ const Dashboard = () => {
                   />
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6} xl={4}>
+                  <EcommerceWidgetSummary
+                    title="Group Formed"
+                    percent={groupFormPercent}
+                    total={stats?.totalShipGroupsNumber === undefined ? 0 : stats?.totalShipGroupsNumber}
+                    chart={{
+                      colors: [theme.palette.warning.main],
+                      series: recentShipGroupActivity?.yValues || [],
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={12} md={6} xl={4}>
                   <EcommerceWidgetSummary
                     title="Shipments Sent"
                     percent={13.2}
-                    total={stats?.totalShipGroupsNumber === undefined ? 0 : stats?.totalShipGroupsNumber}
+                    total={stats?.totalGroupShipped === undefined ? 0 : stats?.totalGroupShipped}
                     chart={{
                       colors: [theme.palette.info.main],
-                      series: [56, 47, 40, 62, 73, 30, 67, 68],
+                      series: [21, 32, 12, 24, 18, 45],
                     }}
                   />
                 </Grid>
