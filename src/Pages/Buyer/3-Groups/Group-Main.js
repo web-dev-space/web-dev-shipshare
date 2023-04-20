@@ -381,7 +381,7 @@ const GroupMainPage = () => {
         {/*--------------Main Content----------------------*/}
         <Main>
           <Container maxWidth={false}>
-            <Typography variant="h4">
+            <Typography variant="h4" component="h1" paragraph>
               Ongoing Groups
             </Typography>
             <Stack
@@ -589,9 +589,7 @@ const GroupMainPage = () => {
                             {currentUser && <Button variant="contained"
                                     sx={{
                                       color: 'white',
-                                      borderRadius: 5,
                                       backgroundColor: '80B213',
-                                      height: 45,
                                     }}
                                     onClick={() => handleClickJoinGroup(row)}
                             >

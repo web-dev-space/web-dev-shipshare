@@ -42,7 +42,7 @@ const ChangePassword = () => {
               {/*--------------Main Content----------------------*/}
               <Main>
                   <Container maxWidth="md">
-                      <Typography variant="h3" component="h1" paragraph>
+                      <Typography variant="h4" component="h1" paragraph>
                           Change Password
                       </Typography>
                     <ChangePasswordForm isEdit currentUser={currentUser}/>

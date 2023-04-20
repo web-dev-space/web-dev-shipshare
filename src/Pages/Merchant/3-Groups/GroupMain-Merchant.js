@@ -65,6 +65,19 @@ const GroupMainMerchant = () => {
   const shipGroups = useSelector((state) => state.shipGroup.shipGroups);
   const setShipGroups = (shipGroups) => dispatch(setShipGroups(shipGroups));
 
+  const [isPhoneScreen, setIsPhoneScreen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsPhoneScreen(window.innerWidth < 962);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     dispatch(findAllShipGroupsThunk());
     dispatch(findAllUsersThunk());
@@ -293,13 +306,13 @@ const GroupMainMerchant = () => {
         {/*--------------Main Content----------------------*/}
         <Main>
           <Container maxWidth={false}>
-            <Typography variant="h4">
+            <Typography variant="h4" component="h1" paragraph>
               Groups
             </Typography>
             <Stack
               mt={3}
               mb={3}
-              direction="row"
+              direction={isPhoneScreen? "column":"row"}
               sx={{ justifyContent: 'space-between', width: '100%' }}
             >
               <Stack direction="row" spacing={2}>
@@ -308,17 +321,18 @@ const GroupMainMerchant = () => {
                   setFilter={setFilter}
                   focusChip={focusChip}
                   setFocusChip={setFocusChip}
+                  isPhoneScreen={isPhoneScreen}
                 />
               </Stack>
 
               <Stack direction="row"
-                spacing={2}
+                spacing={2} sx={{mt:isPhoneScreen? 1: 0, display:"flex", justifyContent:"flex-end"}}
               >
                 <Button
                   // component={RouterLink}
                   // to={PATH_DASHBOARD.eCommerce.new}
                   variant="outlined"
-                  size="large"
+                  size={isPhoneScreen?"small": "large"}
                   startIcon={<TuneIcon />}
                   onClick={handleOpenFilter}
                 >Filters</Button>
@@ -443,7 +457,8 @@ const GroupMainMerchant = () => {
                             {getShortAddress(row.pickupLocation.address)}
                           </Typography>
                         </TableCell>
-                        <TableCell>
+                        <TableCell align="left">
+                          <Box spacing={2} display='flex'>
                           <Button
                             onClick={() => handleClickGroupDetail(row)}
                             variant="contained"
@@ -451,17 +466,18 @@ const GroupMainMerchant = () => {
                               color: 'white',
                               borderRadius: 1,
                               backgroundColor: '80B213',
-                              height: 45,
+                              minWidth: 110,
+                              mr:1
                             }}>
                             Group Page
                           </Button>
-                        </TableCell>
-                        <TableCell>
+
                           <Button
                             variant="outlined"
-                            sx={{ borderRadius: 1, height: 45, }}
+                            sx={{ borderRadius: 1,  }}
                             onClick={() => handleOpenDrawer({ ship: displayedItems[index] })}
                           >Details</Button>
+                            </Box>
                         </TableCell>
                       </TableRow>
                     ))}
