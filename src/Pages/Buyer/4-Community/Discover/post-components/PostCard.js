@@ -1,5 +1,7 @@
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import MessageIcon from '@mui/icons-material/Message';
+import {Typography} from "@mui/material";
+import {useEffect, useState} from "react";
 
 export default function PostCard({
     title,
@@ -11,22 +13,35 @@ export default function PostCard({
     viewsNumber,
     onPostCardClick})  {
 
+    const [isPhoneScreen, setIsPhoneScreen] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsPhoneScreen(window.innerWidth < 480);
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     return(
         <div style={{
                 border: '1px solid',
                 borderColor: 'rgba(207, 219, 213, 0.6)',
-                borderRadius:20}}
+                borderRadius: 20}}
              onClick={onPostCardClick}
         >
             <div style={{
                 display: "flex",
                 flexDirection: "row",
-                paddingRight: 40,
+                paddingRight: 20,
             }}>
                 <div style={{
                     display: 'flex',
                     alignItems: 'center',
-                    padding: 16,
+                    padding: isPhoneScreen? 6:16,
                 }}>
                     <img src={image}
                          alt="post image"
@@ -43,43 +58,50 @@ export default function PostCard({
                     marginTop: 'auto',
                     marginBottom: 'auto',
                 }}>
-                    <div style={{
-                        fontSize: 16,
-                        fontWeight: 'bolder'
-                    }}>
+                    <Typography variant={isPhoneScreen? "body2": "subtitle1"} component="div" style={{fontWeight: isPhoneScreen? '600':'regular', fontSize: isPhoneScreen && 13,}}>
                         {title}
-                    </div>
-                    <div style={{
-                        fontSize: 14,
+                    </Typography>
+                    <Typography variant={isPhoneScreen? "caption": "body2"} style={{
                         color: '#5d5d5b',
-                        marginTop: 4,
+                        marginTop: isPhoneScreen? 0:4,
                         display: '-webkit-box',
                         WebkitLineClamp: 2,
                         WebkitBoxOrient: 'vertical',
                         overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                    }}>
+                        textOverflow: 'ellipsis'}}>
                         {post}
-                    </div>
+                    </Typography>
                     <div style={{
                         display: "flex",
                         flexDirection: "row",
                         alignItems: "center",
                         marginTop: 4,
                     }}>
-                        <div style={{
-                            fontSize: 14,
-                            fontWeight: 600
+                        <Typography variant="body2" style={{
+                            color: 'primary',
+                            fontWeight: 600,
+                            marginTop: 4,
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            textOverflow: 'ellipsis',
+                            fontSize: isPhoneScreen && 12,
                         }}>
                             {author}
-                        </div>
-                        <div style={{
-                            fontSize: 14,
-                            color: '#929191'
-                        }}>
-                            <span style={{ marginLeft: 10,marginRight: 10}}>·</span>
+                        </Typography>
+                        <Typography variant="caption" style={{
+                            color: '#5d5d5b',
+                            marginTop: 4,
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            fontSize: isPhoneScreen && 10,
+                            }}>
+                             <span style={{ marginLeft: isPhoneScreen?4:10,marginRight: isPhoneScreen?4:10}}>·</span>
                             {new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(date))}
-                        </div>
+                        </Typography>
                         <div style={{
                             display: "flex",
                             flexDirection: "row",
@@ -91,9 +113,9 @@ export default function PostCard({
                                 display: "flex",
                                 alignItems: "center"}}>
                                 <MessageIcon
-                                    sx={{ fontSize: 14 }}
-                                    style={{marginRight: 8}}/>
-                                <div style={{ fontSize: 12}}>
+                                    sx={{ fontSize: isPhoneScreen?12:14 }}
+                                    style={{marginRight: isPhoneScreen?4:8}}/>
+                                <div style={{ fontSize: isPhoneScreen?10:12}}>
                                     {comments && comments.length > 1000 ?
                                         (comments.length / 1000) + 'k' : comments.length}
                                 </div>
@@ -101,10 +123,10 @@ export default function PostCard({
                             <div style={{
                                 display: "flex",
                                 alignItems: "center",
-                                marginLeft: 16
+                                marginLeft: isPhoneScreen?6:16
                             }}>
-                                <VisibilityIcon sx={{ fontSize: 14 }} style={{marginRight: 8}}/>
-                                <div style={{ fontSize: 12, marginRight: 2}}>
+                                <VisibilityIcon sx={{ fontSize: isPhoneScreen?12:14 }} style={{marginRight: isPhoneScreen?4:8}}/>
+                                <div style={{ fontSize: isPhoneScreen?10:12, marginRight: 2}}>
                                     {viewsNumber > 1000 ?
                                         (viewsNumber / 1000) + 'k' : viewsNumber}
                                 </div>

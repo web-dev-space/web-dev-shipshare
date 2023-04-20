@@ -75,6 +75,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     const handleResize = () => setIsWideScreen(window.innerWidth > 900);
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);

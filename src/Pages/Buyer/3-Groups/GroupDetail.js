@@ -157,6 +157,8 @@ const GroupDetailPage = (props) => {
     }
   }
 
+
+
   return currentGroup ? (
 
     <>
@@ -231,6 +233,7 @@ const GroupDetailPage = (props) => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexDirection: 'column',
+                ml: 8,
               }}>
                 <Box>
                   <Avatar
@@ -241,10 +244,11 @@ const GroupDetailPage = (props) => {
                       borderWidth: 2,
                       borderStyle: 'solid',
                       borderColor: 'common.white',
-                      top: -64,
+                      top: {xs: -40, md:-64},
                       zIndex: 2,
                       width: {xs: 80, md: 128},
                       height: {xs: 80, md: 128},
+                      mb: {xs:2}
                     }}
                   /></Box>
                 <Box
