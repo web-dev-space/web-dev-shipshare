@@ -19,6 +19,9 @@ import LoginPage from "./Pages/0-SignIn & SignUp/SignInPage";
 import SignUpPage from "./Pages/0-SignIn & SignUp/SignUpPage";
 import Home from "./Pages/Home/home";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 // ----------------------------------------------------------------------
 
 export default function App() {
