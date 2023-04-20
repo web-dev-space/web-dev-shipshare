@@ -68,6 +68,18 @@ const Discover = () => {
     }, [allPosts]);
     console.log('filtered posts' ,filteredPosts);
 
+    useEffect(() => {
+        if (focusChip === 'Latest') {
+            setFilteredPosts(allPosts.sort((a, b) => new Date(b.created) - new Date(a.created)));
+        }
+    }, [focusChip, allPosts]);
+
+    useEffect(() => {
+        if (focusChip === 'Popular') {
+            setFilteredPosts(allPosts.sort((a, b) => b.viewsAmount- a.viewsAmount));
+        }
+    }, [focusChip, allPosts]);
+
 
     const [visiblePosts, setVisiblePosts] = useState([]);
     useEffect(() => {
