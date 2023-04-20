@@ -64,6 +64,7 @@ const CalculateFees = () => {
 		const handleResize = () => {
 			setIsPhoneScreen(window.innerWidth < 500);
 		};
+		handleResize();
 		window.addEventListener('resize', handleResize);
 		return () => {
 			window.removeEventListener('resize', handleResize);

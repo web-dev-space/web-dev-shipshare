@@ -165,6 +165,7 @@ const ParcelMainPage = () => {
         const handleResize = () => {
             setIsSmallScreen(window.innerWidth < 639);
         };
+        handleResize();
         window.addEventListener('resize', handleResize);
         return () => {
             window.removeEventListener('resize', handleResize);

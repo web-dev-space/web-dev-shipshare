@@ -19,6 +19,7 @@ export default function PostCard({
         const handleResize = () => {
             setIsPhoneScreen(window.innerWidth < 480);
         };
+        handleResize();
         window.addEventListener('resize', handleResize);
         return () => {
             window.removeEventListener('resize', handleResize);

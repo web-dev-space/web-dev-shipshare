@@ -120,6 +120,7 @@ const Discover = () => {
         const handleResize = () => {
             setIsSmallScreen(window.innerWidth < 665);
         };
+        handleResize();
         window.addEventListener('resize', handleResize);
         return () => {
             window.removeEventListener('resize', handleResize);

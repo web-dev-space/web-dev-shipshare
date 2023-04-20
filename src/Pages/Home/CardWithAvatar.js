@@ -32,6 +32,7 @@ const CardWithAvatar = ({ avatarUrl, name, route, date, pickupAddress, isLargeSc
     const handleResize = () => {
       setIsPhoneScreen(window.innerWidth < 460);
     };
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);

@@ -355,6 +355,7 @@ const GroupMainPage = () => {
     const handleResize = () => {
       setIsPhoneScreen(window.innerWidth < 962);
     };
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
