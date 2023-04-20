@@ -206,8 +206,6 @@ const GroupMainPage = () => {
 
   // chip filter
   useEffect(() => {
-    console.log('filteredData')
-    console.log(filteredData)
     const newFilteredRows = filteredData.filter(
       (row) => focusChip === 'All' || focusChip === row.shipRoute
     );

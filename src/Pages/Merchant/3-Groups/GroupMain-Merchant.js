@@ -105,7 +105,7 @@ const GroupMainMerchant = () => {
     setOpenFilter(false);
   };
 
-  const [filteredData, setFilteredData] = useState(shipGroups)
+  const [filteredData, setFilteredData] = useState(originalData)
   const [tableData, setTableData] = useState(filteredData);
   const [filterEndIn, setFilterEndIn] = useState("All");
   const [filterState, setFilterState] = useState("All");
@@ -131,6 +131,11 @@ const GroupMainMerchant = () => {
   useEffect(() => {
     setTableData(filteredData);
   }, [filteredData]);
+
+  useEffect(() => {
+    setFilteredData(originalData)
+  }, [originalData]);
+
 
   useEffect(() => {
     setPage(1);
