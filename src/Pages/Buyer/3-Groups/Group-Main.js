@@ -589,9 +589,7 @@ const GroupMainPage = () => {
                             {currentUser && <Button variant="contained"
                                     sx={{
                                       color: 'white',
-                                      borderRadius: 5,
                                       backgroundColor: '80B213',
-                                      height: 45,
                                     }}
                                     onClick={() => handleClickJoinGroup(row)}
                             >

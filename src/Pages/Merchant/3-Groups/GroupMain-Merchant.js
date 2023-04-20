@@ -466,7 +466,6 @@ const GroupMainMerchant = () => {
                               color: 'white',
                               borderRadius: 1,
                               backgroundColor: '80B213',
-                              height: 45,
                               minWidth: 110,
                               mr:1
                             }}>
@@ -475,7 +474,7 @@ const GroupMainMerchant = () => {
 
                           <Button
                             variant="outlined"
-                            sx={{ borderRadius: 1, height: 45, }}
+                            sx={{ borderRadius: 1,  }}
                             onClick={() => handleOpenDrawer({ ship: displayedItems[index] })}
                           >Details</Button>
                             </Box>
