@@ -12,7 +12,18 @@ import useDebugWhenChange from 'utils/useDebugWhenChange';
 import { useSettingsContext } from 'third-party/components/settings';
 import { Box, Container } from '@mui/material';
 
-const DashboardCommonPart = ({ stats }) => {
+
+function MyGridItem({ children }) {
+  const maxHeight = "455px";
+
+  return (
+    <Box maxHeight={maxHeight}>
+      {children}
+    </Box>
+  );
+}
+
+const DashboardCommonPart = ({ stats, isMerchant }) => {
   const theme = useTheme();
   const { themeStretch } = useSettingsContext();
 
@@ -57,6 +68,14 @@ const DashboardCommonPart = ({ stats }) => {
   }, [stats?.activityMonthly]);
 
 
+  const recentParcelActivity = useMemo(() => {
+    return stats?.recentParcelActivity || [];
+  }, [stats]);
+
+  useDebugWhenChange('recentParcelActivity', recentParcelActivity);
+
+
+
   const timeLabels = useMemo(() => {
     const rotateArray = (arr, index) => {
       if (index === -1) {
@@ -97,7 +116,7 @@ const DashboardCommonPart = ({ stats }) => {
 
   }, []);
 
-  return             <>
+  return <>
     {timeLabels !== undefined && <Grid item xs={12} md={6} lg={6}>
       <FileGeneralDataActivity
         title="Shipment Activity"
@@ -120,31 +139,33 @@ const DashboardCommonPart = ({ stats }) => {
             },
           ],
         }}
+        style={{ height: '455px' }}
       />
     </Grid>
     }
 
     <Grid item xs={12} md={6} lg={6}>
       <EcommerceYearlySales
-        title="Total Revenue"
+        title="Parcel recieved"
         // subheader="(+43%) than last year"
         chart={{
-          categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
+          categories: timeLabels?.week || [],
           series: [
             {
-              year: '2019',
+              year: 'Week',
               data: [
-                { name: 'Total Revenue', data: [10, 41, 35, 151, 49, 62, 69] },
+                { name: 'Parcel recieved', data: recentParcelActivity.yValues || [] },
               ],
             },
-            {
-              year: '2020',
-              data: [
-                { name: 'Total Revenue', data: [148, 91, 69, 62, 49, 51, 35] },
-              ],
-            },
+            // {
+            //   year: 'Monthly',
+            //   data: [
+            //     { name: 'Total Revenue', data: [148, 91, 69, 62, 49, 51, 35] },
+            //   ],
+            // },
           ],
         }}
+        style={{ height: '455px' }}
       />
     </Grid>
 
@@ -157,6 +178,7 @@ const DashboardCommonPart = ({ stats }) => {
           { id: 'amount', label: 'Amount' },
           { id: 'rank', label: 'Rank', align: 'right' }, //delete if not needed
         ]}
+        style={{ height: '455px' }}
       />
     </Grid>
 
@@ -169,9 +191,10 @@ const DashboardCommonPart = ({ stats }) => {
           { id: 'amount', label: 'Amount' },
           { id: 'rank', label: 'Rank', align: 'right' }, //delete if not needed
         ]}
+        style={{ height: '455px' }}
       />
     </Grid>
-    </>
+  </>
 };
 
 export default DashboardCommonPart;

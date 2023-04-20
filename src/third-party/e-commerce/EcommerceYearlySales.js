@@ -17,7 +17,7 @@ EcommerceYearlySales.propTypes = {
 export default function EcommerceYearlySales({ title, subheader, chart, ...other }) {
   const { colors, categories, series, options } = chart;
 
-  const [seriesData, setSeriesData] = useState('2019');
+  const [seriesData, setSeriesData] = useState('Week');
 
   const chartOptions = useChart({
     colors,

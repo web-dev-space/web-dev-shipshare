@@ -146,6 +146,7 @@ const Dashboard = () => {
                         },
                       ],
                     }}
+                    style={{ height: '455px' }}
                   />
                 </Grid>
 
@@ -172,6 +173,7 @@ const Dashboard = () => {
                         },
                       ],
                     }}
+                    style={{ height: '455px' }}
                   />
                 </Grid>
 

@@ -75,7 +75,7 @@ const Dashboard = () => {
 
   const parcelFormPercent = useMemo(() =>
     getIncreasePercent(recentParcelActivity?.yValues)
-    , [recentShipGroupActivity]);
+    , [recentParcelActivity]);
 
   const groupFormPercent = useMemo(() =>
     getIncreasePercent(recentShipGroupActivity?.yValues)
@@ -144,16 +144,16 @@ const Dashboard = () => {
                   />
                 </Grid>
 
-                // force the next grid to be on a new line
+                {/* force the next grid to be on a new line */}
                 <Grid item xs={12}></Grid>
-                
+
                 <DashboardCommonPart stats={stats} />
               </Grid>
             </Container>
 
-            
+
           </Container>}
-         
+
         </Main>
         {/*------------------------------------*/}
       </Box>
