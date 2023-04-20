@@ -58,6 +58,9 @@ const CalculateFees = () => {
 		if(parcelWeight !== '' || ( parcelHeight !== '' && parcelLength !== '' && parcelWidth !== '' ) ){
 			setIsOpen(true);
 		}
+		else{
+			alert('Please enter the parcel weight or dimensions');
+		}
 	}
 
 	const [isPhoneScreen, setIsPhoneScreen] = useState(false);
