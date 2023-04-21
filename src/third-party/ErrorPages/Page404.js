@@ -22,8 +22,10 @@ export default function Page404() {
 
         <m.div variants={varBounce().in}>
           <Typography sx={{ color: 'text.secondary' , ml:3, mr:3}}>
-            Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL? Be
-            sure to check your spelling.
+            Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL?
+          </Typography>
+          <Typography sx={{ color: 'text.secondary' , ml:3, mr:3}}>
+            Be sure to check your spelling.
           </Typography>
         </m.div>
 
