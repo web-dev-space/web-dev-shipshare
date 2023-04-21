@@ -42,7 +42,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { findAllShipGroupsThunk } from "../../../redux/shipGroups/shipGroups-thunks";
 import { Helmet } from "react-helmet";
 import { findAllUsersThunk } from "../../../redux/users/users-thunks";
-
+import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 
 const DEFAULT_ORDER = 'asc';
 const DEFAULT_ORDER_BY = 'joinDate';
@@ -265,15 +265,12 @@ const GroupMainMerchant = () => {
   const { users, loading } = useSelector((state) => state.users);
 
   const getGroupAvatar = (group) => {
-    // console.log(users)
     const groupLead = users.find((user) => {
       return user.email === group.leader
     })
     if (groupLead !== undefined) {
-      console.log("has avatar" + groupLead._id);
-      return groupLead.avatar
+      return groupLead.avatar || getRandomAvatar(groupLead.name)
     } else {
-      console.log("no avatar");
       return null
     }
   }

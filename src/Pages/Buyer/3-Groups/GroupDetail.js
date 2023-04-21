@@ -20,7 +20,7 @@ import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 import {findAllParcelsThunk} from "../../../redux/parcels/parcels-thunks";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {Helmet} from "react-helmet";
-
+import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 
 const Item = styled(Paper)(({theme}) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -114,7 +114,7 @@ const GroupDetailPage = (props) => {
       return user.email === group.leader
     })
     if (groupLead !== undefined) {
-      return groupLead.avatar
+      return groupLead.avatar || getRandomAvatar(groupLead.name)
     } else {
       return null
     }

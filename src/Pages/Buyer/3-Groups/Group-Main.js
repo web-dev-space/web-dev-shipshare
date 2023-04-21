@@ -47,6 +47,8 @@ import {findUserByEmail} from "../../../redux/users/users-service";
 import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 import {CircularProgress} from "@mui/joy";
 import {findShipGroupById} from "../../../redux/shipGroups/shipGroups-service";
+import {getRandomAvatar} from "../../../utils/getRandomAvatar";
+
 
 
 const DEFAULT_ORDER = 'asc';
@@ -338,12 +340,11 @@ const GroupMainPage = () => {
     })
     if (groupLead !== undefined) {
       // console.log("has avatar" + groupLead._id);
-      return groupLead.avatar
+      return groupLead.avatar || getRandomAvatar(groupLead.name)
     } else {
       // console.log("no avatar");
       return null
-    }
-  }
+  }}
 
   const [isPhoneScreen, setIsPhoneScreen] = useState(false);
 
