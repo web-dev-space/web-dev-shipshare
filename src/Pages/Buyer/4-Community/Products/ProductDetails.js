@@ -34,6 +34,7 @@ import { findReviewsForProjectThunk } from "redux/reviews/reviews-thunks";
 import React from 'react';
 import { Snackbar } from "@mui/material";
 import { unwrapResult } from '@reduxjs/toolkit';
+import {SkeletonProductDetails} from "../../../../third-party/components/skeleton";
 
 // ----------------------------------------------------------------------
 const REVIEWS_PER_PAGE = 5;
@@ -209,7 +210,7 @@ export default function ProductDetails() {
           <Container maxWidth="none">
             {loading
               ? <Box>
-                  loading...
+                  <SkeletonProductDetails />
                 </Box>
               : <>
                 {/*Back button*/}
@@ -249,7 +250,7 @@ export default function ProductDetails() {
                       No description.
                     </Typography>
                   }
-                  <a href={product.link}>View this product on Amazon</a>
+                  <a href={product.link} style={{color: '#80B213'}}>View this product on Amazon</a>
                 </Card>
                 <Card sx={{ p: 4 }} style={{ marginTop: 64 }}>
                   <Typography variant="h5"
