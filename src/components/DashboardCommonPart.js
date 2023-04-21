@@ -72,10 +72,6 @@ const DashboardCommonPart = ({ stats, isMerchant }) => {
     return stats?.recentParcelActivity || [];
   }, [stats]);
 
-  useDebugWhenChange('recentParcelActivity', recentParcelActivity);
-
-
-
   const timeLabels = useMemo(() => {
     const rotateArray = (arr, index) => {
       if (index === -1) {
