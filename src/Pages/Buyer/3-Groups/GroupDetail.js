@@ -8,21 +8,18 @@ import {
   Box,
   Button,
   Card,
-  TableContainer,
-  Tooltip,
-  IconButton, TableBody, TableRow, TableCell, Avatar, TableHead, Table, Stack, Chip, Paper
+  IconButton, Avatar, Stack, Paper
 } from '@mui/material';
 import Image from 'mui-image'
 import backgroundImg from './background.jpg';
 import {styled} from "@mui/material/styles";
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import {useLocation, useNavigate} from "react-router-dom";
-import {findAllShipGroupsThunk, findShipGroupByIdThunk} from "redux/shipGroups/shipGroups-thunks";
+import {findShipGroupByIdThunk} from "redux/shipGroups/shipGroups-thunks";
 import {useDispatch, useSelector} from "react-redux";
-import {findAllShipGroups} from "../../../redux/shipGroups/shipGroups-service";
 import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 import {findAllParcelsThunk} from "../../../redux/parcels/parcels-thunks";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {Helmet} from "react-helmet";
 
 
 const Item = styled(Paper)(({theme}) => ({
@@ -160,6 +157,9 @@ const GroupDetailPage = (props) => {
   return currentGroup ? (
 
     <>
+        <Helmet>
+            <title>Group Details | ShipShare</title>
+        </Helmet>
       <Header onOpenNav={handleOpen}/>
       <Box
         sx={{
