@@ -208,8 +208,9 @@ export default function ProductDetails() {
         <Main>
           <Container maxWidth="none">
             {loading
-              // 这里要换个居中的loading动图
-              ? <div>Loading...</div>
+              ? <Box>
+                  loading...
+                </Box>
               : <>
                 {/*Back button*/}
                 <Button onClick={handleClickBack}>
