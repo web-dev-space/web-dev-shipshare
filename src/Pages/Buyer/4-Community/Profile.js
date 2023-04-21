@@ -32,6 +32,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import ReviewCard from "Pages/Buyer/4-Community/ProfileComponents/ReviewCard";
 import useDebugWhenChange from "utils/useDebugWhenChange";
 import {findReviewsByUserIdThunk} from "redux/reviews/reviews-thunks";
+import {Helmet} from "react-helmet";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -205,6 +206,9 @@ const Profile = () => {
 
     return (
       <>
+          <Helmet>
+              <title>Profile | ShipShare</title>
+          </Helmet>
           <Header onOpenNav={handleOpen}/>
           {/*-------Box is the layout of the whole page-----*/}
           <Box

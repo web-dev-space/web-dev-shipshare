@@ -3,11 +3,8 @@ import { paramCase } from 'change-case';
 import { useParams } from 'react-router-dom';
 // @mui
 import { Container, Box, Typography } from '@mui/material';
-// _mock_
-import { _userList } from '../../../third-party/_mock/arrays';
 // components
 import { useSettingsContext } from '../../../third-party/components/settings';
-import CustomBreadcrumbs from '../../../third-party/components/custom-breadcrumbs';
 // sections
 import UserNewEditForm from './UserEditNewForm';
 import Header from "../../../third-party/layouts/dashboard/header";

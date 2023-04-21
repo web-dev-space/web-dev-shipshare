@@ -30,6 +30,9 @@ const Discover = () => {
         dispatch(findAllUsersThunk());
     }, []);
 
+    const currentUser = useSelector(state => state.auth.currentUser);
+
+
     const MAX_SIZE_PER_PAGE = 10;
     const [open, setOpen] = useState(false);
 
@@ -184,15 +187,19 @@ const Discover = () => {
                             <Typography variant="h4" component="h1" paragraph>
                                 Discover
                             </Typography>
-                            <Button variant="contained"
-                                    color="primary"
-                                    size={isSmallScreen?"small":"large"}
-                                    startIcon={<AddIcon />}
-                                    style={{height:isSmallScreen?36:44}}
-                                    onClick={() => {navigate('./posts/create-new-post')}}
-                                    >
-                                New Post
-                            </Button>
+                            {currentUser &&
+                                <Button variant="contained"
+                                        color="primary"
+                                        size={isSmallScreen ? "small" : "large"}
+                                        startIcon={<AddIcon/>}
+                                        style={{height: isSmallScreen ? 36 : 44}}
+                                        onClick={() => {
+                                            navigate('./posts/create-new-post')
+                                        }}
+                                >
+                                    New Post
+                                </Button>
+                            }
                         </Stack>
 
 

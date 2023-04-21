@@ -4,24 +4,16 @@ import { useEffect, useMemo, useState } from "react";
 import Main from "third-party/layouts/dashboard/Main";
 import Header from "third-party/layouts/dashboard/header";
 import NavVertical from "third-party/layouts/dashboard/nav/NavVertical";
-// _mock_
-import {
-  _ecommerceBestSalesman
-} from 'third-party/_mock/arrays';
 // components
 import { useSettingsContext } from 'third-party/components/settings';
 // sections
 import {
-  EcommerceBestSalesman,
   EcommerceWidgetSummary,
-  EcommerceYearlySales
 } from 'third-party/e-commerce';
-import { FileGeneralDataActivity } from 'third-party/file';
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from 'react-redux';
 import { getStatsMerchantThunk } from 'redux/dashboard/dashboard-thunks';
-import DashboardCommonPart from 'components/DashboardCommonPart';
-import useDebugWhenChange from 'utils/useDebugWhenChange';
+import DashboardCommonPart from 'components/DashboardCommonPart';import useDebugWhenChange from 'utils/useDebugWhenChange';
 
 const Dashboard = () => {
   const [open, setOpen] = useState(false);

@@ -1,5 +1,4 @@
-import { Helmet } from 'react-helmet-async';
-import {useNavigate, useLocation, useParams} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 // @mui
 import { Container, Box, Typography, Card } from '@mui/material';
 // components
@@ -11,9 +10,9 @@ import {useEffect, useState} from "react";
 import Main from "../../../../third-party/layouts/dashboard/Main"
 import SearchBar from "../../../../components/searchBar";
 import {getSearchResults} from "../../../../redux/products/products-service";
-import ProductListCard from "./components/ProductListCard";
 import {ShopProductList} from "../../../../third-party/e-commerce/shop";
-import useDebugWhenChange from "utils/useDebugWhenChange";
+import {Helmet} from "react-helmet";
+
 
 // ----------------------------------------------------------------------
 
@@ -71,6 +70,9 @@ export default function SearchProducts() {
 
     return (
         <>
+            <Helmet>
+                <title>Product Reviews | ShipShare</title>
+            </Helmet>
             <Header onOpenNav={handleOpen} />
 
             {/*-------Box is the layout of the whole page-----*/}

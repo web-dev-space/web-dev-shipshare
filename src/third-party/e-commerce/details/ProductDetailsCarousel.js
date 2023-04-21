@@ -147,7 +147,7 @@ export default function ProductDetailsCarousel({ product }) {
             src={img}
             ratio="1/1"
             // onClick={() => handleOpenLightbox(img)}
-            sx={{ cursor: 'zoom-in' }}
+            // sx={{ cursor: 'zoom-in' }}
           />
         ))}
       </Carousel>

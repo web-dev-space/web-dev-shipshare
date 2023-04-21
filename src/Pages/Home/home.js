@@ -5,22 +5,18 @@ import Main from "../../third-party/layouts/dashboard/Main"
 import {
   Container,
   Typography,
-  Box, Button, Card, CardMedia, CardContent, Link,
+  Box, Button, Card, CardContent, Link,
 } from '@mui/material';
 import {useDispatch, useSelector} from "react-redux";
 import {Helmet} from "react-helmet";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {useNavigate} from "react-router-dom";
 import CardWithAvatar from "./CardWithAvatar";
-import RouteCard from "./RouteCard";
 import PostCard from "./PostCard";
 import AppWelcome from "../../third-party/app/AppWelcome";
-import {CarouselArrows} from "../../third-party/components/carousel";
 import CarouselRoute from "./CarouselRoute";
 import PostCardSmallLayout from "./PostCardSmallLayout";
 import {findAllParcelsThunk} from "../../redux/parcels/parcels-thunks";
-import {parcelData} from "../../sampleData/parcels";
-import {findAllShipGroupsThunk} from "../../redux/shipGroups/shipGroups-thunks";
 
 
 const Home = () => {
