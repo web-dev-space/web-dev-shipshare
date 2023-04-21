@@ -65,6 +65,13 @@ const Comment = ({user, date, comment, content, role, dispatch, post}) => {
                         </div>
                     </div>
 
+                    <div style={{
+                        fontSize: 14,
+                        marginTop: 10
+                        }}>
+                        {content}
+                    </div>
+
                     </div>
                     {role === 'admin' && (
                         <div style={{width:"100%", display: "flex", justifyContent:"flex-end",
@@ -89,12 +96,7 @@ const Comment = ({user, date, comment, content, role, dispatch, post}) => {
           )}
 
 
-        <div style={{
-          fontSize: 14,
-          marginTop: 10
-        }}>
-          {content}
-        </div>
+
       </div>
 
   );
