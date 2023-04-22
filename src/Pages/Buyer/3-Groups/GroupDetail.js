@@ -20,7 +20,7 @@ import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 import {findAllParcelsThunk} from "../../../redux/parcels/parcels-thunks";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {Helmet} from "react-helmet";
-
+import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 
 const Item = styled(Paper)(({theme}) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -31,12 +31,11 @@ const Item = styled(Paper)(({theme}) => ({
 }));
 
 const GroupDetailPage = (props) => {
-  const [open, setOpen] = useState(false);
 
+  const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -64,8 +63,6 @@ const GroupDetailPage = (props) => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const groupId = searchParams.get('groupId');
-  console.log("groupId", groupId)
-
 
   if (!currentGroup) {
     return null;
@@ -74,8 +71,6 @@ const GroupDetailPage = (props) => {
   const currentGroupParcels = parcels.filter((parcel) => {
     return parcel.shipGroup === currentGroup._id
   })
-
-  // console.log("currentGroupParcels", currentGroupParcels)
 
   function getShortAddress(address) {
     const addressParts = address.split(', ');
@@ -114,7 +109,7 @@ const GroupDetailPage = (props) => {
       return user.email === group.leader
     })
     if (groupLead !== undefined) {
-      return groupLead.avatar
+      return groupLead.avatar || getRandomAvatar(groupLead.name)
     } else {
       return null
     }
@@ -141,7 +136,6 @@ const GroupDetailPage = (props) => {
       return null
     }
   }
-
 
   const getUserByEmail = (email) => {
     const user = users.find((user) => {
@@ -226,13 +220,11 @@ const GroupDetailPage = (props) => {
                 top: -600,
               }}
             >
-
               <Box sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexDirection: {xs: 'column', md: 'row'},
-                // position:'absolute',
               }}>
 
                 <Box
@@ -265,7 +257,6 @@ const GroupDetailPage = (props) => {
               </Box>
             </Box>
 
-
             {/*group info box (left)*/}
             <Box
               sx={{
@@ -286,13 +277,13 @@ const GroupDetailPage = (props) => {
                   },
                 },
               }}
-
             >
               <Card
                 sx={{
                   mb: 2,
                   width: '48%',
                   px: 3,
+                  pb:4
                 }}>
                 <Box
                   sx={{
@@ -434,6 +425,7 @@ const GroupDetailPage = (props) => {
                     </Typography>
                   </Item>
 
+
                 </Stack>
               </Card>
 
@@ -452,8 +444,6 @@ const GroupDetailPage = (props) => {
                 </Box>
                 {/*activity details*/}
                 <Stack spacing={2}>
-                  {/*one activity cell*/}
-
                   {
                     currentGroup ? currentGroup.members.map((member, index) => {
                       return (
@@ -493,19 +483,13 @@ const GroupDetailPage = (props) => {
                       )
                     }) : <div>loading...</div>
                   }
-
                 </Stack>
-
               </Card>
             </Box>
           </Container>
-
-
         </Main>
-        {/*------------------------------------*/}
       </Box>
     </>
-
   ) : (
     <div></div>
   );

@@ -9,7 +9,6 @@ export default function FormGroupStepOne({ onButtonClick }) {
   const [selectedButton, setSelectedButton] = useState(null);
 
   const handleButtonClick = (buttonId) => {
-    // console.log("buttonId: " + buttonId)
     setSelectedButton(buttonId);
     onButtonClick(buttonId);
   };

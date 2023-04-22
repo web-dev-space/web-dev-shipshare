@@ -7,10 +7,7 @@ import {
   Typography,
   Box,
   Button,
-  Card,
   TableContainer,
-  Tooltip,
-  IconButton,
   TableBody,
   TableRow,
   TableCell,
@@ -23,26 +20,19 @@ import {
   DialogContent,
   DialogContentText, FormControl, InputLabel, Select, MenuItem, DialogActions, Drawer
 } from '@mui/material';
-import Iconify from "../../../third-party/components/iconify";
-import Scrollbar from "../../../third-party/components/scrollbar";
-import { Icon } from "@iconify/react";
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Pagination } from "@mui/lab";
 import TuneIcon from '@mui/icons-material/Tune';
 import OrangeChipGroup from "../../../components/OrangeChipGroup";
-import { shipments } from "../../../sampleData/shipments";
-import Checkout from "../../Buyer/3-Groups/Checkout";
 import { Link, useNavigate } from "react-router-dom";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { visuallyHidden } from "@mui/utils";
 import { ALL_STATES, stateFullNameToAbbr } from "../../Buyer/3-Groups/allStates";
-import ShippingDetailScreen from "../../../components/ShipmentsDetailScreen";
 import GroupDetailDrawerScreen from "./GroupDetailDrawerScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { findAllShipGroupsThunk } from "../../../redux/shipGroups/shipGroups-thunks";
 import { Helmet } from "react-helmet";
 import { findAllUsersThunk } from "../../../redux/users/users-thunks";
-
+import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 
 const DEFAULT_ORDER = 'asc';
 const DEFAULT_ORDER_BY = 'joinDate';
@@ -94,7 +84,6 @@ const GroupMainMerchant = () => {
     return `${cityState[0]}, ${state}`;
   }
 
-
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -107,8 +96,6 @@ const GroupMainMerchant = () => {
   const [filter, setFilter] = useState('All');
   const [focusChip, setFocusChip] = useState('All');
   const chipLabelsArray = ["All", "Air Standard", "Air Sensitive", "Sea Standard", "Sea Sensitive"];
-
-
 
   const [openFilter, setOpenFilter] = useState(false);
   const handleOpenFilter = () => {
@@ -162,7 +149,6 @@ const GroupMainMerchant = () => {
       tableData,
       getComparator(DEFAULT_ORDER, DEFAULT_ORDER_BY),
     );
-    console.log("rowsOnmout")
     setTableData(rowsOnMount)
   }, []);
 
@@ -173,12 +159,11 @@ const GroupMainMerchant = () => {
       const toggledOrder = isAsc ? 'desc' : 'asc';
       setOrder(toggledOrder);
       setOrderBy(newOrderBy);
-      console.log("sorting table" + toggledOrder + " " + newOrderBy);
-      console.log("tableData: ", tableData);
+      // console.log("sorting table" + toggledOrder + " " + newOrderBy);
+      // console.log("tableData: ", tableData);
       const sortedRows = stableSort(tableData, getComparator(toggledOrder, newOrderBy));
-      console.log("sortedRows: ", sortedRows);
+      // console.log("sortedRows: ", sortedRows);
       setTableData(sortedRows);
-      // setVisibleRows(sortedRows);
     },
     [tableData, order, orderBy, page, rowsPerPage],
   );
@@ -193,13 +178,10 @@ const GroupMainMerchant = () => {
   const handleFilter = () => {
     setFilteredData(
       originalData.filter((val) => {
-
-        // const endDate = parseInt(val.endDate["$date"]["$numberLong"]);
         const endDate = new Date(val.shipEndDate);
         const today = new Date();
         const diffInMs = endDate.getTime() - today.getTime();
         const diffInDays = Math.ceil(diffInMs / 86400000);
-
         if (filterState === "All" && filterEndIn === "All") {
           setTableData(originalData);
           return val;
@@ -230,8 +212,6 @@ const GroupMainMerchant = () => {
   useEffect(() => {
     handleResetFilter();
   }, []);
-
-
 
   function formatDate(dateString) {
     if (!dateString) {
@@ -265,15 +245,12 @@ const GroupMainMerchant = () => {
   const { users, loading } = useSelector((state) => state.users);
 
   const getGroupAvatar = (group) => {
-    // console.log(users)
     const groupLead = users.find((user) => {
       return user.email === group.leader
     })
     if (groupLead !== undefined) {
-      console.log("has avatar" + groupLead._id);
-      return groupLead.avatar
+      return groupLead.avatar || getRandomAvatar(groupLead.name)
     } else {
-      console.log("no avatar");
       return null
     }
   }
@@ -333,8 +310,6 @@ const GroupMainMerchant = () => {
                 spacing={2} sx={{mt:isPhoneScreen? 1: 0, display:"flex", justifyContent:"flex-end"}}
               >
                 <Button
-                  // component={RouterLink}
-                  // to={PATH_DASHBOARD.eCommerce.new}
                   variant="outlined"
                   size={isPhoneScreen?"small": "large"}
                   startIcon={<TuneIcon />}
@@ -361,7 +336,6 @@ const GroupMainMerchant = () => {
                     orderBy={orderBy}
                     onRequestSort={handleRequestSort}
                   />
-
                   {/*table body*/}
                   <TableBody>
                     {displayedItems.map((row, index) => (
@@ -485,9 +459,7 @@ const GroupMainMerchant = () => {
                         </TableCell>
                       </TableRow>
                     ))}
-
                   </TableBody>
-                  {/*</Scrollbar>*/}
                 </Table>
 
               </TableContainer>

@@ -10,12 +10,6 @@ import {useEffect, useState} from "react";
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical";
 import Main from "../../../third-party/layouts/dashboard/Main"
 import {Card, CardContent, Container, Grid} from "@mui/material";
-import TextField from '@mui/material/TextField';
-import {DemoContainer} from '@mui/x-date-pickers/internals/demo';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import {DatePicker} from '@mui/x-date-pickers/DatePicker';
-import {CardActions} from "@mui/material";
 import CheckoutStepTwo from "./Checkout-StepTwo";
 import CheckoutStepOne from "./Checkout-StepOne";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -34,7 +28,7 @@ export default function Checkout() {
 
   // ---------current user---------
   const currentUser = useSelector(state => state.auth.currentUser || {role: "visitor"});
-  // Link to DB
+
   const {parcels, loading} = useSelector((state) => {
     return state.parcels
   });
@@ -51,7 +45,6 @@ export default function Checkout() {
   const currentUserParcels = parcels.filter(parcel => parcel.user === currentUser.email && parcel.isWeighted && !parcel.isShipped);
 
   const [selectedParcels, setSelectedParcels] = useState([]);
-
 
   const handleNext = () => {
     if (activeStep === 0) {

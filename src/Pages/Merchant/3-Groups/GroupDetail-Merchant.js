@@ -6,24 +6,19 @@ import {
   Container,
   Typography,
   Box,
-  Button,
   Card,
-  TableContainer,
-  Tooltip,
-  IconButton, TableBody, TableRow, TableCell, Avatar, TableHead, Table, Stack, Chip, Paper
+  IconButton,  Avatar,  Stack,  Paper
 } from '@mui/material';
-import {Icon} from "@iconify/react";
 import Image from 'mui-image'
 import backgroundImg from './background.jpg';
 import {styled} from "@mui/material/styles";
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import {useDispatch, useSelector} from "react-redux";
 import {findShipGroupByIdThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 import {useLocation, useNavigate} from "react-router-dom";
 import {findAllUsersThunk} from "../../../redux/users/users-thunks";
 import {findAllParcelsThunk} from "../../../redux/parcels/parcels-thunks";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
+import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 
 const Item = styled(Paper)(({theme}) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -63,7 +58,6 @@ const GroupDetailMerchant = () => {
     return state.parcels
   });
 
-  console.log("currentGroup", currentGroup)
   if (!currentGroup) {
     return null;
   }
@@ -98,7 +92,7 @@ const GroupDetailMerchant = () => {
       return user.email === group.leader
     })
     if (groupLead !== undefined) {
-      return groupLead.avatar
+      return groupLead.avatar || getRandomAvatar(groupLead.name)
     } else {
       return null
     }
@@ -109,7 +103,7 @@ const GroupDetailMerchant = () => {
       return user.email === email
     })
     if (user !== undefined) {
-      return user.avatar
+      return user.avatar || getRandomAvatar(user.name)
     } else {
       return null
     }
@@ -172,7 +166,6 @@ const GroupDetailMerchant = () => {
                   zIndex: 1,
                   left: 0,
                   right: 0,
-                  // mr: 5,
                   position: 'absolute',
                 }}
               />
@@ -248,6 +241,7 @@ const GroupDetailMerchant = () => {
                   mb: 2,
                   width: '48%',
                   px: 3,
+                  pb:4
                 }}>
                 <Box
                   sx={{
@@ -409,8 +403,6 @@ const GroupDetailMerchant = () => {
                 </Box>
                 {/*activity details*/}
                 <Stack spacing={2}>
-                  {/*one activity cell*/}
-
                   {
                     currentGroup ? currentGroup.members.map((member, index) => {
                       return (
@@ -449,10 +441,7 @@ const GroupDetailMerchant = () => {
                       )
                     }) : <div>loading...</div>
                   }
-
-
                 </Stack>
-
               </Card>
             </Box>
           </Container>
