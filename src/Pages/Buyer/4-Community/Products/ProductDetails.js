@@ -132,8 +132,6 @@ export default function ProductDetails() {
   }, []);
 
   async function handlePostNewReview() {
-    console.log(newReview);
-
     const reviewForPost = {
       asin: productId,
       user: currentUser?._id,
@@ -187,7 +185,7 @@ export default function ProductDetails() {
   // back button
   const navigate = useNavigate();
   const handleClickBack = () => {
-    navigate(-1);
+    navigate(`../products`);
   };
 
   // ----------------------------------------------------------------------

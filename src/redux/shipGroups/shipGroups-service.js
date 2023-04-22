@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import { API_BASE, TRACKTRY_API_KEY } from '../API_BASE';
 const SHIPGROUPS_API = `${API_BASE}/shipGroups`;
+const TRACKING_API = `${API_BASE}/trackParcels`;
 
 export const createShipGroup = async (shipGroup) => {
     const response = await axios.post(SHIPGROUPS_API, shipGroup);
@@ -47,7 +48,7 @@ export const getShipmentTracking = async ({ trackingNumber, courier = 'dhl' }) =
 
         const options = {
             method: 'GET',
-            url: `${API_BASE}/tracking/trackings/${courier}/${trackingNumber}`,
+            url: `${API_BASE}/trackParcels/${courier}/${trackingNumber}`,
             headers: {
                 'Content-Type': 'application/json',
                 'Tracktry-Api-Key': TRACKTRY_API_KEY
@@ -61,4 +62,8 @@ export const getShipmentTracking = async ({ trackingNumber, courier = 'dhl' }) =
         console.error("error in getParcelTracking", error, error?.response?.data);
         throw error;
     }
+}
+
+export const postNewTracking = async ({trackingNumber, courier}) => {
+    return await axios.post(`${TRACKING_API}/tracking`, {trackingNumber, courier});
 }
