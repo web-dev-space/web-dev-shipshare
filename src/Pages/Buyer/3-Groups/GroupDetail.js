@@ -120,7 +120,7 @@ const GroupDetailPage = (props) => {
       return user.email === email
     })
     if (user !== undefined) {
-      return user.avatar
+      return user.avatar|| getRandomAvatar(user.name)
     } else {
       return null
     }
@@ -442,7 +442,7 @@ const GroupDetailPage = (props) => {
                   <Typography variant="h6">Members</Typography>
                   <hr style={{borderTop: "1px solid #F6F7FB", marginTop: "0.5rem"}}/>
                 </Box>
-                {/*activity details*/}
+                {/*members detail*/}
                 <Stack spacing={2}>
                   {
                     currentGroup ? currentGroup.members.map((member, index) => {
