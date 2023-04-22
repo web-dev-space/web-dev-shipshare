@@ -50,16 +50,10 @@ const ParcelMainPage = () => {
 
     // ---------search bar---------
     const [searchTerm, setSearchTerm] = useState('');
+    const [confirmedSearchTerm, setConfirmSearchTerm] = useState('');
 
     const handleSearch = () => {
-        setTableData(
-            parcels.filter((val) => {
-                if (searchTerm === "") {
-                    return val;
-                } else if (val.trackingNumber.match(searchTerm)) {
-                    return val;
-                }
-            }))
+        setConfirmSearchTerm(searchTerm);
     };
 
     const handleInputChange = (event) => {
@@ -129,6 +123,7 @@ const ParcelMainPage = () => {
             setTableData(
                 parcels
                     .filter((val) => currentUser.role !== 'buyer' || val.user === currentUser.email)
+                    .filter((val) => confirmedSearchTerm === "" || val.trackingNumber.match(confirmedSearchTerm))
                     .filter((val) => {
                     return filterCourier === "all" || val.courier === filterCourier;
                 })
@@ -146,7 +141,7 @@ const ParcelMainPage = () => {
                 })
             )
         }
-    }, [parcels, filterCourier, filterStatus, currentUser])
+    }, [parcels, filterCourier, filterStatus, currentUser, confirmedSearchTerm])
 
     // ---------Update parcel---------
     const handleUpdateParcel = (props) => {
