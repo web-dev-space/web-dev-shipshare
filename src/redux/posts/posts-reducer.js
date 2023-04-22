@@ -35,7 +35,7 @@ const postsSlice = createSlice({
             state.error = action.error;
         },
         [deletePostThunk.fulfilled]: (state, {payload}) => {
-            state.posts = state.posts.filter(post => post._id !== payload);
+            state.posts = state.posts.filter(post => post._id !== payload._id);
         },
         [createPostThunk.fulfilled]: (state, {payload}) => {
             state.loading = false;
@@ -52,7 +52,6 @@ const postsSlice = createSlice({
                     ...payload,
                 };
             }
-            console.log(state.posts);
         },
         [updatePostThunk.fulfilled]: (state, {payload}) => {
             state.loading = false;

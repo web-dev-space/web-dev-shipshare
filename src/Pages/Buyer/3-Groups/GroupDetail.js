@@ -21,6 +21,7 @@ import {findAllParcelsThunk} from "../../../redux/parcels/parcels-thunks";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {Helmet} from "react-helmet";
 import {getRandomAvatar} from "../../../utils/getRandomAvatar";
+import {getRandomBanner} from "../../../utils/getRandomBanner";
 
 const Item = styled(Paper)(({theme}) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -126,6 +127,20 @@ const GroupDetailPage = (props) => {
     }
   }
 
+  const getBackgroundImg = (group) => {
+      if (group === null) {
+          return backgroundImg;
+      }
+    const user = users.find((user) => {
+      return user.email === group.leader
+    })
+    if (user !== undefined) {
+      return getRandomBanner(user.name || "1")
+    } else {
+      return backgroundImg;
+    }
+  }
+
   const getNameByEmail = (email) => {
     const user = users.find((user) => {
       return user.email === email
@@ -182,7 +197,7 @@ const GroupDetailPage = (props) => {
               sx={{height: 300, position: 'relative'}}
             >
               <Image
-                src={backgroundImg}
+                src={getBackgroundImg(currentGroup)}
                 style={{borderRadius: 20}}
                 sx={{
                   width: '100%',

@@ -1,7 +1,11 @@
 import { Avatar, Button, Card, CardContent, CardHeader, IconButton, Typography } from '@mui/material';
 import { MoreVert as MoreVertIcon } from '@mui/icons-material';
+import {useNavigate} from "react-router-dom";
 
-const PostCard = ({ index, avatarUrl, title }) => {
+const PostCard = ({ index, avatarUrl, title, id }) => {
+
+    const navigate = useNavigate();
+
   return (
     <div style={{
       display: 'flex',
@@ -9,8 +13,8 @@ const PostCard = ({ index, avatarUrl, title }) => {
       // alignItems: 'center',
       backgroundColor: index % 2 ===0 ? "white": "#F6FBF7",
       // padding: '16px',
-      width: 300,
-      height: 300,
+      width: 280,
+      height: 280,
     }}>
       <div style={{margin: 50}}>
         {index !== 2 &&
@@ -27,7 +31,7 @@ const PostCard = ({ index, avatarUrl, title }) => {
 
         <div style={{flexDirection: 'row-reverse', display:'flex', marginRight: -5}}>
           {index !== 2 &&
-            <IconButton>
+            <IconButton onClick={() => navigate(`/community/discover/post/${id}`)}>
               <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="21" cy="21" r="21" fill={index % 2 !==0 ? "white": "#F6FBF7"}/>
                 <path d="M21.5 16L25.5 20.5M25.5 20.5L22 25M25.5 20.5H17" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>

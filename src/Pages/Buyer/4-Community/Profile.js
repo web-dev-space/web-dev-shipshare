@@ -33,6 +33,7 @@ import ReviewCard from "Pages/Buyer/4-Community/ProfileComponents/ReviewCard";
 import useDebugWhenChange from "utils/useDebugWhenChange";
 import {findReviewsByUserIdThunk} from "redux/reviews/reviews-thunks";
 import {Helmet} from "react-helmet";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -59,6 +60,7 @@ const Profile = () => {
     const {shipGroups} = useSelector((state) => state.shipGroup);
 
     const currentUser = useSelector((state) => state.auth.currentUser);
+    const isCurrentUserProfile = !userId || (userId && userId === currentUser?._id);
 
     const [open, setOpen] = useState(false);
     const [userPosts, setUserPosts] = useState([]);
@@ -71,8 +73,8 @@ const Profile = () => {
     const [formedGroup, setFormedGroup] = useState([]);
     const [joinedGroup, setJoinedGroup] = useState([]);
 
-    const chipLabelsArray = userId ? ['Posts', 'Formed Group','Following', 'Followers','Reviews']
-        : ['Posts', 'Formed Group', 'Joined Group','Following', 'Followers','Reviews'];
+    const chipLabelsArray = isCurrentUserProfile ? ['Posts', 'Formed Group', 'Joined Group','Following', 'Followers','Reviews']
+        : ['Posts', 'Formed Group','Following', 'Followers','Reviews'];
 
     const handleOpen = () => {
         setOpen(true);
@@ -262,6 +264,20 @@ const Profile = () => {
                               </Button>
                           }
                       </Box>
+
+                      {
+                          !isCurrentUserProfile && <IconButton
+                              style={{
+                                  zIndex: 2,
+                                  position: 'absolute',
+                                  top: 110,}}
+                              sx={{
+                                  marginLeft: 1,
+                              }}
+                              onClick={() => navigate(-1)}>
+                              <ArrowBackIcon style={{ color: 'white'}}/>
+                          </IconButton>
+                      }
 
                       {/*avatar & group name & follow button*/}
                       <Box

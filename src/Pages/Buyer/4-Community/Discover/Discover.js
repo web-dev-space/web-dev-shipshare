@@ -54,8 +54,6 @@ const Discover = () => {
         setPage(page);
     };
 
-    const [filteredPosts, setFilteredPosts] = useState([]);
-
     useEffect(() => {
         // const userPosts = posts.filter(post => post.userId === users.id);
 
@@ -67,10 +65,10 @@ const Discover = () => {
     }, [ posts, users]);
 
 
+    const [filteredPosts, setFilteredPosts] = useState([]);
     useEffect(()=>{
         setFilteredPosts(allPosts);
     }, [allPosts]);
-    console.log('filtered posts' ,filteredPosts);
 
     useEffect(() => {
         if (focusChip === 'Latest') {
@@ -97,14 +95,14 @@ const Discover = () => {
             setVisiblePosts(updatedVisiblePosts);
         };
         changePage();
-    }, [page, filteredPosts,focusChip ]);
+    }, [page, filteredPosts,focusChip]);
 
     // search bar
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSearch = () => {
         setFilteredPosts(
-            allPosts.filter((val) => {
+            posts.filter((val) => {
                 if (searchTerm === "") {
                     return val;
                 } else if (val.title.match(searchTerm)) {
@@ -239,7 +237,8 @@ const Discover = () => {
                             flexDirection:'column',
                             gap: 16 }}>
                             {visiblePosts.map((post, index) => (
-                              <PostCard
+                                <PostCard
+                                    key={post._id}
                                     index={index}
                                     id={post._id}
                                     title={post.title}
