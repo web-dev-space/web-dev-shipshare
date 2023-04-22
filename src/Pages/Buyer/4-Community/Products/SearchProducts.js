@@ -12,7 +12,6 @@ import Main from "../../../../third-party/layouts/dashboard/Main"
 import SearchBar from "../../../../components/searchBar";
 import {getSearchResults} from "../../../../redux/products/products-service";
 import {ShopProductList} from "../../../../third-party/e-commerce/shop";
-import {Helmet} from "react-helmet";
 
 
 // ----------------------------------------------------------------------
