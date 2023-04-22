@@ -84,18 +84,6 @@ const Comment = ({user, date, comment, content, role, dispatch, post}) => {
                 </div>
 
           </div>
-          {role === 'admin' && (
-            <div style={{
-              width: "100%", display: "flex", justifyContent: "flex-end",
-              marginRight: 8
-            }}>
-              <IconButton onClick={() => handleDeleteComment(comment)}>
-                <DeleteIcon style={{ color: "lightGrey", fontSize: "large" }} />
-              </IconButton>
-            </div>
-          )}
-
-
 
       </div>
 
