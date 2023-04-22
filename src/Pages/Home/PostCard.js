@@ -9,8 +9,8 @@ const PostCard = ({ index, avatarUrl, title }) => {
       // alignItems: 'center',
       backgroundColor: index % 2 ===0 ? "white": "#F6FBF7",
       // padding: '16px',
-      width: 300,
-      height: 300,
+      width: 280,
+      height: 280,
     }}>
       <div style={{margin: 50}}>
         {index !== 2 &&

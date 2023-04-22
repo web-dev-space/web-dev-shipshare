@@ -54,7 +54,7 @@ const Home = () => {
       const handleResize = () => {
         setIsSmallScreen(window.innerWidth < 900);
         setIsLargeScreen(window.innerWidth > 1300);
-        setIsDiscoverSmallScreen(window.innerWidth < 1600);
+        setIsDiscoverSmallScreen(window.innerWidth < 1450);
         setIsDiscoverPhoneScreen(window.innerWidth < 900);
         setIsWorkLargeScreen(window.innerWidth > 880)
       };
@@ -296,8 +296,9 @@ const Home = () => {
                           marginTop: 120,
                           marginRight: isSmallScreen? 0: 30,
                         }}/>}
-                        action={<Button variant="contained" style={{borderRadius: '1rem', marginBottom: -130}} onClick={()=>navigate('/login')}>Get Started</Button> }
+                        action={<Button variant="contained" onClick={()=>navigate('/login')} sx={{marginTop: '1rem', borderRadius: 15, padding: 1, width: 120, mb:isSmallScreen?-10:3}}>Get Started</Button> }
                       />}
+
                       {currentUser.role === "admin" &&
                         <AppWelcome
                           title={`Hello, ${currentUser.name}`}
@@ -328,8 +329,9 @@ const Home = () => {
                             marginTop: 120,
                             marginRight: isSmallScreen? 0: 30,
                           }}/>}
-                          action={<Button variant="contained" style={{borderRadius: '1rem', marginBottom: -130}} onClick={()=>navigate('/login')}>Get Started</Button> }
+                          action={<Button variant="contained" style={{borderRadius: 15, marginBottom: -130}} onClick={()=>navigate('/login')}>Get Started</Button> }
                         />}
+
 
 
                       {/*====== part 2 - How it works ======*/}
@@ -542,16 +544,16 @@ const Home = () => {
                               }
                             </div>
                             <img src={require('./Comma.png')} alt="background-shape"
-                                 style={{top: 190, left: 570, zIndex: 1, width: 80, position: 'absolute'}}/>
+                                 style={{top: 180, left: 510, zIndex: 1, width: 80, position: 'absolute'}}/>
                             <img src={require('./OrangeCircle.png')} alt="background-shape"
-                                 style={{top: 130, right: 12, zIndex: -1, width: 110, position: 'absolute'}}/>
+                                 style={{top: 125, right: 100, zIndex: -1, width: 110, position: 'absolute'}}/>
 
                             <div style={{
                               display: "flex",
                               flexDirection: 'column',
-                              maxWidth: 500,
+                              maxWidth: 480,
                               position: 'absolute',
-                              right: -80,
+                              right: 0,
                               top: 330
                             }}>
                               <Typography variant="h3" component="text" paragraph sx={{mb: 9, mt: -20,}}>
@@ -561,7 +563,7 @@ const Home = () => {
                                 Connect with a community of members and discover tips and tricks for international
                                 purchases.
                               </Typography>
-                              <Typography variant="text" component="text" paragraph sx={{color: 'gray', mt: 2}}>
+                              <Typography variant="text" component="text" paragraph sx={{color: 'gray',}}>
                                 Whether you're a seasoned shopper or new to the game, our forum offers a space for you
                                 to learn, grow, and connect with others who share your interests.
                               </Typography>
@@ -708,7 +710,7 @@ const Home = () => {
                               Join thousand buyers and groups in the community
                             </Typography>
 
-                            <Button variant="contained" onClick={()=>navigate('/login')} sx={{marginTop: '1rem', borderRadius: 15, padding: '1%', width: '35%'}}>Get Started</Button>
+                            <Button variant="contained" onClick={()=>navigate('/login')} sx={{marginTop: '1rem', borderRadius: 15, padding: 1, width: 120}}>Get Started</Button>
                           </div>
 
                         </Box>
