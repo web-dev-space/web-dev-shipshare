@@ -248,6 +248,7 @@ const GroupDetailMerchant = () => {
                   mb: 2,
                   width: '48%',
                   px: 3,
+                  pb:4
                 }}>
                 <Box
                   sx={{
