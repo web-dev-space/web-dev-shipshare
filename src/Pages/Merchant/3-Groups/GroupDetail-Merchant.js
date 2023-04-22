@@ -6,17 +6,12 @@ import {
   Container,
   Typography,
   Box,
-  Button,
   Card,
-  TableContainer,
-  Tooltip,
-  IconButton, TableBody, TableRow, TableCell, Avatar, TableHead, Table, Stack, Chip, Paper
+  IconButton,  Avatar,  Stack,  Paper
 } from '@mui/material';
-import {Icon} from "@iconify/react";
 import Image from 'mui-image'
 import backgroundImg from './background.jpg';
 import {styled} from "@mui/material/styles";
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import {useDispatch, useSelector} from "react-redux";
 import {findShipGroupByIdThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -63,7 +58,6 @@ const GroupDetailMerchant = () => {
     return state.parcels
   });
 
-  console.log("currentGroup", currentGroup)
   if (!currentGroup) {
     return null;
   }
@@ -172,7 +166,6 @@ const GroupDetailMerchant = () => {
                   zIndex: 1,
                   left: 0,
                   right: 0,
-                  // mr: 5,
                   position: 'absolute',
                 }}
               />
@@ -410,8 +403,6 @@ const GroupDetailMerchant = () => {
                 </Box>
                 {/*activity details*/}
                 <Stack spacing={2}>
-                  {/*one activity cell*/}
-
                   {
                     currentGroup ? currentGroup.members.map((member, index) => {
                       return (
@@ -450,10 +441,7 @@ const GroupDetailMerchant = () => {
                       )
                     }) : <div>loading...</div>
                   }
-
-
                 </Stack>
-
               </Card>
             </Box>
           </Container>

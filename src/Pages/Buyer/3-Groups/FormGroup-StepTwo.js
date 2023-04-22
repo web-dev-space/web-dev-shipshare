@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {Card, CardContent, Stack} from "@mui/material";
+import { Stack} from "@mui/material";
 import * as React from "react";
 import TextField from "@mui/material/TextField";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
@@ -9,8 +9,6 @@ import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import * as Yup from "yup";
 import {Controller, useForm, useFormContext} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {useSnackbar} from "notistack";
-import {useNavigate} from "react-router-dom";
 import FormProvider, {RHFAutocomplete, RHFTextField} from "../../../third-party/components/hook-form";
 import {useEffect, useState} from "react";
 import dayjs from "dayjs";
@@ -60,9 +58,7 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
   };
 
   const {handleSubmit, setValue} = methods;
-  const [inputPickupLocation, setInputPickupLocation] = useState('');
   const handlePickupLocationChange = (d) => {
-    // setInputPickupLocation(d)
     const values = methods.getValues();
     setValue("pickupLocation", {...values.pickupLocation, address: d});
     onPickupLocationChange(d);
@@ -176,32 +172,6 @@ export default function FormGroupStepTwo({onDateChange, onPickupLocationChange})
                 </LocalizationProvider>
               )}
             />
-
-
-            {/*<Controller*/}
-            {/*  name='endDate'*/}
-            {/*  control={control}*/}
-            {/*  render={({field, fieldState: {error}}) => (*/}
-            {/*    <LocalizationProvider dateAdapter={AdapterDayjs} required>*/}
-            {/*      <DatePicker*/}
-            {/*        {...field}*/}
-            {/*        renderInput={(params) => (*/}
-            {/*          <TextField*/}
-            {/*            {...params}*/}
-            {/*            fullWidth*/}
-            {/*            error={!!error}*/}
-            {/*          />*/}
-            {/*        )}*/}
-            {/*        name="endDate"*/}
-            {/*        label="End Date *"*/}
-            {/*        value={selectedDate ? dayjs(selectedDate) : null}*/}
-            {/*        minDate={dayjs()}*/}
-            {/*        onChange={(date) => handleDateChange(date)}*/}
-            {/*      />*/}
-            {/*    </LocalizationProvider>*/}
-            {/*  )}*/}
-            {/*/>*/}
-
           </Stack>
         </Stack>
       </Box>

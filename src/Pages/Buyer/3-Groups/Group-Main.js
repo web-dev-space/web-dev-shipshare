@@ -7,10 +7,7 @@ import {
   Typography,
   Box,
   Button,
-  Card,
   TableContainer,
-  Tooltip,
-  IconButton,
   TableBody,
   TableRow,
   TableCell,
@@ -24,31 +21,22 @@ import {
   DialogContentText, FormControl, InputLabel, Select, MenuItem, DialogActions
 } from '@mui/material';
 import Iconify from "../../../third-party/components/iconify";
-import Scrollbar from "../../../third-party/components/scrollbar";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {Pagination} from "@mui/lab";
 import TuneIcon from '@mui/icons-material/Tune';
 import OrangeChipGroup from "../../../components/OrangeChipGroup";
-import {shipments} from "../../../sampleData/shipments";
-import Checkout from "./Checkout";
 import {Link, useNavigate} from "react-router-dom";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import {visuallyHidden} from "@mui/utils";
 import {ALL_STATES, stateFullNameToAbbr} from "./allStates";
-import {shallowEqual, useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
-  updateShipGroupThunk,
   findAllShipGroupsThunk,
   findShipGroupByIdThunk
 } from "../../../redux/shipGroups/shipGroups-thunks";
 import {Helmet} from "react-helmet";
-import {position} from "stylis";
-import {findUserByEmail} from "../../../redux/users/users-service";
 import {findAllUsersThunk} from "../../../redux/users/users-thunks";
-import {CircularProgress} from "@mui/joy";
-import {findShipGroupById} from "../../../redux/shipGroups/shipGroups-service";
 import {getRandomAvatar} from "../../../utils/getRandomAvatar";
-
 
 
 const DEFAULT_ORDER = 'asc';
@@ -300,7 +288,6 @@ const GroupMainPage = () => {
     handleCloseFilter();
   }
 
-
   function formatDate(dateString) {
     if (!dateString) {
       return null;
@@ -332,19 +319,16 @@ const GroupMainPage = () => {
     navigate('./group-details?groupId=' + groupId);
   }
 
-
   const getGroupAvatar = (group) => {
-    // console.log(users)
     const groupLead = users.find((user) => {
       return user.email === group.leader
     })
     if (groupLead !== undefined) {
-      // console.log("has avatar" + groupLead._id);
       return groupLead.avatar || getRandomAvatar(groupLead.name)
     } else {
-      // console.log("no avatar");
       return null
-  }}
+    }
+  }
 
   const [isPhoneScreen, setIsPhoneScreen] = useState(false);
 
@@ -440,15 +424,12 @@ const GroupMainPage = () => {
                   />
 
                   {/*table body*/}
-
                   {displayedItems.map((row, index) => (
 
 
                     <>
                       {row.distance && (
-
                         <TableBody>
-
                           <TableRow
                             key={row.id}
                             style={{
@@ -457,7 +438,6 @@ const GroupMainPage = () => {
                             }}
                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                           >
-
                             <TableCell>
                               <Box
                                 sx={{
@@ -571,7 +551,6 @@ const GroupMainPage = () => {
                                 {getShortAddress(row.pickupLocation.address)}
                               </Typography>
                             </TableCell>
-                            {/*--------  distance cell  --------*/}
                             <TableCell>
                               {row.distance ? (
                                 <Typography variant="body">
@@ -639,19 +618,12 @@ const GroupMainPage = () => {
                           </TableBody>
                         )
                       }
-
                     </>
-
                   ))}
-
-
                 </Table>
-
               </TableContainer>
-
             </>
           </Container>
-
           {displayedItems.map((row, index) => (
             <>
               {(row.distance && index === 0) &&
@@ -677,10 +649,7 @@ const GroupMainPage = () => {
             </>
           ))
           }
-
-
         </Main>
-        {/*------------------------------------*/}
       </Box>
     </>
   );
@@ -845,7 +814,6 @@ function descendingComparator(a, b, orderBy, userLocation) {
       return (getShortAddress(b.pickupLocation.address)).localeCompare(getShortAddress(a.pickupLocation.address))
     case "name":
       return (b.name).localeCompare(a.name)
-
     default:
       if (b[orderBy] < a[orderBy]) {
         return -1;
