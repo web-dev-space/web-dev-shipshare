@@ -4,6 +4,7 @@ import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
 import Main from "../../../third-party/layouts/dashboard/Main"
 import { Container, Typography, Box, Button } from '@mui/material';
 import {Helmet} from "react-helmet";
+import {useNavigate} from "react-router-dom";
 
 const content =
   {
@@ -14,7 +15,7 @@ const content =
 
 const Tutorials = () => {
   const [open, setOpen] = useState(false);
-
+const navigate = useNavigate();
   const handleOpen = () => {
     setOpen(true);
   };
@@ -65,7 +66,8 @@ const Tutorials = () => {
               </div>
               <div style={{height: 80}}>
                 <Button
-                    variant="contained" color="primary" style={{width: 200, height: 40, borderRadius: 20}} href="./tutorial/pages"
+                    variant="contained" color="primary" style={{width: 200, height: 40, borderRadius: 20}}
+                    onClick={() => {navigate('/help/tutorial/pages')}}
                   >
                     <Typography >Get started</Typography>
                 </Button>

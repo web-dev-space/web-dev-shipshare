@@ -25,14 +25,12 @@ import {
   updateShipGroupThunk
 } from "../../../redux/shipGroups/shipGroups-thunks";
 import {useDispatch, useSelector} from "react-redux";
-import axios from "axios";
 
 const steps = ['', '', ''];
 export default function FormGroupPage() {
 
   const [activeStep, setActiveStep] = useState(0);
   const [buttonSelected, setButtonSelected] = useState("");
-  // const [selectedDate, setSelectedDate] = useState(null);
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -44,7 +42,6 @@ export default function FormGroupPage() {
   };
 
   const handleNext = () => {
-    console.log("buttonSelected: " + buttonSelected)
     if (activeStep === 2) {
       navigate("/groups");
       return;
@@ -60,13 +57,11 @@ export default function FormGroupPage() {
   };
 
   const handleButtonClick = (button) => {
-    // console.log("handlebuttonclick: " + button)
     setButtonSelected(button);
     setValue("shipRoute", button);
   };
 
   const handleDateChange = (date) => {
-    // setSelectedDate(date);
     const values = methods.getValues();
     setValue("endDate", date);
   };
@@ -84,7 +79,6 @@ export default function FormGroupPage() {
 
   // ---------current user---------
   let currentUser = useSelector(state => state.auth.currentUser);
-  // console.log('currentUser',currentUser);
 
   if (currentUser === null) {
     currentUser = {
@@ -124,15 +118,12 @@ export default function FormGroupPage() {
     handleAddNewShipGroup(data)
     enqueueSnackbar('Group Created!');
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    console.log('data', data);
   };
-
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(findAllShipGroupsThunk());
   }, []);
-
 
   const geocodeAddress = async (destinationAddress) => {
     return new Promise((resolve, reject) => {
@@ -159,7 +150,6 @@ export default function FormGroupPage() {
   };
 
   const handleAddNewShipGroup = async (prop) => {
-    console.log('create new group')
     try {
       const pickupLocationCoordinates = await geocodeAddress(prop.pickupLocation);
       const newShipGroup = {
@@ -176,7 +166,6 @@ export default function FormGroupPage() {
         shipEndDate: prop.endDate,
         members: [currentUser.email]
       }
-      console.log('newShipGroup', newShipGroup);
       dispatch(createShipGroupThunk(newShipGroup));
     } catch (error) {
       console.error(error);
@@ -197,7 +186,6 @@ export default function FormGroupPage() {
         return null;
     }
   };
-
 
   const [open, setOpen] = useState(false);
 
@@ -229,8 +217,6 @@ export default function FormGroupPage() {
               flexDirection: 'column',
               alignItems: 'center',
             }}>
-
-
             <Box sx={{
               width: '100%',
               alignItems: 'center',
@@ -283,7 +269,6 @@ export default function FormGroupPage() {
                     <Button
                       disabled={!isButtonSelected()}
                       type='submit'
-                      // onClick={handleNext}
                     >
                       {activeStep === steps.length - 1 ? 'Back to group page' : 'Next'}
                     </Button>}

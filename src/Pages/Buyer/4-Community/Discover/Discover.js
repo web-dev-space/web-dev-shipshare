@@ -30,6 +30,9 @@ const Discover = () => {
         dispatch(findAllUsersThunk());
     }, []);
 
+    const currentUser = useSelector(state => state.auth.currentUser);
+
+
     const MAX_SIZE_PER_PAGE = 10;
     const [open, setOpen] = useState(false);
 
@@ -66,7 +69,6 @@ const Discover = () => {
     useEffect(()=>{
         setFilteredPosts(allPosts);
     }, [allPosts]);
-    console.log('filtered posts' ,filteredPosts);
 
     useEffect(() => {
         if (focusChip === 'Latest') {
@@ -184,15 +186,19 @@ const Discover = () => {
                             <Typography variant="h4" component="h1" paragraph>
                                 Discover
                             </Typography>
-                            <Button variant="contained"
-                                    color="primary"
-                                    size={isSmallScreen?"small":"large"}
-                                    startIcon={<AddIcon />}
-                                    style={{height:isSmallScreen?36:44}}
-                                    onClick={() => {navigate('./posts/create-new-post')}}
-                                    >
-                                New Post
-                            </Button>
+                            {currentUser &&
+                                <Button variant="contained"
+                                        color="primary"
+                                        size={isSmallScreen ? "small" : "large"}
+                                        startIcon={<AddIcon/>}
+                                        style={{height: isSmallScreen ? 36 : 44}}
+                                        onClick={() => {
+                                            navigate('./posts/create-new-post')
+                                        }}
+                                >
+                                    New Post
+                                </Button>
+                            }
                         </Stack>
 
 
@@ -232,6 +238,7 @@ const Discover = () => {
                             gap: 16 }}>
                             {visiblePosts.map((post, index) => (
                                 <PostCard
+                                    key={post._id}
                                     index={index}
                                     id={post._id}
                                     title={post.title}

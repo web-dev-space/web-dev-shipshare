@@ -1,9 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import ParcelListCard from '../1-Parcels/parcel-components/ParcelListCard';
@@ -12,32 +10,11 @@ import {useLocation} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {findShipGroupByIdThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 
-
-const parcels = [{
-  name: 'Parcel 1',
-  image: 'https://picsum.photos/200/300',
-  logisticsNumber: 'LOG001',
-  weight: '10 kg',
-}, {name: 'Parcel 2', image: 'https://picsum.photos/200/300', logisticsNumber: 'LOG002', weight: '5 kg',},];
-
-const shipment = {
-  shipmentType: 'Air Standard',
-  deliveryDate: 'Mar 10, 2023',
-  deliveryAddress: 'Apt 505, 425 El Camino Real Santa Clara, CA 95056',
-};
-
-const totalExpense = {
-  shipping: 50,
-  tax: 5,
-  total: 55,
-};
-
 export default function CheckoutStepTwo({parcels, selectedParcels, setSelectedParcels}) {
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const groupId = searchParams.get('groupId');
-  console.log("groupId", groupId)
 
   const dispatch = useDispatch();
   const currentGroup = useSelector((state) => {
