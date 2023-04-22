@@ -1,7 +1,11 @@
 import { Avatar, Button, Card, CardContent, CardHeader, IconButton, Typography } from '@mui/material';
 import { MoreVert as MoreVertIcon } from '@mui/icons-material';
+import {useNavigate} from "react-router-dom";
 
-const PostCardSmallLayout = ({ index, avatarUrl, title, isDiscoverPhoneScreen }) => {
+const PostCardSmallLayout = ({ index, avatarUrl, title, isDiscoverPhoneScreen, id }) => {
+
+    const navigate = useNavigate();
+
   return (
     <div style={{
       display: 'flex',
@@ -22,7 +26,7 @@ const PostCardSmallLayout = ({ index, avatarUrl, title, isDiscoverPhoneScreen })
         </div>
 
         <div style={{flexDirection: 'row-reverse', display:'flex', marginRight: isDiscoverPhoneScreen? 0:-5}}>
-            <IconButton>
+            <IconButton onClick={() => navigate(`/community/discover/post/${id}`)}>
               <svg width={isDiscoverPhoneScreen? "22": "42"} height={isDiscoverPhoneScreen? "22": "42"} viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="21" cy="21" r="21" fill={(index === 1) || (index === 2) ? "white": "#F6FBF7"}/>
                 <path d="M21.5 16L25.5 20.5M25.5 20.5L22 25M25.5 20.5H17" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>

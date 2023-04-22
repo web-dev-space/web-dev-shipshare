@@ -17,9 +17,20 @@ import AppWelcome from "../../third-party/app/AppWelcome";
 import CarouselRoute from "./CarouselRoute";
 import PostCardSmallLayout from "./PostCardSmallLayout";
 import {findAllParcelsThunk} from "../../redux/parcels/parcels-thunks";
+import {findAllShipGroupsThunk} from "../../redux/shipGroups/shipGroups-thunks";
+import {findAllUsersThunk} from "../../redux/users/users-thunks";
+import {getRandomAvatar} from "../../utils/getRandomAvatar";
+import {findAllPostsThunk} from "../../redux/posts/posts-thunks";
 
 
 const Home = () => {
+
+    function getShortAddress(address) {
+        const addressParts = address.split(', ');
+        const cityState = addressParts.slice(-3, -1);
+        const state = cityState[1].substring(0, 2);
+        return `${cityState[0]}, ${state}`;
+    }
 
     // ---------nav bar---------
     const [open, setOpen] = useState(false);
@@ -32,11 +43,16 @@ const Home = () => {
 
     // ---------current user---------
     const currentUser = useSelector(state => state.auth.currentUser || { role: "visitor" });
-    // if (currentUser === null) {
-    //     currentUser = {
-    //         role: "visitor"
-    //     }
-    // }
+    const shipGroupsRedux = useSelector((state) => state.shipGroup.shipGroups);
+    const users = useSelector((state) => state.users.users);
+    const allPosts = useSelector(state => state.posts.posts);
+
+    const shipGroups = shipGroupsRedux?.map((shipGroup) => {
+        return {
+            ...shipGroup,
+            key: Math.random(),
+        };
+    }).filter((shipGroup) => shipGroup?.members?.some((member) => member === currentUser?.email));
 
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const [isLargeScreen, setIsLargeScreen] = useState(false);
@@ -44,6 +60,40 @@ const Home = () => {
     const [isDiscoverPhoneScreen, setIsDiscoverPhoneScreen] = useState(false);
     const [fontSize, setFontSize] = useState(24);
     const [fontSize2, setFontSize2] = useState(14);
+    const [groups, setGroups] = useState([]);
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+        if (shipGroupsRedux && users) {
+            setGroups(
+                shipGroupsRedux.slice(0, 3).map((shipGroup) => {
+                    const user = users.find((user) => user.email === shipGroup.user);
+                    return {
+                        avatarUrl: user?.avatar || getRandomAvatar(user?.name),
+                        name: shipGroup.name,
+                        route: shipGroup.shipRoute,
+                        date: new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(shipGroup.shipEndDate)),
+                        pickupAddress: getShortAddress(shipGroup.pickupLocation.address),
+                    };
+                })
+            );
+        }
+    }, [shipGroupsRedux, users])
+
+    useEffect(() => {
+        if (allPosts && users) {
+            setPosts(
+                allPosts.slice(0, 6).map((post) => {
+                    const user = users.find((user) => user._id === post.userId);
+                    return {
+                        avatarUrl: user?.avatar || getRandomAvatar(user?.name),
+                        title: post.title,
+                        id: post._id,
+                    };
+                })
+            );
+        }
+    }, [allPosts, users]);
 
     useEffect(() => {
       const handleResize = () => {
@@ -112,30 +162,6 @@ const Home = () => {
       },
     ];
 
-    const groups = [
-      {
-        avatarUrl: require('../../images/randomAvatars/avatar_1.jpg'),
-        name: 'Santa Clara Group',
-        route:'Air Standard',
-        date: 'Mar 13, 2023',
-        pickupAddress: 'Santa Clara, CA',
-      },
-      {
-        avatarUrl: require('../../images/randomAvatars/avatar_2.jpg'),
-        name: 'San Jose Group',
-        route:'Air Standard',
-        date: 'Mar 13, 2023',
-        pickupAddress: 'San Jose, CA',
-      },
-      {
-        avatarUrl: require('../../images/randomAvatars/avatar_3.jpg'),
-        name: 'Hayward Group',
-        route:'Air Standard',
-        date: 'Mar 13, 2023',
-        pickupAddress: 'Santa Clara, CA',
-      },
-    ];
-
     const routes = [
       {
         route: 'Air - Sensitive',
@@ -175,33 +201,6 @@ const Home = () => {
       },
     ];
 
-    const posts = [
-      {
-        avatarUrl: require('../../images/randomAvatars/avatar_3.jpg'),
-        title: "ShipShare is the Best Shipping Platform!",
-      },
-      {
-        avatarUrl: require('../../images/randomAvatars/avatar_1.jpg'),
-        title: "ShipShare is the Best Shipping Platform!",
-      },
-      {
-        avatarUrl: require('../../images/randomAvatars/avatar_6.jpg'),
-        title: "ShipShare is the Best Shipping Platform!",
-      },
-      {
-        avatarUrl: require('../../images/randomAvatars/avatar_2.jpg'),
-        title: "ShipShare is the Best Shipping Platform!",
-      },
-      {
-        avatarUrl: require('../../images/randomAvatars/avatar_4.jpg'),
-        title: "ShipShare is the Best Shipping Platform!",
-      },
-      {
-        avatarUrl: require('../../images/randomAvatars/avatar_5.jpg'),
-        title: "ShipShare is the Best Shipping Platform!",
-      }
-      ]
-
       const navigate = useNavigate();
 
       const carouselRef = useRef(null);
@@ -215,6 +214,12 @@ const Home = () => {
 // console.log(currentUser);
 
       const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(findAllShipGroupsThunk());
+        dispatch(findAllUsersThunk());
+        dispatch(findAllPostsThunk());
+    }, []);
 
     // Link to DB
       const { parcels, loading } = useSelector((state) => {
@@ -236,15 +241,6 @@ const Home = () => {
           )
         }
       }, [parcels, currentUser])
-
-      const shipGroupsRedux = useSelector((state) => state.shipGroup.shipGroups);
-
-      const shipGroups = shipGroupsRedux?.map((shipGroup) => {
-        return {
-          ...shipGroup,
-          key: Math.random(),
-        };
-      }).filter((shipGroup) => shipGroup?.members?.some((member) => member === currentUser?.email));
 
       //new users number
       const stats = useSelector(state => state.dashboard.stats);
@@ -592,6 +588,7 @@ const Home = () => {
                                   key={index}
                                   index={index}
                                   avatarUrl={post.avatarUrl}
+                                  id={post.id}
                                   title={post.title}
                                 />))
                               }
@@ -665,6 +662,7 @@ const Home = () => {
                                   index={index}
                                   avatarUrl={post.avatarUrl}
                                   title={post.title}
+                                  id={post.id}
                                   isDiscoverPhoneScreen={isDiscoverPhoneScreen}
                                 />))
                               }
