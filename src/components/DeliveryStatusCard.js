@@ -106,6 +106,7 @@ const styles = {
     marginBottom: 5,
     paddingRight: 20,
     fontFamily: FontFamily.regular,
+    overflowWrap: 'anywhere',
   },
   deliveryDateText: {
     color: Colors.gray,
@@ -118,6 +119,7 @@ const styles = {
     marginBottom: 5,
     paddingRight: 20,
     fontFamily: FontFamily.regular,
+    overflowWrap: 'anywhere',
   },
   tinyLogo: {
     width: 72,
