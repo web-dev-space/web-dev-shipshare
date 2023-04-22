@@ -1,5 +1,5 @@
 import { m } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from 'react-helmet';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Button, Typography, Box } from '@mui/material';
@@ -12,7 +12,12 @@ import { PageNotFoundIllustration } from '../assets/illustrations';
 
 export default function Page404() {
   return (
-    <Box style={{display: 'flex', height: '100%', justifyContent:'center', alignItems: 'center', margin:10}}>
+    <>
+      <Helmet>
+        <title>Error 404 | ShipShare</title>
+      </Helmet>
+
+      <Box style={{display: 'flex', height: '100%', justifyContent:'center', alignItems: 'center', margin:10}}>
       <MotionContainer style={{display: 'flex', height: '100%', justifyContent:'center', alignItems: 'center', flexDirection:'column'}}>
         <m.div variants={varBounce().in}>
           <Typography variant="h3" paragraph>
@@ -20,7 +25,7 @@ export default function Page404() {
           </Typography>
         </m.div>
 
-        <m.div variants={varBounce().in}>
+        <m.div variants={varBounce().in} style={{display: 'flex',justifyContent:'center', alignItems: 'center', flexDirection:'column'}}>
           <Typography sx={{ color: 'text.secondary' , ml:3, mr:3}}>
             Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL?
           </Typography>
@@ -43,5 +48,6 @@ export default function Page404() {
         </Button>
       </MotionContainer>
     </Box>
+    </>
   );
 }

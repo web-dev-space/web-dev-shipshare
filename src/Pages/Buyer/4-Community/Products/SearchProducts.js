@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from 'react-helmet';
 import {useNavigate, useLocation, useParams} from 'react-router-dom';
 // @mui
 import { Container, Box, Typography, Card } from '@mui/material';
@@ -71,6 +71,9 @@ export default function SearchProducts() {
 
     return (
         <>
+            <Helmet>
+                <title>Product Reviews | ShipShare</title>
+            </Helmet>
             <Header onOpenNav={handleOpen} />
 
             {/*-------Box is the layout of the whole page-----*/}
