@@ -69,7 +69,6 @@ const Discover = () => {
     useEffect(()=>{
         setFilteredPosts(allPosts);
     }, [allPosts]);
-    console.log('filtered posts' ,filteredPosts);
 
     useEffect(() => {
         if (focusChip === 'Latest') {
@@ -239,6 +238,7 @@ const Discover = () => {
                             gap: 16 }}>
                             {visiblePosts.map((post, index) => (
                                 <PostCard
+                                    key={post._id}
                                     index={index}
                                     id={post._id}
                                     title={post.title}
