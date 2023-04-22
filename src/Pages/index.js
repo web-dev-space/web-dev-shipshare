@@ -16,6 +16,7 @@ import ChangeWarehouse from "Pages/Merchant/4-Account/ChangeWarehouseAddress";
 import GroupDetailMerchant from "Pages/Merchant/3-Groups/GroupDetail-Merchant";
 import Page404 from "third-party/ErrorPages/Page404";
 import Page403 from "third-party/ErrorPages/Page403";
+import Home from "./Home/home";
 
 
 export function MainIndex() {
@@ -24,6 +25,8 @@ export function MainIndex() {
         return (
             <Routes>
                 <Route path="/parcels" element={<ParcelMainPage />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/home" element={<Home />} />
                 <Route path="/shipments" element={<ShipmentMainPage />} />
                 <Route path="/groups/*" element={<Group />} />
                 <Route path="/community/*" element={<Community />} />
@@ -40,6 +43,8 @@ export function MainIndex() {
         return (
             <Routes>
                 <Route path="/parcels" element={<ParcelMainPage />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/home" element={<Home />} />
                 <Route path="/shipments" element={<ShipmentMainPage />} />
                 <Route path="/groups/*" element={<Group />} />
                 <Route path="/community/*" element={<Community />} />
@@ -56,6 +61,7 @@ export function MainIndex() {
         return (
             <Routes>
                 <Route path="/" element={<DashboardMerchant />} />
+                <Route path="/home" element={<DashboardMerchant />} />
                 <Route path="/dashboard" element={<DashboardMerchant />} />
                 <Route path="/parcels" element={<ParcelMain />} />
                 <Route path="/shipments" element={<ShipmentsMainMerchant />} />
@@ -74,6 +80,7 @@ export function MainIndex() {
         return (
             <Routes>
                 <Route path="/" element={<DashboardAdmin />} />
+                <Route path="/home" element={<DashboardAdmin />} />
                 <Route path="/dashboard" element={<DashboardAdmin />} />
                 <Route path="/userlist" element={<UserList />} />
                 <Route path="/parcels" element={<ParcelMain />} />

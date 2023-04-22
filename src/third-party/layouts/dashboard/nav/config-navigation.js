@@ -69,7 +69,7 @@ function navConfig(role) {
       {
         subheader: 'Main',
         items: [
-          { title: 'Home', path: '/home', icon: ICONS.home },
+          role === 'buyer' ? { title: 'Home', path: '/home', icon: ICONS.home } : null,
           role === 'admin' || role === "merchant"
               ? { title: 'Dashboard', path: '/dashboard', icon: ICONS.dashboard }
               : null,
