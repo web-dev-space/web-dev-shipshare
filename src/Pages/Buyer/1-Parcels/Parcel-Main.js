@@ -114,12 +114,12 @@ const ParcelMainPage = () => {
     useEffect(() => {
         if (currentUser && currentUser.role !== "visitor") {
             dispatch(findAllParcelsThunk());
-        } else {
-            setTableData(parcelData.slice(0, 5));
         }
     }, [currentUser])
     useEffect(() => {
-        if (parcels) {
+        if (!currentUser || currentUser.role === "visitor") {
+            setTableData(parcelData.slice(0, 5));
+        } else if (parcels) {
             setTableData(
                 parcels
                     .filter((val) => currentUser.role !== 'buyer' || val.user === currentUser.email)
@@ -185,84 +185,88 @@ const ParcelMainPage = () => {
                 <NavVertical openNav={open} onCloseNav={handleClose} />
 
                 {/*--------------Main Content----------------------*/}
-                {
-                    currentUser.role === "visitor" &&
-                    <Typography variant="h5" style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "60%",
-                        transform: "translate(-50%, -50%)",
-                        textAlign: "center",
-                        zIndex: "1000"
-                    }}>
-                        Unfortunately, the parcel feature is currently unavailable while you are in visitor mode. Please <Link to="/login" style={{ color: '#80B213' }}>log in</Link> or <Link to="/signup" style={{ color: '#80B213' }}>sign up</Link> to unlock all the features of our website.
-                    </Typography>
-                }
-                <Main className={currentUser.role === "visitor" ? "visitor-mode" : ""}>
-                    <Container maxWidth={false}>
-                        <Typography variant="h4" component="h1" paragraph>
-                            My Parcels
+                <Main>
+
+                    {
+                        currentUser.role === "visitor" &&
+                        <Typography variant="h5" style={{
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            textAlign: "center",
+                            zIndex: "1000"
+                        }}>
+                            Unfortunately, the parcel feature is currently unavailable while you are in visitor mode. Please <Link to="/login" style={{ color: '#80B213' }}>log in</Link> or <Link to="/signup" style={{ color: '#80B213' }}>sign up</Link> to unlock all the features of our website.
                         </Typography>
-                    </Container>
-
-                    <Container maxWidth={false} sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: isSmallScreen?'column':'row'}}>
-                        {/*---Search Bar---*/}
-                        <SearchBar
-                            width={360}
-                            height={53}
-                            searchText="Search by Tracking Number"
-                            searchTerm={searchTerm}
-                            setSearchTerm={setSearchTerm}
-                            handleSearch={handleSearch}
-                            handleInputChange={handleInputChange}
-                            handleKeyPress={handleKeyPress}
-                        />
-
-                        <div style={{marginTop:isSmallScreen? 10:0}}>
-                        {/*---button group---*/}
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            {
-                                currentUser.role === "admin" || currentUser.role === "merchant" ?
-                                    <Button
-                                        variant="outlined"
-                                        color="primary"
-                                        style={{ height: '48px' }}
-                                        onClick={handleOpenFilter}
-                                        startIcon={<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M8.60826 13.8274H3.35767" stroke="#80B213" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M10.9504 5.75023H16.201" stroke="#80B213" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.27183 5.70521C7.27183 4.6255 6.39002 3.75 5.30254 3.75C4.21505 3.75 3.33325 4.6255 3.33325 5.70521C3.33325 6.78492 4.21505 7.66042 5.30254 7.66042C6.39002 7.66042 7.27183 6.78492 7.27183 5.70521Z" stroke="#80B213" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M16.6666 13.7946C16.6666 12.7149 15.7855 11.8394 14.698 11.8394C13.6098 11.8394 12.728 12.7149 12.728 13.7946C12.728 14.8743 13.6098 15.7498 14.698 15.7498C15.7855 15.7498 16.6666 14.8743 16.6666 13.7946Z" stroke="#80B213" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>}
-                                    >
-                                        Filter
-                                    </Button>
-                                    : <TwoSmallButtonGroup
-                                        leftText="Add New"
-                                        rightText="Filter"
-                                        onLeftClick={handleOpenAddParcel}
-                                        onRightClick={handleOpenFilter}
-                                    />
-                            }
-                        </Box>
-                        <AddParcelDialog open={openAddParcel} onClose={handleCloseAddParcel} handleAddNewParcel={handleAddNewParcel} />
-                        <FilterDialog open={openFilter} onClose={handleCloseFilter}
-                                      filterStatus={filterStatus} setFilterStatus={setFilterStatus}
-                                      filterCourier={filterCourier} setFilterCourier={setFilterCourier}
-                                      onSubmitFilter={handleFilter}
-                        />
-                        </div>
-                    </Container>
-
-                    {/*---Table---*/}
-                    <Container maxWidth={false}>
-                        { currentUser.role === "merchant" || currentUser.role === "admin" ?
-                            <MerchantParcelTable data={tableData}
-                                                 handleUpdateParcel={handleUpdateParcel} />
-                            : <ParcelTable data={tableData} />}
+                    }
 
 
-                    </Container>
+                    <div className={currentUser.role === "visitor" ? "visitor-mode" : ""}>
+                        <Container maxWidth={false}>
+                            <Typography variant="h4" component="h1" paragraph>
+                                My Parcels
+                            </Typography>
+                        </Container>
+                        <Container maxWidth={false} sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: isSmallScreen?'column':'row'}}>
+                            {/*---Search Bar---*/}
+                            <SearchBar
+                                width={360}
+                                height={53}
+                                searchText="Search by Tracking Number"
+                                searchTerm={searchTerm}
+                                setSearchTerm={setSearchTerm}
+                                handleSearch={handleSearch}
+                                handleInputChange={handleInputChange}
+                                handleKeyPress={handleKeyPress}
+                            />
+
+                            <div style={{marginTop:isSmallScreen? 10:0}}>
+                                {/*---button group---*/}
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    {
+                                        currentUser.role === "admin" || currentUser.role === "merchant" ?
+                                            <Button
+                                                variant="outlined"
+                                                color="primary"
+                                                style={{ height: '48px' }}
+                                                onClick={handleOpenFilter}
+                                                startIcon={<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M8.60826 13.8274H3.35767" stroke="#80B213" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M10.9504 5.75023H16.201" stroke="#80B213" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7.27183 5.70521C7.27183 4.6255 6.39002 3.75 5.30254 3.75C4.21505 3.75 3.33325 4.6255 3.33325 5.70521C3.33325 6.78492 4.21505 7.66042 5.30254 7.66042C6.39002 7.66042 7.27183 6.78492 7.27183 5.70521Z" stroke="#80B213" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.6666 13.7946C16.6666 12.7149 15.7855 11.8394 14.698 11.8394C13.6098 11.8394 12.728 12.7149 12.728 13.7946C12.728 14.8743 13.6098 15.7498 14.698 15.7498C15.7855 15.7498 16.6666 14.8743 16.6666 13.7946Z" stroke="#80B213" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>}
+                                            >
+                                                Filter
+                                            </Button>
+                                            : <TwoSmallButtonGroup
+                                                leftText="Add New"
+                                                rightText="Filter"
+                                                onLeftClick={handleOpenAddParcel}
+                                                onRightClick={handleOpenFilter}
+                                            />
+                                    }
+                                </Box>
+                                <AddParcelDialog open={openAddParcel} onClose={handleCloseAddParcel} handleAddNewParcel={handleAddNewParcel} />
+                                <FilterDialog open={openFilter} onClose={handleCloseFilter}
+                                              filterStatus={filterStatus} setFilterStatus={setFilterStatus}
+                                              filterCourier={filterCourier} setFilterCourier={setFilterCourier}
+                                              onSubmitFilter={handleFilter}
+                                />
+                            </div>
+                        </Container>
+
+                        {/*---Table---*/}
+                        <Container maxWidth={false}>
+                            { currentUser.role === "merchant" || currentUser.role === "admin" ?
+                                <MerchantParcelTable data={tableData}
+                                                     handleUpdateParcel={handleUpdateParcel} />
+                                : <ParcelTable data={tableData} />}
+
+
+                        </Container>
+                    </div>
                 </Main>
                 {/*------------------------------------*/}
             </Box>
