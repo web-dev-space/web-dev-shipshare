@@ -1,5 +1,5 @@
 import { m } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from 'react-helmet';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Button, Typography, Box } from '@mui/material';
@@ -12,6 +12,11 @@ import { ForbiddenIllustration } from '../assets/illustrations';
 
 export default function Page403() {
   return (
+    <>
+    <Helmet>
+      <title>Error 403 | ShipShare</title>
+    </Helmet>
+
     <Box style={{display: 'flex', height: '100%', justifyContent:'center', alignItems: 'center', margin:10}}>
       <MotionContainer style={{display: 'flex', height: '100%', justifyContent:'center', alignItems: 'center', flexDirection:'column'}}>
         <m.div variants={varBounce().in}>
@@ -41,5 +46,6 @@ export default function Page403() {
         </Button>
       </MotionContainer>
     </Box>
+    </>
   );
 }

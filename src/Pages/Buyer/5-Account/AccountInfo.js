@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from 'react-helmet';
 import { paramCase } from 'change-case';
 import { useParams } from 'react-router-dom';
 // @mui
@@ -13,6 +13,7 @@ import {useEffect, useState} from "react";
 import Main from "../../../third-party/layouts/dashboard/Main"
 import {useDispatch, useSelector} from "react-redux";
 import {findUserById} from "../../../redux/users/users-service";
+
 
 // ----------------------------------------------------------------------
 
@@ -38,6 +39,9 @@ export default function UserEditPage() {
 
 	return (
 		<>
+			<Helmet>
+				<title>Account info | ShipShare</title>
+			</Helmet>
 			<Header onOpenNav={handleOpen} />
 			{/*-------Box is the layout of the whole page-----*/}
 			<Box
