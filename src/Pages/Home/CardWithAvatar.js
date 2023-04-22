@@ -6,23 +6,23 @@ const StyledCard = styled(Card)({
   display: 'flex',
   alignItems: 'center',
   marginBottom: '2rem',
-  minWidth: 280,
+  minWidth: 300,
+  maxWidth: 500,
 });
 
 const StyledCardContent = styled(CardContent)({
   flex: '1 0 auto',
-  marginLeft: -10,
 });
 
 const StyledTypography = styled(Typography)({
   fontWeight: 'bold',
-  fontSize: '1.2rem',
+  fontSize: '1rem',
 });
 
 const StyledSubtitle = styled(Typography)({
   fontSize: '0.9rem',
   color: 'grey',
-  marginBottom: '0.5rem',
+  marginBottom: '0.4rem',
 });
 
 const CardWithAvatar = ({ avatarUrl, name, route, date, pickupAddress, isLargeScreen, isSmallScreen , isDiscoverSmallScreen}) => {

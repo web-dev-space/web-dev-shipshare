@@ -430,20 +430,22 @@ const Home = () => {
                             && <img src={require('./Shapes2.png')} alt="background-shape"
                                     style={{bottom: -30, right: -100, zIndex: -1, width: 200, position: 'absolute'}}/>}
 
-                          <div style={{marginTop: isLargeScreen? 0: -600, width:'100%'}}>
-                            {groups.map((group) => (
-                              <CardWithAvatar
-                                avatarUrl={group.avatarUrl}
-                                name={group.name}
-                                route={group.route}
-                                date={group.date}
-                                pickupAddress={group.pickupAddress}
-                                isLargeScreen={isLargeScreen}
-                                isSmallScreen={isSmallScreen}
-                                isDiscoverSmallScreen={isDiscoverSmallScreen}
-                              />
-                            ))}
-                          </div>
+
+                            <div style={{marginTop: isLargeScreen? 0: -700, }}>
+                              {groups.map((group) => (
+                                <CardWithAvatar
+                                  avatarUrl={group.avatarUrl}
+                                  name={group.name}
+                                  route={group.route}
+                                  date={group.date}
+                                  pickupAddress={group.pickupAddress}
+                                  isLargeScreen={isLargeScreen}
+                                  isSmallScreen={isSmallScreen}
+                                  isDiscoverSmallScreen={isDiscoverSmallScreen}
+                                />
+                              ))}
+                            </div>
+
 
                         </div>
                         {/*---- right side ----*/}
@@ -453,8 +455,8 @@ const Home = () => {
                             height: '100%',
                             display: 'flex',
                             justifyContent: 'center',
-                            alignItems: 'center',
-                            textAlign: 'center',
+                            alignItems: isLargeScreen? 'flex-start':'center',
+                            textAlign: isLargeScreen? 'left':'center',
                             // overflow: 'hidden',
                             // flex: isSmallScreen ? '0 0 auto' : '1 1 auto',
                             flexDirection: 'column',
@@ -469,13 +471,13 @@ const Home = () => {
                           <Typography variant="h2" component="text" paragraph sx={{mt:-2, mb:5}}>
                             and share the costs
                           </Typography>
-                          <Typography variant="text" component="text" paragraph sx={{color:'gray'}}>
+                          <Typography variant="text" component="text" paragraph sx={{color:'gray',  mr:5}}>
                             Do you ever see unique and exciting products from overseas, but don't know how to get them? Are you put off by high international shipping costs? Are you tired of waiting months for your packages to arrive?
                           </Typography>
-                          <Typography variant="text" component="text" paragraph sx={{color:'gray', mt:2}}>
+                          <Typography variant="text" component="text" paragraph sx={{color:'gray', mt:2,  mr:5}}>
                           Look no further than ShipShare! Join a group that ships to your doorstep and share the shipping costs with fellow members to enjoy the lowest shipping prices. Plus, meet like-minded people in the group and make new friends!
                           </Typography>
-                          <Button variant="contained" onClick={()=>navigate('/groups')} sx={{marginTop: '1rem', borderRadius: 15, padding: 1, width: 120}}>Join Now</Button>
+                          <Button variant="contained" onClick={()=>navigate('/groups')} sx={{marginTop: '1rem', borderRadius: 15, padding: 1, width: 120, mb:3}}>Join Now</Button>
                         </div>
                       </div>
 
