@@ -22,7 +22,7 @@ export default function NavSectionVertical({ data, sx, ...other }) {
       flexDirection: "column",
       overflowY: "auto",
       maxHeight: "calc(100vh - 200px)",
-
+      "&::-webkit-scrollbar": { display: "none" },
     }}
   >
     <Stack sx={sx} {...other}>
