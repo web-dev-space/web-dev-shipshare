@@ -1,16 +1,13 @@
 import { Grid } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { useMemo, Fragment } from "react";
-import { useSelector } from 'react-redux';
+import { useMemo } from "react";
 import {
   EcommerceBestSalesman,
-  EcommerceWidgetSummary,
   EcommerceYearlySales,
-} from 'third-party/e-commerce';
-import { FileGeneralDataActivity } from 'third-party/file';
-import useDebugWhenChange from 'utils/useDebugWhenChange';
-import { useSettingsContext } from 'third-party/components/settings';
-import { Box, Container } from '@mui/material';
+} from '@mui-library/e-commerce';
+import { FileGeneralDataActivity } from '@mui-library/file';
+import { useSettingsContext } from '@mui-library/components/settings';
+import { Box } from '@mui/material';
 import { useWindowWidth } from 'utils/useWindowsWidth';
 
 

@@ -16,10 +16,10 @@ import {
   Divider, Stack, Rating
 } from '@mui/material';
 // sections
-import { ProductDetailsCarousel } from '../../../../third-party/e-commerce/details';
-import Header from "../../../../third-party/layouts/dashboard/header";
-import NavVertical from "../../../../third-party/layouts/dashboard/nav/NavVertical";
-import Main from "../../../../third-party/layouts/dashboard/Main"
+import { ProductDetailsCarousel } from '../../../../@mui-library/e-commerce/details';
+import Header from "../../../../@mui-library/layouts/dashboard/header";
+import NavVertical from "../../../../@mui-library/layouts/dashboard/nav/NavVertical";
+import Main from "../../../../@mui-library/layouts/dashboard/Main"
 import { getProductDetails } from "../../../../redux/products/products-service";
 import { getRandomAvatar } from "../../../../utils/getRandomAvatar";
 import { findAllUsersThunk } from "../../../../redux/users/users-thunks";
@@ -27,8 +27,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { createReviewThunk } from "redux/reviews/reviews-thunks";
 import { findReviewsForProjectThunk } from "redux/reviews/reviews-thunks";
 import React from 'react';
-import {SkeletonProductDetails} from "../../../../third-party/components/skeleton";
-import Label from "../../../../third-party/components/label";
+import {SkeletonProductDetails} from "../../../../@mui-library/components/skeleton";
+import Label from "../../../../@mui-library/components/label";
 
 // ----------------------------------------------------------------------
 const REVIEWS_PER_PAGE = 5;

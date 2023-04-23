@@ -1,14 +1,14 @@
 import { BrowserRouter } from 'react-router-dom';
 // theme
-import ThemeProvider from './third-party/theme';
+import ThemeProvider from './@mui-library/theme';
 // components
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faCube } from "@fortawesome/free-solid-svg-icons";
 import { Route, Routes } from "react-router";
-import { MotionLazyContainer } from './third-party/components/animate';
-import ScrollToTop from './third-party/components/scroll-to-top';
-import { SettingsProvider, ThemeSettings } from './third-party/components/settings';
-import SnackbarProvider from "./third-party/components/snackbar";
+import { MotionLazyContainer } from './@mui-library/components/animate';
+import ScrollToTop from './@mui-library/components/scroll-to-top';
+import { SettingsProvider, ThemeSettings } from './@mui-library/components/settings';
+import SnackbarProvider from "./@mui-library/components/snackbar";
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';

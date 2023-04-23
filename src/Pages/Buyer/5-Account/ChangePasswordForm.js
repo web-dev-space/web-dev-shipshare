@@ -9,11 +9,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { Box, Card, Grid, Stack, Typography } from '@mui/material';
 // components
-import Label from '../../../third-party/components/label';
+import Label from '../../../@mui-library/components/label';
 import { useSnackbar } from 'notistack';
 import FormProvider, {
   RHFTextField,
-} from '../../../third-party/components/hook-form';
+} from '../../../@mui-library/components/hook-form';
 import { Avatar } from '@mui/material';
 import {
   changePasswordThunk, logoutThunk

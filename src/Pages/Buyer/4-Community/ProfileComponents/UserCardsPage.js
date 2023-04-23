@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 // @mui
 import { Container, Box } from '@mui/material';
 // components
-import { useSettingsContext } from '../../../../third-party/components/settings';
+import { useSettingsContext } from '../../../../@mui-library/components/settings';
 // sections
 import UserCard from './UserCard';
 import {useSelector} from "react-redux";

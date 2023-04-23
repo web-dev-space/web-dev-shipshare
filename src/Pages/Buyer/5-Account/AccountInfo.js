@@ -4,13 +4,13 @@ import { useParams } from 'react-router-dom';
 // @mui
 import { Container, Box, Typography } from '@mui/material';
 // components
-import { useSettingsContext } from '../../../third-party/components/settings';
+import { useSettingsContext } from '../../../@mui-library/components/settings';
 // sections
 import UserNewEditForm from './UserEditNewForm';
-import Header from "../../../third-party/layouts/dashboard/header";
-import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical";
+import Header from "../../../@mui-library/layouts/dashboard/header";
+import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical";
 import {useEffect, useState} from "react";
-import Main from "../../../third-party/layouts/dashboard/Main"
+import Main from "../../../@mui-library/layouts/dashboard/Main"
 import {useDispatch, useSelector} from "react-redux";
 import {findUserById} from "../../../redux/users/users-service";
 

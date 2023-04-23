@@ -3,7 +3,7 @@ import { useRef } from 'react';
 // @mui
 import { alpha, useTheme } from '@mui/material/styles';
 import { Box, Paper, Link, CardContent } from '@mui/material';
-import Carousel, {CarouselArrows} from "../../third-party/components/carousel";
+import Carousel, {CarouselArrows} from "../../@mui-library/components/carousel";
 import RouteCard from "./RouteCard";
 
 
@@ -65,16 +65,20 @@ export default function CarouselRoute({data}){
     infinite: false,
     responsive: [
       {
-        breakpoint: 1400,
-        settings: { slidesToShow: 2, slidesToScroll: 2 },
+        breakpoint: 2400,
+        settings: { slidesToShow: 4 },
       },
       {
-        breakpoint: 600,
-        settings: { slidesToShow: 2, slidesToScroll: 2 },
+        breakpoint: 1800,
+        settings: { slidesToShow: 3 },
       },
       {
-        breakpoint: 480,
-        settings: { slidesToShow: 1, slidesToScroll: 1 },
+        breakpoint: 1350,
+        settings: { slidesToShow: 2 },
+      },
+      {
+        breakpoint: 800,
+        settings: { slidesToShow: 1 },
       },
     ],
   };
@@ -96,6 +100,9 @@ export default function CarouselRoute({data}){
       <CarouselArrows
         onNext={handleNext}
         onPrevious={handlePrev}
+        sx={{
+          padding: '48px',
+        }}
       >
         <Carousel ref={carouselRef} {...carouselSettings}>
           {data.map((route, index) =>

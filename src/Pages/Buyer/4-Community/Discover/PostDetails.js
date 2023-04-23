@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Header from "../../../../third-party/layouts/dashboard/header"
-import NavVertical from "../../../../third-party/layouts/dashboard/nav/NavVertical"
-import Main from "../../../../third-party/layouts/dashboard/Main"
+import Header from "../../../../@mui-library/layouts/dashboard/header"
+import NavVertical from "../../../../@mui-library/layouts/dashboard/nav/NavVertical"
+import Main from "../../../../@mui-library/layouts/dashboard/Main"
 import { Container, Box, Avatar, Typography, TextField, Button, Pagination, IconButton } from '@mui/material';
 import Image from "mui-image";
 import { useDispatch, useSelector } from "react-redux";
