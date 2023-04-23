@@ -9,6 +9,7 @@ import { FileGeneralDataActivity } from '@mui-library/file';
 import { useSettingsContext } from '@mui-library/components/settings';
 import { Box } from '@mui/material';
 import { useWindowWidth } from 'utils/useWindowsWidth';
+import { getRandomAvatar } from 'utils/getRandomAvatar';
 
 
 function MyGridItem({ children }) {
@@ -38,6 +39,7 @@ const DashboardCommonPart = ({ stats, isMerchant }) => {
           key: index,
           id: index,
           rank: isSmallScreen ? undefined : leader.rank,
+          avatar: getRandomAvatar(leader?.name),
         }
       });
   }, [stats?.topFiveLeaders, isSmallScreen, isExtremeSmallScreen]);
@@ -52,6 +54,7 @@ const DashboardCommonPart = ({ stats, isMerchant }) => {
           key: index,
           id: index,
           rank: isSmallScreen ? undefined : user.rank,
+          avatar: getRandomAvatar(user?.name),
         }
       });
   }, [stats?.topFiveUsers, isSmallScreen, isExtremeSmallScreen]);
