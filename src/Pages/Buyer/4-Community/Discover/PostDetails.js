@@ -31,7 +31,7 @@ const handleClickUserIcon = (user, navigate) => {
 
 // Comment component
 
-const Comment = ({user, date, comment, content, role, dispatch, post}) => {
+const Comment = ({user, date, comment, content, role, dispatch, post, navigate}) => {
     const handleDeleteComment = (comment) => {
         console.log(comment);
         dispatch(updatePostThunk({
@@ -48,14 +48,20 @@ const Comment = ({user, date, comment, content, role, dispatch, post}) => {
             alignItems: 'center',
             marginTop: 32, marginBottom: 32}}>
             {user &&
-            <Avatar src={user.avatar? user.avatar : getRandomAvatar(user.name)} sx={{ width: 48, height: 48, mb: 'auto' }} />}
+            <Avatar
+                src={user.avatar? user.avatar : getRandomAvatar(user.name)}
+                onClick={() => { handleClickUserIcon(user, navigate) }}
+                style={{ cursor: 'pointer' }}
+                sx={{ width: 48, height: 48, mb: 'auto' }} />}
             <div style={{ marginLeft: 16, width: "100%"}}>
                 <div style={{display: 'flex', flexDirection: "row"}}>
                     <div style={{width:"100%"}}>
                         <div style={{
                             fontSize: 16,
                             fontWeight: 600,
-                        }}>
+                            cursor: 'pointer'
+                        }}
+                             onClick={() => { handleClickUserIcon(user, navigate) }}>
                             {user?.name}
                         <div style={{
                             fontSize: 13,
@@ -214,13 +220,15 @@ const PostDetails = () => {
 
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: isPhoneScreen?40: 80}}>
                                 {!author && <Avatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_1.jpg" sx={{ width: 48, height: 48 }} />}
-                                {author && <Avatar src={author.avatar || getRandomAvatar(author.name)} sx={{ width: 48, height: 48 }} />}
+                                {author && <Avatar src={author.avatar || getRandomAvatar(author.name)} sx={{ width: 48, height: 48 }} style={{ cursor: 'pointer' }}  onClick={() => { handleClickUserIcon(author, navigate) }}/>}
                                 <div style={{ marginLeft: 8}}>
                                     <div style={{
                                         fontSize: 16,
                                         fontWeight: 600,
-                                        color: "white"
-                                    }}>
+                                        color: "white",
+                                        cursor: 'pointer'
+                                    }}
+                                         onClick={() => { handleClickUserIcon(author, navigate) }}>
                                         {author.name}
                                     </div>
                                     <div style={{
@@ -319,6 +327,7 @@ const PostDetails = () => {
                                     content={comment.content}
                                     role={role}
                                     dispatch={dispatch}
+                                    navigate={navigate}
                                     post={post}
                                 />
                                 </>
