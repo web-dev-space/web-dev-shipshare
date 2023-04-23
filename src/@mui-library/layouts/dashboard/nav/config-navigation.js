@@ -42,7 +42,7 @@ function navConfig(role) {
         subheader: 'Community',
         items: [
           { title: 'Discover', path: '/community/discover', icon: ICONS.discover },
-          { title: 'Product Reviews', path: '/community/products', icon: ICONS.products },
+          { title: 'Product Reviews', path: '/search', icon: ICONS.products },
         ]
       },
 
@@ -71,7 +71,7 @@ function navConfig(role) {
         items: [
           role === 'buyer' ? { title: 'Home', path: '/home', icon: ICONS.home } : null,
           role === 'admin' || role === "merchant"
-              ? { title: 'Home', path: '/dashboard', icon: ICONS.dashboard }
+              ? { title: 'Home', path: '/home', icon: ICONS.dashboard }
               : null,
           role === 'admin'
               ? { title: 'User List', path: '/userlist', icon: ICONS.profile }
@@ -87,10 +87,10 @@ function navConfig(role) {
         subheader: 'Community',
         items: [
           { title: 'Discover', path: '/community/discover', icon: ICONS.discover },
-          { title: 'Product Reviews', path: '/community/products', icon: ICONS.products },
+          { title: 'Product Reviews', path: '/search', icon: ICONS.products },
           role === "merchant" || role === "admin"
             ? null
-            :{ title: 'My Profile', path: '/community/profile', icon: ICONS.profile },
+            :{ title: 'My Profile', path: '/profile', icon: ICONS.profile },
         ].filter(Boolean) // filter null values
       },
 

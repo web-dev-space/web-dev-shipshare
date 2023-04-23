@@ -52,7 +52,7 @@ const headCells = [
   },
   {
     id: "weight",
-    numeric: false,
+    numeric: true,
     disablePadding: false,
     label: "Weight",
     sortable: true,
@@ -327,7 +327,7 @@ const ParcelTable = ({ data, role, handleUpdateParcel }) => {
                       <TableCell component="th" scope="row" padding="none">
                         {row.trackingNumber}
                       </TableCell>
-                      <TableCell align="left">
+                      <TableCell align="right">
                         {(role === 'merchant' || role === 'admin') && rowBeingEdited._id === row._id ? (
                             <TextField
                                 id="outlined-basic"

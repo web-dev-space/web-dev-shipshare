@@ -50,7 +50,7 @@ export default function AccountPopover() {
   const dispatch = useDispatch();
   const handleLogout = async () => {
     try {
-      await dispatch(logoutThunk());
+      await dispatch(logoutThunk()).unwrap();
       navigate("/login");
       handleClosePopover();
     } catch (error) {
