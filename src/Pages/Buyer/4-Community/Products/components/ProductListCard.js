@@ -16,7 +16,7 @@ export default function ProductListCard({ product }) {
 
   return (
     <Card
-      onClick={() => navigate(`/community/products/${id}`)}
+      onClick={() => navigate(`/details/${id}`)}
       sx={{
           display: "flex",
           flexDirection: "column",

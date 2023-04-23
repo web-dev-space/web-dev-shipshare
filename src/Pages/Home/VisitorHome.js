@@ -661,7 +661,7 @@ const VisitorHome = () => {
                 <Typography variant="text" component="text" paragraph sx={{color: 'gray'}}>
                   If you're someone who values community and wants to help others, or simply someone who wants to make smarter purchasing decisions, our platform is designed for you. Give it a try today!
                 </Typography>
-                <Button variant="contained" onClick={() => navigate('/community/products')} sx={{
+                <Button variant="contained" onClick={() => navigate('/search')} sx={{
                   marginTop: '1rem',
                   borderRadius: 15,
                   padding: 1,

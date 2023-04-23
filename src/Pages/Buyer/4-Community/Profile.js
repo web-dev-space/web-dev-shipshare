@@ -149,12 +149,12 @@ const Profile = () => {
     }, [visibleProfile, shipGroups]);
 
     function onPostCardClick  (id) {
-      navigate(`../discover/post/${id}`);
+      navigate(`/community/discover/post/${id}`);
     }
 
     function onReviewCardClick  (productId) {
       if (productId){
-        navigate(`/community/products/${productId}`);
+        navigate(`/details/${productId}`);
       }
     }
 

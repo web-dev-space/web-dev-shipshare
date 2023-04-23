@@ -60,7 +60,7 @@ export default function UserCard({ user, disableFollowButton, dispatch }) {
 	};
 
 	return (
-		<Card sx={{ textAlign: 'center' }} onClick={() => navigate(`/community/profile/${user._id}`)}>
+		<Card sx={{ textAlign: 'center' }} onClick={() => navigate(`/profile/${user._id}`)}>
 			<Box sx={{ position: 'relative' }}>
 				<SvgColor
 					src="/assets/shape_avatar.svg"

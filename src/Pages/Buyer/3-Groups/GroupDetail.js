@@ -338,7 +338,7 @@ const GroupDetailPage = (props) => {
                             cursor: 'pointer',
                           }
                         }
-                        onClick={() => navigate(`/community/profile/${getUserByEmail(currentGroup.leader)._id}`)}
+                        onClick={() => navigate(`/profile/${getUserByEmail(currentGroup.leader)._id}`)}
                       >
                         <div>
                           <Avatar
@@ -472,7 +472,7 @@ const GroupDetailPage = (props) => {
                         >
                           <Box
                             sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}
-                            onClick={() => navigate(`/community/profile/${getUserByEmail(member)._id}`)}
+                            onClick={() => navigate(`/profile/${getUserByEmail(member)._id}`)}
                           >
                             <Avatar
                               alt="Remy Sharp"

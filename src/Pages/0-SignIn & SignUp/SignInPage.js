@@ -212,7 +212,7 @@ const LoginPage = () => {
               </LoadingButton>
               <Box>
                 <Typography style={{textAlign: 'center', marginBottom: '5vh'}} >
-                  New to ShipShare?<Link href="../signup" underline="hover" style={{marginLeft: 6}}>Sign Up</Link>
+                  New to ShipShare?<Link href="../register" underline="hover" style={{marginLeft: 6}}>Sign Up</Link>
                 </Typography>
               </Box>
 
