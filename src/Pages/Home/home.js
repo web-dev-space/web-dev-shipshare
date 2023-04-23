@@ -112,7 +112,8 @@ const Home = () => {
     useEffect(() => {
         if (allPosts && users) {
             setPosts(
-                allPosts.filter((post) => post.userId === currentUser._id).slice(0, 5).map((post) => {
+                allPosts.filter((post) => post.userId === currentUser._id)
+                    .sort((p1, p2) => new Date(p2.created) - new Date(p1.created)).slice(0, 5).map((post) => {
                     return {
                         image: currentUser?.avatar || getRandomAvatar(currentUser?.name),
                         description: post.post,

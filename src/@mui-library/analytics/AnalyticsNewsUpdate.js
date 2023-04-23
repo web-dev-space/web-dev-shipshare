@@ -23,13 +23,11 @@ export default function AnalyticsNewsUpdate({ title, subheader, list, ...other }
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
 
-      <Scrollbar>
-        <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
-          {list.map((news) => (
-            <NewsItem key={news.id} news={news} />
-          ))}
-        </Stack>
-      </Scrollbar>
+    <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
+      {list.map((news) => (
+        <NewsItem key={news.id} news={news} />
+      ))}
+    </Stack>
 
       <Divider />
 
@@ -79,7 +77,7 @@ function NewsItem({ news }) {
         </Typography>
       </Box>
 
-      <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
+      <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary', ml: 'auto' }}>
         {fToNow(postedAt)}
       </Typography>
     </Stack>
