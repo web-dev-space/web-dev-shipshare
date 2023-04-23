@@ -153,8 +153,7 @@ const Profile = () => {
 
     function onReviewCardClick  (productId) {
       if (productId){
-        const url = new URL(`./products/${productId}`, window.location.href);
-        window.open(url, '_blank');
+        navigate(`/community/products/${productId}`);
       }
     }
 

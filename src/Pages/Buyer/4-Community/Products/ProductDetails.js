@@ -185,7 +185,7 @@ export default function ProductDetails() {
   // back button
   const navigate = useNavigate();
   const handleClickBack = () => {
-    navigate(`../products`);
+    navigate(-1);
   };
 
   // ----------------------------------------------------------------------

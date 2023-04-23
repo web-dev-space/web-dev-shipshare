@@ -406,7 +406,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
       phaseNumber: convertStatusToPhaseNumber(newStatus),
     }
 
-    dispatch(updateShipGroupThunk(newShipGroup))
+    dispatch(updateShipGroupThunk(newShipGroup, row))
 
     setRowBeingEdited({});
   }
@@ -497,7 +497,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                           />
                         ) : (
                           <Box sx={{ marginRight: '12px', minWidth: '110px' }}>
-                          <text>{row?.trackingNumber === undefined || row?.trackingNumber === null ? "--" : `${row?.trackingNumber} `}</text>
+                          <text>{row?.trackingNumber === undefined || row?.trackingNumber === null || row?.trackingNumber === "" ? "--" : `${row?.trackingNumber} `}</text>
                         </Box>
                         )}
                       </TableCell>
