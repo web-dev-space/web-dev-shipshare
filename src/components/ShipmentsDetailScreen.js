@@ -85,7 +85,7 @@ const ShipmentDetails = ({ ship, handleClose }) => {
 
   useEffect(() => {
     const fetchedDeliveryStatus = async () => {
-      if (ship.phaseNumber >= 2 && trackingInfo === undefined && ship?.trackingNumber !== undefined) {
+      if (trackingInfo === undefined && ship?.trackingNumber !== undefined) {
         
         dispatch(getShipmentTrackingThunk(
           { trackingNumber: ship?.trackingNumber?.replaceAll(' ', ''), courier: ship.courier }
@@ -206,7 +206,7 @@ const ShipmentDetails = ({ ship, handleClose }) => {
 
 
         {/*Bottom Container*/}
-        {ship.phaseNumber >= 2 && detailDeliveryStatus !== undefined && detailDeliveryStatus !== null && detailDeliveryStatus.length !== 0 &&
+        {detailDeliveryStatus !== undefined && detailDeliveryStatus !== null && detailDeliveryStatus.length !== 0 &&
           <Box style={{
             border: '1px solid rgb(226, 232, 240)',
             borderRadius: 10,
