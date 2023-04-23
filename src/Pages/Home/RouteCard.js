@@ -7,7 +7,7 @@ const RouteCard = ({index, route, price, text1, text2, trait1, trait2, trait3}) 
   const navigate = useNavigate();
 
   return (
-    <Card key={index} sx={{width: 300, mr:3, mb:3, height: 400}}>
+    <Card key={index} sx={{maxWidth: 300, mr:3, mb:3, height: 400}}>
       <CardContent sx={{display: 'flex', flexDirection: 'column'}}>
         <div style={{ display: 'flex', flexDirection: 'column'}}>
           <div style={{display: 'flex', flexDirection: 'row', marginTop: 10}}>
