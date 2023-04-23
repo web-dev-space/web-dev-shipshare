@@ -6,6 +6,7 @@ import {Box, Stack, Card, Avatar, CardHeader, Typography, Button} from '@mui/mat
 // utils
 import { fShortenNumber } from '../utils/formatNumber';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import {useSelector} from "react-redux";
 
 // ----------------------------------------------------------------------
 
@@ -15,14 +16,14 @@ AppTopAuthors.propTypes = {
   subheader: PropTypes.string,
 };
 
-export default function AppTopAuthors({ title, subheader, list, ...other }) {
+export default function AppTopAuthors({ title, subheader, list, handleFollow, handleUnfollow,...other }) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
 
       <Stack spacing={3} sx={{ p: 3 }}>
         {orderBy(list, ['favourite'], ['desc']).map((author, index) => (
-          <AuthorItem key={author.id} author={author} index={index} />
+          <AuthorItem key={author.id} author={author} index={index} handleFollow={handleFollow} handleUnfollow={handleUnfollow}/>
         ))}
       </Stack>
     </Card>
@@ -40,7 +41,9 @@ AuthorItem.propTypes = {
   index: PropTypes.number,
 };
 
-function AuthorItem({ author, index }) {
+function AuthorItem({ author, index, handleFollow, handleUnfollow }) {
+
+    const currentUser = useSelector(state => state.auth.currentUser || { role: "visitor" });
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       <Avatar alt={author.name} src={author.avatar} />
@@ -60,8 +63,12 @@ function AuthorItem({ author, index }) {
           {fShortenNumber(author.favourite)} Followers
         </Typography>
       </Box>
-
-      <Button variant="contained">Follow</Button>
+        {
+            currentUser.following.indexOf(author.id) === -1 ?
+                <Button variant="contained" onClick={() => handleFollow(author.id)}>Follow</Button>
+                :
+                <Button variant="outlined" onClick={() => handleUnfollow(author.id)}>Unfollow</Button>
+        }
     </Stack>
   );
 }

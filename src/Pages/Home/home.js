@@ -18,7 +18,7 @@ import CarouselRoute from "./CarouselRoute";
 import PostCardSmallLayout from "./PostCardSmallLayout";
 import {findAllParcelsThunk} from "../../redux/parcels/parcels-thunks";
 import {findAllShipGroupsThunk} from "../../redux/shipGroups/shipGroups-thunks";
-import {findAllUsersThunk} from "../../redux/users/users-thunks";
+import {findAllUsersThunk, updateCurrentUserThunk} from "../../redux/users/users-thunks";
 import {getRandomAvatar} from "../../utils/getRandomAvatar";
 import {findAllPostsThunk} from "../../redux/posts/posts-thunks";
 import {_analyticPost, _appAuthors, _bookingReview} from "../../@mui-library/_mock/arrays";
@@ -47,6 +47,24 @@ const Home = () => {
     };
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handleFollow = (id) => {
+        dispatch(updateCurrentUserThunk({
+            ...currentUser,
+            following: [
+                ...currentUser.following,
+                id,
+            ],
+        })).then(() =>
+            dispatch(findAllUsersThunk()));
+    };
+    const handleUnfollow = (id) => {
+        dispatch(updateCurrentUserThunk({
+            ...currentUser,
+            following: currentUser.following.filter((item) => item !== id),
+        })).then(() =>
+            dispatch(findAllUsersThunk()));
     };
 
     // ---------current user---------
@@ -126,18 +144,29 @@ const Home = () => {
 
     useEffect(() => {
         if (currentUser && users) {
-            const unfollowedBuyers = users.filter((user) =>
-                user._id !== currentUser._id
-                && user.role === 'buyer'
-                && currentUser.following.indexOf(user._id) === -1).slice(0, 3).map((user) => {
-                return {
-                    avatar: user?.avatar || getRandomAvatar(user?.name),
-                    name: user.name,
-                    favourite: getFollowers(users, user).length,
-                    id: user._id,
-                };
-            });
-            setWhoToFollow(unfollowedBuyers);
+            if (whoToFollow.length === 0) {
+                const unfollowedBuyers = users.filter((user) =>
+                    user._id !== currentUser._id
+                    && user.role === 'buyer'
+                    && currentUser.following.indexOf(user._id) === -1).slice(0, 3).map((user) => {
+                    return {
+                        avatar: user?.avatar || getRandomAvatar(user?.name),
+                        name: user.name,
+                        favourite: getFollowers(users, user).length,
+                        id: user._id,
+                        ...user,
+                    };
+                });
+                setWhoToFollow(unfollowedBuyers);
+            } else {
+                const updatedWhoToFollow = whoToFollow.map((user) => {
+                    return {
+                        ...user,
+                        favourite: getFollowers(users, user).length,
+                    };
+                });
+                setWhoToFollow(updatedWhoToFollow);
+            }
         }
     }, [currentUser, users]);
 
@@ -264,7 +293,7 @@ const Home = () => {
 
 
                         <Grid item xs={12} md={4}>
-                          <AppTopAuthors title="Who To Follow" list={whoToFollow} />
+                          <AppTopAuthors title="Who To Follow" list={whoToFollow} handleFollow={handleFollow} handleUnfollow={handleUnfollow}/>
                         </Grid>
 
 
