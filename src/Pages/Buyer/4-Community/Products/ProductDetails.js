@@ -61,7 +61,9 @@ const Review = ({ user, date, content }) => {
             <div style={{
               fontSize: 16,
               fontWeight: 600,
-            }}>
+              cursor: 'pointer'
+            }}
+                 onClick={() => { handleClickUserIcon(user, navigate) }}>
               {user?.name}
               <div style={{
                 fontSize: 13,
