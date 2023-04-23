@@ -13,7 +13,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {useNavigate} from "react-router-dom";
 import CardWithAvatar from "./CardWithAvatar";
 import PostCard from "./PostCard";
-import AppWelcome from "../../@mui-library/app/AppWelcome";
+import AppWelcomeVisitor from "../../@mui-library/app/AppWelcomeVisitor";
 import CarouselRoute from "./CarouselRoute";
 import PostCardSmallLayout from "./PostCardSmallLayout";
 import {findAllParcelsThunk} from "../../redux/parcels/parcels-thunks";
@@ -21,8 +21,9 @@ import {findAllShipGroupsThunk} from "../../redux/shipGroups/shipGroups-thunks";
 import {findAllUsersThunk} from "../../redux/users/users-thunks";
 import {getRandomAvatar} from "../../utils/getRandomAvatar";
 import {findAllPostsThunk} from "../../redux/posts/posts-thunks";
-import {_appAuthors} from "../../@mui-library/_mock/arrays";
+import {_appAuthors, _bookingReview} from "../../@mui-library/_mock/arrays";
 import AppTopAuthors from "../../@mui-library/app/AppTopAuthors";
+import BookingCustomerReviews from "../../@mui-library/app/BookingCustomerReviews";
 
 
 const Home = () => {
@@ -135,75 +136,6 @@ const Home = () => {
     `;
     document.head.appendChild(style);
 
-    // ------ part 2 card info ------
-    const cards = [
-      {
-        icon: require("./ship-1.png"),
-        photo: require("./ship-2.png"),
-        title: 'Ship',
-        line1: 'Order any desired overseas',
-        line2: 'products and have them shipped',
-        line3: 'to our designated warehouse.',
-        line4: '',
-      },
-      {
-        icon: require("./share-1.png"),
-        photo: require("./share-2.png"),
-        title: 'Share',
-        line1: 'Join a group with a convenient',
-        line2: 'pickup location, and share the',
-        line3: 'international shipping costs with',
-        line4: 'other members.',
-      },
-      {
-        icon: require("./collect-1.png"),
-        photo: require("./collect-2.png"),
-        title: 'Collect',
-        line1: 'After the package arrives, simply',
-        line2: 'go to the pickup location and',
-        line3: 'save on shipping costs while',
-        line4: 'enjoying your products!',
-      },
-    ];
-
-    const routes = [
-      {
-        route: 'Air - Sensitive',
-        price: '$20',
-        text1: 'Enjoy the fastest delivery!',
-        text2: "You can also ship sensitive products.",
-        trait1: 'Faster Delivery (2 weeks)',
-        trait2: 'Accepts sensitive items',
-        trait3: '',
-      },
-      {
-        route: 'Air - Standard',
-        price: '$15',
-        text1: 'Enjoy the fast delivery!',
-        text2: "Best choice for a ShipShare starter.",
-        trait1: 'Fastest Delivery (1 weeks)',
-        trait2: 'Suitable for normal items',
-        trait3: '',
-      },
-      {
-        route: 'Sea - Standard',
-        price: '$5',
-        text1: 'Not in hurry?',
-        text2: "Enjoy the best price with this plan!",
-        trait1: 'Lowest cost',
-        trait2: 'Normally 4 weeks',
-        trait3: 'Suitable for normal items',
-      },
-      {
-        route: 'Sea - Sensitive',
-        price: '$15',
-        text1: 'Ship sensitive products with the ',
-        text2: "best price!",
-        trait1: 'Lower cost',
-        trait2: 'Normally 6 weeks',
-        trait3: 'Accepts sensitive items',
-      },
-    ];
 
       const navigate = useNavigate();
 
@@ -273,32 +205,35 @@ const Home = () => {
 
                 {/*--------------Main Content----------------------*/}
                 <Main>
-                    <Container maxWidth={true}>
+                    <Container maxWidth='xl'>
 
                       {/*====== part 1 ======*/}
                       <Grid container spacing={3}>
                         <Grid item xs={12} md={8}>
-                          {currentUser.role === "buyer" &&
-                            <AppWelcome
-                            title={currentUser.name? `Hello, ${currentUser.name}`:"Ship globally &"}
-                            title2={currentUser.name? '':"Save big"}
-                            description={currentUser.name? `You have ${tableData.length} parcels and ${shipGroups.length} shipments. Thank you for choosing ShipShare!`:"ShipShare -- The ultimate solution for affordable and convenient international shipping!"}
-                            img={<img src={require('../../images/HomeGroup.png')} alt="HomeGroup" style={{
-                              p: 3,
-                              width: isSmallScreen? '80%':'50%',
-                              margin: { xs: 'auto', md: 'inherit' },
-                              alignSelf: 'center',
-                              marginBottom: 120,
-                              marginTop: 120,
-                              marginRight: isSmallScreen? 0: 30,
-                            }}/>}
-                            action={<Button variant="contained" onClick={()=>navigate('/login')} sx={{marginTop: '1rem', borderRadius: 15, padding: 1, width: 120, mb:isSmallScreen?-10:3}}>Get Started</Button> }
-                          />}
+                            <AppWelcomeVisitor
+                              title={`Welcome back! \n ${currentUser.name}`}
+                              description={`You have ${tableData.length} parcels and ${shipGroups.length} shipments. Thank you for choosing ShipShare!`}
+                              img={
+                                <img src={require('../../images/HomeGroup.png')} alt="HomeGroup" style={{padding: 30, width:360, margin:'auto'}}/>
+                              }
+                              action={<Button variant="contained">Go Now</Button>}
+                              />
+                        </Grid>
+
                         <Grid item xs={12} md={4}>
                           <AppTopAuthors title="Top Authors" list={_appAuthors} />
                         </Grid>
 
+                        <Grid item xs={12} md={4}>
+                          <BookingCustomerReviews
+                            title="Customer Reviews"
+                            subheader={`${_bookingReview.length} Reviews`}
+                            list={_bookingReview}
+                          />
                         </Grid>
+
+
+
                       </Grid>
 
 
