@@ -57,8 +57,7 @@ function AuthorItem({ author, index }) {
             color: 'text.secondary',
           }}
         >
-          <FavoriteIcon fontSize={"small"} sx={{ mr: 0.5 }} />
-          {fShortenNumber(author.favourite)}
+          {fShortenNumber(author.favourite)} Followers
         </Typography>
       </Box>
 
