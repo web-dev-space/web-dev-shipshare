@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // form
 import { useForm } from 'react-hook-form';
@@ -21,6 +21,9 @@ import {
 import {useDispatch} from "react-redux";
 import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 import {profile} from "../../../redux/users/users-service";
+import InputAdornment from "@mui/material/InputAdornment";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 // ----------------------------------------------------------------------
 
@@ -95,9 +98,19 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
     }
   };
 
-  const onCancel = () => {
-    reset();
-  }
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [newPasswordVisible, setNewPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+
+  const handleTogglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+  const handleToggleNewPasswordVisibility = () => {
+    setNewPasswordVisible(!newPasswordVisible);
+  };
+  const handleToggleConfirmPasswordVisibility = () => {
+    setConfirmPasswordVisible(!confirmPasswordVisible);
+  };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -133,9 +146,36 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
         {/*Right part*/}
         <Grid item xs={12} md={8}>
           <Card sx={{ p: 3 }}>
-            <RHFTextField name="oldPassword" label="Current Password" id="oldPassword" sx={{mb: 2}}/>
-            <RHFTextField name="newPassword" label="New Password" id="newPassword" sx={{mb: 2}}/>
-            <RHFTextField name="confirmedPassword" label="Confirmed Password" id="confirmedPassword" sx={{mb:1}}/>
+            <RHFTextField type={passwordVisible ? "text" : "password"} name="oldPassword" label="Current Password" id="oldPassword" sx={{mb: 2}}
+                          InputProps={{ endAdornment: (
+            <InputAdornment position="end">
+              {!passwordVisible ? (
+                  <VisibilityOffIcon style={{ fontSize: 16}} onClick={handleTogglePasswordVisibility} />
+              ) : (
+                  <VisibilityIcon style={{ fontSize: 16}} onClick={handleTogglePasswordVisibility} />
+              )}
+            </InputAdornment>
+            )}} />
+            <RHFTextField name="newPassword" type={newPasswordVisible ? "text" : "password"} label="New Password" id="newPassword" sx={{mb: 2}}
+                          InputProps={{ endAdornment: (
+                                <InputAdornment position="end">
+                                  {!newPasswordVisible ? (
+                                      <VisibilityOffIcon style={{ fontSize: 16}} onClick={handleToggleNewPasswordVisibility} />
+                                  ) : (
+                                      <VisibilityIcon style={{ fontSize: 16}} onClick={handleToggleNewPasswordVisibility} />
+                                  )}
+                                </InputAdornment>
+                            )}}/>
+            <RHFTextField name="confirmedPassword" type={confirmPasswordVisible ? "text" : "password"} label="Confirmed Password" id="confirmedPassword" sx={{mb:1}}
+                          InputProps={{ endAdornment: (
+                                <InputAdornment position="end">
+                                  {!confirmPasswordVisible ? (
+                                      <VisibilityOffIcon style={{ fontSize: 16}} onClick={handleToggleConfirmPasswordVisibility} />
+                                  ) : (
+                                      <VisibilityIcon style={{ fontSize: 16}} onClick={handleToggleConfirmPasswordVisibility} />
+                                  )}
+                                </InputAdornment>
+                            )}}/>
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <div>
                 <LoadingButton
