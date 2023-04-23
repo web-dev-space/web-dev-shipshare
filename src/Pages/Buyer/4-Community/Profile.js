@@ -34,6 +34,7 @@ import useDebugWhenChange from "utils/useDebugWhenChange";
 import {findReviewsByUserIdThunk} from "redux/reviews/reviews-thunks";
 import {Helmet} from "react-helmet";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ReviewPage from "Pages/Buyer/4-Community/ProfileComponents/ReviewPage";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -424,23 +425,10 @@ const Profile = () => {
                               </>
                           )}
                           {focusChip === 'Reviews' && 
-                            visibleReviews && visibleReviews.map(post=><div style={{
-                                display: 'flex',
-                                flexDirection:'column',
-                                marginBottom: 16,
-                                width: '90%' }}>
-                                  <ReviewCard 
-                                    title={post.title}
-                                    post={post.post}
-                                    author={visibleProfile?.name}
-                                    date={post.created}
-                                    image={post.image}
-                                    comments={post.comments}
-                                    viewsNumber={post.viewsAmount}
-                                    repostsNumber={post.repostsNumber}
-                                    onPostCardClick={()=>onReviewCardClick(post.asin)}
-                                  />
-                            </div> )}
+                            <ReviewPage
+                              reviews={visibleReviews}
+                              visibleProfile={visibleProfile}
+                              onReviewCardClick={onReviewCardClick}/>}
                         </CardContent>
                       </div>
                   </Container>
