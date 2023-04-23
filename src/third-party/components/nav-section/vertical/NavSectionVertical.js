@@ -5,6 +5,7 @@ import { List, Stack } from '@mui/material';
 import { StyledSubheader } from './styles';
 import NavList from './NavList';
 import { Box } from '@mui/material';
+import { hideScrollbarY } from 'third-party/utils/cssStyles';
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +23,7 @@ export default function NavSectionVertical({ data, sx, ...other }) {
       flexDirection: "column",
       overflowY: "auto",
       maxHeight: "calc(100vh - 200px)",
-      "&::-webkit-scrollbar": { display: "none" },
+      ...hideScrollbarY,
     }}
   >
     <Stack sx={sx} {...other}>
