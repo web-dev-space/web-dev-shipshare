@@ -36,7 +36,7 @@ export default function SearchProducts() {
 
     // ShopProductList params -- products[array]
     // Product attributes: id, name, picture, price
-    const[products, setProducts] = useState([]);
+    const [products, setProducts] = useState([]);
 
     // Search bar
     const [filterName, setFilterName] = useState(query || '');

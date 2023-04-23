@@ -9,7 +9,7 @@ import Image from '../../../../../third-party/components/image';
 export default function ProductListCard({ product }) {
   const id = product.asin;
   const name = product.title;
-  const price = product.price? product.price.name : "Unavailable";
+  const price = product.price? product.price.raw : "Unavailable";
   const picture = product.image;
 
   const navigate = useNavigate();

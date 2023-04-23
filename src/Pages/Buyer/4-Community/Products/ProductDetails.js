@@ -1,4 +1,3 @@
-import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -14,27 +13,22 @@ import {
   Button,
   Avatar,
   Pagination,
-  Divider
+  Divider, Stack, Rating
 } from '@mui/material';
-import { useSettingsContext } from '../../../../third-party/components/settings';
 // sections
 import { ProductDetailsCarousel } from '../../../../third-party/e-commerce/details';
 import Header from "../../../../third-party/layouts/dashboard/header";
 import NavVertical from "../../../../third-party/layouts/dashboard/nav/NavVertical";
 import Main from "../../../../third-party/layouts/dashboard/Main"
 import { getProductDetails } from "../../../../redux/products/products-service";
-import ProductDetailCard from "./components/ProductDetailCard";
 import { getRandomAvatar } from "../../../../utils/getRandomAvatar";
-import { reviews as sampleReviews } from "../../../../sampleData/reviews";
 import { findAllUsersThunk } from "../../../../redux/users/users-thunks";
 import { useDispatch, useSelector } from "react-redux";
-import { findReviewsForProject } from "redux/reviews/reviews-service";
 import { createReviewThunk } from "redux/reviews/reviews-thunks";
 import { findReviewsForProjectThunk } from "redux/reviews/reviews-thunks";
 import React from 'react';
-import { Snackbar } from "@mui/material";
-import { unwrapResult } from '@reduxjs/toolkit';
 import {SkeletonProductDetails} from "../../../../third-party/components/skeleton";
+import Label from "../../../../third-party/components/label";
 
 // ----------------------------------------------------------------------
 const REVIEWS_PER_PAGE = 5;
@@ -92,7 +86,6 @@ const Review = ({ user, date, content }) => {
 };
 
 export default function ProductDetails() {
-  const { themeStretch } = useSettingsContext();
   const dispatch = useDispatch();
 
   const { users } = useSelector((state) => state.users);
@@ -104,21 +97,7 @@ export default function ProductDetails() {
   const [loading, setLoading] = useState(true);
   const [newReview, setNewReview] = useState('');
 
-
   const reviews = useSelector((state) => state.reviews.reviews);
-
-  const errorReviews = useSelector((state) => state.reviews.error);
-
-  const [openSnackbar, setOpenSnackBar] = React.useState(false);
-
-  const handleCloseSnackbar = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpenSnackBar(false);
-  };
-
 
   useEffect(() => {
     dispatch(findReviewsForProjectThunk(productId));
@@ -142,14 +121,8 @@ export default function ProductDetails() {
       productImage: product?.cover,
     };
 
-    try {
-      await dispatch(createReviewThunk(reviewForPost)).then(unwrapResult);
-      setNewReview('');
-    } catch (e) {
-      setOpenSnackBar(true);
-      console.log(errorReviews);
-    }
-
+    await dispatch(createReviewThunk(reviewForPost));
+    setNewReview('');
   }
 
   useEffect(() => {
@@ -222,14 +195,52 @@ export default function ProductDetails() {
                   </Grid>
 
                   <Grid item xs={12} md={6} lg={5}>
-                    <ProductDetailCard
-                      product={product}
-                    />
+                    <Container>
+                      <Stack
+                          spacing={3}
+                          sx={{
+                            p: (theme) => ({
+                              md: theme.spacing(5, 5, 0, 2),
+                            }),
+                          }}
+                      >
+                        <Stack spacing={2}>
+                          {/* 1. Brand */}
+                          <Label variant="soft" color='success' sx={{ mr: 'auto' }}>
+                            Brand: {product.brand}
+                          </Label>
+
+                          {/* 2. Name */}
+                          <Typography variant="h5">{product.name}</Typography>
+
+                          <Divider sx={{ borderStyle: 'dashed', p:1 }} />
+
+                          {/* 3. Rating */}
+                          <Stack direction="row" alignItems="center" spacing={1} sx={{p:1}}>
+                            {/* a. stars */}
+                            <Rating value={product.totalRating} precision={0.1} readOnly />
+                            {/* b. total ratings */}
+                            <Stack direction="row" spacing={0.5}>
+                              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                {product.totalReview}
+                              </Typography>
+                              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                ratings
+                              </Typography>
+                            </Stack>
+                          </Stack>
+
+                          {/* 4. Price */}
+                          <Typography variant="h3">
+                            {product.price}
+                          </Typography>
+                        </Stack>
+                      </Stack>
+                    </Container>
                   </Grid>
                 </Grid>
 
                 {/*descriptions*/}
-
                 <Card sx={{ p: 4 }} style={{ marginTop: 64 }}>
                   <Typography variant="h5"
                     style={{ marginBottom: 16, color: '#80B213' }}
@@ -325,14 +336,6 @@ export default function ProductDetails() {
                 </Card>
               </>
             }
-
-            <Snackbar
-              open={openSnackbar}
-              autoHideDuration={2000}
-              onClose={handleCloseSnackbar}
-              message={errorReviews || "Error occured when posting review."}
-            // action={action}
-            />
           </Container>
         </Main>
       </Box>

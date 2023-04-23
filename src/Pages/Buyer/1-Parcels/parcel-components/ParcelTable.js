@@ -19,7 +19,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Pagination } from '@mui/material';
 import ParcelDetailsScreen from "./ParcelDetailsScreen";
 import {useNavigate} from "react-router-dom";
-import useDebugWhenChange from "utils/useDebugWhenChange";
+import {sortParcel} from "../../../../utils/sortParcel";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
 
 const DEFAULT_ORDER = "asc";
 const DEFAULT_ORDER_BY = "date";
@@ -112,57 +114,6 @@ function MyTableHead(props) {
   );
 }
 
-function descendingComparator(a, b, orderBy) {
-  switch (orderBy) {
-    case "date":
-      return new Date(b.created).getTime() - new Date(a.created).getTime();
-    case "weight":
-      if (!a.isWeighted) {
-        return 1;
-      } else if (!b.isWeighted) {
-        return -1;
-      } else {
-        return b.weight - a.weight;
-      }
-    case "name":
-      return b.name.localeCompare(a.name);
-    case "status":
-      if (a.isShipped) {
-        return 1;
-      } else if (b.isShipped) {
-        return -1;
-      } else if (a.isWeighted) {
-        return 1;
-      } else if (b.isWeighted) {
-        return -1;
-      } else {
-        return 0;
-      }
-    case "trackingNumber":
-      return b.trackingNumber.localeCompare(a.trackingNumber);
-    default:
-      return b[orderBy] - a[orderBy];
-  }
-}
-
-function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
 const theme = createTheme({
   components: {
     MuiPaginationItem: {
@@ -179,21 +130,17 @@ const theme = createTheme({
 });
 
 // Table component
-const ParcelTable = ({ data }) => {
-  const [rows, setRows] = React.useState(data);
+const ParcelTable = ({ data, role, handleUpdateParcel }) => {
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
   const [orderBy, setOrderBy] = React.useState(DEFAULT_ORDER_BY);
   const [page, setPage] = React.useState(1);
   const [visibleRows, setVisibleRows] = React.useState(null);
-  const [rowsPerPage, setRowsPerPage] = React.useState(DEFAULT_ROWS_PER_PAGE);
   const [paddingHeight, setPaddingHeight] = React.useState(0);
-  const navigate = useNavigate();
-  React.useEffect(() => {
-    setRows(data);
-  }, [data]);
-
   const [open, setOpen] = React.useState(false);
   const [selectedParcel, setSelectedParcel] = React.useState({});
+  const [rowBeingEdited, setRowBeingEdited] = React.useState({});
+  const [newWeight, setNewWeight] = React.useState(0);
+  const navigate = useNavigate();
 
   const handleOpen = (parcel) => {
     setSelectedParcel(parcel);
@@ -211,35 +158,35 @@ const ParcelTable = ({ data }) => {
       setOrder(toggledOrder);
       setOrderBy(newOrderBy);
     },
-    [rows, order, orderBy, page, rowsPerPage]
+    [data, order, orderBy, page]
   );
 
   React.useEffect(() => {
     const changePage = () => {
       const newPage = page - 1;
 
-      const sortedRows = stableSort(rows, getComparator(order, orderBy));
+      const sortedRows = sortParcel(data, order, orderBy);
       const updatedRows = sortedRows.slice(
-        newPage * rowsPerPage,
-        newPage * rowsPerPage + rowsPerPage
+        newPage * DEFAULT_ROWS_PER_PAGE,
+        newPage * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE
       );
 
       setVisibleRows(updatedRows);
 
       const numEmptyRows =
         newPage > 0
-          ? Math.max(0, (1 + newPage) * rowsPerPage - rows.length)
+          ? Math.max(0, (1 + newPage) * DEFAULT_ROWS_PER_PAGE - data.length)
           : 0;
 
       const newPaddingHeight = 53 * numEmptyRows;
       setPaddingHeight(newPaddingHeight);
     };
     changePage();
-  }, [rows, page, order, orderBy, rowsPerPage]);
+  }, [data, page, order, orderBy]);
 
-  const PageNavigation = (props) => {
+  const PageNavigation = () => {
     // get the total number of pages
-    const count = Math.ceil(rows.length / rowsPerPage);
+    const count = Math.ceil(data.length / DEFAULT_ROWS_PER_PAGE);
 
     return (
       <ThemeProvider theme={theme}>
@@ -336,7 +283,6 @@ const ParcelTable = ({ data }) => {
                     <TableRow
                       hover
                       tabIndex={-1}
-                      // key={row.trackingNumber}
                       style={{
                         borderTop: "1px solid #EDF2F7",
                         borderBottom: "1px solid #EDF2F7",
@@ -382,7 +328,23 @@ const ParcelTable = ({ data }) => {
                         {row.trackingNumber}
                       </TableCell>
                       <TableCell align="left">
-                        {row.isWeighted ? `${row.weight} kg` : "--"}
+                        {(role === 'merchant' || role === 'admin') && rowBeingEdited._id === row._id ? (
+                            <TextField
+                                id="outlined-basic"
+                                label="Weight"
+                                variant="outlined"
+                                value={newWeight}
+                                InputProps={{
+                                  endAdornment: <InputAdornment position="end">kg</InputAdornment>,
+                                }}
+                                onChange={(e) => setNewWeight(e.target.value)}
+                                sx={{
+                                  width: 100,
+                                }}
+                            />
+                        ) : (
+                            <text>{row.isWeighted ? `${row.weight} kg` : "--"}</text>
+                        )}
                       </TableCell>
                       <TableCell align="left">
                         {row.isShipped ? (
@@ -416,13 +378,47 @@ const ParcelTable = ({ data }) => {
                         >
                           Details
                         </Button>
+                        {
+                          role === 'merchant' || role === 'admin' && (
+                                rowBeingEdited._id === row._id ? (
+                                    <Button
+                                        variant="contained"
+                                        color="error"
+                                        sx={{
+                                          ml: 1,
+                                        }}
+                                        onClick={() => {
+                                          let updatedRow = {...rowBeingEdited};
+                                          updatedRow.weight = newWeight;
+                                          updatedRow.isWeighted = updatedRow.weight !== 0;
+                                          handleUpdateParcel(updatedRow);
+                                          setRowBeingEdited({});
+                                        }}
+                                    >
+                                      Done
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        sx={{
+                                          ml: 1,
+                                        }}
+                                        disabled={rowBeingEdited.trackingNumber && rowBeingEdited.trackingNumber !== row.trackingNumber}
+                                        onClick={() => {
+                                          setRowBeingEdited(row);
+                                          setNewWeight(row.isWeighted ? row.weight : 0);
+                                        }}
+                                    >
+                                      Edit
+                                    </Button>
+                                )
+                            )
+                        }
                       </TableCell>
                     </TableRow>
                   );
                 })
-              // (
-              //   <CustomNoRowsOverlay />
-              // )
             }
             {paddingHeight > 0 && (
               <TableRow
@@ -460,7 +456,6 @@ const ParcelTable = ({ data }) => {
           sx={{
             bgcolor: "background.paper",
             boxShadow: 24,
-            // p: 4,
             padding: "53px 22px",
             width: "400px",
             outline: "none",
