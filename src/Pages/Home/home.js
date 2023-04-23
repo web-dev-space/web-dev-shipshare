@@ -21,9 +21,10 @@ import {findAllShipGroupsThunk} from "../../redux/shipGroups/shipGroups-thunks";
 import {findAllUsersThunk} from "../../redux/users/users-thunks";
 import {getRandomAvatar} from "../../utils/getRandomAvatar";
 import {findAllPostsThunk} from "../../redux/posts/posts-thunks";
-import {_appAuthors, _bookingReview} from "../../@mui-library/_mock/arrays";
+import {_analyticPost, _appAuthors, _bookingReview} from "../../@mui-library/_mock/arrays";
 import AppTopAuthors from "../../@mui-library/app/AppTopAuthors";
 import BookingCustomerReviews from "../../@mui-library/app/BookingCustomerReviews";
+import AnalyticsNewsUpdate from "../../@mui-library/analytics/AnalyticsNewsUpdate";
 
 
 const Home = () => {
@@ -207,7 +208,7 @@ const Home = () => {
                 <Main>
                     <Container maxWidth='xl'>
 
-                      {/*====== part 1 ======*/}
+
                       <Grid container spacing={3}>
                         <Grid item xs={12} md={8}>
                             <AppWelcomeVisitor
@@ -220,9 +221,16 @@ const Home = () => {
                               />
                         </Grid>
 
+
                         <Grid item xs={12} md={4}>
                           <AppTopAuthors title="Top Authors" list={_appAuthors} />
                         </Grid>
+
+
+                        <Grid item xs={12} md={8}>
+                          <AnalyticsNewsUpdate title="News Update" list={_analyticPost} />
+                        </Grid>
+
 
                         <Grid item xs={12} md={4}>
                           <BookingCustomerReviews
@@ -231,19 +239,7 @@ const Home = () => {
                             list={_bookingReview}
                           />
                         </Grid>
-
-
-
                       </Grid>
-
-
-
-
-
-
-
-
-
                     </Container>
                 </Main>
                 {/*------------------------------------*/}
