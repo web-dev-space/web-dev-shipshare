@@ -8,6 +8,7 @@ import { fDateTime } from '../utils/formatTime';
 // components
 import Iconify from '../components/iconify';
 import Carousel, { CarouselArrows } from '../components/carousel';
+import {useNavigate} from "react-router-dom";
 
 // ----------------------------------------------------------------------
 
@@ -78,7 +79,8 @@ ReviewItem.propTypes = {
 };
 
 function ReviewItem({ item }) {
-  const { avatar, name, description, postedAt } = item;
+  const { avatar, name, description, postedAt, postId } = item;
+  const navigate = useNavigate();
 
   return (
     <Stack
@@ -87,6 +89,8 @@ function ReviewItem({ item }) {
         position: 'relative',
         p: (theme) => theme.spacing(3, 3, 2, 3),
       }}
+      style={{ cursor: 'pointer' }}
+      onClick={() => navigate(`/community/discover/post/${postId}`)}
     >
       <Stack direction="row" alignItems="center" spacing={2}>
         <Avatar alt={name} src={avatar} />

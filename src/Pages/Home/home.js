@@ -128,7 +128,7 @@ const Home = () => {
     useEffect(() => {
         if (currentUser && users && allPosts) {
             const userPosts = allPosts.filter((post) => post.userId === currentUser._id);
-            const allComments = userPosts.map((post) => post.comments).flat().sort((c1, c2) => c2.created - c1.created);
+            const allComments = userPosts.map((post) => post.comments.map(comment => ({...comment, postId: post._id}))).flat().sort((c1, c2) => c2.created - c1.created);
             setRecentComments(allComments.slice(0, 5).map((comment) => {
                 const user = users.find((user) => user._id === comment.user);
                 return {
@@ -136,6 +136,7 @@ const Home = () => {
                     name: user?.name,
                     postedAt: new Date(comment.date),
                     description: comment.content,
+                    postId: comment.postId,
                     id: comment._id,
                 };
             }));
