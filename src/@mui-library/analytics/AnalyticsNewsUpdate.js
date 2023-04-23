@@ -7,6 +7,7 @@ import { fToNow } from '../utils/formatTime';
 import Image from '../components/image';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
+import {useNavigate} from "react-router-dom";
 
 // ----------------------------------------------------------------------
 
@@ -17,6 +18,7 @@ AnalyticsNewsUpdate.propTypes = {
 };
 
 export default function AnalyticsNewsUpdate({ title, subheader, list, ...other }) {
+    const navigate = useNavigate();
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
@@ -36,6 +38,7 @@ export default function AnalyticsNewsUpdate({ title, subheader, list, ...other }
           size="small"
           color="inherit"
           endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}
+          onClick={() => navigate('/community/discover')}
         >
           View all
         </Button>
