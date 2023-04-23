@@ -67,7 +67,7 @@ function NewsItem({ news }) {
       />
 
       <Box sx={{ minWidth: 240 }}>
-        <Link color="inherit" variant="subtitle2" noWrap>
+        <Link color="inherit" variant="subtitle2" href={`/community/discover/post/${news.id}`} noWrap>
           {title}
         </Link>
 
