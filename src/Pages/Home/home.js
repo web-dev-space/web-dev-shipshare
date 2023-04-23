@@ -27,7 +27,7 @@ import BookingCustomerReviews from "../../@mui-library/app/BookingCustomerReview
 import AnalyticsNewsUpdate from "../../@mui-library/analytics/AnalyticsNewsUpdate";
 
 const getFollowers = (users, currentUser) => {
-    return users.filter(item => currentUser && (item.following || [])
+    return users?.filter(item => currentUser && (item.following || [])
         .find((id) => id === currentUser._id));
 };
 
@@ -60,7 +60,7 @@ const Home = () => {
             ...shipGroup,
             key: Math.random(),
         };
-    }).filter((shipGroup) => shipGroup?.members?.some((member) => member === currentUser?.email));
+    })?.filter((shipGroup) => shipGroup?.members?.some((member) => member === currentUser?.email));
 
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const [isLargeScreen, setIsLargeScreen] = useState(false);
@@ -129,7 +129,7 @@ const Home = () => {
             const unfollowedBuyers = users.filter((user) =>
                 user._id !== currentUser._id
                 && user.role === 'buyer'
-                && currentUser.following.indexOf(user._id) === -1).slice(0, 3).map((user) => {
+                && currentUser?.following?.indexOf(user._id) === -1).slice(0, 3).map((user) => {
                 return {
                     avatar: user?.avatar || getRandomAvatar(user?.name),
                     name: user.name,

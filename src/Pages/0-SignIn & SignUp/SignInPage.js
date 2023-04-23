@@ -32,13 +32,13 @@ const LoginPage = () => {
         enqueueSnackbar('Welcome to ShipShare!');
         const role = currentUser.role;
         if (role === 'admin') {
-            navigate('/dashboard');
+            navigate('/home');
         }
         else if (role === 'buyer') {
-            navigate('/parcels');
+            navigate('/home');
         }
         else if (role === 'merchant') {
-            navigate('/dashboard');
+            navigate('/home');
         }
     } else if (error && error.code === "ERR_BAD_REQUEST") {
         alert("Invalid email or password");
