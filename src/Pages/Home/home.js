@@ -288,7 +288,7 @@ const Home = () => {
                               img={
                                 <img src={require('../../images/HomeGroup.png')} alt="HomeGroup" style={{padding: 30, width:360, margin:'auto'}}/>
                               }
-                              action={<Button variant="contained">Go Now</Button>}
+                              action={<Button variant="contained" onClick={() => navigate('/parcels')}>Check Now</Button>}
                               />
                         </Grid>
 
@@ -297,19 +297,23 @@ const Home = () => {
                           <AppTopAuthors title="Who To Follow" list={whoToFollow} handleFollow={handleFollow} handleUnfollow={handleUnfollow}/>
                         </Grid>
 
+                          <Grid container spacing={3} xs={12} sx={{ mt: 1, ml: 0.1}}>
+                              <Grid item xs={12} md={8} style={{
+                                  height: '100%',}}>
+                                  <AnalyticsNewsUpdate title="My Latest Posts" list={posts} />
+                              </Grid>
 
-                        <Grid item xs={12} md={8}>
-                          <AnalyticsNewsUpdate title="My Latest Posts" list={posts} />
-                        </Grid>
 
-
-                        <Grid item xs={12} md={4}>
-                          <BookingCustomerReviews
-                            title="Recent Comments"
-                            subheader={`${recentComments.length} Comments`}
-                            list={recentComments}
-                          />
-                        </Grid>
+                              <Grid item xs={12} md={4} style={{
+                                  height: '100%',}}>
+                                  <BookingCustomerReviews
+                                      style={{height: '100%',}}
+                                      title="Recent Comments"
+                                      subheader={`${recentComments.length} Comments`}
+                                      list={recentComments}
+                                  />
+                              </Grid>
+                          </Grid>
                       </Grid>
                     </Container>
                 </Main>
