@@ -15,7 +15,7 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 const RouteTableItem = ({ index, type, time, price, factor, parcelWeight, parcelLength, parcelWidth, parcelHeight }) => {
 	let actualFactor = 1;
 	if(parcelHeight !== "" && parcelLength !== "" && parcelWidth !== "" && parcelWeight !== "") {
-		actualFactor = parseFloat(parcelWeight) > Math.ceil(parseFloat(parcelHeight) * parseFloat(parcelLength) * parseFloat(parcelWidth) / 5000) ? parseFloat(parcelWeight) : Math.ceil(parseFloat(parcelHeight) * parseFloat(parcelHeight) * parseFloat(parcelWeight) / 5000);
+		actualFactor = parseFloat(parcelWeight) > Math.ceil(parseFloat(parcelHeight) * parseFloat(parcelLength) * parseFloat(parcelWidth) / 5000) ? parseFloat(parcelWeight) : Math.ceil(parseFloat(parcelHeight) * parseFloat(parcelLength) * parseFloat(parcelWidth) / 5000);
 	}
 	else if(parcelWeight !== ""){
 		actualFactor = parseFloat(parcelWeight);
@@ -23,7 +23,7 @@ const RouteTableItem = ({ index, type, time, price, factor, parcelWeight, parcel
 	else if(parcelHeight !== "" && parcelLength !== "" && parcelWidth !== ""){
 		actualFactor = Math.ceil(parseFloat(parcelHeight) * parseFloat(parcelLength) * parseFloat(parcelWidth) / 5000);
 	}
-// console.log("factor is " +factor);
+console.log("actualfactor is " + actualFactor);
 	return (
 		<Box sx={{ display: 'flex', alignItems: 'center', border: '1px solid #E2E8F0', borderRadius: '8px', p: 2 , marginBottom:2}}>
 			{/* left photo */}
