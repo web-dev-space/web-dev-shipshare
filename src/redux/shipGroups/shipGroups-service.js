@@ -33,10 +33,13 @@ export const deleteShipGroup = async (id) => {
     return response.data;
 }
 
-export const updateShipGroup = async (shipGroup) => {
+export const updateShipGroup = async (shipGroup, shipGroupBeforeUpdate) => {
     const id = shipGroup._id;
-    console.log(id)
     const response = await axios.put(`${SHIPGROUPS_API}/${id}`, shipGroup);
+
+    if (shipGroup.trackingNumber !== shipGroupBeforeUpdate.trackingNumber) {
+        await postNewTracking({trackingNumber: shipGroup.trackingNumber, courier: 'dhl'});
+    }
     return response.data;
 }
 

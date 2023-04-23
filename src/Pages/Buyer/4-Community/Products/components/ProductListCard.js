@@ -17,6 +17,10 @@ export default function ProductListCard({ product }) {
   return (
     <Card
       onClick={() => navigate(`/community/products/${id}`)}
+      sx={{
+          display: "flex",
+          flexDirection: "column",
+      }}
     >
         {/* image */}
         <Box sx={{ position: 'relative'}} style={{padding: "32px 32px 0px 32px"}}>
@@ -37,15 +41,17 @@ export default function ProductListCard({ product }) {
             >
               <Typography variant="subtitle2">{name}</Typography>
             </Stack>
+        </Stack>
 
-            {/* website and price */}
-            <Stack direction="row" alignItems="center" justifyContent="space-between">
-                <Stack direction="row">
-                    <Typography variant="body" color='#EEBD5E'>Amazon</Typography>
-                </Stack>
-                <Stack direction="row">
-                    <Typography variant='subtitle1' color='#80B213'>{price}</Typography>
-                </Stack>
+
+        {/* website and price */}
+        <Stack direction="row" alignItems="center" justifyContent="space-between"
+         sx={{ pl: 3, pr: 3, pb: 3, mt: 'auto'}}>
+            <Stack direction="row">
+                <Typography variant="body" color='#EEBD5E'>Amazon</Typography>
+            </Stack>
+            <Stack direction="row">
+                <Typography variant='subtitle1' color='#80B213'>{price}</Typography>
             </Stack>
         </Stack>
     </Card>

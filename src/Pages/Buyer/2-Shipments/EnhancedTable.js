@@ -431,7 +431,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                       }}
                     >
                       <TableCell component="th" scope="row" padding="none">
-                        {row?.trackingNumber === undefined ? "--" : row?.trackingNumber}
+                        {row?.trackingNumber === undefined || row?.trackingNumber === "" ? "--" : row?.trackingNumber}
                       </TableCell>
                       <TableCell align="left">{row.shipRoute}</TableCell>
                       <TableCell align="left">{row?.shipEndDate === undefined ? "--" : convertDateToString(row?.shipEndDate)}</TableCell>
