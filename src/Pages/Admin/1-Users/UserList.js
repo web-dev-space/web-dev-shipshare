@@ -8,7 +8,7 @@ import {
     Typography,
     Stack,
     IconButton,
-    MenuItem, Avatar, Divider, TextField
+    MenuItem, Avatar, TextField
 } from "@mui/material";
 import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical";
 import Main from "../../../third-party/layouts/dashboard/Main";
@@ -36,7 +36,6 @@ import {
 } from "../../../redux/users/users-thunks";
 import {useDispatch, useSelector} from "react-redux";
 import DeleteDialog from "./DeleteDialog";
-import {use} from "i18next";
 import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 import {Helmet} from "react-helmet";
 
@@ -54,9 +53,6 @@ const TABLE_HEAD = [
 ];
 
 function isBanned(user, admin) {
-    if (user.email === "merchant4@test.com") {
-        console.log(admin);
-    }
     return admin.blockList.find((blocker) => blocker === user._id);
 }
 
@@ -64,7 +60,6 @@ function UserRow({row, onEdit, onDelete, isEdit, setEditRow, dispatch, onActivat
     const [openConfirm, setOpenConfirm] = useState(false);
     const [openPopover, setOpenPopover] = useState(null);
     const [editName, setEditName] = useState(row.name);
-    const [editEmail, setEditEmail] = useState(row.email);
     const [editRole, setEditRole] = useState(row.role);
     const [editStatus, setEditStatus] = useState(row.status);
 
@@ -88,7 +83,6 @@ function UserRow({row, onEdit, onDelete, isEdit, setEditRow, dispatch, onActivat
         const newUser = {
             ...row,
             name: editName,
-            email: editEmail,
             role: editRole
         };
         dispatch(updateUserThunk(newUser));
@@ -129,17 +123,7 @@ function UserRow({row, onEdit, onDelete, isEdit, setEditRow, dispatch, onActivat
                     </Stack>
                 </TableCell>
 
-                <TableCell align="left">{
-                    isEdit ? <TextField
-                        fullWidth
-                        label="Email"
-                        name="email"
-                        size="small"
-                        type="text"
-                        value={editEmail}
-                        variant="outlined"
-                        onChange={(event) => setEditEmail(event.target.value)} /> :
-                        row.email}
+                <TableCell align="left">{row.email}
                 </TableCell>
 
                 <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
@@ -147,9 +131,8 @@ function UserRow({row, onEdit, onDelete, isEdit, setEditRow, dispatch, onActivat
                         isEdit && row.role !== 'admin' ? <TextField
                             fullWidth
                             select
-                            name="email"
                             size="small"
-                            label="Status"
+                            label="Role"
                             value={editRole}
                             onChange={(event) => setEditRole(event.target.value)}
                             SelectProps={{
@@ -194,7 +177,6 @@ function UserRow({row, onEdit, onDelete, isEdit, setEditRow, dispatch, onActivat
                     isEdit && row.role !== 'admin' ? <TextField
                         fullWidth
                         select
-                        name="email"
                         size="small"
                         label="Status"
                         value={editStatus}
@@ -295,7 +277,6 @@ function UserRow({row, onEdit, onDelete, isEdit, setEditRow, dispatch, onActivat
 export default function UserList() {
 
     const {
-        dense,
         page,
         order,
         orderBy,
@@ -308,15 +289,11 @@ export default function UserList() {
 
     // fetch table data
     const dispatch = useDispatch();
-    const { users, loading } = useSelector((state) => state.users);
+    const { users } = useSelector((state) => state.users);
     const { currentUser } = useSelector((state) => state.auth);
     useEffect(() => {
         dispatch(findAllUsersThunk());
     }, []);
-
-    useEffect(() => {
-        setIsNotFound(!users || users.length === 0);
-    }, [users]);
 
     // nav bar
     const [open, setOpen] = useState(false);
@@ -351,22 +328,38 @@ export default function UserList() {
     };
 
     useEffect(() => {
-        const userFiltered = applyFilter({
-            inputData: (users || []).map(user => ({
-                ...user,
-                status: isBanned(user, currentUser || {}) ? 'banned' : 'active',
-            })),
-            comparator: getComparator(order, orderBy),
-            filterName,
-            filterRole,
-            filterStatus,
+        const usersWithIndex = (users || []).map(user => ({
+            ...user,
+            status: isBanned(user, currentUser || {}) ? 'banned' : 'active',
+        }))
+            .map((el, index) => [el, index]);
+        const comparator = getComparator(order, orderBy);
+
+        usersWithIndex.sort((a, b) => {
+            const order = comparator(a[0], b[0]);
+            if (order !== 0) return order;
+            return a[1] - b[1];
         });
-        setUserFiltered(userFiltered);
+
+        const filteredUsers = usersWithIndex.map((el) => el[0]).filter((user) => {
+            if (filterName) {
+                return user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1;
+            }
+            return true;
+        }).filter((user) => {
+            if (filterStatus !== 'all') {
+                return user.status === filterStatus;
+            }
+            return true;
+        }).filter((user) => {
+            if (filterRole !== 'all') {
+                return user.role === filterRole;
+            }
+            return true;
+        });
+        setUserFiltered(filteredUsers);
+        setIsNotFound(!filteredUsers || filteredUsers.length === 0);
     }, [filterName, filterRole, filterStatus, order, orderBy, users, currentUser]);
-
-    // Table row
-    const [isEdit, setIsEdit] = useState(false);
-
 
     const handleClickDelete = (row) => {
         dispatch(deleteUserThunk(row._id));
@@ -374,9 +367,7 @@ export default function UserList() {
 
     // c. edit
     const handleClickEdit = (row) => {
-        setIsEdit(true);
         setEditRow(row);
-        console.log('edit');
     };
 
     const handleActivateUser = (user) => {
@@ -397,9 +388,6 @@ export default function UserList() {
             ],
         }));
     };
-
-
-    const denseHeight = dense ? 52 : 72;
 
     return (
         <>
@@ -541,7 +529,7 @@ export default function UserList() {
                                             />)}
 
                                         <TableEmptyRows
-                                            height={denseHeight}
+                                            height={72}
                                             emptyRows={emptyRows(page, rowsPerPage, userFiltered.length)}
                                         />
 
@@ -564,31 +552,3 @@ export default function UserList() {
         </>
     );
 };
-
-function applyFilter({ inputData, comparator, filterName, filterStatus, filterRole }) {
-    const stabilizedThis = inputData.map((el, index) => [el, index]);
-
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) return order;
-        return a[1] - b[1];
-    });
-
-    inputData = stabilizedThis.map((el) => el[0]);
-
-    if (filterName) {
-        inputData = inputData.filter(
-            (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
-        );
-    }
-
-    if (filterStatus !== 'all') {
-        inputData = inputData.filter((user) => user.status === filterStatus);
-    }
-
-    if (filterRole !== 'all') {
-        inputData = inputData.filter((user) => user.role === filterRole);
-    }
-
-    return inputData;
-}
