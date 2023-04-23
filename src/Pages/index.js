@@ -17,6 +17,7 @@ import GroupDetailMerchant from "Pages/Merchant/3-Groups/GroupDetail-Merchant";
 import Page404 from "@mui-library/ErrorPages/Page404";
 import Page403 from "@mui-library/ErrorPages/Page403";
 import Home from "./Home/home";
+import VisitorHome from "./Home/VisitorHome";
 
 
 export function MainIndex() {
