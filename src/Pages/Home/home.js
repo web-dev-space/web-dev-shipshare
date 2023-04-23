@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from "react";
-import Header from "../../third-party/layouts/dashboard/header"
-import NavVertical from "../../third-party/layouts/dashboard/nav/NavVertical"
-import Main from "../../third-party/layouts/dashboard/Main"
+import Header from "../../@mui-library/layouts/dashboard/header"
+import NavVertical from "../../@mui-library/layouts/dashboard/nav/NavVertical"
+import Main from "../../@mui-library/layouts/dashboard/Main"
 import {
   Container,
   Typography,
@@ -13,7 +13,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {useNavigate} from "react-router-dom";
 import CardWithAvatar from "./CardWithAvatar";
 import PostCard from "./PostCard";
-import AppWelcome from "../../third-party/app/AppWelcome";
+import AppWelcome from "../../@mui-library/app/AppWelcome";
 import CarouselRoute from "./CarouselRoute";
 import PostCardSmallLayout from "./PostCardSmallLayout";
 import {findAllParcelsThunk} from "../../redux/parcels/parcels-thunks";

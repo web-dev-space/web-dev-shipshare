@@ -9,7 +9,7 @@ import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import * as Yup from "yup";
 import {Controller, useForm, useFormContext} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import FormProvider, {RHFAutocomplete, RHFTextField} from "../../../third-party/components/hook-form";
+import FormProvider, {RHFAutocomplete, RHFTextField} from "../../../@mui-library/components/hook-form";
 import {useEffect, useState} from "react";
 import dayjs from "dayjs";
 import {useSelector} from "react-redux";

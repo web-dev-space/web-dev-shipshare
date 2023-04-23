@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import Header from "../../../../third-party/layouts/dashboard/header"
-import NavVertical from "../../../../third-party/layouts/dashboard/nav/NavVertical"
-import Main from "../../../../third-party/layouts/dashboard/Main"
+import Header from "../../../../@mui-library/layouts/dashboard/header"
+import NavVertical from "../../../../@mui-library/layouts/dashboard/nav/NavVertical"
+import Main from "../../../../@mui-library/layouts/dashboard/Main"
 import { Container, Typography, Box } from '@mui/material';
 import InputCard from "../../../../components/InputCard"
 import Button from "@mui/material/Button";

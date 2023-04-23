@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
-import Header from "../../../third-party/layouts/dashboard/header"
-import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
-import Main from "../../../third-party/layouts/dashboard/Main"
+import Header from "../../../@mui-library/layouts/dashboard/header"
+import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical"
+import Main from "../../../@mui-library/layouts/dashboard/Main"
 import {
     Container,
     Typography,
@@ -22,8 +22,8 @@ import './parcel-main.css';
 import * as Yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
-import FormProvider, {RHFSelect, RHFTextField, RHFUploadAvatar} from "../../../third-party/components/hook-form";
-import {fData} from "../../../third-party/utils/formatNumber";
+import FormProvider, {RHFSelect, RHFTextField, RHFUploadAvatar} from "../../../@mui-library/components/hook-form";
+import {fData} from "../../../@mui-library/utils/formatNumber";
 import Stack from "@mui/material/Stack";
 import {uploadImage} from "api/imageUpload";
 import {Helmet} from "react-helmet";

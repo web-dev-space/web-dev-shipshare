@@ -1,4 +1,4 @@
-import Header from "../../../third-party/layouts/dashboard/header";
+import Header from "../../../@mui-library/layouts/dashboard/header";
 import {
     Box,
     Card,
@@ -10,8 +10,8 @@ import {
     IconButton,
     MenuItem, Avatar, TextField
 } from "@mui/material";
-import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical";
-import Main from "../../../third-party/layouts/dashboard/Main";
+import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical";
+import Main from "../../../@mui-library/layouts/dashboard/Main";
 import SearchBar from "../../../components/searchBar";
 import {useEffect, useState} from "react";
 import TableContainer from "@mui/material/TableContainer";
@@ -23,11 +23,11 @@ import {
     TableNoData,
     TablePaginationCustom,
     useTable
-} from "../../../third-party/components/table";
+} from "../../../@mui-library/components/table";
 import TableBody from "@mui/material/TableBody";
-import Iconify from "../../../third-party/components/iconify";
-import MenuPopover from "../../../third-party/components/menu-popover";
-import Label from "../../../third-party/components/label";
+import Iconify from "../../../@mui-library/components/iconify";
+import MenuPopover from "../../../@mui-library/components/menu-popover";
+import Label from "../../../@mui-library/components/label";
 import {
     deleteUserThunk,
     findAllUsersThunk,

@@ -3,7 +3,7 @@ import { useRef } from 'react';
 // @mui
 import { alpha, useTheme } from '@mui/material/styles';
 import { Box, Paper, Link, CardContent } from '@mui/material';
-import Carousel, {CarouselArrows} from "../../third-party/components/carousel";
+import Carousel, {CarouselArrows} from "../../@mui-library/components/carousel";
 import RouteCard from "./RouteCard";
 
 

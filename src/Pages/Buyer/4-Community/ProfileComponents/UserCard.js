@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { alpha, styled } from '@mui/material/styles';
 import {Box, Card, Avatar, Divider, Typography, Button} from '@mui/material';
 // utils
-import { fShortenNumber } from '../../../../third-party/utils/formatNumber';
+import { fShortenNumber } from '../../../../@mui-library/utils/formatNumber';
 // components
-import Image from '../../../../third-party/components/image';
-import SvgColor from '../../../../third-party/components/svg-color';
+import Image from '../../../../@mui-library/components/image';
+import SvgColor from '../../../../@mui-library/components/svg-color';
 import {getRandomAvatar} from "../../../../utils/getRandomAvatar";
 import {useNavigate} from "react-router-dom";
 import {findAllUsersThunk, updateCurrentUserThunk} from "../../../../redux/users/users-thunks";

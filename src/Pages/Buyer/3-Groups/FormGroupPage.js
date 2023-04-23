@@ -5,15 +5,15 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Header from "../../../third-party/layouts/dashboard/header";
+import Header from "../../../@mui-library/layouts/dashboard/header";
 import {useEffect, useState} from "react";
-import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical";
-import Main from "../../../third-party/layouts/dashboard/Main"
+import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical";
+import Main from "../../../@mui-library/layouts/dashboard/Main"
 import {Card, CardContent, Container, Grid, Stack} from "@mui/material";
 import FormGroupStepOne from "./FormGroup-StepOne";
 import FormGroupStepTwo from "./FormGroup-StepTwo";
 import FormGroupStepThree from "./FormGroup-StepThree";
-import FormProvider, {RHFTextField} from "../../../third-party/components/hook-form";
+import FormProvider, {RHFTextField} from "../../../@mui-library/components/hook-form";
 import * as Yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";

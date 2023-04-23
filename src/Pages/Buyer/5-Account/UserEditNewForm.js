@@ -9,14 +9,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { Box, Card, Grid, Stack, Switch, Typography, FormControlLabel } from '@mui/material';
 // utils
-import { fData } from '../../../third-party/utils/formatNumber';
+import { fData } from '../../../@mui-library/utils/formatNumber';
 // components
-import Label from '../../../third-party/components/label';
+import Label from '../../../@mui-library/components/label';
 import { useSnackbar } from 'notistack';
 import FormProvider, {
 	RHFTextField,
 	RHFUploadAvatar,
-} from '../../../third-party/components/hook-form';
+} from '../../../@mui-library/components/hook-form';
 import {uploadImage, urlToFile} from "api/imageUpload.js";
 import {updateCurrentUserThunk, updateUserThunk} from "../../../redux/users/users-thunks";
 import {useDispatch} from "react-redux";

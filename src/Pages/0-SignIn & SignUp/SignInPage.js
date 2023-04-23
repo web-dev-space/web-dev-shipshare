@@ -8,7 +8,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useSnackbar} from "notistack";
 import {Link as RouterLink, useNavigate} from "react-router-dom";
-import FormProvider, {RHFTextField} from "../../third-party/components/hook-form";
+import FormProvider, {RHFTextField} from "../../@mui-library/components/hook-form";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import {useEffect, useState} from "react";

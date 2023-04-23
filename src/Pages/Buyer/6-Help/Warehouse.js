@@ -1,12 +1,12 @@
 import {useEffect, useMemo, useState} from "react";
-import Header from "../../../third-party/layouts/dashboard/header"
-import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
-import Main from "../../../third-party/layouts/dashboard/Main"
+import Header from "../../../@mui-library/layouts/dashboard/header"
+import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical"
+import Main from "../../../@mui-library/layouts/dashboard/Main"
 import { Container, Typography, Box, Card, Stack } from '@mui/material';
 // clipboard
 import {useSnackbar} from "notistack";
-import useDoubleClick from '../../../third-party/hooks/useDoubleClick';
-import useCopyToClipboard from "../../../third-party/hooks/useCopyToClipboard";
+import useDoubleClick from '../../../@mui-library/hooks/useDoubleClick';
+import useCopyToClipboard from "../../../@mui-library/hooks/useCopyToClipboard";
 import {Helmet} from "react-helmet";
 import {findWarehouseByCompany} from "../../../redux/warehouse/warehouse-service";
 

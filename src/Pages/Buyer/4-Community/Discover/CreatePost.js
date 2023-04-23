@@ -1,12 +1,12 @@
 import {useCallback, useState} from "react";
-import Header from "../../../../third-party/layouts/dashboard/header"
-import NavVertical from "../../../../third-party/layouts/dashboard/nav/NavVertical"
-import Main from "../../../../third-party/layouts/dashboard/Main"
+import Header from "../../../../@mui-library/layouts/dashboard/header"
+import NavVertical from "../../../../@mui-library/layouts/dashboard/nav/NavVertical"
+import Main from "../../../../@mui-library/layouts/dashboard/Main"
 import {Container, Typography, Box} from '@mui/material';
 import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
-import {RHFUpload} from "../../../../third-party/components/hook-form";
-import FormProvider, { RHFTextField} from "../../../../third-party/components/hook-form";
+import {RHFUpload} from "../../../../@mui-library/components/hook-form";
+import FormProvider, { RHFTextField} from "../../../../@mui-library/components/hook-form";
 import {useForm} from "react-hook-form";
 import Button from "@mui/material/Button";
 import * as Yup from 'yup';
