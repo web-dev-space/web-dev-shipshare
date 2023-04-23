@@ -39,7 +39,6 @@ const CreatePost = () => {
         content: '',
         cover: null,
     };
-    const [newPost, setNewPost] = useState(defaultValues);
 
     // validation schema
     const NewBlogSchema = Yup.object().shape({
@@ -63,11 +62,6 @@ const CreatePost = () => {
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
     const onSubmit = async (data) => {
-        // try {
-        //     // await new Promise((resolve) => setTimeout(resolve, 500));
-        //     enqueueSnackbar('Post success!');
-        //     navigate("../");
-        //     console.log('DATA', data);
         try {
             const file = await urlToFile(data.cover.preview);
             const imageRemoteUrl = await uploadImage(file);
@@ -112,18 +106,7 @@ const CreatePost = () => {
     const handleRemoveFile = () => {
         setValue('cover', null);
     };
-
-    let [title, setTitle] = useState("");
-    let [content, setContent] = useState("");
     const dispatch = useDispatch();
-    const postHandler = async (title, content) => {
-        try {
-            const newPost = { title, content };
-            await dispatch(createPostThunk(newPost));
-        } catch (error) {
-            console.error(error);
-        }
-    };
 
     return (
         <>
