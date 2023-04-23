@@ -60,9 +60,9 @@ const ItemCard = ({ items, leftCornerIconColor, title, isMerchant }) => {
                 <div style={styles.buyerId}>
                   BuyerID: {email}
                 </div>
-                <div style={styles.buyerId}>
-                  Total: {totalWeight} kg
-                </div>
+                {totalWeight !== undefined && totalWeight !== null && <div style={styles.buyerId}>
+                  Total: {totalWeight?.toFixed(1)} kg
+                </div>}
               </div>
               {parcels.map((parcel, index) =>
                 <ParcelItem item={parcel} index={index} />

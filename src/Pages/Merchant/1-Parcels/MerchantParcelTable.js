@@ -41,7 +41,7 @@ const headCells = [
     },
     {
         id: "weight",
-        numeric: false,
+        numeric: true,
         disablePadding: false,
         label: "Weight",
         sortable: true,
@@ -340,7 +340,7 @@ const MerchantParcelTable = ({ data, handleUpdateParcel }) => {
                                         </TableCell>
                                         <TableCell align="left">{new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(row.created))}</TableCell>
                                         <TableCell component="th" scope="row" padding="none">{row.trackingNumber}</TableCell>
-                                        <TableCell align="left">
+                                        <TableCell align="right">
                                             {rowBeingEdited._id === row._id ? (
                                                 <TextField
                                                     id="outlined-basic"
