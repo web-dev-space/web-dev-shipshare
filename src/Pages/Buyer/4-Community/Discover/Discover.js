@@ -102,7 +102,7 @@ const Discover = () => {
 
     const handleSearch = () => {
         setFilteredPosts(
-            posts.filter((val) => {
+            allPosts.filter((val) => {
                 if (searchTerm === "") {
                     return val;
                 } else if (val.title.match(searchTerm)) {
