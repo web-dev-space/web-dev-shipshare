@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
-// @mui
 import { List, Stack } from '@mui/material';
-//
 import { StyledSubheader } from './styles';
 import NavList from './NavList';
 import { Box } from '@mui/material';
-import { hideScrollbarY } from 'third-party/utils/cssStyles';
+import { hideScrollbarY } from '../../../utils/cssStyles';
 
 // ----------------------------------------------------------------------
 

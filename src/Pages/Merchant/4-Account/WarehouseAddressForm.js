@@ -9,7 +9,7 @@ import { Box, Card, Grid, Stack } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import FormProvider, {
     RHFTextField,
-} from '../../../third-party/components/hook-form';
+} from '../../../@mui-library/components/hook-form';
 import {useDispatch} from "react-redux";
 import {updateWarehouseThunk} from "../../../redux/warehouse/warehouse-thunks";
 

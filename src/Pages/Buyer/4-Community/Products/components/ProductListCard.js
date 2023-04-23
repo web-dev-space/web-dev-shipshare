@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Card, Typography, Stack } from '@mui/material';
 // components
-import Image from '../../../../../third-party/components/image';
+import Image from '../../../../../@mui-library/components/image';
 
 // ----------------------------------------------------------------------
 

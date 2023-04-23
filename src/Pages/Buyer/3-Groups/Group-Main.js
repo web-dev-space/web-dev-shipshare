@@ -1,7 +1,7 @@
-import React, {useEffect, useRef, useState} from "react";
-import Header from "../../../third-party/layouts/dashboard/header"
-import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
-import Main from "../../../third-party/layouts/dashboard/Main"
+import React, {useEffect, useState} from "react";
+import Header from "../../../@mui-library/layouts/dashboard/header"
+import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical"
+import Main from "../../../@mui-library/layouts/dashboard/Main"
 import {
   Container,
   Typography,
@@ -20,7 +20,7 @@ import {
   DialogContent,
   DialogContentText, FormControl, InputLabel, Select, MenuItem, DialogActions
 } from '@mui/material';
-import Iconify from "../../../third-party/components/iconify";
+import Iconify from "../../../@mui-library/components/iconify";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {Pagination} from "@mui/lab";
 import TuneIcon from '@mui/icons-material/Tune';

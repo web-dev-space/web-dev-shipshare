@@ -1,25 +1,16 @@
 import { Box, Container, Grid } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useState } from "react";
-import Main from "third-party/layouts/dashboard/Main";
-import Header from "third-party/layouts/dashboard/header";
-import NavVertical from "third-party/layouts/dashboard/nav/NavVertical";
-// _mock_
-// components
-import { useSettingsContext } from 'third-party/components/settings';
-// sections
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
+import { useSettingsContext } from '@mui-library/components/settings';
 import DashboardCommonPart from 'components/DashboardCommonPart';
 import { Helmet } from "react-helmet";
-import { AnalyticsWidgetSummary } from 'third-party/analytics';
-import {
-  EcommerceYearlySales
-} from 'third-party/e-commerce';
-import { FileGeneralDataActivity } from 'third-party/file';
-
+import { AnalyticsWidgetSummary } from '@mui-library/analytics';
+import {EcommerceYearlySales} from '@mui-library/e-commerce';
+import { FileGeneralDataActivity } from '@mui-library/file';
 import { useEffect } from "react";
-// _mock_
-// components
-// sections
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStatsAdminThunk } from 'redux/dashboard/dashboard-thunks';

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Header from "../../../third-party/layouts/dashboard/header"
-import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical"
-import Main from "../../../third-party/layouts/dashboard/Main"
+import Header from "../../../@mui-library/layouts/dashboard/header"
+import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical"
+import Main from "../../../@mui-library/layouts/dashboard/Main"
 import { Container, Typography, Box, Button } from '@mui/material';
 import {Helmet} from "react-helmet";
 import {useNavigate} from "react-router-dom";

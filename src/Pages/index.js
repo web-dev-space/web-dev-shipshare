@@ -14,8 +14,8 @@ import ShipmentsMainMerchant from "Pages/Merchant/2-Shipments/Shipment-MainMerch
 import GroupMainMerchant from "Pages/Merchant/3-Groups/GroupMain-Merchant";
 import ChangeWarehouse from "Pages/Merchant/4-Account/ChangeWarehouseAddress";
 import GroupDetailMerchant from "Pages/Merchant/3-Groups/GroupDetail-Merchant";
-import Page404 from "third-party/ErrorPages/Page404";
-import Page403 from "third-party/ErrorPages/Page403";
+import Page404 from "@mui-library/ErrorPages/Page404";
+import Page403 from "@mui-library/ErrorPages/Page403";
 import Home from "./Home/home";
 
 

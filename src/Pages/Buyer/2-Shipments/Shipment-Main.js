@@ -1,9 +1,9 @@
 import { Box, Container, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Main from "../../../third-party/layouts/dashboard/Main.js";
-import Header from "../../../third-party/layouts/dashboard/header";
-import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical.js";
+import Main from "../../../@mui-library/layouts/dashboard/Main.js";
+import Header from "../../../@mui-library/layouts/dashboard/header";
+import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical.js";
 import EnhancedTable from "./EnhancedTable.js";
 import { updateShipGroupThunk, findAllShipGroupsThunk } from "redux/shipGroups/shipGroups-thunks.js";
 import { Helmet } from "react-helmet";

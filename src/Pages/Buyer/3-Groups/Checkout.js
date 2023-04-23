@@ -5,10 +5,10 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Header from "../../../third-party/layouts/dashboard/header";
+import Header from "../../../@mui-library/layouts/dashboard/header";
 import {useEffect, useState} from "react";
-import NavVertical from "../../../third-party/layouts/dashboard/nav/NavVertical";
-import Main from "../../../third-party/layouts/dashboard/Main"
+import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical";
+import Main from "../../../@mui-library/layouts/dashboard/Main"
 import {Card, CardContent, Container, Grid} from "@mui/material";
 import CheckoutStepTwo from "./Checkout-StepTwo";
 import CheckoutStepOne from "./Checkout-StepOne";
