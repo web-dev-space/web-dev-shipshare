@@ -27,7 +27,7 @@ export default function Router() {
       ],
     },
     {
-      path: '/dashboard',
+      path: '/home',
       element: (
           <DashboardLayout />
       ),

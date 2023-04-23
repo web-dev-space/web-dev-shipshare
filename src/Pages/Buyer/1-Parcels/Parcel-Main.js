@@ -195,7 +195,7 @@ const ParcelMainPage = () => {
                             textAlign: "center",
                             zIndex: "1000"
                         }}>
-                            Unfortunately, the parcel feature is currently unavailable while you are in visitor mode. Please <Link to="/login" style={{ color: '#80B213' }}>log in</Link> or <Link to="/signup" style={{ color: '#80B213' }}>sign up</Link> to unlock all the features of our website.
+                            Unfortunately, the parcel feature is currently unavailable while you are in visitor mode. Please <Link to="/login" style={{ color: '#80B213' }}>log in</Link> or <Link to="/register" style={{ color: '#80B213' }}>sign up</Link> to unlock all the features of our website.
                         </Typography>
                     }
 

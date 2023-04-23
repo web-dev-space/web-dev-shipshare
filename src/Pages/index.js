@@ -18,6 +18,9 @@ import Page404 from "@mui-library/ErrorPages/Page404";
 import Page403 from "@mui-library/ErrorPages/Page403";
 import Home from "./Home/home";
 import VisitorHome from "./Home/VisitorHome";
+import Profile from "Pages/Buyer/4-Community/Profile";
+import SearchProducts from "Pages/Buyer/4-Community/Products/SearchProducts";
+import ProductDetails from "Pages/Buyer/4-Community/Products/ProductDetails";
 
 
 export function MainIndex() {
@@ -31,7 +34,11 @@ export function MainIndex() {
                 <Route path="/shipments" element={<ShipmentMainPage />} />
                 <Route path="/groups/*" element={<Group />} />
                 <Route path="/community/*" element={<Community />} />
+                <Route path="/profile" element={currentUser && currentUser.role === 'buyer' ? <Profile/> : <Page403 />}/>
+                <Route path="/profile/:userId" element={<Profile/>}/>
                 <Route path="/help/*" element={<Help />} />
+                <Route path="/search" element={<SearchProducts/>}/>
+                <Route path="/details/:productId" element={<ProductDetails/>}/>
 
                 <Route path="/userlist" element={<Page403 />} />
                 <Route path="/dashboard" element={<Page403 />} />
@@ -51,6 +58,10 @@ export function MainIndex() {
                 <Route path="/community/*" element={<Community />} />
                 <Route path="/account/*" element={<Account />} />
                 <Route path="/help/*" element={<Help />} />
+                <Route path="/profile" element={currentUser && currentUser.role === 'buyer' ? <Profile/> : <Page403 />}/>
+                <Route path="/profile/:userId" element={<Profile/>}/>
+                <Route path="/search" element={<SearchProducts/>}/>
+                <Route path="/details/:productId" element={<ProductDetails/>}/>
 
                 <Route path="/userlist" element={<Page403 />} />
                 <Route path="/dashboard" element={<Page403 />} />
@@ -72,6 +83,10 @@ export function MainIndex() {
                 <Route path="/account/*" element={<Account />} />
                 <Route path="/account/change-warehouse-address" element={<ChangeWarehouse />} />
                 <Route path="/help/*" element={<Help />} />
+                <Route path="/profile" element={currentUser && currentUser.role === 'buyer' ? <Profile/> : <Page403 />}/>
+                <Route path="/profile/:userId" element={<Profile/>}/>
+                <Route path="/search" element={<SearchProducts/>}/>
+                <Route path="/details/:productId" element={<ProductDetails/>}/>
 
                 <Route path="/userlist" element={<Page403 />} />
                 <Route path="/*" element={<Page404 />} />
@@ -89,6 +104,11 @@ export function MainIndex() {
                 <Route path="/groups/*" element={<GroupMainMerchant />} />
                 <Route path="/groups/group-details" element={<GroupDetailMerchant />} />
                 <Route path="/community/*" element={<Community />} />
+                <Route path="/profile" element={currentUser && currentUser.role === 'buyer' ? <Profile/> : <Page403 />}/>
+                <Route path="/profile/:userId" element={<Profile/>}/>
+                <Route path="/search" element={<SearchProducts/>}/>
+                <Route path="/details/:productId" element={<ProductDetails/>}/>
+                
                 <Route path="/account/*" element={<Account />} />
                 <Route path="/account/change-warehouse-address" element={<ChangeWarehouse/>} />
                 <Route path="/help/*" element={<Help />} />

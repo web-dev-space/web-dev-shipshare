@@ -28,7 +28,7 @@ export default function Admin() {
             <Route path="/help/*" element={<Help />} />
 
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/register" element={<SignUpPage />} />
         </Routes>
     );
 }
