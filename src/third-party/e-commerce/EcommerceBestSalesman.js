@@ -39,11 +39,11 @@ export default function EcommerceBestSalesman({
 }) {
   return (
     <Card {...other}>
-      <CardHeader title={title} subheader={subheader} sx={{ mb: 3 }} />
+      <CardHeader title={title} subheader={subheader} sx={{ mb: 3,  }} />
 
-      <TableContainer sx={{ overflow: 'unset', maxHeight:460}}>
-        <Scrollbar>
-          <Table sx={{ minWidth: 500 }}>
+      <TableContainer sx={{ overflow: 'unset', maxHeight: 460 }}>
+        {/* <Scrollbar> */}
+          <Table sx={{}}>
             <TableHeadCustom headLabel={tableLabels} />
 
             <TableBody>
@@ -52,7 +52,7 @@ export default function EcommerceBestSalesman({
               ))}
             </TableBody>
           </Table>
-        </Scrollbar>
+        {/* </Scrollbar> */}
       </TableContainer>
     </Card>
   );
@@ -91,7 +91,8 @@ function EcommerceBestSalesmanRow({ row }) {
       <TableCell>{row.total}</TableCell>
 
       {/* Rank */}
-      <TableCell align="right">
+
+      {row.rank !== undefined && <TableCell align="right">
         <Label
           variant="soft"
           color={
@@ -105,6 +106,7 @@ function EcommerceBestSalesmanRow({ row }) {
           {row.rank}
         </Label>
       </TableCell>
+      }
     </TableRow>
   );
 }

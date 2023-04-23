@@ -11,6 +11,7 @@ import { FileGeneralDataActivity } from 'third-party/file';
 import useDebugWhenChange from 'utils/useDebugWhenChange';
 import { useSettingsContext } from 'third-party/components/settings';
 import { Box, Container } from '@mui/material';
+import { useWindowWidth } from 'utils/useWindowsWidth';
 
 
 function MyGridItem({ children }) {
@@ -26,28 +27,37 @@ function MyGridItem({ children }) {
 const DashboardCommonPart = ({ stats, isMerchant }) => {
   const theme = useTheme();
   const { themeStretch } = useSettingsContext();
+  const windowWidth = useWindowWidth();
+  const isSmallScreen = windowWidth < 600;
+  const isExtremeSmallScreen = windowWidth < 400;
 
-  const topLeaders = stats?.topFiveLeaders === undefined
-    ? []
-    : stats?.topFiveLeaders.map((leader, index) => {
-      return {
-        ...leader,
-        total: leader.amount,
-        key: index,
-        id: index,
-      }
-    });
+  const topLeaders = useMemo(() => {
+    return stats?.topFiveLeaders === undefined
+      ? []
+      : stats?.topFiveLeaders.map((leader, index) => {
+        return {
+          ...leader,
+          total: isExtremeSmallScreen ? undefined : leader.amount,
+          key: index,
+          id: index,
+          rank: isSmallScreen ? undefined : leader.rank,
+        }
+      });
+  }, [stats?.topFiveLeaders, isSmallScreen, isExtremeSmallScreen]);
 
-  const topUsers = stats?.topFiveUsers === undefined
-    ? []
-    : stats?.topFiveUsers.map((user, index) => {
-      return {
-        ...user,
-        total: user.amount,
-        key: index,
-        id: index,
-      }
-    });
+  const topUsers = useMemo(() => {
+    return stats?.topFiveUsers === undefined
+      ? []
+      : stats?.topFiveUsers.map((user, index) => {
+        return {
+          ...user,
+          total: isExtremeSmallScreen ? undefined : user.amount,
+          key: index,
+          id: index,
+          rank: isSmallScreen ? undefined : user.rank,
+        }
+      });
+  }, [stats?.topFiveUsers, isSmallScreen, isExtremeSmallScreen]);
 
   const weeklyData = useMemo(() => {
     return stats?.activityWeekly === undefined ? {} : stats?.activityWeekly?.map((activity, index) => {
@@ -112,6 +122,24 @@ const DashboardCommonPart = ({ stats, isMerchant }) => {
 
   }, []);
 
+  const tableLabelsForTopLeader = useMemo(() => {
+    const result = [
+      { id: 'groupLeader', label: 'Group Leader' },
+      { id: 'amount', label: 'Amount' },
+      { id: 'rank', label: 'Rank', align: 'right' },
+    ]
+    return isExtremeSmallScreen ? result.slice(0, 1) : isSmallScreen ? result.slice(0, 2) : result;
+  }, [isSmallScreen, isExtremeSmallScreen]);
+
+  const tableLabelsForTopUser = useMemo(() => {
+    const result = [
+      { id: 'buyer', label: 'Buyer' },
+      { id: 'amount', label: 'Amount' },
+      { id: 'rank', label: 'Rank', align: 'right' },
+    ]
+    return isExtremeSmallScreen ? result.slice(0, 1) : isSmallScreen ? result.slice(0, 2) : result;
+  }, [isSmallScreen, isExtremeSmallScreen]);
+
   return <>
     {timeLabels !== undefined && <Grid item xs={12} md={6} lg={6}>
       <FileGeneralDataActivity
@@ -159,29 +187,21 @@ const DashboardCommonPart = ({ stats, isMerchant }) => {
       />
     </Grid>
 
-    <Grid item xs={12} md={6} lg={6}>
+    <Grid item xs={12} md={12} lg={12} xl={6}>
       <EcommerceBestSalesman
         title="Top Group Leaders (Forming Groups)"
         tableData={topLeaders}
-        tableLabels={[
-          { id: 'groupLeader', label: 'Group Leader' },
-          { id: 'amount', label: 'Amount' },
-          { id: 'rank', label: 'Rank', align: 'right' }, //delete if not needed
-        ]}
-        style={{ height: '455px' }}
+        tableLabels={tableLabelsForTopLeader}
+        style={{ height: '555px' }}
       />
     </Grid>
 
-    <Grid item xs={12} md={6} lg={6}>
+    <Grid item xs={12} md={12} lg={12} xl={6}>
       <EcommerceBestSalesman
         title="Top Buyers (Joining Groups)"
         tableData={topUsers}
-        tableLabels={[
-          { id: 'buyer', label: 'Buyer' },
-          { id: 'amount', label: 'Amount' },
-          { id: 'rank', label: 'Rank', align: 'right' }, //delete if not needed
-        ]}
-        style={{ height: '455px' }}
+        tableLabels={tableLabelsForTopUser}
+        style={{ height: '555px' }}
       />
     </Grid>
   </>
