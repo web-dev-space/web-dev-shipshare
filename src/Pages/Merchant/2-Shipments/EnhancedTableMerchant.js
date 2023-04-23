@@ -92,7 +92,7 @@ const headCells = [
   },
   {
     id: "trackingNumber",
-    numeric: false,
+    numeric: true,
     disablePadding: true,
     label: "Tracking No.",
   },
@@ -104,7 +104,7 @@ const headCells = [
   },
   {
     id: "totalWeight",
-    numeric: false,
+    numeric: true,
     disablePadding: false,
     label: "Total Weight",
   },
@@ -481,7 +481,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                         </Box>
                         }
                       </TableCell>
-                      <TableCell component="th" scope="row" padding="none">
+                      <TableCell component="th" scope="row" padding="none" align="right">
                         {/* {row?.trackingNumber === undefined ? "--" : row?.trackingNumber} */}
                         {rowBeingEdited._id === row._id ? (
                           <TextField
@@ -517,7 +517,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
                           <text>{row.shipRoute}</text>
                         }
                       </TableCell>
-                      <TableCell align="left">
+                      <TableCell align="right">
                         {/* {rowBeingEdited._id === row._id ? (
                           <TextField
                             id="outlined-basic"
