@@ -325,26 +325,32 @@ const PostDetails = () => {
                             ))}
                         </div>
 
-                        <hr style={{
-                            borderWidth: 0,
-                            borderColor: 'rgba(145, 158, 171, 0.24)',
-                            borderBottomWidth: 'thin',
-                        }}/>
 
                         {/*-----------------Pagination---------------------*/}
-                        <div
-                            style={{ marginTop: 40, marginBottom: 32,
-                                    display: 'flex', justifyContent: 'center'}}>
-                            <Pagination
-                                color="primary"
-                                count={Math.ceil((post.comments || []).length / COMMENT_PER_PAGE)}
-                                page={page}
-                                siblingCount={2}
-                                boundaryCount={1}
-                                onChange={(event, value) => {
-                                    setPage(value);
-                                }} />
-                        </div>
+                        {post?.comments && post?.comments?.length > 0 && 
+                        
+                          <>
+                            <hr style={{
+                                borderWidth: 0,
+                                borderColor: 'rgba(145, 158, 171, 0.24)',
+                                borderBottomWidth: 'thin',
+                            }}/>
+
+                            <div
+                                style={{ marginTop: 40, marginBottom: 32,
+                                        display: 'flex', justifyContent: 'center'}}>
+                                <Pagination
+                                    color="primary"
+                                    count={Math.ceil((post.comments || []).length / COMMENT_PER_PAGE)}
+                                    page={page}
+                                    siblingCount={2}
+                                    boundaryCount={1}
+                                    onChange={(event, value) => {
+                                        setPage(value);
+                                    }} />
+                            </div>
+                          </>
+                        }
 
                     </Container>
                 </Main>

@@ -389,40 +389,41 @@ const Profile = () => {
                             <GroupCardsPage groups={joinedGroup}/>
                           )}
                           {focusChip === 'Posts' && (
-                              <>
-                            <div style={{
-                            display: 'flex',
-                            flexDirection:'column',
-                            gap: 16 }}>
-                          {userPosts.slice(
-                              (page - 1) * MAX_POSTS_PER_PAGE,
-                              (page - 1) * MAX_POSTS_PER_PAGE + MAX_POSTS_PER_PAGE
-                          ).map((post) => (
-                            <PostCard
-                            title={post.title}
-                            post={post.post}
-                            author={visibleProfile?.name}
-                            date={post.created}
-                            image={post.image}
-                            comments={post.comments}
-                            viewsNumber={post.viewsAmount}
-                            repostsNumber={post.repostsNumber}
-                            onPostCardClick={()=>onPostCardClick(post._id)}/>
-                            ))}
-                            </div>
-
-                          {/*---Pagination---*/}
+                            <>
                               <div style={{
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              height: 100,
-                          }}>
-                              <Pagination count={Math.ceil((userPosts || []).length / MAX_POSTS_PER_PAGE)}
-                              onChange={handlePaginationChange}
-                              />
-                              </div>
-                              </>
+                                  display: 'flex',
+                                  flexDirection:'column',
+                                  gap: 16 }}>
+                                {userPosts.slice(
+                                    (page - 1) * MAX_POSTS_PER_PAGE,
+                                    (page - 1) * MAX_POSTS_PER_PAGE + MAX_POSTS_PER_PAGE
+                                ).map((post) => (
+                                  <PostCard
+                                    title={post.title}
+                                    post={post.post}
+                                    author={visibleProfile?.name}
+                                    date={post.created}
+                                    image={post.image}
+                                    comments={post.comments}
+                                    viewsNumber={post.viewsAmount}
+                                    repostsNumber={post.repostsNumber}
+                                    onPostCardClick={()=>onPostCardClick(post._id)}/>
+                                    ))}
+                                  </div>
+
+                              {/*---Pagination---*/}
+                              {userPosts && userPosts?.length > 0 && <div style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                height: 100,
+                                }}>
+                                    <Pagination
+                                      count={Math.ceil((userPosts || []).length / MAX_POSTS_PER_PAGE)}
+                                      onChange={handlePaginationChange}
+                                    />
+                              </div>}
+                            </>
                           )}
                           {focusChip === 'Reviews' && 
                             <ReviewPage

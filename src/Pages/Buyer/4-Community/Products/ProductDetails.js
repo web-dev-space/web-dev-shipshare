@@ -290,7 +290,7 @@ export default function ProductDetails() {
 
                   {/*-----------------Comments---------------------*/}
                   <div style={{ marginTop: 16 }}>
-                    <Divider sx={{ borderStyle: 'dashed' }} />
+                    {/* <Divider sx={{ borderStyle: 'dashed' }} /> */}
                     {reviews
                       .slice((page - 1) * REVIEWS_PER_PAGE, (page - 1) * REVIEWS_PER_PAGE + REVIEWS_PER_PAGE)
                       .map((review, index) => (
@@ -307,7 +307,7 @@ export default function ProductDetails() {
                   </div>
 
                   {/*-----------------Pagination---------------------*/}
-                  <div
+                  {reviews && reviews?.length > 0 && <div
                     style={{
                       marginTop: 40, marginBottom: 32,
                       display: 'flex', justifyContent: 'center'
@@ -321,7 +321,7 @@ export default function ProductDetails() {
                       onChange={(event, value) => {
                         setPage(value);
                       }} />
-                  </div>
+                  </div>}
                 </Card>
               </>
             }
