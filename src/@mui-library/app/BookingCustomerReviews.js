@@ -60,35 +60,6 @@ export default function BookingCustomerReviews({ title, subheader, list, ...othe
           <ReviewItem key={item.id} item={item} />
         ))}
       </Carousel>
-
-      <Stack
-        spacing={2}
-        direction="row"
-        alignItems="flex-end"
-        sx={{
-          p: theme.spacing(0, 3, 3, 3),
-        }}
-      >
-        <Button
-          fullWidth
-          color="success"
-          variant="contained"
-          startIcon={<Iconify icon="eva:checkmark-circle-2-fill" />}
-          onClick={() => console.log('ACCEPT', customerInfo?.id)}
-        >
-          Accept
-        </Button>
-
-        <Button
-          fullWidth
-          color="error"
-          variant="contained"
-          startIcon={<Iconify icon="eva:close-circle-fill" />}
-          onClick={() => console.log('REJECT', customerInfo?.id)}
-        >
-          Reject
-        </Button>
-      </Stack>
     </Card>
   );
 }
@@ -107,7 +78,7 @@ ReviewItem.propTypes = {
 };
 
 function ReviewItem({ item }) {
-  const { avatar, name, description, rating, postedAt, tags } = item;
+  const { avatar, name, description, postedAt } = item;
 
   return (
     <Stack
@@ -128,15 +99,7 @@ function ReviewItem({ item }) {
         </div>
       </Stack>
 
-      <Rating value={rating} size="small" readOnly precision={0.5} />
-
       <Typography variant="body2">{description}</Typography>
-
-      <Stack direction="row" flexWrap="wrap">
-        {tags.map((tag) => (
-          <Chip size="small" key={tag} label={tag} sx={{ mr: 1, mb: 1, color: 'text.secondary' }} />
-        ))}
-      </Stack>
     </Stack>
   );
 }

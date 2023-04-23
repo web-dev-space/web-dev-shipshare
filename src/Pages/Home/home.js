@@ -26,6 +26,10 @@ import AppTopAuthors from "../../@mui-library/app/AppTopAuthors";
 import BookingCustomerReviews from "../../@mui-library/app/BookingCustomerReviews";
 import AnalyticsNewsUpdate from "../../@mui-library/analytics/AnalyticsNewsUpdate";
 
+const getFollowers = (users, currentUser) => {
+    return users.filter(item => currentUser && (item.following || [])
+        .find((id) => id === currentUser._id));
+};
 
 const Home = () => {
 
@@ -67,6 +71,8 @@ const Home = () => {
     const [isWorkLargeScreen, setIsWorkLargeScreen] = useState(false);
     const [groups, setGroups] = useState([]);
     const [posts, setPosts] = useState([]);
+    const [whoToFollow, setWhoToFollow] = useState([]);
+    const [recentComments, setRecentComments] = useState([]);
 
     useEffect(() => {
         if (shipGroupsRedux && users) {
@@ -88,10 +94,11 @@ const Home = () => {
     useEffect(() => {
         if (allPosts && users) {
             setPosts(
-                allPosts.slice(0, 6).map((post) => {
-                    const user = users.find((user) => user._id === post.userId);
+                allPosts.filter((post) => post.userId === currentUser._id).slice(0, 5).map((post) => {
                     return {
-                        avatarUrl: user?.avatar || getRandomAvatar(user?.name),
+                        image: currentUser?.avatar || getRandomAvatar(currentUser?.name),
+                        description: post.post,
+                        postedAt: new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(post.created)),
                         title: post.title,
                         id: post._id,
                     };
@@ -99,6 +106,40 @@ const Home = () => {
             );
         }
     }, [allPosts, users]);
+
+    useEffect(() => {
+        if (currentUser && users && allPosts) {
+            const userPosts = allPosts.filter((post) => post.userId === currentUser._id);
+            const allComments = userPosts.map((post) => post.comments).flat().sort((c1, c2) => c2.created - c1.created);
+            setRecentComments(allComments.slice(0, 5).map((comment) => {
+                const user = users.find((user) => user._id === comment.user);
+                return {
+                    avatar: user?.avatar || getRandomAvatar(user?.name),
+                    name: user?.name,
+                    postedAt: new Date(comment.date),
+                    description: comment.content,
+                    id: comment._id,
+                };
+            }));
+        }
+    }, [allPosts, users, currentUser]);
+
+    useEffect(() => {
+        if (currentUser && users) {
+            const unfollowedBuyers = users.filter((user) =>
+                user._id !== currentUser._id
+                && user.role === 'buyer'
+                && currentUser.following.indexOf(user._id) === -1).slice(0, 3).map((user) => {
+                return {
+                    avatar: user?.avatar || getRandomAvatar(user?.name),
+                    name: user.name,
+                    favourite: getFollowers(users, user).length,
+                    id: user._id,
+                };
+            });
+            setWhoToFollow(unfollowedBuyers);
+        }
+    }, [currentUser, users]);
 
     useEffect(() => {
       const handleResize = () => {
@@ -212,8 +253,8 @@ const Home = () => {
                       <Grid container spacing={3}>
                         <Grid item xs={12} md={8}>
                             <AppWelcomeVisitor
-                              title={`Welcome back! \n ${currentUser.name}`}
-                              description={`You have ${tableData.length} parcels and ${shipGroups.length} shipments. Thank you for choosing ShipShare!`}
+                              title={`Welcome back, ${currentUser.name}!`}
+                              description={`You have ${tableData.length} parcels and ${shipGroups.length} shipments. \n Thank you for choosing ShipShare!`}
                               img={
                                 <img src={require('../../images/HomeGroup.png')} alt="HomeGroup" style={{padding: 30, width:360, margin:'auto'}}/>
                               }
@@ -223,20 +264,20 @@ const Home = () => {
 
 
                         <Grid item xs={12} md={4}>
-                          <AppTopAuthors title="Top Authors" list={_appAuthors} />
+                          <AppTopAuthors title="Who To Follow" list={whoToFollow} />
                         </Grid>
 
 
                         <Grid item xs={12} md={8}>
-                          <AnalyticsNewsUpdate title="News Update" list={_analyticPost} />
+                          <AnalyticsNewsUpdate title="My Latest Posts" list={posts} />
                         </Grid>
 
 
                         <Grid item xs={12} md={4}>
                           <BookingCustomerReviews
-                            title="Customer Reviews"
-                            subheader={`${_bookingReview.length} Reviews`}
-                            list={_bookingReview}
+                            title="Recent Comments"
+                            subheader={`${recentComments.length} Comments`}
+                            list={recentComments}
                           />
                         </Grid>
                       </Grid>
