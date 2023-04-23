@@ -26,8 +26,8 @@ export function MainIndex() {
         return (
             <Routes>
                 <Route path="/parcels" element={<ParcelMainPage />} />
-                <Route path="/" element={<Home />} />
-                <Route path="/home" element={<Home />} />
+                <Route path="/" element={<VisitorHome />} />
+                <Route path="/home" element={<VisitorHome />} />
                 <Route path="/shipments" element={<ShipmentMainPage />} />
                 <Route path="/groups/*" element={<Group />} />
                 <Route path="/community/*" element={<Community />} />
