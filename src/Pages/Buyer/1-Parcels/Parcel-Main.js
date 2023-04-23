@@ -18,7 +18,6 @@ import TwoSmallButtonGroup from "../../../components/TwoSmallButtonGroup";
 import ParcelTable from "./parcel-components/ParcelTable";
 import {useDispatch, useSelector} from "react-redux";
 import {createParcelThunk, findAllParcelsThunk, updateParcelThunk} from "../../../redux/parcels/parcels-thunks";
-import MerchantParcelTable from "../../Merchant/1-Parcels/MerchantParcelTable";
 import './parcel-main.css';
 import * as Yup from "yup";
 import {useForm} from "react-hook-form";
@@ -258,12 +257,9 @@ const ParcelMainPage = () => {
 
                         {/*---Table---*/}
                         <Container maxWidth={false}>
-                            { currentUser.role === "merchant" || currentUser.role === "admin" ?
-                                <MerchantParcelTable data={tableData}
-                                                     handleUpdateParcel={handleUpdateParcel} />
-                                : <ParcelTable data={tableData} />}
-
-
+                            <ParcelTable data={tableData}
+                                         role={currentUser.role}
+                                         handleUpdateParcel={handleUpdateParcel} />
                         </Container>
                     </div>
                 </Main>
