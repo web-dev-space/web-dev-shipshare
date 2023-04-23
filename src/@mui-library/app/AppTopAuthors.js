@@ -7,6 +7,7 @@ import {Box, Stack, Card, Avatar, CardHeader, Typography, Button} from '@mui/mat
 import { fShortenNumber } from '../utils/formatNumber';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 // ----------------------------------------------------------------------
 
@@ -42,10 +43,12 @@ AuthorItem.propTypes = {
 };
 
 function AuthorItem({ author, index, handleFollow, handleUnfollow }) {
-
     const currentUser = useSelector(state => state.auth.currentUser || { role: "visitor" });
+    const navigate = useNavigate();
   return (
-    <Stack direction="row" alignItems="center" spacing={2}>
+    <Stack direction="row"
+           style={{cursor: "pointer"}}
+           alignItems="center" spacing={2} onClick={() => navigate((`/community/profile/${author.id}`))}>
       <Avatar alt={author.name} src={author.avatar} />
 
       <Box sx={{ flexGrow: 1 }}>
@@ -65,9 +68,15 @@ function AuthorItem({ author, index, handleFollow, handleUnfollow }) {
       </Box>
         {
             currentUser.following.indexOf(author.id) === -1 ?
-                <Button variant="contained" onClick={() => handleFollow(author.id)}>Follow</Button>
+                <Button variant="contained" onClick={(event) => {
+                    event.stopPropagation();
+                    handleFollow(author.id);
+                }}>Follow</Button>
                 :
-                <Button variant="outlined" onClick={() => handleUnfollow(author.id)}>Unfollow</Button>
+                <Button variant="outlined" onClick={(event) => {
+                    event.stopPropagation();
+                    handleUnfollow(author.id);
+                }}>Unfollow</Button>
         }
     </Stack>
   );
