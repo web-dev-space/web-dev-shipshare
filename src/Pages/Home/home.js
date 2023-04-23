@@ -149,7 +149,7 @@ const Home = () => {
                 const unfollowedBuyers = users.filter((user) =>
                     user._id !== currentUser._id
                     && user.role === 'buyer'
-                    && currentUser.following.indexOf(user._id) === -1).slice(0, 3).map((user) => {
+                    && (currentUser?.following || []).indexOf(user._id) === -1).slice(0, 3).map((user) => {
                     return {
                         avatar: user?.avatar || getRandomAvatar(user?.name),
                         name: user.name,

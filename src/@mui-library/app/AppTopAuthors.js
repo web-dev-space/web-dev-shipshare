@@ -67,7 +67,7 @@ function AuthorItem({ author, index, handleFollow, handleUnfollow }) {
         </Typography>
       </Box>
         {
-            currentUser.following.indexOf(author.id) === -1 ?
+            (currentUser?.following || []).indexOf(author.id) === -1 ?
                 <Button variant="contained" onClick={(event) => {
                     event.stopPropagation();
                     handleFollow(author.id);
