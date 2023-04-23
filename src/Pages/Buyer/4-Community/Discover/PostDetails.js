@@ -220,13 +220,15 @@ const PostDetails = () => {
 
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: isPhoneScreen?40: 80}}>
                                 {!author && <Avatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_1.jpg" sx={{ width: 48, height: 48 }} />}
-                                {author && <Avatar src={author.avatar || getRandomAvatar(author.name)} sx={{ width: 48, height: 48 }} />}
+                                {author && <Avatar src={author.avatar || getRandomAvatar(author.name)} sx={{ width: 48, height: 48 }} style={{ cursor: 'pointer' }}  onClick={() => { handleClickUserIcon(author, navigate) }}/>}
                                 <div style={{ marginLeft: 8}}>
                                     <div style={{
                                         fontSize: 16,
                                         fontWeight: 600,
-                                        color: "white"
-                                    }}>
+                                        color: "white",
+                                        cursor: 'pointer'
+                                    }}
+                                         onClick={() => { handleClickUserIcon(author, navigate) }}>
                                         {author.name}
                                     </div>
                                     <div style={{
