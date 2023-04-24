@@ -105,7 +105,7 @@ function navConfig(role) {
             children: [
               {title: 'Account Info', path: '/account/account-info'},
               {title: 'Change Password', path: '/account/change-password'},
-              role === 'merchant' || role === 'admin'
+              role === 'merchant'
                   ? {title: 'Change Warehouse Address', path: '/account/change-warehouse-address'}
                   : null,
             ].filter(Boolean), // filter null values

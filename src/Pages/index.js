@@ -109,7 +109,7 @@ export function MainIndex() {
                 <Route path="/details/:productId" element={<ProductDetails/>}/>
                 
                 <Route path="/account/*" element={<Account />} />
-                <Route path="/account/change-warehouse-address" element={<ChangeWarehouse/>} />
+                <Route path="/account/change-warehouse-address" element={<Page403/>} />
                 <Route path="/help/*" element={<Help />} />
                 <Route path="/*" element={<Page404 />} />
             </Routes>
