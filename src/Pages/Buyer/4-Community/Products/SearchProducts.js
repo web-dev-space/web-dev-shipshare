@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet';
-import {useNavigate, useLocation} from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import {Container, Box, Typography, Card, Button} from '@mui/material';
+import { Box, Card, Container, Typography } from '@mui/material';
 // components
-import { useSettingsContext } from '../../../../@mui-library/components/settings';
+import { useSettingsContext } from '@mui-library/components/settings';
 // sections
-import Header from "../../../../@mui-library/layouts/dashboard/header";
-import NavVertical from "../../../../@mui-library/layouts/dashboard/nav/NavVertical";
-import {useEffect, useState} from "react";
-import Main from "../../../../@mui-library/layouts/dashboard/Main"
-import SearchBar from "../../../../components/searchBar";
-import {getSearchResults} from "../../../../redux/products/products-service";
-import {ShopProductList} from "../../../../@mui-library/e-commerce/shop";
+import { ShopProductList } from "@mui-library/e-commerce/shop";
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
+import SearchBar from "components/searchBar";
+import { useEffect, useState } from "react";
+import { getSearchResults } from "redux/products/products-service";
 
 
 // ----------------------------------------------------------------------

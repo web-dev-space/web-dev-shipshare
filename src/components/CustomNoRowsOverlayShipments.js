@@ -1,7 +1,4 @@
-
 import Box from "@mui/material/Box";
-
-
 
 export default function CustomNoRowsOverlayShipments() {
   return (

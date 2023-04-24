@@ -1,4 +1,4 @@
-import {Chip} from "@mui/material";
+import { Chip } from "@mui/material";
 
 
 function OrangeChipGroup ({chipLabelsArray, setFilter, focusChip, setFocusChip, isPhoneScreen}) {

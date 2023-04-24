@@ -1,6 +1,5 @@
-import { Avatar, Button, Card, CardContent, CardHeader, IconButton, Typography } from '@mui/material';
-import { MoreVert as MoreVertIcon } from '@mui/icons-material';
-import {useNavigate} from "react-router-dom";
+import { IconButton } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 
 const PostCard = ({ index, avatarUrl, title, id }) => {
 

@@ -5,18 +5,14 @@ import DeliveryStatusCard from 'components/DeliveryStatusCard';
 import ItemCard from 'components/ItemCard.js';
 import deliveryStatus from 'sampleData/deliveryStatus';
 // import { parcelData } from 'sampleData/parcels';
+import { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getParcelByShipGroupIdAndUserEmailThunk, getParcelByShipGroupIdThunk } from "redux/parcels/parcels-thunks";
 import Colors from 'styles/Colors';
 import FontSizes from 'styles/FontSizes';
 import { calculateDeliveryTime } from 'utils/calculateDeliveryTime';
 import { convertDateToString } from 'utils/convertDateToString';
-import React, { useMemo } from 'react';
-import { useEffect, useState } from "react";
-import { getParcelTracking } from "../redux/parcels/parcels-service";
-import { useSelector } from 'react-redux';
 import { getShipmentTrackingThunk } from "../redux/shipGroups/shipGroups-thunks";
-import { useDispatch } from 'react-redux';
-import { getParcelByShipGroupIdThunk, getParcelByShipGroupIdAndUserEmailThunk } from "redux/parcels/parcels-thunks";
-import useDebugWhenChange from 'utils/useDebugWhenChange';
 
 const FontFamily = {
 }

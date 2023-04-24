@@ -1,9 +1,7 @@
 import { ToggleButton } from "@mui/lab";
-import { Pagination } from '@mui/material';
-import { Drawer, Stack } from "@mui/material";
+import { Drawer, Pagination, Stack } from '@mui/material';
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import InputAdornment from "@mui/material/InputAdornment";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -15,19 +13,16 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import TextField from "@mui/material/TextField";
 import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
-import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
-
+import CustomNoRowsOverlayShipments from "components/CustomNoRowsOverlayShipments.js";
 import DatePick from "components/DatePick.js";
 import DropdownList from "components/DropdownList.js";
 import OrangeChipGroup from "components/OrangeChipGroup";
 import ShippingDetailScreen from "components/ShipmentsDetailScreen.js";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateShipGroupThunk } from "redux/shipGroups/shipGroups-thunks.js";
 import { convertDateToString } from "utils/convertDateToString.js";
-import { useMemo } from "react";
-import useDebugWhenChange from "utils/useDebugWhenChange.js";
-import CustomNoRowsOverlayShipments from "components/CustomNoRowsOverlayShipments.js";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {

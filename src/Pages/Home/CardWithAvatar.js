@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
 import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useEffect, useState } from 'react';
 
 const StyledCard = styled(Card)({
   display: 'flex',

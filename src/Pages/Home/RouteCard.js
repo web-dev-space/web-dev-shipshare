@@ -1,7 +1,6 @@
-import React from 'react';
-import {Button, Card, CardContent, Typography} from "@mui/material";
-import {useNavigate} from "react-router-dom";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { Button, Card, CardContent, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const RouteCard = ({index, route, price, text1, text2, trait1, trait2, trait3}) => {
   const navigate = useNavigate();

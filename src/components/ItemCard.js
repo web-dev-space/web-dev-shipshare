@@ -1,9 +1,6 @@
-import React from "react";
-import Colors from '../styles/Colors';
-import FontSizes from '../styles/FontSizes';
 import InventoryIcon from '@mui/icons-material/Inventory';
-import useDebugWhenChange from "utils/useDebugWhenChange";
-import { useSelector } from "react-redux";
+import Colors from 'styles/Colors';
+import FontSizes from 'styles/FontSizes';
 
 const FontFamily = {
 }

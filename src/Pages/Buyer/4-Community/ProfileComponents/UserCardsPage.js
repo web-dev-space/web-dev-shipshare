@@ -1,13 +1,12 @@
-import { Helmet } from 'react-helmet-async';
 // @mui
-import { Container, Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
 // components
-import { useSettingsContext } from '../../../../@mui-library/components/settings';
+import { useSettingsContext } from '@mui-library/components/settings';
 // sections
-import UserCard from './UserCard';
-import {useSelector} from "react-redux";
-import {Pagination} from "@mui/lab";
+import { Pagination } from "@mui/lab";
 import React from "react";
+import { useSelector } from "react-redux";
+import UserCard from './UserCard';
 
 // ----------------------------------------------------------------------
 const getFollowers = (users, currentUser) => {

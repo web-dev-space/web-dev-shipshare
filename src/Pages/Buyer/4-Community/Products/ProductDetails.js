@@ -1,34 +1,34 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // @mui
 import {
-  Box,
-  Grid,
-  Container,
-  Card,
-  Typography,
-  TextField,
-  Button,
   Avatar,
+  Box,
+  Button,
+  Card,
+  Container,
+  Divider,
+  Grid,
   Pagination,
-  Divider, Stack, Rating
+  Rating,
+  Stack,
+  TextField,
+  Typography
 } from '@mui/material';
 // sections
-import { ProductDetailsCarousel } from '../../../../@mui-library/e-commerce/details';
-import Header from "../../../../@mui-library/layouts/dashboard/header";
-import NavVertical from "../../../../@mui-library/layouts/dashboard/nav/NavVertical";
-import Main from "../../../../@mui-library/layouts/dashboard/Main"
-import { getProductDetails } from "../../../../redux/products/products-service";
-import { getRandomAvatar } from "../../../../utils/getRandomAvatar";
-import { findAllUsersThunk } from "../../../../redux/users/users-thunks";
+import Label from "@mui-library/components/label";
+import { SkeletonProductDetails } from "@mui-library/components/skeleton";
+import { ProductDetailsCarousel } from '@mui-library/e-commerce/details';
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
 import { useDispatch, useSelector } from "react-redux";
-import { createReviewThunk } from "redux/reviews/reviews-thunks";
-import { findReviewsForProjectThunk } from "redux/reviews/reviews-thunks";
-import React from 'react';
-import {SkeletonProductDetails} from "../../../../@mui-library/components/skeleton";
-import Label from "../../../../@mui-library/components/label";
+import { getProductDetails } from "redux/products/products-service";
+import { createReviewThunk, findReviewsForProjectThunk } from "redux/reviews/reviews-thunks";
+import { findAllUsersThunk } from "redux/users/users-thunks";
+import { getRandomAvatar } from "utils/getRandomAvatar";
 
 // ----------------------------------------------------------------------
 const REVIEWS_PER_PAGE = 5;

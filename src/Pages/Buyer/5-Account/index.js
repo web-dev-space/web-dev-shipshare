@@ -1,6 +1,6 @@
-import {Route, Router, Routes} from "react-router";
-import ChangePassword from "./Change-Password";
+import { Route, Routes } from "react-router";
 import AccountInfo from "./AccountInfo";
+import ChangePassword from "./Change-Password";
 
 export function Account() {
     return (

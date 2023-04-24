@@ -1,18 +1,17 @@
+import { yupResolver } from "@hookform/resolvers/yup";
+import { RHFTextField } from "@mui-library/components/hook-form";
+import { Stack } from "@mui/material";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { Stack} from "@mui/material";
-import * as React from "react";
 import TextField from "@mui/material/TextField";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
-import * as Yup from "yup";
-import {Controller, useForm, useFormContext} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import FormProvider, {RHFAutocomplete, RHFTextField} from "../../../@mui-library/components/hook-form";
-import {useEffect, useState} from "react";
+import Typography from "@mui/material/Typography";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
-import {useSelector} from "react-redux";
+import { useState } from "react";
+import { Controller, useForm, useFormContext } from "react-hook-form";
+import { useSelector } from "react-redux";
+import * as Yup from "yup";
 import RHFTextFieldGoogle from "./RHFTextFieldGoogle";
 
 export default function FormGroupStepTwo({onDateChange, onPickupLocationChange}) {
