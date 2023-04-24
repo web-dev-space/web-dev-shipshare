@@ -32,7 +32,7 @@ const GroupDetailDrawerScreen = ({ ship, handleClose, users, isMerchant = true }
 
       accumulator[current.user].push(current);
       return accumulator;
-    }, {});
+    }, []);
   }
 
 
@@ -85,7 +85,6 @@ const GroupDetailDrawerScreen = ({ ship, handleClose, users, isMerchant = true }
             isMerchant={isMerchant} />
         </Box>
       </div>
-
 
     </div>
   );

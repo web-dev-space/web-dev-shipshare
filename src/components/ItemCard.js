@@ -1,9 +1,7 @@
-import React from "react";
-import Colors from '../styles/Colors';
-import FontSizes from '../styles/FontSizes';
 import InventoryIcon from '@mui/icons-material/Inventory';
-import useDebugWhenChange from "utils/useDebugWhenChange";
-import { useSelector } from "react-redux";
+import { Typography } from "@mui/material";
+import Colors from 'styles/Colors';
+import FontSizes from 'styles/FontSizes';
 
 const FontFamily = {
 }
@@ -77,6 +75,11 @@ const ItemCard = ({ items, leftCornerIconColor, title, isMerchant }) => {
         }
       </div>
 
+      {items === undefined || items === null || items?.length === 0 &&
+        <div style={{ marginTop: 12, marginBottom: 10, }}>
+          <Typography>No members.</Typography>
+        </div>
+      }
 
     </div>
   )

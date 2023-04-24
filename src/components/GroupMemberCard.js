@@ -9,6 +9,10 @@ import useDebugWhenChange from "utils/useDebugWhenChange";
 const FontFamily = {}
 
 const GroupMemberCard = ({ items, leftCornerIconColor, title, users }) => {
+  useDebugWhenChange('items', items);
+
+  console.debug('items???', items === undefined || items === null || items?.length === 0)
+
   return (
     <div style={styles.bottomContainer}>
       <div style={styles.deliveryBar}>
@@ -25,7 +29,7 @@ const GroupMemberCard = ({ items, leftCornerIconColor, title, users }) => {
           const totalWeight = parcels?.reduce((acc, parcel) => acc + (parcel.weight || 0), 0);
           const avatarUrl = users?.find(user => user.email === email)?.avatar;
 
-          return <div style={{ marginLeft: 20, marginVertical: 10 }}>
+          return <div style={{ marginLeft: 20, marginBottom: 10 }}>
             <div style={{ flexDirection: 'row', display: 'flex', marginBottom: 20, alignItems: 'center' }}>
               <Stack
                 direction='row'
@@ -44,6 +48,12 @@ const GroupMemberCard = ({ items, leftCornerIconColor, title, users }) => {
           </div>
         }
         )
+      }
+
+      {items === undefined || items === null || items?.length === 0 &&
+        <div style={{ marginLeft: 20, marginBottom: 10, }}>
+          <Typography>No members.</Typography>
+        </div>
       }
 
     </div>
