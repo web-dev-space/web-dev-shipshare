@@ -1,15 +1,14 @@
-import { Grid } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { useMemo } from "react";
+import { useSettingsContext } from '@mui-library/components/settings';
 import {
   EcommerceBestSalesman,
   EcommerceYearlySales,
 } from '@mui-library/e-commerce';
 import { FileGeneralDataActivity } from '@mui-library/file';
-import { useSettingsContext } from '@mui-library/components/settings';
-import { Box } from '@mui/material';
-import { useWindowWidth } from 'utils/useWindowsWidth';
+import { Box, Grid } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { useMemo } from "react";
 import { getRandomAvatar } from 'utils/getRandomAvatar';
+import { useWindowWidth } from 'utils/useWindowsWidth';
 
 
 function MyGridItem({ children }) {

@@ -1,17 +1,13 @@
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-// form
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-// @mui
 import { LoadingButton } from '@mui/lab';
 import { Box, Card, Grid, Stack } from '@mui/material';
 import { useSnackbar } from 'notistack';
-import FormProvider, {
-    RHFTextField,
-} from '../../../@mui-library/components/hook-form';
-import {useDispatch} from "react-redux";
-import {updateWarehouseThunk} from "../../../redux/warehouse/warehouse-thunks";
+import { useForm } from 'react-hook-form';
+import { useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
+import FormProvider, { RHFTextField } from '@mui-library/components/hook-form';
+import { updateWarehouseThunk } from "redux/warehouse/warehouse-thunks";
 
 // ----------------------------------------------------------------------
 

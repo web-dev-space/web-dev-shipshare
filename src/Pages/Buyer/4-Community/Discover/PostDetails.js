@@ -1,24 +1,24 @@
-import { useEffect, useState } from "react";
-import Header from "../../../../@mui-library/layouts/dashboard/header"
-import NavVertical from "../../../../@mui-library/layouts/dashboard/nav/NavVertical"
-import Main from "../../../../@mui-library/layouts/dashboard/Main"
-import { Container, Box, Avatar, Typography, TextField, Button, Pagination, IconButton } from '@mui/material';
-import Image from "mui-image";
-import { useDispatch, useSelector } from "react-redux";
-import DeleteIcon from '@mui/icons-material/Delete';
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Avatar, Box, Button, Container, IconButton, Pagination, TextField, Typography } from '@mui/material';
+import Image from "mui-image";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 // sample data
-import posts from "../../../../sampleData/posts";
-import {
-  deletePostThunk,
-  findPostByIdThunk,
-  updatePostThunk
-} from "../../../../redux/posts/posts-thunks";
 import { Helmet } from "react-helmet";
-import { getRandomAvatar } from "../../../../utils/getRandomAvatar";
-import { findAllUsersThunk } from "../../../../redux/users/users-thunks";
+import {
+    deletePostThunk,
+    findPostByIdThunk,
+    updatePostThunk
+} from "redux/posts/posts-thunks";
+import { findAllUsersThunk } from "redux/users/users-thunks";
+import posts from "sampleData/posts";
+import { getRandomAvatar } from "utils/getRandomAvatar";
 
 const post = posts[0];
 const COMMENT_PER_PAGE = 5;

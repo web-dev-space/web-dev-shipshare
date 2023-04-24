@@ -1,12 +1,11 @@
-import { Helmet } from 'react-helmet-async';
 // @mui
-import { Container, Box } from '@mui/material';
+import { Container } from '@mui/material';
 // components
-import { useSettingsContext } from '../../../../@mui-library/components/settings';
+import { useSettingsContext } from '@mui-library/components/settings';
 // sections
-import GroupCard from './GroupCard';
-import {Pagination} from "@mui/lab";
+import { Pagination } from "@mui/lab";
 import React from "react";
+import GroupCard from './GroupCard';
 
 // ----------------------------------------------------------------------
 

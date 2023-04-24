@@ -1,43 +1,45 @@
-import Header from "../../../@mui-library/layouts/dashboard/header";
+import Iconify from "@mui-library/components/iconify";
+import Label from "@mui-library/components/label";
+import MenuPopover from "@mui-library/components/menu-popover";
 import {
-    Box,
-    Card,
-    Container,
-    TableCell,
-    TableRow,
-    Typography,
-    Stack,
-    IconButton,
-    MenuItem, Avatar, TextField
-} from "@mui/material";
-import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical";
-import Main from "../../../@mui-library/layouts/dashboard/Main";
-import SearchBar from "../../../components/searchBar";
-import {useEffect, useState} from "react";
-import TableContainer from "@mui/material/TableContainer";
-import Table from "@mui/material/Table";
-import {
-    emptyRows, getComparator,
     TableEmptyRows,
     TableHeadCustom,
     TableNoData,
     TablePaginationCustom,
+    emptyRows, getComparator,
     useTable
-} from "../../../@mui-library/components/table";
+} from "@mui-library/components/table";
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
+import {
+    Avatar,
+    Box,
+    Card,
+    Container,
+    IconButton,
+    MenuItem,
+    Stack,
+    TableCell,
+    TableRow,
+    TextField,
+    Typography
+} from "@mui/material";
+import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import Iconify from "../../../@mui-library/components/iconify";
-import MenuPopover from "../../../@mui-library/components/menu-popover";
-import Label from "../../../@mui-library/components/label";
+import TableContainer from "@mui/material/TableContainer";
+import SearchBar from "components/searchBar";
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
 import {
     deleteUserThunk,
     findAllUsersThunk,
     updateCurrentUserThunk,
     updateUserThunk
-} from "../../../redux/users/users-thunks";
-import {useDispatch, useSelector} from "react-redux";
+} from "redux/users/users-thunks";
+import { getRandomAvatar } from "utils/getRandomAvatar";
 import DeleteDialog from "./DeleteDialog";
-import {getRandomAvatar} from "../../../utils/getRandomAvatar";
-import {Helmet} from "react-helmet";
 
 const STATUS_OPTIONS = ['all', 'active', 'banned'];
 const EDITABLE_STATUS_OPTIONS = ['active', 'banned'];

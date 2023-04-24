@@ -1,12 +1,12 @@
-import {useEffect, useState} from "react";
-import Header from "../../../@mui-library/layouts/dashboard/header"
-import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical"
-import Main from "../../../@mui-library/layouts/dashboard/Main"
-import {Box, Container, Typography} from '@mui/material';
-import WarehouseAddressForm from "./WarehouseAddressForm";
-import {Helmet} from "react-helmet";
-import {useSelector} from "react-redux";
-import {findWarehouseByCompany} from "../../../redux/warehouse/warehouse-service";
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
+import { Box, Container, Typography } from '@mui/material';
+import WarehouseAddressForm from "Pages/Merchant/4-Account/WarehouseAddressForm";
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useSelector } from "react-redux";
+import { findWarehouseByCompany } from "redux/warehouse/warehouse-service";
 
 
 const ChangeWarehouse = () => {

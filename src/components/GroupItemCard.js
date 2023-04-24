@@ -1,8 +1,7 @@
-import React from "react";
-import Colors from '../styles/Colors';
-import FontSizes from '../styles/FontSizes';
 import InventoryIcon from '@mui/icons-material/Inventory';
-import {Stack, Typography} from "@mui/material";
+import { Stack, Typography } from "@mui/material";
+import Colors from 'styles/Colors';
+import FontSizes from 'styles/FontSizes';
 
 const FontFamily = {
 }

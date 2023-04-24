@@ -1,4 +1,4 @@
-import {Chip} from "@mui/material";
+import { Chip } from "@mui/material";
 
 
 function GreenChipGroup ({chipLabelsArray, setFilter, focusChip, setFocusChip, isSmallScreen}) {

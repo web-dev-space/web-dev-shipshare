@@ -1,29 +1,24 @@
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-// form
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-// @mui
-import { LoadingButton } from '@mui/lab';
-import { Box, Card, Grid, Stack, Typography } from '@mui/material';
-// components
-import Label from '../../../@mui-library/components/label';
-import { useSnackbar } from 'notistack';
 import FormProvider, {
   RHFTextField,
-} from '../../../@mui-library/components/hook-form';
-import { Avatar } from '@mui/material';
+} from '@mui-library/components/hook-form';
+import Label from '@mui-library/components/label';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { LoadingButton } from '@mui/lab';
+import { Avatar, Box, Card, Grid, Stack, Typography } from '@mui/material';
+import InputAdornment from "@mui/material/InputAdornment";
+import { useSnackbar } from 'notistack';
+import PropTypes from 'prop-types';
+import { useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import {
   changePasswordThunk, logoutThunk
-} from "../../../redux/users/users-thunks";
-import {useDispatch} from "react-redux";
-import {getRandomAvatar} from "../../../utils/getRandomAvatar";
-import {profile} from "../../../redux/users/users-service";
-import InputAdornment from "@mui/material/InputAdornment";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+} from "redux/users/users-thunks";
+import { getRandomAvatar } from "utils/getRandomAvatar";
+import * as Yup from 'yup';
 
 // ----------------------------------------------------------------------
 
@@ -51,15 +46,15 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
   );
 
   const defaultValues = {
-      oldPassword: '',
-      newPassword: '',
-      confirmedPassword: '',
+    oldPassword: '',
+    newPassword: '',
+    confirmedPassword: '',
   };
 
   const NewUserSchema = Yup.object().shape({
     oldPassword: Yup.string()
       .required('Please enter your current password'),
-      // .oneOf([currentUser.password], 'Current password does not match'),
+    // .oneOf([currentUser.password], 'Current password does not match'),
     newPassword: Yup.string()
       .required('Password is required')
       .notOneOf(
@@ -89,12 +84,12 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
       newPassword: data.newPassword,
     };
     try {
-        await dispatch(changePasswordThunk(newObject)).unwrap();
-        enqueueSnackbar('Update success!');
-        await dispatch(logoutThunk());
-        navigate("/login");
+      await dispatch(changePasswordThunk(newObject)).unwrap();
+      enqueueSnackbar('Update success!');
+      await dispatch(logoutThunk());
+      navigate("/login");
     } catch (error) {
-        alert('Old password is wrong! Please update the correct password!');
+      alert('Old password is wrong! Please update the correct password!');
     }
   };
 
@@ -132,10 +127,10 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
               </Label>
             )}
 
-            <Box sx={{ mt:3, display: 'flex', alignItems: 'center', flexDirection: "column"}}>
+            <Box sx={{ mt: 3, display: 'flex', alignItems: 'center', flexDirection: "column" }}>
               <Avatar alt="avatar" src={currentUserInfo.avatar}
-                            sx={{ width: 120, height: 125 }} />
-              <Typography variant="h5" component="h1" paragraph sx={{mt:4}}>
+                sx={{ width: 120, height: 125 }} />
+              <Typography variant="h5" component="h1" paragraph sx={{ mt: 4 }}>
                 {currentUserInfo.name}
               </Typography>
             </Box>
@@ -146,42 +141,48 @@ export default function ChangePasswordForm({ isEdit = false, currentUser }) {
         {/*Right part*/}
         <Grid item xs={12} md={8}>
           <Card sx={{ p: 3 }}>
-            <RHFTextField type={passwordVisible ? "text" : "password"} name="oldPassword" label="Current Password" id="oldPassword" sx={{mb: 2}}
-                          InputProps={{ endAdornment: (
-            <InputAdornment position="end">
-              {!passwordVisible ? (
-                  <VisibilityOffIcon style={{ fontSize: 16}} onClick={handleTogglePasswordVisibility} />
-              ) : (
-                  <VisibilityIcon style={{ fontSize: 16}} onClick={handleTogglePasswordVisibility} />
-              )}
-            </InputAdornment>
-            )}} />
-            <RHFTextField name="newPassword" type={newPasswordVisible ? "text" : "password"} label="New Password" id="newPassword" sx={{mb: 2}}
-                          InputProps={{ endAdornment: (
-                                <InputAdornment position="end">
-                                  {!newPasswordVisible ? (
-                                      <VisibilityOffIcon style={{ fontSize: 16}} onClick={handleToggleNewPasswordVisibility} />
-                                  ) : (
-                                      <VisibilityIcon style={{ fontSize: 16}} onClick={handleToggleNewPasswordVisibility} />
-                                  )}
-                                </InputAdornment>
-                            )}}/>
-            <RHFTextField name="confirmedPassword" type={confirmPasswordVisible ? "text" : "password"} label="Confirmed Password" id="confirmedPassword" sx={{mb:1}}
-                          InputProps={{ endAdornment: (
-                                <InputAdornment position="end">
-                                  {!confirmPasswordVisible ? (
-                                      <VisibilityOffIcon style={{ fontSize: 16}} onClick={handleToggleConfirmPasswordVisibility} />
-                                  ) : (
-                                      <VisibilityIcon style={{ fontSize: 16}} onClick={handleToggleConfirmPasswordVisibility} />
-                                  )}
-                                </InputAdornment>
-                            )}}/>
+            <RHFTextField type={passwordVisible ? "text" : "password"} name="oldPassword" label="Current Password" id="oldPassword" sx={{ mb: 2 }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {!passwordVisible ? (
+                      <VisibilityOffIcon style={{ fontSize: 16 }} onClick={handleTogglePasswordVisibility} />
+                    ) : (
+                      <VisibilityIcon style={{ fontSize: 16 }} onClick={handleTogglePasswordVisibility} />
+                    )}
+                  </InputAdornment>
+                )
+              }} />
+            <RHFTextField name="newPassword" type={newPasswordVisible ? "text" : "password"} label="New Password" id="newPassword" sx={{ mb: 2 }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {!newPasswordVisible ? (
+                      <VisibilityOffIcon style={{ fontSize: 16 }} onClick={handleToggleNewPasswordVisibility} />
+                    ) : (
+                      <VisibilityIcon style={{ fontSize: 16 }} onClick={handleToggleNewPasswordVisibility} />
+                    )}
+                  </InputAdornment>
+                )
+              }} />
+            <RHFTextField name="confirmedPassword" type={confirmPasswordVisible ? "text" : "password"} label="Confirmed Password" id="confirmedPassword" sx={{ mb: 1 }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {!confirmPasswordVisible ? (
+                      <VisibilityOffIcon style={{ fontSize: 16 }} onClick={handleToggleConfirmPasswordVisibility} />
+                    ) : (
+                      <VisibilityIcon style={{ fontSize: 16 }} onClick={handleToggleConfirmPasswordVisibility} />
+                    )}
+                  </InputAdornment>
+                )
+              }} />
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <div>
                 <LoadingButton
-                    type="submit"
-                    variant="contained" style={{width:150}}
-                    loading={isSubmitting}>
+                  type="submit"
+                  variant="contained" style={{ width: 150 }}
+                  loading={isSubmitting}>
                   Save Changes
                 </LoadingButton>
               </div>

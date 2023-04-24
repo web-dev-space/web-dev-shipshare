@@ -1,22 +1,22 @@
-import * as React from 'react';
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
+import { Container } from "@mui/material";
 import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
+import Button from '@mui/material/Button';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
+import Stepper from '@mui/material/Stepper';
 import Typography from '@mui/material/Typography';
-import Header from "../../../@mui-library/layouts/dashboard/header";
-import {useEffect, useState} from "react";
-import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical";
-import Main from "../../../@mui-library/layouts/dashboard/Main"
-import {Card, CardContent, Container, Grid} from "@mui/material";
-import CheckoutStepTwo from "./Checkout-StepTwo";
-import CheckoutStepOne from "./Checkout-StepOne";
-import {useLocation, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {findAllParcelsThunk, updateParcelThunk} from "../../../redux/parcels/parcels-thunks";
-import {findShipGroupByIdThunk, updateShipGroupThunk} from "../../../redux/shipGroups/shipGroups-thunks";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import * as React from 'react';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { updateParcelThunk } from "redux/parcels/parcels-thunks";
+import { findShipGroupByIdThunk, updateShipGroupThunk } from "redux/shipGroups/shipGroups-thunks";
+import CheckoutStepOne from "./Checkout-StepOne";
+import CheckoutStepTwo from "./Checkout-StepTwo";
 
 const steps = ['', '', '', ''];
 export default function Checkout() {

@@ -1,15 +1,15 @@
-import { Box, Container, Grid } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { useEffect, useMemo, useState } from "react";
+import { useSettingsContext } from '@mui-library/components/settings';
+import { EcommerceWidgetSummary } from '@mui-library/e-commerce';
 import Main from "@mui-library/layouts/dashboard/Main";
 import Header from "@mui-library/layouts/dashboard/header";
 import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
-import { useSettingsContext } from '@mui-library/components/settings';
-import {EcommerceWidgetSummary} from '@mui-library/e-commerce';
+import { Box, Container, Grid } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import DashboardCommonPart from 'components/DashboardCommonPart';
+import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from 'react-redux';
 import { getStatsMerchantThunk } from 'redux/dashboard/dashboard-thunks';
-import DashboardCommonPart from 'components/DashboardCommonPart';import useDebugWhenChange from 'utils/useDebugWhenChange';
 
 const Dashboard = () => {
   const [open, setOpen] = useState(false);

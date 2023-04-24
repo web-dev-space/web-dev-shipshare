@@ -1,34 +1,38 @@
-import { useState, useEffect, useCallback } from "react";
-import Header from "../../../@mui-library/layouts/dashboard/header"
-import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical"
-import Main from "../../../@mui-library/layouts/dashboard/Main"
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
 import {
-    Container,
-    Typography,
     Box,
+    Button,
+    Container,
     Dialog,
-    DialogTitle,
+    DialogActions,
     DialogContent,
+    DialogContentText,
+    DialogTitle,
+    FormControl, InputLabel,
     MenuItem,
-    DialogActions, Button, DialogContentText, FormControl, InputLabel, Select
+    Select,
+    Typography
 } from '@mui/material';
+import { useCallback, useEffect, useState } from "react";
 
-import SearchBar from "../../../components/searchBar";
-import TwoSmallButtonGroup from "../../../components/TwoSmallButtonGroup";
-import ParcelTable from "./parcel-components/ParcelTable";
-import {useDispatch, useSelector} from "react-redux";
-import {createParcelThunk, findAllParcelsThunk, updateParcelThunk} from "../../../redux/parcels/parcels-thunks";
-import './parcel-main.css';
-import * as Yup from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
-import FormProvider, {RHFSelect, RHFTextField, RHFUploadAvatar} from "../../../@mui-library/components/hook-form";
-import {fData} from "../../../@mui-library/utils/formatNumber";
+import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
+import FormProvider, { RHFSelect, RHFTextField, RHFUploadAvatar } from "@mui-library/components/hook-form";
+import { fData } from "@mui-library/utils/formatNumber";
 import Stack from "@mui/material/Stack";
-import {uploadImage} from "api/imageUpload";
-import {Helmet} from "react-helmet";
-import {parcelData} from "../../../sampleData/parcels";
-import {Link} from "react-router-dom";
+import { uploadImage } from "api/imageUpload";
+import TwoSmallButtonGroup from "components/TwoSmallButtonGroup";
+import SearchBar from "components/searchBar";
+import { Helmet } from "react-helmet";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { createParcelThunk, findAllParcelsThunk, updateParcelThunk } from "redux/parcels/parcels-thunks";
+import { parcelData } from "sampleData/parcels";
+import * as Yup from "yup";
+import ParcelTable from "./parcel-components/ParcelTable";
+import './parcel-main.css';
 
 
 

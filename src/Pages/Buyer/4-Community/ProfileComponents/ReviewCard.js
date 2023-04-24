@@ -1,5 +1,3 @@
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import MessageIcon from '@mui/icons-material/Message';
 import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 

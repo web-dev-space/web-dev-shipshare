@@ -1,23 +1,22 @@
-import {useCallback, useState} from "react";
-import Header from "../../../../@mui-library/layouts/dashboard/header"
-import NavVertical from "../../../../@mui-library/layouts/dashboard/nav/NavVertical"
-import Main from "../../../../@mui-library/layouts/dashboard/Main"
-import {Container, Typography, Box} from '@mui/material';
-import Stack from "@mui/material/Stack";
-import Card from "@mui/material/Card";
-import {RHFUpload} from "../../../../@mui-library/components/hook-form";
-import FormProvider, { RHFTextField} from "../../../../@mui-library/components/hook-form";
-import {useForm} from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import FormProvider, { RHFTextField, RHFUpload } from "@mui-library/components/hook-form";
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
+import { LoadingButton } from "@mui/lab";
+import { Box, Container, Typography } from '@mui/material';
 import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
+import { uploadImage, urlToFile } from "api/imageUpload";
+import { useSnackbar } from "notistack";
+import { useCallback, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { createPostThunk } from "redux/posts/posts-thunks";
 import * as Yup from 'yup';
-import {yupResolver} from "@hookform/resolvers/yup";
-import {useSnackbar} from "notistack";
-import {useNavigate} from "react-router-dom";
-import {LoadingButton} from "@mui/lab";
-import {createPostThunk} from "../../../../redux/posts/posts-thunks";
-import {useDispatch, useSelector} from "react-redux";
-import {Helmet} from "react-helmet";
-import {uploadImage, urlToFile} from "../../../../api/imageUpload";
 
 const CreatePost = () => {
     // ---- handle the nav bar ---

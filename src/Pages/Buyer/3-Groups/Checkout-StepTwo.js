@@ -1,14 +1,13 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import ParcelListCard from '../1-Parcels/parcel-components/ParcelListCard';
-import {useDispatch, useSelector} from "react-redux";
-import {useLocation} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {findShipGroupByIdThunk} from "../../../redux/shipGroups/shipGroups-thunks";
+import Typography from '@mui/material/Typography';
+import ParcelListCard from 'Pages/Buyer/1-Parcels/parcel-components/ParcelListCard';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { findShipGroupByIdThunk } from "redux/shipGroups/shipGroups-thunks";
 
 export default function CheckoutStepTwo({parcels, selectedParcels, setSelectedParcels}) {
 

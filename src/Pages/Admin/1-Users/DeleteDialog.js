@@ -1,9 +1,9 @@
 import {
     Button,
     Dialog,
-    DialogTitle,
-    DialogContent,
     DialogActions,
+    DialogContent,
+    DialogTitle,
 } from '@mui/material';
 
 export default function DeleteDialog({ open, onClose, onDelete }) {

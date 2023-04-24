@@ -1,40 +1,41 @@
-import {useEffect, useMemo, useState} from "react";
-import Header from "../../../@mui-library/layouts/dashboard/header"
-import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical"
-import Main from "../../../@mui-library/layouts/dashboard/Main"
-import {
-    Container,
-    Typography,
-    Box,
-    Button,
-    IconButton, Avatar, Paper, CardContent
-} from '@mui/material';
-import Image from 'mui-image'
-import backgroundImg from '../3-Groups/background.jpg';
-import {styled} from "@mui/material/styles";
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import UserCardsPage from "./ProfileComponents/UserCardsPage";
-import GreenChipGroup from "../../../components/GreenChipGroup";
-import GroupCardsPage from "./ProfileComponents/GroupCardsPage";
-import PostCard from "./Discover/post-components/PostCard";
-import {Pagination} from "@mui/lab";
-import {useDispatch, useSelector} from "react-redux";
-import {
-    findAllUsersThunk,
-    updateCurrentUserThunk,
-} from "../../../redux/users/users-thunks";
-import {findAllPostsThunk} from "../../../redux/posts/posts-thunks";
-import {getRandomAvatar} from "../../../utils/getRandomAvatar";
-import {useNavigate, useParams} from "react-router-dom";
-import {findAllShipGroupsThunk} from "../../../redux/shipGroups/shipGroups-thunks";
-import {getRandomBanner} from "../../../utils/getRandomBanner";
-import EditIcon from '@mui/icons-material/Edit';
-import ReviewCard from "Pages/Buyer/4-Community/ProfileComponents/ReviewCard";
-import useDebugWhenChange from "utils/useDebugWhenChange";
-import {findReviewsByUserIdThunk} from "redux/reviews/reviews-thunks";
-import {Helmet} from "react-helmet";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import EditIcon from '@mui/icons-material/Edit';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import { Pagination } from "@mui/lab";
+import {
+  Avatar,
+  Box,
+  Button,
+  CardContent,
+  Container,
+  IconButton,
+  Paper,
+  Typography
+} from '@mui/material';
+import { styled } from "@mui/material/styles";
 import ReviewPage from "Pages/Buyer/4-Community/ProfileComponents/ReviewPage";
+import Image from 'mui-image';
+import { useEffect, useMemo, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { findReviewsByUserIdThunk } from "redux/reviews/reviews-thunks";
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
+import GreenChipGroup from "components/GreenChipGroup";
+import { findAllPostsThunk } from "redux/posts/posts-thunks";
+import { findAllShipGroupsThunk } from "redux/shipGroups/shipGroups-thunks";
+import {
+  findAllUsersThunk,
+  updateCurrentUserThunk,
+} from "redux/users/users-thunks";
+import { getRandomAvatar } from "utils/getRandomAvatar";
+import { getRandomBanner } from "utils/getRandomBanner";
+import backgroundImg from '../3-Groups/background.jpg';
+import PostCard from "./Discover/post-components/PostCard";
+import GroupCardsPage from "./ProfileComponents/GroupCardsPage";
+import UserCardsPage from "./ProfileComponents/UserCardsPage";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
