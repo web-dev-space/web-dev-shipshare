@@ -1,9 +1,7 @@
-import {ToggleButton} from "@mui/lab";
-import {Pagination} from '@mui/material';
-import {Drawer, Stack} from "@mui/material";
+import { ToggleButton } from "@mui/lab";
+import { Drawer, Pagination, Stack } from '@mui/material';
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import InputAdornment from "@mui/material/InputAdornment";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -13,20 +11,18 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import TextField from "@mui/material/TextField";
-import {ThemeProvider, createTheme, styled} from "@mui/material/styles";
-import {visuallyHidden} from "@mui/utils";
-import PropTypes from "prop-types";
-import React, {useEffect, useState} from "react";
-
+import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
+import { visuallyHidden } from "@mui/utils";
+import CustomNoRowsOverlayShipments from "components/CustomNoRowsOverlayShipments.js";
 import DatePick from "components/DatePick.js";
 import DropdownList from "components/DropdownList.js";
 import OrangeChipGroup from "components/OrangeChipGroup";
 import ShippingDetailScreen from "components/ShipmentsDetailScreen.js";
-import {useDispatch, useSelector} from "react-redux";
-import {updateShipGroupThunk} from "redux/shipGroups/shipGroups-thunks.js";
-import {convertDateToString} from "utils/convertDateToString.js";
-import {useMemo} from "react";
-import useDebugWhenChange from "utils/useDebugWhenChange.js";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateShipGroupThunk } from "redux/shipGroups/shipGroups-thunks.js";
+import { convertDateToString } from "utils/convertDateToString.js";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -115,8 +111,8 @@ const headCells = [
     label: "Destination",
     disableSorting: true,
   },
-  {id: "status", numeric: false, disablePadding: false, label: "Status"},
-  {id: "actions", numeric: false, disablePadding: false, label: "Actions", disableSorting: true},
+  { id: "status", numeric: false, disablePadding: false, label: "Status" },
+  { id: "actions", numeric: false, disablePadding: false, label: "Actions", disableSorting: true },
 ];
 
 const DEFAULT_ORDER = "desc";
@@ -124,21 +120,21 @@ const DEFAULT_ORDER_BY = "shipEndDate";
 const DEFAULT_ROWS_PER_PAGE = 5;
 
 function MyTableHead(props) {
-  const {order, orderBy, onRequestSort} = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (newOrderBy) => (event) => {
     onRequestSort(event, newOrderBy);
   };
 
   return (
     <TableHead>
-      <TableRow style={{borderTop: "1px solid #EDF2F7"}}>
+      <TableRow style={{ borderTop: "1px solid #EDF2F7" }}>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
-            style={{backgroundColor: "white"}}
+            style={{ backgroundColor: "white" }}
           >
             {headCell.disableSorting ? (
               <React.Fragment>{headCell.label}</React.Fragment>
@@ -178,7 +174,7 @@ const chipLabelsArray = [
   "Ready",
 ];
 
-const StyledToggleButton = styled(ToggleButton)(({theme}) => ({
+const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
   "&.MuiToggleButton-root": {
     borderRadius: "25px",
     marginRight: "19px",
@@ -198,7 +194,7 @@ const StyledToggleButton = styled(ToggleButton)(({theme}) => ({
   },
 }));
 
-const FilterButtons = ({selected, setSelected}) => {
+const FilterButtons = ({ selected, setSelected }) => {
   const handleFilterChange = (event, selectedFilter) => {
     if (selectedFilter !== null && selectedFilter !== selected) {
       setSelected(selectedFilter);
@@ -256,7 +252,7 @@ const convertStatusToPhaseNumber = (status) => {
 }
 
 
-const EnhancedTable = ({shipGroups, setShipGroups}) => {
+const EnhancedTable = ({ shipGroups, setShipGroups }) => {
   const dispatch = useDispatch();
 
   const [order, setOrder] = React.useState(DEFAULT_ORDER);
@@ -418,7 +414,7 @@ const EnhancedTable = ({shipGroups, setShipGroups}) => {
     setNewShipEndDate(new Date(row?.shipEndDate));
   }
 
-  const {parcels} = useSelector((state) => {
+  const { parcels } = useSelector((state) => {
     return state.parcels
   });
   const getTotalWeight = (shipGroup) => {
@@ -432,9 +428,9 @@ const EnhancedTable = ({shipGroups, setShipGroups}) => {
 
 
   return (
-    <Box sx={{width: "100%"}}>
-      <Paper sx={{width: "100%", mb: 2}}>
-        <Box sx={{mb: 2}}>
+    <Box sx={{ width: "100%" }}>
+      <Paper sx={{ width: "100%", mb: 2 }}>
+        <Box sx={{ mb: 2 }}>
           {/* <Tooltip title="Filter list">
             <FilterButtons selected={selected} setSelected={setSelected} />
           </Tooltip> */}
@@ -450,7 +446,7 @@ const EnhancedTable = ({shipGroups, setShipGroups}) => {
 
         <TableContainer>
           <Table
-            sx={{minWidth: 750}}
+            sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size={"medium"}
           >
@@ -475,19 +471,19 @@ const EnhancedTable = ({shipGroups, setShipGroups}) => {
                       }}
                     >
                       <TableCell component="th" scope="row" padding="none">
-                        <Box sx={{marginRight: '12px'}}>
+                        <Box sx={{ marginRight: '12px' }}>
                           {row?.name}
                         </Box>
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
                         {rowBeingEdited._id === row._id ? (
-                            <Box minWidth={180}
-                                 sx={{marginRight: '12px'}}>
-                              <DatePick selectedDate={newShipEndDate}
-                                        setSelectedDate={setNewShipEndDate}/>
-                            </Box>
-                          ) :
-                          <Box sx={{marginRight: '12px', minWidth: '110px'}}>
+                          <Box minWidth={180}
+                            sx={{ marginRight: '12px' }}>
+                            <DatePick selectedDate={newShipEndDate}
+                              setSelectedDate={setNewShipEndDate} />
+                          </Box>
+                        ) :
+                          <Box sx={{ marginRight: '12px', minWidth: '110px' }}>
                             <text>{row?.shipEndDate === undefined ? "--" : convertDateToString(row?.shipEndDate)}</text>
                           </Box>
                         }
@@ -507,24 +503,24 @@ const EnhancedTable = ({shipGroups, setShipGroups}) => {
                             }}
                           />
                         ) : (
-                          <Box sx={{marginRight: '12px', minWidth: '110px'}}>
+                          <Box sx={{ marginRight: '12px', minWidth: '110px' }}>
                             <text>{row?.trackingNumber === undefined || row?.trackingNumber === null || row?.trackingNumber === "" ? "--" : `${row?.trackingNumber} `}</text>
                           </Box>
                         )}
                       </TableCell>
                       <TableCell align="left">
                         {rowBeingEdited._id === row._id ? (
-                            <DropdownList
-                              selectedValue={newShipRoute}
-                              setSelectedValue={setNewShipRoute}
-                              label="Ship Route"
-                              options={[
-                                {value: "Sea Standard", displayName: 'Sea Standard'},
-                                {value: "Air Sensitive", displayName: 'Air Sensitive'},
-                                {value: "Sea Sensitive", displayName: 'Sea Sensitive'},
-                                {value: "Air Standard", displayName: 'Air Standard'},
-                              ]}/>
-                          ) :
+                          <DropdownList
+                            selectedValue={newShipRoute}
+                            setSelectedValue={setNewShipRoute}
+                            label="Ship Route"
+                            options={[
+                              { value: "Sea Standard", displayName: 'Sea Standard' },
+                              { value: "Air Sensitive", displayName: 'Air Sensitive' },
+                              { value: "Sea Sensitive", displayName: 'Sea Sensitive' },
+                              { value: "Air Standard", displayName: 'Air Standard' },
+                            ]} />
+                        ) :
                           <text>{row.shipRoute}</text>
                         }
                       </TableCell>
@@ -552,21 +548,21 @@ const EnhancedTable = ({shipGroups, setShipGroups}) => {
                         align="left">{cityName?.length >= 2 ? cityName[cityName.length - 3] : cityName}</TableCell>
                       <TableCell
                         align="left"
-                        style={{color: getStatusColor(row)}}
+                        style={{ color: getStatusColor(row) }}
                       >
                         {rowBeingEdited._id === row._id ? (
-                            <DropdownList
-                              selectedValue={newStatus}
-                              setSelectedValue={setNewStatus}
-                              label="Status"
-                              options={[
-                                {value: "Ready", displayName: 'Ready'},
-                                {value: "Paid", displayName: 'Paid'},
-                                {value: "Packed", displayName: 'Packed'},
-                                {value: "In Shipping", displayName: 'In Shipping'},
-                                {value: "Arrived", displayName: 'Arrived'},
-                              ]}/>
-                          ) :
+                          <DropdownList
+                            selectedValue={newStatus}
+                            setSelectedValue={setNewStatus}
+                            label="Status"
+                            options={[
+                              { value: "Ready", displayName: 'Ready' },
+                              { value: "Paid", displayName: 'Paid' },
+                              { value: "Packed", displayName: 'Packed' },
+                              { value: "In Shipping", displayName: 'In Shipping' },
+                              { value: "Arrived", displayName: 'Arrived' },
+                            ]} />
+                        ) :
                           <text>{convertPhaseNumberToStatus(row)}</text>
                         }
                       </TableCell>
@@ -630,14 +626,15 @@ const EnhancedTable = ({shipGroups, setShipGroups}) => {
                     height: paddingHeight,
                   }}
                 >
-                  <TableCell colSpan={6}/>
+                  <TableCell colSpan={6} />
                 </TableRow>
               )}
             </TableBody>
           </Table>
+          {!(visibleRows && visibleRows.length > 0) && <CustomNoRowsOverlayShipments />}
         </TableContainer>
-        <Box sx={{mt: 2}} display="flex" justifyContent="center">
-          <PageNavigation/>
+        <Box sx={{ mt: 2 }} display="flex" justifyContent="center">
+          <PageNavigation />
         </Box>
       </Paper>
 
@@ -665,7 +662,7 @@ const EnhancedTable = ({shipGroups, setShipGroups}) => {
             m: 0,
           }}
         >
-          <ShippingDetailScreen handleClose={handleClose} ship={detailedShip}/>
+          <ShippingDetailScreen handleClose={handleClose} ship={detailedShip} />
         </Box>
       </Drawer>
     </Box>

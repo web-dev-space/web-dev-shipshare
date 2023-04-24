@@ -1,9 +1,9 @@
-import {Route, Router, Routes} from "react-router";
-import GroupMain from "./Group-Main";
-import FormGroup from "./FormGroupPage";
-import GroupDetail from "./GroupDetail";
+import GroupMainMerchant from "Pages/Merchant/3-Groups/GroupMain-Merchant";
+import { Route, Routes } from "react-router";
 import Checkout from "./Checkout";
-import GroupMainMerchant from "../../Merchant/3-Groups/GroupMain-Merchant";
+import FormGroup from "./FormGroupPage";
+import GroupMain from "./Group-Main";
+import GroupDetail from "./GroupDetail";
 
 
 export function Group() {

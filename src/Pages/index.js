@@ -1,26 +1,25 @@
-import { Route, Routes } from "react-router";
-import ParcelMainPage from "Pages/Buyer/1-Parcels/Parcel-Main";
+import Page403 from "@mui-library/ErrorPages/Page403";
+import Page404 from "@mui-library/ErrorPages/Page404";
+import UserList from "Pages/Admin/1-Users/UserList";
+import DashboardAdmin from "Pages/Admin/2-DashBoard/Dashboard";
+import { default as ParcelMain, default as ParcelMainPage } from "Pages/Buyer/1-Parcels/Parcel-Main";
 import ShipmentMainPage from "Pages/Buyer/2-Shipments/Shipment-Main";
 import { Group } from "Pages/Buyer/3-Groups";
 import { Community } from "Pages/Buyer/4-Community";
+import ProductDetails from "Pages/Buyer/4-Community/Products/ProductDetails";
+import SearchProducts from "Pages/Buyer/4-Community/Products/SearchProducts";
+import Profile from "Pages/Buyer/4-Community/Profile";
 import { Account } from "Pages/Buyer/5-Account";
 import { Help } from "Pages/Buyer/6-Help";
-import { useSelector } from "react-redux";
 import DashboardMerchant from "Pages/Merchant/0-Dashboard/Dashboard.js";
-import DashboardAdmin from "Pages/Admin/2-DashBoard/Dashboard";
-import UserList from "Pages/Admin/1-Users/UserList";
-import ParcelMain from "Pages/Buyer/1-Parcels/Parcel-Main";
 import ShipmentsMainMerchant from "Pages/Merchant/2-Shipments/Shipment-MainMerchant";
+import GroupDetailMerchant from "Pages/Merchant/3-Groups/GroupDetail-Merchant";
 import GroupMainMerchant from "Pages/Merchant/3-Groups/GroupMain-Merchant";
 import ChangeWarehouse from "Pages/Merchant/4-Account/ChangeWarehouseAddress";
-import GroupDetailMerchant from "Pages/Merchant/3-Groups/GroupDetail-Merchant";
-import Page404 from "@mui-library/ErrorPages/Page404";
-import Page403 from "@mui-library/ErrorPages/Page403";
-import Home from "./Home/home";
+import { useSelector } from "react-redux";
+import { Route, Routes } from "react-router";
 import VisitorHome from "./Home/VisitorHome";
-import Profile from "Pages/Buyer/4-Community/Profile";
-import SearchProducts from "Pages/Buyer/4-Community/Products/SearchProducts";
-import ProductDetails from "Pages/Buyer/4-Community/Products/ProductDetails";
+import Home from "./Home/home";
 
 
 export function MainIndex() {

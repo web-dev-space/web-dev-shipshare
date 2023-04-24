@@ -1,9 +1,7 @@
-import {Link, useNavigate} from 'react-router-dom';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import MessageIcon from '@mui/icons-material/Message';
-import {useSelector} from "react-redux";
-import {getRandomAvatar} from "../../../../utils/getRandomAvatar";
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
+import { useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
+import { getRandomAvatar } from "utils/getRandomAvatar";
 
 export default function GroupCard({key, group}) {
 

@@ -1,30 +1,27 @@
-import * as React from 'react';
+import { yupResolver } from "@hookform/resolvers/yup";
+import FormProvider from "@mui-library/components/hook-form";
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
+import { Container } from "@mui/material";
 import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
+import Button from '@mui/material/Button';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Header from "../../../@mui-library/layouts/dashboard/header";
-import {useEffect, useState} from "react";
-import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical";
-import Main from "../../../@mui-library/layouts/dashboard/Main"
-import {Card, CardContent, Container, Grid, Stack} from "@mui/material";
-import FormGroupStepOne from "./FormGroup-StepOne";
-import FormGroupStepTwo from "./FormGroup-StepTwo";
-import FormGroupStepThree from "./FormGroup-StepThree";
-import FormProvider, {RHFTextField} from "../../../@mui-library/components/hook-form";
-import * as Yup from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {useSnackbar} from "notistack";
-import {useNavigate} from "react-router-dom";
+import Stepper from '@mui/material/Stepper';
+import { useSnackbar } from "notistack";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   createShipGroupThunk,
-  findAllShipGroupsThunk,
-  updateShipGroupThunk
-} from "../../../redux/shipGroups/shipGroups-thunks";
-import {useDispatch, useSelector} from "react-redux";
+  findAllShipGroupsThunk
+} from "redux/shipGroups/shipGroups-thunks";
+import * as Yup from "yup";
+import FormGroupStepOne from "./FormGroup-StepOne";
+import FormGroupStepThree from "./FormGroup-StepThree";
+import FormGroupStepTwo from "./FormGroup-StepTwo";
 
 const steps = ['', '', ''];
 export default function FormGroupPage() {

@@ -1,38 +1,43 @@
-import React, { useEffect, useState } from "react";
-import Header from "../../../@mui-library/layouts/dashboard/header"
-import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical"
-import Main from "../../../@mui-library/layouts/dashboard/Main"
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
+import TuneIcon from '@mui/icons-material/Tune';
+import { Pagination } from "@mui/lab";
 import {
-  Container,
-  Typography,
+  Avatar,
   Box,
   Button,
-  TableContainer,
-  TableBody,
-  TableRow,
-  TableCell,
-  Avatar,
-  TableHead,
-  Table,
-  Stack,
+  Container,
   Dialog,
-  DialogTitle,
+  DialogActions,
   DialogContent,
-  DialogContentText, FormControl, InputLabel, Select, MenuItem, DialogActions, Drawer
+  DialogContentText,
+  DialogTitle,
+  Drawer,
+  FormControl, InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography
 } from '@mui/material';
-import { Pagination } from "@mui/lab";
-import TuneIcon from '@mui/icons-material/Tune';
-import OrangeChipGroup from "../../../components/OrangeChipGroup";
-import { Link, useNavigate } from "react-router-dom";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { visuallyHidden } from "@mui/utils";
-import { ALL_STATES, stateFullNameToAbbr } from "../../Buyer/3-Groups/allStates";
-import GroupDetailDrawerScreen from "./GroupDetailDrawerScreen";
-import { useDispatch, useSelector } from "react-redux";
-import { findAllShipGroupsThunk } from "../../../redux/shipGroups/shipGroups-thunks";
+import { ALL_STATES, stateFullNameToAbbr } from "Pages/Buyer/3-Groups/allStates";
+import GroupDetailDrawerScreen from "Pages/Merchant/3-Groups/GroupDetailDrawerScreen";
+import OrangeChipGroup from "components/OrangeChipGroup";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import { findAllUsersThunk } from "../../../redux/users/users-thunks";
-import {getRandomAvatar} from "../../../utils/getRandomAvatar";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { findAllShipGroupsThunk } from "redux/shipGroups/shipGroups-thunks";
+import { findAllUsersThunk } from "redux/users/users-thunks";
+import { getRandomAvatar } from "utils/getRandomAvatar";
 
 const DEFAULT_ORDER = 'asc';
 const DEFAULT_ORDER_BY = 'joinDate';
