@@ -1,16 +1,17 @@
+import Main from "@mui-library/layouts/dashboard/Main.js";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical.js";
 import { Box, Container, Typography } from "@mui/material";
+import EnhancedTable from "Pages/Buyer/2-Shipments/EnhancedTable.js";
+import "Pages/Buyer/2-Shipments/shipment-main.css";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Main from "../../../@mui-library/layouts/dashboard/Main.js";
-import Header from "../../../@mui-library/layouts/dashboard/header";
-import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical.js";
-import EnhancedTable from "./EnhancedTable.js";
-import { updateShipGroupThunk, findAllShipGroupsThunk } from "redux/shipGroups/shipGroups-thunks.js";
 import { Helmet } from "react-helmet";
-import shipGroupsData from "../../../sampleData/shipGroups";
-import "./shipment-main.css";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { random } from "lodash";
+import { findAllShipGroupsThunk } from "redux/shipGroups/shipGroups-thunks.js";
+import shipGroupsData from "sampleData/shipGroups";
+
+
 
 const ShipmentMainPage = () => {
   const dispatch = useDispatch();
