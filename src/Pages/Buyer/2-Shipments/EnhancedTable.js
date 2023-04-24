@@ -12,9 +12,9 @@ import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
-import CustomNoRowsOverlayShipments from "components/CustomNoRowsOverlayShipments.js";
+import CustomNoRowsOverlayShipments from "components/CustomNoRowsOverlayShipments";
 import OrangeChipGroup from "components/OrangeChipGroup";
-import ShippingDetailScreen from "components/ShipmentsDetailScreen.js";
+import ShippingDetailScreen from "components/ShipmentsDetailScreen";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { convertDateToString } from "utils/convertDateToString.js";
@@ -498,8 +498,6 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
         <Box
           sx={{
             bgcolor: "background.paper",
-            boxShadow: 24,
-            // p: 4,
             padding: "53px 22px",
             width: "400px",
             outline: "none",
