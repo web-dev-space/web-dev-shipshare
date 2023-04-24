@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet';
 import { useLocation, useNavigate } from 'react-router-dom';
 // @mui
-import { Box, Card, Container, Typography } from '@mui/material';
+import { Box, Card, Container, Typography, Button } from '@mui/material';
 // components
 import { useSettingsContext } from '@mui-library/components/settings';
 // sections
