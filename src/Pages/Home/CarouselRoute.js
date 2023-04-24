@@ -65,19 +65,19 @@ export default function CarouselRoute({data}){
     responsive: [
       {
         breakpoint: 2400,
-        settings: { slidesToShow: 4 },
+        settings: { slidesToShow: 4, slidesToScroll: 4 },
       },
       {
         breakpoint: 1800,
-        settings: { slidesToShow: 3 },
+        settings: { slidesToShow: 3, slidesToScroll: 3 },
       },
       {
         breakpoint: 1350,
-        settings: { slidesToShow: 2 },
+        settings: { slidesToShow: 2, slidesToScroll: 2 },
       },
       {
         breakpoint: 800,
-        settings: { slidesToShow: 1 },
+        settings: { slidesToShow: 1, slidesToScroll: 1 },
       },
     ],
   };
