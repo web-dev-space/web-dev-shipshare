@@ -372,7 +372,6 @@ const VisitorHome = () => {
                             </svg>}
                           </div>
 
-                          {/*<img src={card.photo} alt="photo" style={{width: index===2? 50: 80, borderRadius: '1rem', marginBottom: '1rem', marginTop: index===0? -90:-70}}/>*/}
                           <Typography variant="h5" component="h2" sx={{mt:1}}>
                             {card.title}
                           </Typography>
