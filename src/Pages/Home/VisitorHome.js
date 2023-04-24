@@ -68,32 +68,33 @@ const VisitorHome = () => {
   useEffect(() => {
     if (shipGroupsRedux && users) {
       setGroups(
-        shipGroupsRedux.slice(0, 3).map((shipGroup) => {
-          const user = users.find((user) => user.email === shipGroup.user);
+        shipGroupsRedux.map((shipGroup) => {
+          const user = users.find((user) => user.email === shipGroup.leader);
           return {
             avatarUrl: user?.avatar || getRandomAvatar(user?.name),
             name: shipGroup.name,
             route: shipGroup.shipRoute,
+            created: shipGroup.created,
             date: new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(shipGroup.shipEndDate)),
             pickupAddress: getShortAddress(shipGroup.pickupLocation.address),
           };
-        })
+        }).sort((p1, p2) => new Date(p2.created) - new Date(p1.created)).slice(0, 3)
       );
     }
   }, [shipGroupsRedux, users])
 
   useEffect(() => {
     if (allPosts && users) {
-      setPosts(
-        allPosts.slice(0, 6).map((post) => {
-          const user = users.find((user) => user._id === post.userId);
-          return {
-            avatarUrl: user?.avatar || getRandomAvatar(user?.name),
-            title: post.title,
-            id: post._id,
-          };
-        })
-      );
+      const recentPosts = allPosts.map((post) => {
+        const user = users.find((user) => user._id === post.userId);
+        return {
+          avatarUrl: user?.avatar || getRandomAvatar(user?.name),
+          title: post.title,
+          id: post._id,
+          created: post.created
+        };
+      }).sort((p1, p2) => new Date(p2.created) - new Date(p1.created)).slice(0, 6);
+      setPosts(recentPosts);
     }
   }, [allPosts, users]);
 
@@ -659,9 +660,6 @@ const VisitorHome = () => {
                 <Typography variant="text" component="text" paragraph sx={{color: 'gray'}}>
                   Our platform allows you to search for any product, read reviews from others, and even leave your own review to help others make informed decisions. With our platform, you can shop with confidence and learn more about the real-life experiences of other customers.
                 </Typography>
-                <Typography variant="text" component="text" paragraph sx={{color: 'gray'}}>
-                  If you're someone who values community and wants to help others, or simply someone who wants to make smarter purchasing decisions, our platform is designed for you. Give it a try today!
-                </Typography>
                 <Button variant="contained" onClick={() => navigate('/search')} sx={{
                   marginTop: '1rem',
                   borderRadius: 15,
@@ -670,7 +668,7 @@ const VisitorHome = () => {
                 }}>Try Now</Button>
               </div>
 
-              <div style={{width:isLargeScreen? '50%': "100%", alignItems:'center', display:'flex'}}>
+              <div style={{width: "100%", justifyContent:'center', display:'flex'}}>
                 <svg xmlns="http://www.w3.org/2000/svg" data-name="layer 1"
                      viewBox="0 0 4000 3000" id="customer-rating"><defs>
                   <clipPath id="a">

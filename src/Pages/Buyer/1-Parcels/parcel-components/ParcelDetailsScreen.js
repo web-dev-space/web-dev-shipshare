@@ -9,7 +9,6 @@ import { getParcelTracking } from "../../../../redux/parcels/parcels-service";
 import { useDispatch, useSelector } from "react-redux";
 import { useMemo } from 'react';
 import { getParcelTrackingThunk } from "redux/parcels/parcels-thunks";
-import useDebugWhenChange from 'utils/useDebugWhenChange';
 
 const ParcelDetails = ({ parcel, handleClose }) => {
     const dispatch = useDispatch();

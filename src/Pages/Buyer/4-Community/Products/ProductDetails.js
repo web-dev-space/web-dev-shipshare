@@ -35,7 +35,7 @@ const REVIEWS_PER_PAGE = 5;
 
 const handleClickUserIcon = (user, navigate) => {
   if (!user || !user._id) return;
-  navigate(`/community/profile/${user._id}`)
+  navigate(`/profile/${user._id}`)
 };
 
 // Comment component
