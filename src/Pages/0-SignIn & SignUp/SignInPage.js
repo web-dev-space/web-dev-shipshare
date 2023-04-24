@@ -40,8 +40,12 @@ const LoginPage = () => {
         else if (role === 'merchant') {
             navigate('/home');
         }
-    } else if (error && error.code === "ERR_BAD_REQUEST") {
-        alert("Invalid email or password");
+    } else if (error) {
+        if (error.message.indexOf('403') !== -1) {
+            alert("Your account is banned. Please contact the administrator for more information.");
+        } else {
+            alert("Invalid email or password");
+        }
     }
   }, [currentUser, error]);
 

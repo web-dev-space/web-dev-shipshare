@@ -18,7 +18,7 @@ import CarouselRoute from "./CarouselRoute";
 import PostCardSmallLayout from "./PostCardSmallLayout";
 import {findAllParcelsThunk} from "../../redux/parcels/parcels-thunks";
 import {findAllShipGroupsThunk} from "../../redux/shipGroups/shipGroups-thunks";
-import {findAllUsersThunk} from "../../redux/users/users-thunks";
+import {findAllUsersThunk, updateCurrentUserThunk} from "../../redux/users/users-thunks";
 import {getRandomAvatar} from "../../utils/getRandomAvatar";
 import {findAllPostsThunk} from "../../redux/posts/posts-thunks";
 import {_analyticPost, _appAuthors, _bookingReview} from "../../@mui-library/_mock/arrays";
@@ -47,6 +47,24 @@ const Home = () => {
     };
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handleFollow = (id) => {
+        dispatch(updateCurrentUserThunk({
+            ...currentUser,
+            following: [
+                ...currentUser.following,
+                id,
+            ],
+        })).then(() =>
+            dispatch(findAllUsersThunk()));
+    };
+    const handleUnfollow = (id) => {
+        dispatch(updateCurrentUserThunk({
+            ...currentUser,
+            following: currentUser.following.filter((item) => item !== id),
+        })).then(() =>
+            dispatch(findAllUsersThunk()));
     };
 
     // ---------current user---------
@@ -94,7 +112,8 @@ const Home = () => {
     useEffect(() => {
         if (allPosts && users) {
             setPosts(
-                allPosts.filter((post) => post.userId === currentUser._id).slice(0, 5).map((post) => {
+                allPosts.filter((post) => post.userId === currentUser._id)
+                    .sort((p1, p2) => new Date(p2.created) - new Date(p1.created)).slice(0, 5).map((post) => {
                     return {
                         image: currentUser?.avatar || getRandomAvatar(currentUser?.name),
                         description: post.post,
@@ -110,7 +129,7 @@ const Home = () => {
     useEffect(() => {
         if (currentUser && users && allPosts) {
             const userPosts = allPosts.filter((post) => post.userId === currentUser._id);
-            const allComments = userPosts.map((post) => post.comments).flat().sort((c1, c2) => c2.created - c1.created);
+            const allComments = userPosts.map((post) => post.comments.map(comment => ({...comment, postId: post._id}))).flat().sort((c1, c2) => c2.created - c1.created);
             setRecentComments(allComments.slice(0, 5).map((comment) => {
                 const user = users.find((user) => user._id === comment.user);
                 return {
@@ -118,6 +137,7 @@ const Home = () => {
                     name: user?.name,
                     postedAt: new Date(comment.date),
                     description: comment.content,
+                    postId: comment.postId,
                     id: comment._id,
                 };
             }));
@@ -126,18 +146,29 @@ const Home = () => {
 
     useEffect(() => {
         if (currentUser && users) {
-            const unfollowedBuyers = users.filter((user) =>
-                user._id !== currentUser._id
-                && user.role === 'buyer'
-                && currentUser?.following?.indexOf(user._id) === -1).slice(0, 3).map((user) => {
-                return {
-                    avatar: user?.avatar || getRandomAvatar(user?.name),
-                    name: user.name,
-                    favourite: getFollowers(users, user).length,
-                    id: user._id,
-                };
-            });
-            setWhoToFollow(unfollowedBuyers);
+          if (whoToFollow.length === 0) {
+                const unfollowedBuyers = users.filter((user) =>
+                    user._id !== currentUser._id
+                    && user.role === 'buyer'
+                    && currentUser?.following?.indexOf(user._id) === -1).slice(0, 3).map((user) => {
+                    return {
+                        avatar: user?.avatar || getRandomAvatar(user?.name),
+                        name: user.name,
+                        favourite: getFollowers(users, user).length,
+                        id: user._id,
+                        ...user,
+                    };
+                });
+                setWhoToFollow(unfollowedBuyers);
+            } else {
+                const updatedWhoToFollow = whoToFollow.map((user) => {
+                    return {
+                        ...user,
+                        favourite: getFollowers(users, user).length,
+                    };
+                });
+                setWhoToFollow(updatedWhoToFollow);
+            }
         }
     }, [currentUser, users]);
 
@@ -258,28 +289,32 @@ const Home = () => {
                               img={
                                 <img src={require('../../images/HomeGroup.png')} alt="HomeGroup" style={{padding: 30, width:360, margin:'auto'}}/>
                               }
-                              action={<Button variant="contained">Go Now</Button>}
+                              action={<Button variant="contained" onClick={() => navigate('/parcels')}>Check Now</Button>}
                               />
                         </Grid>
 
 
                         <Grid item xs={12} md={4}>
-                          <AppTopAuthors title="Who To Follow" list={whoToFollow} />
+                          <AppTopAuthors title="Who To Follow" list={whoToFollow} handleFollow={handleFollow} handleUnfollow={handleUnfollow}/>
                         </Grid>
 
+                          <Grid container spacing={3} xs={12} sx={{ mt: 1, ml: 0.1}}>
+                              <Grid item xs={12} md={8} style={{
+                                  height: '100%',}}>
+                                  <AnalyticsNewsUpdate title="My Latest Posts" list={posts} />
+                              </Grid>
 
-                        <Grid item xs={12} md={8}>
-                          <AnalyticsNewsUpdate title="My Latest Posts" list={posts} />
-                        </Grid>
 
-
-                        <Grid item xs={12} md={4}>
-                          <BookingCustomerReviews
-                            title="Recent Comments"
-                            subheader={`${recentComments.length} Comments`}
-                            list={recentComments}
-                          />
-                        </Grid>
+                              <Grid item xs={12} md={4} style={{
+                                  height: '100%',}}>
+                                  <BookingCustomerReviews
+                                      style={{height: '100%',}}
+                                      title="Recent Comments"
+                                      subheader={`${recentComments.length} Comments`}
+                                      list={recentComments}
+                                  />
+                              </Grid>
+                          </Grid>
                       </Grid>
                     </Container>
                 </Main>

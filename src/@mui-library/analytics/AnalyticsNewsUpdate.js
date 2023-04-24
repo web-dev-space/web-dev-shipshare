@@ -7,6 +7,7 @@ import { fToNow } from '../utils/formatTime';
 import Image from '../components/image';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
+import {useNavigate} from "react-router-dom";
 
 // ----------------------------------------------------------------------
 
@@ -17,17 +18,16 @@ AnalyticsNewsUpdate.propTypes = {
 };
 
 export default function AnalyticsNewsUpdate({ title, subheader, list, ...other }) {
+    const navigate = useNavigate();
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
 
-      <Scrollbar>
-        <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
-          {list.map((news) => (
-            <NewsItem key={news.id} news={news} />
-          ))}
-        </Stack>
-      </Scrollbar>
+    <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
+      {list.map((news) => (
+        <NewsItem key={news.id} news={news} />
+      ))}
+    </Stack>
 
       <Divider />
 
@@ -36,6 +36,7 @@ export default function AnalyticsNewsUpdate({ title, subheader, list, ...other }
           size="small"
           color="inherit"
           endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}
+          onClick={() => navigate('/community/discover')}
         >
           View all
         </Button>
@@ -67,7 +68,7 @@ function NewsItem({ news }) {
       />
 
       <Box sx={{ minWidth: 240 }}>
-        <Link color="inherit" variant="subtitle2" noWrap>
+        <Link color="inherit" variant="subtitle2" href={`/community/discover/post/${news.id}`} noWrap>
           {title}
         </Link>
 
@@ -76,7 +77,7 @@ function NewsItem({ news }) {
         </Typography>
       </Box>
 
-      <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
+      <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary', ml: 'auto' }}>
         {fToNow(postedAt)}
       </Typography>
     </Stack>
