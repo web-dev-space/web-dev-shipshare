@@ -48,7 +48,7 @@ function AuthorItem({ author, index, handleFollow, handleUnfollow }) {
   return (
     <Stack direction="row"
            style={{cursor: "pointer"}}
-           alignItems="center" spacing={2} onClick={() => navigate((`/community/profile/${author.id}`))}>
+           alignItems="center" spacing={2} onClick={() => navigate((`/profile/${author.id}`))}>
       <Avatar alt={author.name} src={author.avatar} />
 
       <Box sx={{ flexGrow: 1 }}>

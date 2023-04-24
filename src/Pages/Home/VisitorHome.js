@@ -68,32 +68,33 @@ const VisitorHome = () => {
   useEffect(() => {
     if (shipGroupsRedux && users) {
       setGroups(
-        shipGroupsRedux.slice(0, 3).map((shipGroup) => {
-          const user = users.find((user) => user.email === shipGroup.user);
+        shipGroupsRedux.map((shipGroup) => {
+          const user = users.find((user) => user.email === shipGroup.leader);
           return {
             avatarUrl: user?.avatar || getRandomAvatar(user?.name),
             name: shipGroup.name,
             route: shipGroup.shipRoute,
+            created: shipGroup.created,
             date: new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(shipGroup.shipEndDate)),
             pickupAddress: getShortAddress(shipGroup.pickupLocation.address),
           };
-        })
+        }).sort((p1, p2) => new Date(p2.created) - new Date(p1.created)).slice(0, 3)
       );
     }
   }, [shipGroupsRedux, users])
 
   useEffect(() => {
     if (allPosts && users) {
-      setPosts(
-        allPosts.slice(0, 6).map((post) => {
-          const user = users.find((user) => user._id === post.userId);
-          return {
-            avatarUrl: user?.avatar || getRandomAvatar(user?.name),
-            title: post.title,
-            id: post._id,
-          };
-        })
-      );
+      const recentPosts = allPosts.map((post) => {
+        const user = users.find((user) => user._id === post.userId);
+        return {
+          avatarUrl: user?.avatar || getRandomAvatar(user?.name),
+          title: post.title,
+          id: post._id,
+          created: post.created
+        };
+      }).sort((p1, p2) => new Date(p2.created) - new Date(p1.created)).slice(0, 6);
+      setPosts(recentPosts);
     }
   }, [allPosts, users]);
 
