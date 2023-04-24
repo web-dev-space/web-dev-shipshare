@@ -54,4 +54,5 @@ Join ShipShare today and experience the benefits of a streamlined, efficient, an
 ![stacks](/public/intro_pics/stacks.png)
 
 ## UML Diagram
-![UML_Diagram](https://user-images.githubusercontent.com/98251609/233861612-5b9637c1-f5f0-4583-8750-980e73e90fb0.png)
+![UML_Diagram](https://user-images.githubusercontent.com/98251609/233884621-1fc59f77-ba4b-4d89-9cc7-4e15dd2f399c.png)
+
