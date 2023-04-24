@@ -362,6 +362,7 @@ const ParcelTable = ({ data, role, handleUpdateParcel }) => {
                         )}
                       </TableCell>
                       <TableCell align="left">
+                        <Box spacing={2} display='flex'>
                         <Button
                           variant="contained"
                           sx={{
@@ -415,6 +416,7 @@ const ParcelTable = ({ data, role, handleUpdateParcel }) => {
                                 )
                             )
                         }
+                        </Box>
                       </TableCell>
                     </TableRow>
                   );
