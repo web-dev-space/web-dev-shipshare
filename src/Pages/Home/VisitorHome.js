@@ -341,7 +341,7 @@ const VisitorHome = () => {
                   textAlign: 'left',
                 }}
               >
-                <Typography variant={isSmallScreen? "h2": "h2"}  component="text" paragraph sx={{mb:9}}>
+                <Typography variant="h3" component="text"  paragraph sx={{mb:9}}>
                   How it works
                 </Typography>
                 <div style={{display: 'flex', justifyContent: 'space-between',  flexDirection: isWorkLargeScreen? 'row':'column', alignItems: 'center'}}>
@@ -349,8 +349,10 @@ const VisitorHome = () => {
                     <Card key={index} sx={{width: 270, mr:1, ml:1, mb:3}}>
                       <CardContent sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                         <div style={{height: 230, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent:'center'}}>
-                          <img src={card.icon} alt="icon" style={{width: 150, objectFit: 'cover', borderRadius: '1rem', marginBottom: -50, alignSelf:'center', marginLeft: 35}}/>
-
+                          <div style={{height: 60, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent:'center'}}>
+                            <img src={card.icon} alt="icon" style={{width: 150, objectFit: 'cover', borderRadius: '1rem', marginBottom: -50, alignSelf:'center', marginLeft: 35}}/>
+                          </div>
+                          <div style={{height: 110, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent:'center'}}>
                           {index ===0 &&
                             <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path fill-rule="evenodd" clip-rule="evenodd" d="M13.8848 51.75H11.25C7.524 51.75 4.5 48.7282 4.5 45C4.5 39.0128 4.5 28.4873 4.5 22.5C4.5 20.709 5.21101 18.9922 6.47776 17.7277C7.74451 16.461 9.46125 15.75 11.25 15.75C19.044 15.75 34.9583 15.75 42.75 15.75C44.541 15.75 46.2578 16.461 47.5245 17.7277C48.789 18.9922 49.5 20.709 49.5 22.5V24.75H52.2C55.089 24.75 57.8678 25.8615 59.9603 27.8527C61.7288 29.538 63.9968 31.698 65.4255 33.0593C66.7508 34.3215 67.5 36.072 67.5 37.9035C67.5 40.5225 67.5 45.2092 67.5 47.7495C67.5 49.959 65.709 51.75 63.4995 51.75H58.1153C57.1883 54.3713 54.6885 56.25 51.75 56.25C48.8138 56.25 46.314 54.3713 45.3848 51.75H26.6153C25.6883 54.3713 23.1885 56.25 20.25 56.25C17.3138 56.25 14.814 54.3713 13.8848 51.75ZM20.25 47.25C21.492 47.25 22.5 48.258 22.5 49.5C22.5 50.742 21.492 51.75 20.25 51.75C19.0103 51.75 18 50.742 18 49.5C18 48.258 19.0103 47.25 20.25 47.25ZM51.75 47.25C52.992 47.25 54 48.258 54 49.5C54 50.742 52.992 51.75 51.75 51.75C50.5103 51.75 49.5 50.742 49.5 49.5C49.5 48.258 50.5103 47.25 51.75 47.25ZM38.25 33.75H15.75C14.5103 33.75 13.5 34.758 13.5 36C13.5 37.242 14.5103 38.25 15.75 38.25H38.25C39.492 38.25 40.5 37.242 40.5 36C40.5 34.758 39.492 33.75 38.25 33.75ZM38.25 27H20.25C19.0103 27 18 28.008 18 29.25C18 30.492 19.0103 31.5 20.25 31.5H38.25C39.492 31.5 40.5 30.492 40.5 29.25C40.5 28.008 39.492 27 38.25 27Z" fill="#FFD2A6"/>
@@ -368,6 +370,7 @@ const VisitorHome = () => {
                             <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M8.57143 48H1.71429C0.768 48 0 47.232 0 46.2857V29.1429C0 28.1966 0.768 27.4286 1.71429 27.4286H8.57143C9.51772 27.4286 10.2857 28.1966 10.2857 29.1429V46.2857C10.2857 47.232 9.51772 48 8.57143 48ZM45.7491 41.5423L33.5469 46.9663C32.0126 47.6469 30.3531 48 28.6749 48H18.8571C18.5914 48 18.3274 47.9383 18.0891 47.8183L13.7143 45.6309V30.8571L17.8286 27.7714C18.1251 27.5486 18.4869 27.4286 18.8571 27.4286H26.5714C28.9337 27.4286 30.8571 29.352 30.8571 31.7143C30.8571 33.8331 29.2783 35.6571 27.1851 35.9571C26.2474 36.0909 25.596 36.9583 25.7314 37.896C25.8651 38.8303 26.7291 39.4851 27.6703 39.3497C30.5537 38.9383 32.8834 36.9171 33.8246 34.2857H43.9989C45.7714 34.2857 47.4497 35.4051 47.88 37.1246C48.3463 38.9794 47.4017 40.8086 45.7491 41.5423ZM48 1.71429V22.2857C48 23.232 47.232 24 46.2857 24H15.4286C14.4823 24 13.7143 23.232 13.7143 22.2857V1.71429C13.7143 0.768 14.4823 0 15.4286 0H25.7143V11.1411C25.7143 11.868 26.5611 12.2657 27.12 11.7994L30.8571 8.57143L34.5943 11.7994C35.1531 12.2657 36 11.868 36 11.1411V0H46.2857C47.232 0 48 0.768 48 1.71429Z" fill="#C3EEDF"/>
                             </svg>}
+                          </div>
 
                           {/*<img src={card.photo} alt="photo" style={{width: index===2? 50: 80, borderRadius: '1rem', marginBottom: '1rem', marginTop: index===0? -90:-70}}/>*/}
                           <Typography variant="h5" component="h2" sx={{mt:1}}>
@@ -461,10 +464,10 @@ const VisitorHome = () => {
                   marginTop: isLargeScreen? 60: 70,
                 }}
               >
-                <Typography variant="h2" component="text" paragraph>
+                <Typography variant="h3" component="text" paragraph>
                   Join various groups
                 </Typography>
-                <Typography variant="h2" component="text" paragraph sx={{mt:-2, mb:5}}>
+                <Typography variant="h3" component="text" paragraph sx={{mt:-2, mb:5}}>
                   and share the costs
                 </Typography>
                 <Typography variant="text" component="text" paragraph sx={{color:'gray',  mr:5}}>
