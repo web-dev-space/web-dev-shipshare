@@ -1,10 +1,7 @@
-import React from "react";
-import Colors from '../styles/Colors';
-import FontSizes from '../styles/FontSizes';
-import InventoryIcon from '@mui/icons-material/Inventory';
 import PeopleIcon from '@mui/icons-material/People';
 import { Avatar, Stack, Typography } from "@mui/material";
-import useDebugWhenChange from "utils/useDebugWhenChange";
+import Colors from 'styles/Colors';
+import FontSizes from 'styles/FontSizes';
 
 const FontFamily = {}
 

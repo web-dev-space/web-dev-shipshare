@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
 // @mui
+import { Avatar, Box, Button, Card, Divider, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
-import {Box, Card, Avatar, Divider, Typography, Button} from '@mui/material';
 // utils
-import { fShortenNumber } from '../../../../@mui-library/utils/formatNumber';
+import { fShortenNumber } from '@mui-library/utils/formatNumber';
 // components
-import Image from '../../../../@mui-library/components/image';
-import SvgColor from '../../../../@mui-library/components/svg-color';
-import {getRandomAvatar} from "../../../../utils/getRandomAvatar";
-import {useNavigate} from "react-router-dom";
-import {findAllUsersThunk, updateCurrentUserThunk} from "../../../../redux/users/users-thunks";
-import {useSelector} from "react-redux";
-import {getRandomBanner} from "../../../../utils/getRandomBanner";
+import Image from '@mui-library/components/image';
+import SvgColor from '@mui-library/components/svg-color';
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { findAllUsersThunk, updateCurrentUserThunk } from "redux/users/users-thunks";
+import { getRandomAvatar } from "utils/getRandomAvatar";
+import { getRandomBanner } from "utils/getRandomBanner";
 
 // ----------------------------------------------------------------------
 

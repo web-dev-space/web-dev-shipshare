@@ -1,12 +1,11 @@
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
+import { Box, Container, Typography } from '@mui/material';
 import { useState } from "react";
-import Header from "../../../@mui-library/layouts/dashboard/header"
-import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical"
-import Main from "../../../@mui-library/layouts/dashboard/Main"
-import { Container, Typography, Box } from '@mui/material';
+import { Helmet } from "react-helmet";
+import { useSelector } from "react-redux";
 import ChangePasswordForm from "./ChangePasswordForm.js";
-import {useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {Helmet} from "react-helmet";
 
 
 const ChangePassword = () => {

@@ -1,12 +1,5 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {Card, CardContent, Stack} from "@mui/material";
-import Button from "@mui/material/Button";
-import * as React from "react";
-import TextField from "@mui/material/TextField";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 
 export default function FormGroupStepThree() {
   return (

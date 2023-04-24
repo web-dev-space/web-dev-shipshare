@@ -1,10 +1,9 @@
+import Carousel, { CarouselArrows } from "@mui-library/components/carousel";
+import { Box } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import RouteCard from "Pages/Home/RouteCard";
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
-// @mui
-import { alpha, useTheme } from '@mui/material/styles';
-import { Box, Paper, Link, CardContent } from '@mui/material';
-import Carousel, {CarouselArrows} from "../../@mui-library/components/carousel";
-import RouteCard from "./RouteCard";
 
 
 

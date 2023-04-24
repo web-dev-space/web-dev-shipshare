@@ -1,30 +1,24 @@
-import {useEffect, useRef, useState} from "react";
-import Header from "../../@mui-library/layouts/dashboard/header"
-import NavVertical from "../../@mui-library/layouts/dashboard/nav/NavVertical"
-import Main from "../../@mui-library/layouts/dashboard/Main"
+import AnalyticsNewsUpdate from "@mui-library/analytics/AnalyticsNewsUpdate";
+import AppTopAuthors from "@mui-library/app/AppTopAuthors";
+import AppWelcomeVisitor from "@mui-library/app/AppWelcomeVisitor";
+import BookingCustomerReviews from "@mui-library/app/BookingCustomerReviews";
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
 import {
+  Box, Button,
   Container,
-  Typography,
-  Box, Button, Card, CardContent, Link, Grid,
+  Grid
 } from '@mui/material';
-import {useDispatch, useSelector} from "react-redux";
-import {Helmet} from "react-helmet";
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import {useNavigate} from "react-router-dom";
-import CardWithAvatar from "./CardWithAvatar";
-import PostCard from "./PostCard";
-import AppWelcomeVisitor from "../../@mui-library/app/AppWelcomeVisitor";
-import CarouselRoute from "./CarouselRoute";
-import PostCardSmallLayout from "./PostCardSmallLayout";
-import {findAllParcelsThunk} from "../../redux/parcels/parcels-thunks";
-import {findAllShipGroupsThunk} from "../../redux/shipGroups/shipGroups-thunks";
-import {findAllUsersThunk, updateCurrentUserThunk} from "../../redux/users/users-thunks";
-import {getRandomAvatar} from "../../utils/getRandomAvatar";
-import {findAllPostsThunk} from "../../redux/posts/posts-thunks";
-import {_analyticPost, _appAuthors, _bookingReview} from "../../@mui-library/_mock/arrays";
-import AppTopAuthors from "../../@mui-library/app/AppTopAuthors";
-import BookingCustomerReviews from "../../@mui-library/app/BookingCustomerReviews";
-import AnalyticsNewsUpdate from "../../@mui-library/analytics/AnalyticsNewsUpdate";
+import { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { findAllParcelsThunk } from "redux/parcels/parcels-thunks";
+import { findAllPostsThunk } from "redux/posts/posts-thunks";
+import { findAllShipGroupsThunk } from "redux/shipGroups/shipGroups-thunks";
+import { findAllUsersThunk, updateCurrentUserThunk } from "redux/users/users-thunks";
+import { getRandomAvatar } from "utils/getRandomAvatar";
 
 const getFollowers = (users, currentUser) => {
     return users?.filter(item => currentUser && (item.following || [])

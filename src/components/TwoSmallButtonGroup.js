@@ -1,7 +1,5 @@
-import { Button, ButtonGroup } from '@mui/material';
-import { Add as AddIcon, FilterList as FilterIcon } from '@mui/icons-material';
-import TuneIcon from "@mui/icons-material/Tune";
-import React from "react";
+import { Add as AddIcon } from '@mui/icons-material';
+import { Button } from '@mui/material';
 
 function TwoSmallButtonGroup({ leftText, rightText, onLeftClick, onRightClick }) {
     return (

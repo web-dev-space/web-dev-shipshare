@@ -1,28 +1,27 @@
 import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import {useCallback, useEffect, useMemo, useState} from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
 // form
-import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Box, Card, Grid, Stack, Switch, Typography, FormControlLabel } from '@mui/material';
+import { Box, Card, Grid, Stack, Typography } from '@mui/material';
 // utils
-import { fData } from '../../../@mui-library/utils/formatNumber';
+import { fData } from '@mui-library/utils/formatNumber';
 // components
-import Label from '../../../@mui-library/components/label';
+import { uploadImage, urlToFile } from "api/imageUpload.js";
 import { useSnackbar } from 'notistack';
+import { useDispatch } from "react-redux";
 import FormProvider, {
 	RHFTextField,
 	RHFUploadAvatar,
-} from '../../../@mui-library/components/hook-form';
-import {uploadImage, urlToFile} from "api/imageUpload.js";
-import {updateCurrentUserThunk, updateUserThunk} from "../../../redux/users/users-thunks";
-import {useDispatch} from "react-redux";
-import {getRandomAvatar} from "../../../utils/getRandomAvatar";
-import RHFTextFieldGoogle from "../3-Groups/RHFTextFieldGoogle";
-import * as React from "react";
+} from '@mui-library/components/hook-form';
+import Label from '@mui-library/components/label';
+import { updateCurrentUserThunk } from "redux/users/users-thunks";
+import { getRandomAvatar } from "utils/getRandomAvatar";
+import RHFTextFieldGoogle from "Pages/Buyer/3-Groups/RHFTextFieldGoogle";
 
 // ----------------------------------------------------------------------
 

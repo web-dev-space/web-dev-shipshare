@@ -1,7 +1,6 @@
-import React from "react";
-import ReviewCard from "Pages/Buyer/4-Community/ProfileComponents/ReviewCard";
 import { Pagination } from "@mui/lab";
-import { useMemo } from "react";
+import ReviewCard from "Pages/Buyer/4-Community/ProfileComponents/ReviewCard";
+import React, { useMemo } from "react";
 
 const MAX_REVIEWS_PER_PAGE = 10;
 

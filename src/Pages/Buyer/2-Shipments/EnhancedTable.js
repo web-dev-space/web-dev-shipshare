@@ -1,6 +1,5 @@
 import { ToggleButton } from "@mui/lab";
-import { Pagination } from '@mui/material';
-import { Drawer, Stack } from "@mui/material";
+import { Drawer, Pagination, Stack } from '@mui/material';
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
@@ -13,14 +12,13 @@ import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
-import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import CustomNoRowsOverlayShipments from "components/CustomNoRowsOverlayShipments.js";
 import OrangeChipGroup from "components/OrangeChipGroup";
 import ShippingDetailScreen from "components/ShipmentsDetailScreen.js";
-import { status } from "nprogress";
-import useDebugWhenChange from "utils/useDebugWhenChange.js";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import { convertDateToString } from "utils/convertDateToString.js";
+
 
 
 function descendingComparator(a, b, orderBy) {
@@ -475,6 +473,7 @@ const EnhancedTable = ({ shipGroups, setShipGroups }) => {
               )}
             </TableBody>
           </Table>
+          {!(visibleRows && visibleRows.length > 0) && <CustomNoRowsOverlayShipments />}
         </TableContainer>
         <Box sx={{ mt: 2 }} display="flex" justifyContent="center">
           <PageNavigation />

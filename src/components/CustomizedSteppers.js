@@ -1,25 +1,19 @@
 // modified from: https://mui.com/material-ui/react-stepper/
 
-import * as React from "react";
-import PropTypes from "prop-types";
-import { styled } from "@mui/material/styles";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import StarsIcon from '@mui/icons-material/Stars';
 import Stack from "@mui/material/Stack";
-import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Check from "@mui/icons-material/Check";
-import SettingsIcon from "@mui/icons-material/Settings";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import VideoLabelIcon from "@mui/icons-material/VideoLabel";
 import StepConnector, {
   stepConnectorClasses
 } from "@mui/material/StepConnector";
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import { width } from "@mui/system";
-import EventNoteIcon from '@mui/icons-material/EventNote';
-import StarsIcon from '@mui/icons-material/Stars';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import StepLabel from "@mui/material/StepLabel";
+import Stepper from "@mui/material/Stepper";
+import { styled } from "@mui/material/styles";
+import PropTypes from "prop-types";
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {

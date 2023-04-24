@@ -1,23 +1,22 @@
-import { useState, useEffect } from "react";
-import Header from "../../../../@mui-library/layouts/dashboard/header"
-import NavVertical from "../../../../@mui-library/layouts/dashboard/nav/NavVertical"
-import Main from "../../../../@mui-library/layouts/dashboard/Main"
-import { Container, Typography, Box } from '@mui/material';
-import InputCard from "../../../../components/InputCard"
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
+import { Add as AddIcon } from "@mui/icons-material";
+import { Pagination } from "@mui/lab";
+import { Box, Container, Typography } from '@mui/material';
 import Button from "@mui/material/Button";
-import {Add as AddIcon} from "@mui/icons-material";
 import Stack from "@mui/material/Stack";
-import SearchBar from "../../../../components/searchBar";
-import GreenChipGroup from "../../../../components/GreenChipGroup";
-import PostCard from "./post-components/PostCard";
-import backgroundImg from "../../3-Groups/background.jpg";
+import GreenChipGroup from "components/GreenChipGroup";
+import SearchBar from "components/searchBar";
 import Image from "mui-image";
-import {Pagination} from "@mui/lab";
-import {useNavigate} from "react-router-dom";
-import {useSelector, useDispatch} from "react-redux";
-import {findAllPostsThunk} from "../../../../redux/posts/posts-thunks";
-import {Helmet} from "react-helmet";
-import {findAllUsersThunk} from "../../../../redux/users/users-thunks";
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { findAllPostsThunk } from "redux/posts/posts-thunks";
+import { findAllUsersThunk } from "redux/users/users-thunks";
+import backgroundImg from "../../3-Groups/background.jpg";
+import PostCard from "./post-components/PostCard";
 
 const chipLabelsArray = ["Latest", "Popular"];
 

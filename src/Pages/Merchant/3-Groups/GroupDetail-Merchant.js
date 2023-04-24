@@ -1,24 +1,27 @@
-import {useEffect, useState} from "react";
-import Header from "../../../@mui-library/layouts/dashboard/header"
-import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical"
-import Main from "../../../@mui-library/layouts/dashboard/Main"
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
-  Container,
-  Typography,
+  Avatar,
   Box,
   Card,
-  IconButton,  Avatar,  Stack,  Paper
+  Container,
+  IconButton,
+  Paper,
+  Stack,
+  Typography
 } from '@mui/material';
-import Image from 'mui-image'
+import { styled } from "@mui/material/styles";
+import Image from 'mui-image';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { findAllParcelsThunk } from "redux/parcels/parcels-thunks";
+import { findShipGroupByIdThunk } from "redux/shipGroups/shipGroups-thunks";
+import { findAllUsersThunk } from "redux/users/users-thunks";
+import { getRandomAvatar } from "utils/getRandomAvatar";
 import backgroundImg from './background.jpg';
-import {styled} from "@mui/material/styles";
-import {useDispatch, useSelector} from "react-redux";
-import {findShipGroupByIdThunk} from "../../../redux/shipGroups/shipGroups-thunks";
-import {useLocation, useNavigate} from "react-router-dom";
-import {findAllUsersThunk} from "../../../redux/users/users-thunks";
-import {findAllParcelsThunk} from "../../../redux/parcels/parcels-thunks";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import {getRandomAvatar} from "../../../utils/getRandomAvatar";
 
 const Item = styled(Paper)(({theme}) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',

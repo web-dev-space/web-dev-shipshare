@@ -1,26 +1,27 @@
-import {useEffect, useRef, useState} from "react";
-import Header from "../../@mui-library/layouts/dashboard/header"
-import NavVertical from "../../@mui-library/layouts/dashboard/nav/NavVertical"
-import Main from "../../@mui-library/layouts/dashboard/Main"
-import {
-  Container,
-  Typography,
-  Box, Button, Card, CardContent, Link,
-} from '@mui/material';
-import {useDispatch, useSelector} from "react-redux";
-import {Helmet} from "react-helmet";
+import AppWelcome from "@mui-library/app/AppWelcome";
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import {useNavigate} from "react-router-dom";
-import CardWithAvatar from "./CardWithAvatar";
-import PostCard from "./PostCard";
-import AppWelcome from "../../@mui-library/app/AppWelcome";
-import CarouselRoute from "./CarouselRoute";
-import PostCardSmallLayout from "./PostCardSmallLayout";
-import {findAllParcelsThunk} from "../../redux/parcels/parcels-thunks";
-import {findAllShipGroupsThunk} from "../../redux/shipGroups/shipGroups-thunks";
-import {findAllUsersThunk} from "../../redux/users/users-thunks";
-import {getRandomAvatar} from "../../utils/getRandomAvatar";
-import {findAllPostsThunk} from "../../redux/posts/posts-thunks";
+import {
+  Box, Button, Card, CardContent,
+  Container,
+  Link,
+  Typography,
+} from '@mui/material';
+import CardWithAvatar from "Pages/Home/CardWithAvatar";
+import CarouselRoute from "Pages/Home/CarouselRoute";
+import PostCard from "Pages/Home/PostCard";
+import PostCardSmallLayout from "Pages/Home/PostCardSmallLayout";
+import { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { findAllParcelsThunk } from "redux/parcels/parcels-thunks";
+import { findAllPostsThunk } from "redux/posts/posts-thunks";
+import { findAllShipGroupsThunk } from "redux/shipGroups/shipGroups-thunks";
+import { findAllUsersThunk } from "redux/users/users-thunks";
+import { getRandomAvatar } from "utils/getRandomAvatar";
 
 
 const VisitorHome = () => {

@@ -1,21 +1,21 @@
-import {Box, Link, Stack, Typography} from "@mui/material";
-import Button from '@mui/material/Button';
-import welcomeImg from "./welcome.png";
-import Image from "mui-image";
-import InputAdornment from "@mui/material/InputAdornment";
-import * as Yup from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {useSnackbar} from "notistack";
-import {useNavigate} from "react-router-dom";
-import FormProvider, {RHFSelect, RHFTextField} from "../../@mui-library/components/hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import FormProvider, { RHFSelect, RHFTextField } from "@mui-library/components/hook-form";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import {useState, useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {signupThunk} from "../../redux/users/users-thunks";
-import {Helmet} from "react-helmet";
-import {LoadingButton} from "@mui/lab";
+import { LoadingButton } from "@mui/lab";
+import { Box, Link, Stack, Typography } from "@mui/material";
+import Button from '@mui/material/Button';
+import InputAdornment from "@mui/material/InputAdornment";
+import Image from "mui-image";
+import { useSnackbar } from "notistack";
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { signupThunk } from "redux/users/users-thunks";
+import * as Yup from "yup";
+import welcomeImg from "./welcome.png";
 
 const SignUpPage = () => {
 

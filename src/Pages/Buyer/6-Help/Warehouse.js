@@ -1,14 +1,14 @@
-import {useEffect, useMemo, useState} from "react";
-import Header from "../../../@mui-library/layouts/dashboard/header"
-import NavVertical from "../../../@mui-library/layouts/dashboard/nav/NavVertical"
-import Main from "../../../@mui-library/layouts/dashboard/Main"
-import { Container, Typography, Box, Card, Stack } from '@mui/material';
+import Main from "@mui-library/layouts/dashboard/Main";
+import Header from "@mui-library/layouts/dashboard/header";
+import NavVertical from "@mui-library/layouts/dashboard/nav/NavVertical";
+import { Box, Card, Container, Stack, Typography } from '@mui/material';
+import { useEffect, useState } from "react";
 // clipboard
-import {useSnackbar} from "notistack";
-import useDoubleClick from '../../../@mui-library/hooks/useDoubleClick';
-import useCopyToClipboard from "../../../@mui-library/hooks/useCopyToClipboard";
-import {Helmet} from "react-helmet";
-import {findWarehouseByCompany} from "../../../redux/warehouse/warehouse-service";
+import useCopyToClipboard from "@mui-library/hooks/useCopyToClipboard";
+import useDoubleClick from '@mui-library/hooks/useDoubleClick';
+import { useSnackbar } from "notistack";
+import { Helmet } from "react-helmet";
+import { findWarehouseByCompany } from "redux/warehouse/warehouse-service";
 
 
 const Warehouse = () => {

@@ -1,17 +1,15 @@
-import {Route, Routes} from "react-router";
 import LoginPage from "Pages/0-SignIn & SignUp/SignInPage";
 import SignUpPage from "Pages/0-SignIn & SignUp/SignUpPage";
-import {Account} from "Pages/Buyer/5-Account";
-import {Help} from "Pages/Buyer/6-Help";
-import {Community} from "Pages/Buyer/4-Community";
-
-// replace below imports with merchant pages
+import { Community } from "Pages/Buyer/4-Community";
+import { Account } from "Pages/Buyer/5-Account";
+import { Help } from "Pages/Buyer/6-Help";
 import Dashboard from "Pages/Merchant/0-Dashboard/Dashboard";
-import ShipmentsMainMerchant from "Pages/Merchant/2-Shipments/Shipment-MainMerchant"
+import ShipmentsMainMerchant from "Pages/Merchant/2-Shipments/Shipment-MainMerchant";
+import GroupDetailMerchant from "Pages/Merchant/3-Groups/GroupDetail-Merchant";
 import GroupMainMerchant from "Pages/Merchant/3-Groups/GroupMain-Merchant";
 import ChangeWarehouse from "Pages/Merchant/4-Account/ChangeWarehouseAddress";
+import { Route, Routes } from "react-router";
 import ParcelMain from "../Buyer/1-Parcels/Parcel-Main";
-import GroupDetailMerchant from "Pages/Merchant/3-Groups/GroupDetail-Merchant";
 
 
 export default function Merchant() {

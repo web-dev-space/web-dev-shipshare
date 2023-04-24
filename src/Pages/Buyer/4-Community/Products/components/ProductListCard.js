@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 // @mui
-import { Box, Card, Typography, Stack } from '@mui/material';
+import { Box, Card, Stack, Typography } from '@mui/material';
 // components
-import Image from '../../../../../@mui-library/components/image';
+import Image from '@mui-library/components/image';
 
 // ----------------------------------------------------------------------
 
