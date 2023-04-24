@@ -31,7 +31,7 @@ const GroupDetailDrawerScreen = ({ ship, handleClose, users, isMerchant = true }
 
       accumulator[current.user].push(current);
       return accumulator;
-    }, []);
+    }, {});
   }
 
 

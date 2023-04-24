@@ -2,6 +2,7 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import { Typography } from "@mui/material";
 import Colors from 'styles/Colors';
 import FontSizes from 'styles/FontSizes';
+import useDebugWhenChange from 'utils/useDebugWhenChange';
 
 const FontFamily = {
 }
@@ -29,6 +30,7 @@ const ParcelItem = ({ item, index }) => {
 }
 
 const ItemCard = ({ items, leftCornerIconColor, title, isMerchant }) => {
+  useDebugWhenChange('items in ItemCard', items);
 
   return (
     <div style={styles.bottomContainer}>
@@ -75,9 +77,9 @@ const ItemCard = ({ items, leftCornerIconColor, title, isMerchant }) => {
         }
       </div>
 
-      {items === undefined || items === null || items?.length === 0 &&
+      {items === undefined || items === null || Object.keys(items).length === 0 &&
         <div style={{ marginTop: 12, marginBottom: 10, }}>
-          <Typography>No members.</Typography>
+          <Typography>No items.</Typography>
         </div>
       }
 

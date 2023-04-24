@@ -6,9 +6,6 @@ import FontSizes from 'styles/FontSizes';
 const FontFamily = {}
 
 const GroupMemberCard = ({ items, leftCornerIconColor, title, users }) => {
-  useDebugWhenChange('items', items);
-
-  console.debug('items???', items === undefined || items === null || items?.length === 0)
 
   return (
     <div style={styles.bottomContainer}>
@@ -47,7 +44,7 @@ const GroupMemberCard = ({ items, leftCornerIconColor, title, users }) => {
         )
       }
 
-      {items === undefined || items === null || items?.length === 0 &&
+      {items === undefined || items === null || Object.keys(items).length === 0 &&
         <div style={{ marginLeft: 20, marginBottom: 10, }}>
           <Typography>No members.</Typography>
         </div>
