@@ -379,7 +379,7 @@ const ParcelTable = ({ data, role, handleUpdateParcel }) => {
                           Details
                         </Button>
                         {
-                          role === 'merchant' || role === 'admin' && (
+                          (role === 'merchant' || role === 'admin') && (
                                 rowBeingEdited._id === row._id ? (
                                     <Button
                                         variant="contained"
