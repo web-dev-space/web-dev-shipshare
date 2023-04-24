@@ -1,5 +1,5 @@
 import PeopleIcon from '@mui/icons-material/People';
-import { Avatar, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Stack, Typography } from "@mui/material";
 import Colors from 'styles/Colors';
 import FontSizes from 'styles/FontSizes';
 
@@ -24,10 +24,11 @@ const GroupMemberCard = ({ items, leftCornerIconColor, title, users }) => {
           const avatarUrl = users?.find(user => user.email === email)?.avatar;
 
           return <div style={{ marginLeft: 20, marginBottom: 10 }}>
-            <div style={{ flexDirection: 'row', display: 'flex', marginBottom: 20, alignItems: 'center' }}>
+            <div style={{ flexDirection: 'row', display: 'flex', marginBottom: 20, alignItems: 'center', }}>
               <Stack
                 direction='row'
                 spacing={2}
+                sx={{ width: '90%' }}
               >
                 <Avatar
                   style={styles.tinyLogo}
@@ -35,8 +36,10 @@ const GroupMemberCard = ({ items, leftCornerIconColor, title, users }) => {
                   src={avatarUrl !== undefined ? avatarUrl : require('../images/placeholder.png')}
                 />
 
-                <Typography variant="caption">{email}</Typography>
-                <Typography variant="caption">{totalWeight} kg</Typography>
+                <Box display="flex" justifyContent="space-between" sx={{ flex: 1 }}>
+                  <Typography variant="caption">{email}</Typography>
+                  <Typography variant="caption">{totalWeight} kg</Typography>
+                </Box>
               </Stack>
             </div>
           </div>
