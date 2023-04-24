@@ -125,20 +125,22 @@ export default function SearchProducts() {
                                               Empower Your Experience with Product Reviews
                                           </Typography>
                                           <Typography variant="text" component="text" paragraph sx={{color: 'gray'}}>
-                                              Looking to buy products from overseas but uncertain about their quality or worthiness? Unsure about how others have rated these products? We've got you covered.
+                                              Welcome to the Review community, where you can search for a variety of products and leave reviews for others to see.                                          </Typography>
+                                          <Typography variant="text" component="text" paragraph sx={{color: 'gray'}}>
+                                              We believe in the power of community and helping each other make informed decisions about purchases.
                                           </Typography>
                                           <Typography variant="text" component="text" paragraph sx={{color: 'gray'}}>
-                                              Our platform allows you to search for any product, read reviews from others, and even leave your own review to help others make informed decisions. With our platform, you can shop with confidence and learn more about the real-life experiences of other customers.
+                                              By leaving a review, you can share your personal experience and provide valuable insights for others who may be considering the same product.
                                           </Typography>
                                           <Typography variant="text" component="text" paragraph sx={{color: 'gray'}}>
-                                              If you're someone who values community and wants to help others, or simply someone who wants to make smarter purchasing decisions, our platform is designed for you. Give it a try today!
+                                              To get started, use the search bar to find the product you're interested in, then click on its product card to navigate to the detail page.
                                           </Typography>
-                                          <Button variant="contained" onClick={() => navigate('/search')} sx={{
-                                              marginTop: '1rem',
-                                              borderRadius: 15,
-                                              padding: 1,
-                                              width: 120
-                                          }}>Try Now</Button>
+                                          <Typography variant="text" component="text" paragraph sx={{color: 'gray'}}>
+                                              From there, simply scroll down to leave your review.
+                                          </Typography>
+                                            <Typography variant="text" component="text" paragraph sx={{color: 'gray'}}>
+                                                Thank you for being a part of our community!
+                                            </Typography>
                                       </div>
 
                                       <div style={{width:isLargeScreen? '50%': "100%", alignItems:'center', display:'flex'}}>
