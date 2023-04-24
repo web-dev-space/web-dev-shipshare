@@ -85,7 +85,6 @@ const GroupDetailDrawerScreen = ({ ship, handleClose, users, isMerchant = true }
         </Box>
       </div>
 
-
     </div>
   );
 };

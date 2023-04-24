@@ -458,8 +458,6 @@ const MerchantParcelTable = ({ data, handleUpdateParcel }) => {
                 <Box
                     sx={{
                         bgcolor: "background.paper",
-                        boxShadow: 24,
-                        // p: 4,
                         padding: "53px 22px",
                         width: "400px",
                         outline: "none",

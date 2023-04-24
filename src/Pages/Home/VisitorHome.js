@@ -659,9 +659,6 @@ const VisitorHome = () => {
                 <Typography variant="text" component="text" paragraph sx={{color: 'gray'}}>
                   Our platform allows you to search for any product, read reviews from others, and even leave your own review to help others make informed decisions. With our platform, you can shop with confidence and learn more about the real-life experiences of other customers.
                 </Typography>
-                <Typography variant="text" component="text" paragraph sx={{color: 'gray'}}>
-                  If you're someone who values community and wants to help others, or simply someone who wants to make smarter purchasing decisions, our platform is designed for you. Give it a try today!
-                </Typography>
                 <Button variant="contained" onClick={() => navigate('/search')} sx={{
                   marginTop: '1rem',
                   borderRadius: 15,
