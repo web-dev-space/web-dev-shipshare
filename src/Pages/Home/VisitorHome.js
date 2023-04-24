@@ -667,7 +667,7 @@ const VisitorHome = () => {
                 }}>Try Now</Button>
               </div>
 
-              <div style={{width:isLargeScreen? '50%': "100%", alignItems:'center', display:'flex'}}>
+              <div style={{width: "100%", justifyContent:'center', display:'flex'}}>
                 <svg xmlns="http://www.w3.org/2000/svg" data-name="layer 1"
                      viewBox="0 0 4000 3000" id="customer-rating"><defs>
                   <clipPath id="a">
