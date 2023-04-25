@@ -5,7 +5,7 @@ import DeliveryStatusCard from 'components/DeliveryStatusCard';
 import ItemCard from 'components/ItemCard.js';
 import deliveryStatus from 'sampleData/deliveryStatus';
 // import { parcelData } from 'sampleData/parcels';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getParcelByShipGroupIdAndUserEmailThunk, getParcelByShipGroupIdThunk } from "redux/parcels/parcels-thunks";
 import Colors from 'styles/Colors';
@@ -38,7 +38,7 @@ const hintTextMerchantVersion = [
 const ShipmentDetails = ({ ship, handleClose }) => {
   const dispatch = useDispatch();
 
-  const shipEndDate = calculateDeliveryTime(ship, deliveryStatus);
+  const [shipEndDate, setShipEndDate] = useState(null);
   const startDate = convertDateToString(ship.shipEndDate);
 
   const role = useSelector(state =>
@@ -78,6 +78,11 @@ const ShipmentDetails = ({ ship, handleClose }) => {
   const detailDeliveryStatus = useMemo(() => {
     return trackingInfo?.origin_info?.trackinfo || [];
   }, [trackingInfo]);
+
+  useEffect(() => {
+    const deliveryStatus = trackingInfo?.origin_info?.trackinfo || [];
+    setShipEndDate(calculateDeliveryTime(ship, deliveryStatus));
+  }, [trackingInfo])
 
   useEffect(() => {
     const fetchedDeliveryStatus = async () => {
