@@ -42,7 +42,9 @@ const authSlice = createSlice({
         },
 
         [signupThunk.fulfilled]: (state, { payload }) => {
-            setCurrentUser(state, payload);
+            if (payload.role === 'buyer') {
+                setCurrentUser(state, payload);
+            }
         },
         [loginThunk.fulfilled]: (state, { payload }) => {
             setCurrentUser(state, payload);

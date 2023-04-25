@@ -24,6 +24,7 @@ const SignUpPage = () => {
     role: 'buyer',
     name: '',
     email: '',
+    company: '',
     password: '',
     confirmPassword: '',
   };
@@ -35,6 +36,11 @@ const SignUpPage = () => {
     email: Yup.string().required('Please enter a valid email'),
     password: Yup.string().required('Password is required'),
     confirmPassword: Yup.string().required('Please confirm your password'),
+    company: Yup.string().when('role', {
+        is: 'merchant',
+        then: () => Yup.string().required('Please enter a valid company'),
+        otherwise: () => Yup.string(),
+    }),
   });
 
   const methods = useForm({
@@ -45,7 +51,8 @@ const SignUpPage = () => {
   // ---- handle the form submission ----
   const {
       handleSubmit,
-      setValue,
+      watch,
+      reset,
       formState: { isSubmitting },
   } = methods;
 
@@ -70,7 +77,12 @@ const SignUpPage = () => {
           ...data,
           following: [],
       };
-      await dispatch(signupThunk(data));
+      await dispatch(signupThunk(data)).then(() => {
+          if (data.role === 'merchant') {
+              alert('Your registration request has been sent to the admin, please wait for the approval');
+              reset();
+          }
+      });
   };
 
   // ---- handle the password visibility ----
@@ -81,6 +93,8 @@ const SignUpPage = () => {
 
   // control layout
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 900);
+
+  const watchRole = watch('role', 'buyer');
 
   useEffect(() => {
     const handleResize = () => setIsWideScreen(window.innerWidth > 900);
@@ -205,6 +219,33 @@ const SignUpPage = () => {
                                 </InputAdornment>
                               )
                             }}/>
+                {
+                    watchRole === 'merchant' && <RHFTextField fullWidth={true} name="company" variant="outlined" id="company" placeholder="COMPANY"
+                                                                      InputProps={{
+                                                                          startAdornment: (
+                                                                              <InputAdornment position="start">
+                                                                                  <svg
+                                                                                      style={{ marginLeft: -2, marginRight: -2}}
+                                                                                      width="26" height="26"
+                                                                                      xmlns="http://www.w3.org/2000/svg"
+                                                                                      viewBox="0 0 32 32" id="shop">
+                                                                                      <g data-name="Layer 2"
+                                                                                         fill="#c2c3cb"
+                                                                                         className="color000000 svgShape">
+                                                                                          <path
+                                                                                              d="M21.12,18a3,3,0,1,0,3,3A3,3,0,0,0,21.12,18Zm0,4a1,1,0,1,1,1-1A1,1,0,0,1,21.12,22Z"
+                                                                                              fill="#c2c3cb"
+                                                                                              className="color000000 svgShape"></path>
+                                                                                          <path
+                                                                                              d="M29.84,9.8l-1-4A5,5,0,0,0,24,2H8.24A5,5,0,0,0,3.39,5.79l-1,4a4.75,4.75,0,0,0,.38,3.42,5.13,5.13,0,0,0,1.34,1.58V26a4,4,0,0,0,4,4h16a4,4,0,0,0,4-4V14.82a5.09,5.09,0,0,0,1.34-1.57A4.72,4.72,0,0,0,29.84,9.8ZM5.33,6.28A3,3,0,0,1,8.24,4H24a3,3,0,0,1,2.91,2.27l.56,2.26.43,1.75a2.81,2.81,0,0,1-.19,2,3.36,3.36,0,0,1-1.59,1.44,3.32,3.32,0,0,1-4.65-2.79,1.06,1.06,0,0,0-1-.93,1,1,0,0,0-1,.92,3.31,3.31,0,0,1-6.6,0,1,1,0,0,0-1-.92,1,1,0,0,0-1,.92A3.35,3.35,0,0,1,7.45,14a3.47,3.47,0,0,1-1.33-.27,3.39,3.39,0,0,1-1.59-1.45,2.78,2.78,0,0,1-.19-2l.44-1.76ZM10.12,28V21a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1v7Zm16-2a2,2,0,0,1-2,2h-8V21a3,3,0,0,0-3-3h-2a3,3,0,0,0-3,3v7a2,2,0,0,1-2-2V15.83a5.33,5.33,0,0,0,5.68-2.07,5.29,5.29,0,0,0,8.64,0,5.33,5.33,0,0,0,5.68,2.07Z"
+                                                                                              fill="#c2c3cb"
+                                                                                              className="color000000 svgShape"></path>
+                                                                                      </g>
+                                                                                  </svg>
+                                                                              </InputAdornment>
+                                                                          )
+                                                                      }}/>
+                }
               <RHFTextField type={passwordVisible ? "text" : "password"} fullWidth={true} name="password" variant="outlined" id="password"
                             placeholder="PASSWORD"
                             InputProps={{

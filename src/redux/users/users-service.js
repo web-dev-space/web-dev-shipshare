@@ -43,13 +43,10 @@ export const login = async ({ email, password }) => {
 };
 
 
-export const signup = async ({ name, email, password, role}) => {
-    const response = await api.post(`${AUTH_URL}/signup`, {
-        name,
-        email,
-        password,
-        role
-    });
+export const signup = async ({ name, email, password, role, company, following}) => {
+    const data = role === 'buyer' ? {name, email, password, role, following}
+        : {name, email, password, role, company};
+    const response = await api.post(`${AUTH_URL}/signup`, data);
     return response.data;
 }
 
